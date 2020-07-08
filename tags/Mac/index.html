@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Jim Wang">
-    <title>标签: Games - Jim Wang</title>
+    <title>标签: Mac - Jim Wang</title>
     <meta name="author" content="Jim Wang">
     
     
@@ -21,7 +21,7 @@
     <meta name="description" content="ssss">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Jim Wang">
-<meta property="og:url" content="http://yoursite.com/tags/Games/index.html">
+<meta property="og:url" content="http://yoursite.com/tags/Mac/index.html">
 <meta property="og:site_name" content="Jim Wang">
 <meta property="og:description" content="ssss">
 <meta property="og:locale" content="zh_CN">
@@ -292,23 +292,23 @@
                     
                         <a
                             class="link-unstyled"
-                            href="../../2020/07/07/hello-world/"
-                            aria-label=": Hello World"
+                            href="../../2018/11/11/0203-os-mac/"
+                            aria-label=": Python Mac OS系统下 Python的安装配置"
                         >
-                            Hello World
+                            Python Mac OS系统下 Python的安装配置
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time datetime="2020-07-07T14:28:54+08:00">
+    <time datetime="2018-11-11T15:11:08+08:00">
 	
-		    7月 07, 2020
+		    11月 11, 2018
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="../../categories/%E6%B5%8B%E8%AF%95/">测试</a>
+    <a class="category-link" href="../../categories/Python-%E7%9B%B8%E5%85%B3-%E9%85%8D%E7%BD%AEPyton/">Python 相关 - 配置Pyton</a>
 
 
     
@@ -317,19 +317,29 @@
             </div>
             
                 <div class="postShorten-content">
-                    <p>Welcome ssato <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+                    <h1 id="Python-Mac-OS系统下-Python的安装配置"><a href="#Python-Mac-OS系统下-Python的安装配置" class="headerlink" title="Python Mac OS系统下 Python的安装配置"></a>Python Mac OS系统下 Python的安装配置</h1><p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
+<p>由于Python日渐流行，已知的是，较新版本的Mac OS也已经预装了Python 2.7的版本。 比如OS X 10.8至10.10系统已经自带的Python版本是2.7。</p>
+<p>但是可能存在的问题是，系统自带的2.7.x的版本相对较老，如果需要安装最新的2.7和3.0版本，可以借助Homebrew 来解决问题。</p>
+<p>在Homebrew安装之前，需要检查系统里是否已经安装了Xcode，若没有可以在应用商店里查询Xcode并安装。</p>
+<p>然后就可以安装Homebrew，在终端里面输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ &#x2F;usr&#x2F;bin&#x2F;ruby -e &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Homebrew&#x2F;install&#x2F;master&#x2F;install)&quot;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>来安装Homebrew，在安装结束之后需要将Homebrew的安装路径告知Mac OS系统。方法是：</p>
+<p>在当前用户根目录下找到个人配置文件即：<strong>~/.profile</strong> 文件末尾加入下列内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH&#x3D;&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;usr&#x2F;local&#x2F;sbin:$PATH</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>然后就可以使用Homebrew安装最新版本的Python了。</p>
+<p>安装Python3.x 在终端里键入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install python3</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>安装最新Python2.x 在终端里键入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install python</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<p>值得注意的是：Homebrew会将Python2.7的解释器命名为python2。而系统自带的Python还是用python来运行，即：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ python -V   # 系统Python解释器</span><br><span class="line"></span><br><span class="line">$ python2 -V  # Python 2解释器</span><br><span class="line"></span><br><span class="line">$ python3 -V  # Python 3解释器（如果安装了）</span><br></pre></td></tr></table></figure>
+
+<p>在用Homebrew安装Python的同时，pip也会被安装，其中pip2 管理最新的Python2.7的第三方扩展库 （非系统自带）。其中pip3 管理最新的Python3.x的扩展库。</p>
+<p>因为最新的电脑里面还没安装Mac OS的虚拟机。所以上所写的是之前笔记中的内容，可能与目前情况有出入。如有问题，欢迎留言讨论。</p>
 
                     
                         
@@ -339,7 +349,7 @@
                     
                         <p>
                             <a
-                                href="../../2020/07/07/hello-world/#post-footer"
+                                href="../../2018/11/11/0203-os-mac/#post-footer"
                                 class="postShorten-excerpt_link link"
                                 aria-label=""
                             >

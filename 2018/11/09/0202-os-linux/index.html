@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Jim Wang">
-    <title>Hello World - Jim Wang</title>
+    <title>Python Linux系统下 Python的安装配置 - Jim Wang</title>
     <meta name="author" content="Jim Wang">
     
     
@@ -17,20 +17,24 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="../../../../atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","https://zuiwuxin.twitter.com/","https://www.linkedin.com/profile/","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"Welcome ssato Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.\nQuick StartCreate a new post1$ hexo new \"My New Post\"\n\nMore info: Writing\nRun server1$ hexo server\n\nMore info: Server\nGenerate static files1$ hexo generate\n\nMore info: Generating\nDeploy to remote sites1$ hexo deploy\n\nMore info: Deployment\n","dateCreated":"2020-07-07T14:28:54+08:00","dateModified":"2020-07-07T14:28:54+08:00","datePublished":"2020-07-07T14:28:54+08:00","description":"","headline":"Hello World","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"../../../../http:/yoursite.com/2020/07/07/hello-world/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","https://zuiwuxin.twitter.com/","https://www.linkedin.com/profile/","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"../../../../http:/yoursite.com/2020/07/07/hello-world/","keywords":"PS3, Games"}</script>
-    <meta name="description" content="Welcome ssato Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Qu">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","https://zuiwuxin.twitter.com/","https://www.linkedin.com/profile/","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"Python Linux系统下 Python的安装配置作者: Barbossa 公众号: 巴博萨船长\nPython已经预装在大多数的Linux发行版本里。以Linux的发行版Ubuntu为例，在Ubuntu 16.04.3 LTS的版本里，同时预装了Python 2.7.12 和Python3.5.2 两个不同的版本。\n在console终端里面键入：Python的话，系统会自动默认为需要启动Python2.7 如下图：\n\n但是如果你需要启动指定的Python的话，可以键入”python2” 或者 “python2.7” 来启动Python2.7版本。或者可以键入”python3” 或者 “python3.5” 来启动Python3.5版本。如图：\n\nLinux 系统下的32bit和64bit的混合安装比较复杂，但是绝对可以实现的（亲测）。建议借助pyenv来管理Python的多版本安装。\n需要指出的是：虽然Python 已经预装在Linux多数发行版本里，但是pip 即：Python的扩展库的管理程序却没有预装在系统里面，还是需要手动安装的。\n以Ubuntu系统为例，可以在终端里面键入：\n1sudo apt-get install python-pip\n\n来安装pip。\n或者从网站https://pip.pypa.io/en/stable/installing/下载**get-pip.py**的模块，然后在终端键入：\n1python get-pip.py\n\n来安装pip。 个人建议使用后者，这样pip里记录的第三方模块的信息会相对较新。否则可能还要手动更新记录才能安装第三方模块。\n如有问题，欢迎留言讨论。\n","dateCreated":"2018-11-09T15:11:08+08:00","dateModified":"2018-11-09T15:11:08+08:00","datePublished":"2018-11-09T15:11:08+08:00","description":"","headline":"Python Linux系统下 Python的安装配置","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"../../../../http:/yoursite.com/2018/11/09/0202-os-linux/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","https://zuiwuxin.twitter.com/","https://www.linkedin.com/profile/","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"../../../../http:/yoursite.com/2018/11/09/0202-os-linux/","keywords":"Python, 配置, Linux"}</script>
+    <meta name="description" content="Python Linux系统下 Python的安装配置作者: Barbossa 公众号: 巴博萨船长 Python已经预装在大多数的Linux发行版本里。以Linux的发行版Ubuntu为例，在Ubuntu 16.04.3 LTS的版本里，同时预装了Python 2.7.12 和Python3.5.2 两个不同的版本。 在console终端里面键入：Python的话，系统会自动默认为需要启动Pyt">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2020/07/07/hello-world/index.html">
+<meta property="og:title" content="Python Linux系统下 Python的安装配置">
+<meta property="og:url" content="http://yoursite.com/2018/11/09/0202-os-linux/index.html">
 <meta property="og:site_name" content="Jim Wang">
-<meta property="og:description" content="Welcome ssato Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Qu">
+<meta property="og:description" content="Python Linux系统下 Python的安装配置作者: Barbossa 公众号: 巴博萨船长 Python已经预装在大多数的Linux发行版本里。以Linux的发行版Ubuntu为例，在Ubuntu 16.04.3 LTS的版本里，同时预装了Python 2.7.12 和Python3.5.2 两个不同的版本。 在console终端里面键入：Python的话，系统会自动默认为需要启动Pyt">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-07-07T06:28:54.597Z">
-<meta property="article:modified_time" content="2020-07-07T06:28:54.597Z">
+<meta property="og:image" content="http://yoursite.com/2018/11/09/0202-os-linux/640-20200708204633599.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/09/0202-os-linux/640-20200708204646531.jpeg">
+<meta property="article:published_time" content="2018-11-09T07:11:08.000Z">
+<meta property="article:modified_time" content="2018-11-09T07:11:08.000Z">
 <meta property="article:author" content="Jim Wang">
-<meta property="article:tag" content="PS3">
-<meta property="article:tag" content="Games">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="配置">
+<meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2018/11/09/0202-os-linux/640-20200708204633599.png">
     
     
         
@@ -293,20 +297,20 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Hello World
+            Python Linux系统下 Python的安装配置
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2020-07-07T14:28:54+08:00">
+    <time datetime="2018-11-09T15:11:08+08:00">
 	
-		    7月 07, 2020
+		    11月 09, 2018
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="../../../../categories/%E6%B5%8B%E8%AF%95/">测试</a>
+    <a class="category-link" href="../../../../categories/Python-%E7%9B%B8%E5%85%B3-%E9%85%8D%E7%BD%AEPyton/">Python 相关 - 配置Pyton</a>
 
 
     
@@ -318,19 +322,23 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>Welcome ssato <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+            <h1 id="Python-Linux系统下-Python的安装配置"><a href="#Python-Linux系统下-Python的安装配置" class="headerlink" title="Python Linux系统下 Python的安装配置"></a>Python Linux系统下 Python的安装配置</h1><p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
+<p>Python已经预装在大多数的Linux发行版本里。以Linux的发行版Ubuntu为例，在Ubuntu 16.04.3 LTS的版本里，同时预装了Python 2.7.12 和Python3.5.2 两个不同的版本。</p>
+<p>在console<strong>终端</strong>里面键入：Python的话，系统会自动默认为需要启动Python2.7 如下图：</p>
+<p><img src="/2018/11/09/0202-os-linux/640-20200708204633599.png" alt="img"></p>
+<p>但是如果你需要启动指定的Python的话，可以键入”python2” 或者 “python2.7” 来启动Python2.7版本。或者可以键入”python3” 或者 “python3.5” 来启动Python3.5版本。如图：</p>
+<p><img src="/2018/11/09/0202-os-linux/640-20200708204646531.jpeg" alt="img"></p>
+<p>Linux 系统下的32bit和64bit的混合安装比较复杂，但是绝对可以实现的（亲测）。建议借助pyenv来管理Python的多版本安装。</p>
+<p>需要指出的是：虽然Python 已经预装在Linux多数发行版本里，但是pip 即：Python的扩展库的管理程序却没有预装在系统里面，还是需要手动安装的。</p>
+<p>以Ubuntu系统为例，可以在终端里面键入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python-pip</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>来安装pip。</p>
+<p>或者从网站<a href="https://pip.pypa.io/en/stable/installing/下载**get-pip.py**的模块，然后在终端键入：" target="_blank" rel="noopener">https://pip.pypa.io/en/stable/installing/下载**get-pip.py**的模块，然后在终端键入：</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python get-pip.py</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<p>来安装pip。 个人建议使用后者，这样pip里记录的第三方模块的信息会相对较新。否则可能还要手动更新记录才能安装第三方模块。</p>
+<p>如有问题，欢迎留言讨论。</p>
 
             
 
@@ -342,7 +350,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="../../../../tags/Games/" rel="tag">Games</a> <a class="tag tag--primary tag--small t-link" href="../../../../tags/PS3/" rel="tag">PS3</a>
+    <a class="tag tag--primary tag--small t-link" href="../../../../tags/Linux/" rel="tag">Linux</a> <a class="tag tag--primary tag--small t-link" href="../../../../tags/Python/" rel="tag">Python</a> <a class="tag tag--primary tag--small t-link" href="../../../../tags/%E9%85%8D%E7%BD%AE/" rel="tag">配置</a>
 
             </div>
         
@@ -355,9 +363,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="../../08/test/"
-                    data-tooltip="测试分类"
-                    aria-label="上一篇: 测试分类"
+                    href="../../11/0203-os-mac/"
+                    data-tooltip="Python Mac OS系统下 Python的安装配置"
+                    aria-label="上一篇: Python Mac OS系统下 Python的安装配置"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -369,7 +377,7 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="../../../../2018/11/08/0201-os-windows/"
+                    href="../../08/0201-os-windows/"
                     data-tooltip="Python Windows系统下 Python的安装配置"
                     aria-label="下一篇: Python Windows系统下 Python的安装配置"
                 >
@@ -396,7 +404,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/07/07/hello-world/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/11/09/0202-os-linux/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -409,7 +417,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/07/07/hello-world/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2018/11/09/0202-os-linux/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -422,7 +430,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/07/07/hello-world/"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2018/11/09/0202-os-linux/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -470,9 +478,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="../../08/test/"
-                    data-tooltip="测试分类"
-                    aria-label="上一篇: 测试分类"
+                    href="../../11/0203-os-mac/"
+                    data-tooltip="Python Mac OS系统下 Python的安装配置"
+                    aria-label="上一篇: Python Mac OS系统下 Python的安装配置"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -484,7 +492,7 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="../../../../2018/11/08/0201-os-windows/"
+                    href="../../08/0201-os-windows/"
                     data-tooltip="Python Windows系统下 Python的安装配置"
                     aria-label="下一篇: Python Windows系统下 Python的安装配置"
                 >
@@ -511,7 +519,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/07/07/hello-world/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/11/09/0202-os-linux/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -524,7 +532,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/07/07/hello-world/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2018/11/09/0202-os-linux/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -537,7 +545,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2020/07/07/hello-world/"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2018/11/09/0202-os-linux/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -571,7 +579,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2020/07/07/hello-world/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/11/09/0202-os-linux/"
                         aria-label="分享到 Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
@@ -584,7 +592,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2020/07/07/hello-world/"
+                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2018/11/09/0202-os-linux/"
                         aria-label="分享到 Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
@@ -597,7 +605,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=http://yoursite.com/2020/07/07/hello-world/"
+                        href="https://plus.google.com/share?url=http://yoursite.com/2018/11/09/0202-os-linux/"
                         aria-label="分享到 Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
