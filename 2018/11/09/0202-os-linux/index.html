@@ -6,21 +6,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Jim Wang">
-    <title>Python Linux系统下 Python的安装配置 - Jim Wang</title>
+    <title>Linux系统下 Python的安装配置 - Jim Wang</title>
     <meta name="author" content="Jim Wang">
     
     
-        <link rel="icon" href="http://yoursite.com../../../../assets/images/favicon.png">
+        <link rel="icon" href="http://yoursite.com/assets/images/favicon.png">
     
     
         
-            <link rel="alternate" type="application/atom+xml" title="RSS" href="../../../../atom.xml">
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","https://zuiwuxin.twitter.com/","https://www.linkedin.com/profile/","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Barbossa 公众号: 巴博萨船长\nPython已经预装在大多数的Linux发行版本里。以Linux的发行版Ubuntu为例，在Ubuntu 16.04.3 LTS的版本里，同时预装了Python 2.7.12 和Python3.5.2 两个不同的版本。\n在console终端里面键入：Python的话，系统会自动默认为需要启动Python2.7 如下图：\n\n但是如果你需要启动指定的Python的话，可以键入”python2” 或者 “python2.7” 来启动Python2.7版本。或者可以键入”python3” 或者 “python3.5” 来启动Python3.5版本。如图：\n\nLinux 系统下的32bit和64bit的混合安装比较复杂，但是绝对可以实现的（亲测）。建议借助pyenv来管理Python的多版本安装。\n需要指出的是：虽然Python 已经预装在Linux多数发行版本里，但是pip 即：Python的扩展库的管理程序却没有预装在系统里面，还是需要手动安装的。\n以Ubuntu系统为例，可以在终端里面键入：\n1sudo apt-get install python-pip\n\n来安装pip。\n或者从网站https://pip.pypa.io/en/stable/installing/下载**get-pip.py**的模块，然后在终端键入：\n1python get-pip.py\n\n来安装pip。 个人建议使用后者，这样pip里记录的第三方模块的信息会相对较新。否则可能还要手动更新记录才能安装第三方模块。\n如有问题，欢迎留言讨论。\n","dateCreated":"2018-11-09T15:11:08+08:00","dateModified":"2018-11-09T15:11:08+08:00","datePublished":"2018-11-09T15:11:08+08:00","description":"","headline":"Python Linux系统下 Python的安装配置","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"../../../../http:/yoursite.com/2018/11/09/0202-os-linux/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","https://zuiwuxin.twitter.com/","https://www.linkedin.com/profile/","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"../../../../http:/yoursite.com/2018/11/09/0202-os-linux/","keywords":"Python, 配置, Linux"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://zuiwuxin.twitter.com/","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Barbossa 公众号: 巴博萨船长\nPython已经预装在大多数的Linux发行版本里。以Linux的发行版Ubuntu为例，在Ubuntu 16.04.3 LTS的版本里，同时预装了Python 2.7.12 和Python3.5.2 两个不同的版本。\n在console终端里面键入：Python的话，系统会自动默认为需要启动Python2.7 如下图：\n\n但是如果你需要启动指定的Python的话，可以键入”python2” 或者 “python2.7” 来启动Python2.7版本。或者可以键入”python3” 或者 “python3.5” 来启动Python3.5版本。如图：\n\nLinux 系统下的32bit和64bit的混合安装比较复杂，但是绝对可以实现的（亲测）。建议借助pyenv来管理Python的多版本安装。\n需要指出的是：虽然Python 已经预装在Linux多数发行版本里，但是pip 即：Python的扩展库的管理程序却没有预装在系统里面，还是需要手动安装的。\n以Ubuntu系统为例，可以在终端里面键入：\n1sudo apt-get install python-pip\n\n来安装pip。\n或者从网站https://pip.pypa.io/en/stable/installing/下载**get-pip.py**的模块，然后在终端键入：\n1python get-pip.py\n\n来安装pip。 个人建议使用后者，这样pip里记录的第三方模块的信息会相对较新。否则可能还要手动更新记录才能安装第三方模块。\n如有问题，欢迎留言讨论。\n","dateCreated":"2018-11-09T15:11:08+08:00","dateModified":"2018-11-09T15:11:08+08:00","datePublished":"2018-11-09T15:11:08+08:00","description":"","headline":"Linux系统下 Python的安装配置","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2018/11/09/0202-os-linux/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://zuiwuxin.twitter.com/","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"http://yoursite.com/2018/11/09/0202-os-linux/","keywords":"Python, 配置, Linux"}</script>
     <meta name="description" content="作者: Barbossa 公众号: 巴博萨船长 Python已经预装在大多数的Linux发行版本里。以Linux的发行版Ubuntu为例，在Ubuntu 16.04.3 LTS的版本里，同时预装了Python 2.7.12 和Python3.5.2 两个不同的版本。 在console终端里面键入：Python的话，系统会自动默认为需要启动Python2.7 如下图：  但是如果你需要启动指定的Py">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Python Linux系统下 Python的安装配置">
+<meta property="og:title" content="Linux系统下 Python的安装配置">
 <meta property="og:url" content="http://yoursite.com/2018/11/09/0202-os-linux/index.html">
 <meta property="og:site_name" content="Jim Wang">
 <meta property="og:description" content="作者: Barbossa 公众号: 巴博萨船长 Python已经预装在大多数的Linux发行版本里。以Linux的发行版Ubuntu为例，在Ubuntu 16.04.3 LTS的版本里，同时预装了Python 2.7.12 和Python3.5.2 两个不同的版本。 在console终端里面键入：Python的话，系统会自动默认为需要启动Python2.7 如下图：  但是如果你需要启动指定的Py">
@@ -40,19 +40,38 @@
         
     
     
-        <meta property="og:image" content="http://yoursite.com../../../../assets/images/avater.png"/>
+        <meta property="og:image" content="http://yoursite.com/assets/images/avater.png"/>
     
     
     
     
     <!--STYLES-->
     
-<link rel="stylesheet" href="../../../../assets/css/style-7kyu4ouvuiuyk7f7x7fcdt0euyjuhj60nizweihllgdiecpgb22qrbgzuowu.min.css">
+<link rel="stylesheet" href="/assets/css/style-cerfm4q0rkprovbaichq9hgt1jscsyuzklk0o5xkqqhusg44xtjd0gditqjj.min.css">
 
     <!--STYLES END-->
     
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-172143513-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-172143513-1');
+    </script>
+
 
     
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d51896cc9cd82561c7c8e353bb78c0d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
 
     
         
@@ -75,7 +94,7 @@
     <div class="header-title">
         <a
             class="header-title-link"
-            href="../../../../%20"
+            href="/%20"
             aria-label=""
         >
             Jim Wang
@@ -85,12 +104,12 @@
         
             <a
                 class="header-right-picture "
-                href="../../../../#about"
-                aria-label="打开链接: ../../../../#about"
+                href="#about"
+                aria-label="打开链接: /#about"
             >
         
         
-            <img class="header-picture" src="../../../../assets/images/avater.png" alt="作者的图片"/>
+            <img class="header-picture" src="/assets/images/avater.png" alt="作者的图片"/>
         
         </a>
     
@@ -108,10 +127,10 @@
         
             <div class="sidebar-profile">
                 <a
-                    href="../../../../#about"
+                    href="/#about"
                     aria-label="阅读有关作者的更多信息"
                 >
-                    <img class="sidebar-profile-picture" src="../../../../assets/images/avater.png" alt="作者的图片"/>
+                    <img class="sidebar-profile-picture" src="/assets/images/avater.png" alt="作者的图片"/>
                 </a>
                 <h4 class="sidebar-profile-name">Jim Wang</h4>
                 <h5 class="sidebar-profile-subtitle"><p>个人技术博客</p>
@@ -128,7 +147,7 @@
                     
                         <a
                             class="sidebar-button-link "
-                            href="../../../../index.html"
+                            href="/"
                             
                             rel="noopener"
                             title="首页"
@@ -142,7 +161,7 @@
                     
                         <a
                             class="sidebar-button-link "
-                            href="../../../../all-categories"
+                            href="/all-categories"
                             
                             rel="noopener"
                             title="分类"
@@ -156,7 +175,7 @@
                     
                         <a
                             class="sidebar-button-link "
-                            href="../../../../all-tags"
+                            href="/all-tags"
                             
                             rel="noopener"
                             title="标签"
@@ -170,7 +189,7 @@
                     
                         <a
                             class="sidebar-button-link "
-                            href="../../../../all-archives"
+                            href="/all-archives"
                             
                             rel="noopener"
                             title="归档"
@@ -184,7 +203,7 @@
                     
                         <a
                             class="sidebar-button-link "
-                            href="../../../../#about"
+                            href="#about"
                             
                             rel="noopener"
                             title="关于"
@@ -202,7 +221,7 @@
                     
                         <a
                             class="sidebar-button-link "
-                            href="../../../../https:/github.com/zicowarn"
+                            href="https://github.com/zicowarn"
                             
                                 target="_blank"
                             
@@ -218,7 +237,21 @@
                     
                         <a
                             class="sidebar-button-link "
-                            href="../../../../https:/zuiwuxin.twitter.com/"
+                            href="#wechat"
+                            
+                            rel="noopener"
+                            title="微信公众号"
+                        >
+                        <i class="sidebar-button-icon fab fa-weixin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">微信公众号</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://zuiwuxin.twitter.com/"
                             
                                 target="_blank"
                             
@@ -234,15 +267,15 @@
                     
                         <a
                             class="sidebar-button-link "
-                            href="../../../../https:/www.linkedin.com/profile/"
+                            href="https://www.linkedin.com/in/zhichao-wang-a16662109"
                             
                                 target="_blank"
                             
                             rel="noopener"
-                            title="LinkedIn"
+                            title="领英"
                         >
                         <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">LinkedIn</span>
+                        <span class="sidebar-button-desc">领英</span>
                     </a>
             </li>
             
@@ -250,7 +283,7 @@
                     
                         <a
                             class="sidebar-button-link "
-                            href="../../../../mailto:zicowarn@hotmail.com"
+                            href="mailto:zicowarn@hotmail.com"
                             
                                 target="_blank"
                             
@@ -270,7 +303,7 @@
                     
                         <a
                             class="sidebar-button-link "
-                            href="../../../../atom.xml"
+                            href="/atom.xml"
                             
                             rel="noopener"
                             title="RSS"
@@ -297,7 +330,7 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Python Linux系统下 Python的安装配置
+            Linux系统下 Python的安装配置
         </h1>
     
     
@@ -310,7 +343,7 @@
     
         <span>发布在 </span>
         
-    <a class="category-link" href="../../../../categories/Python-%E7%9B%B8%E5%85%B3-%E9%85%8D%E7%BD%AEPython/">Python 相关 - 配置Python</a>
+    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-2-%E9%85%8D%E7%BD%AEPython/">Python 相关 - 2. 配置Python</a>
 
 
     
@@ -350,7 +383,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="../../../../tags/Linux/" rel="tag">Linux</a> <a class="tag tag--primary tag--small t-link" href="../../../../tags/Python/" rel="tag">Python</a> <a class="tag tag--primary tag--small t-link" href="../../../../tags/%E9%85%8D%E7%BD%AE/" rel="tag">配置</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/Linux/" rel="tag">Linux</a> <a class="tag tag--primary tag--small t-link" href="/tags/Python/" rel="tag">Python</a> <a class="tag tag--primary tag--small t-link" href="/tags/%E9%85%8D%E7%BD%AE/" rel="tag">配置</a>
 
             </div>
         
@@ -363,9 +396,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="../../11/0203-os-mac/"
-                    data-tooltip="Python Mac OS系统下 Python的安装配置"
-                    aria-label="上一篇: Python Mac OS系统下 Python的安装配置"
+                    href="/2018/11/11/0203-os-mac/"
+                    data-tooltip="Mac OS系统下 Python的安装配置"
+                    aria-label="上一篇: Mac OS系统下 Python的安装配置"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -377,9 +410,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="../../08/0201-os-windows/"
-                    data-tooltip="Python Windows系统下 Python的安装配置"
-                    aria-label="下一篇: Python Windows系统下 Python的安装配置"
+                    href="/2018/11/08/0201-os-windows/"
+                    data-tooltip="Windows系统下 Python的安装配置"
+                    aria-label="下一篇: Windows系统下 Python的安装配置"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
@@ -435,6 +468,32 @@
                     aria-label="分享到 Google+"
                 >
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://yoursite.com/2018/11/09/0202-os-linux/"
+                    title="分享到 Weibo"
+                    aria-label="分享到 Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2018/11/09/0202-os-linux/&amp;title=Linux系统下 Python的安装配置"
+                    title="分享到 QQ"
+                    aria-label="分享到 QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -478,9 +537,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="../../11/0203-os-mac/"
-                    data-tooltip="Python Mac OS系统下 Python的安装配置"
-                    aria-label="上一篇: Python Mac OS系统下 Python的安装配置"
+                    href="/2018/11/11/0203-os-mac/"
+                    data-tooltip="Mac OS系统下 Python的安装配置"
+                    aria-label="上一篇: Mac OS系统下 Python的安装配置"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -492,9 +551,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="../../08/0201-os-windows/"
-                    data-tooltip="Python Windows系统下 Python的安装配置"
-                    aria-label="下一篇: Python Windows系统下 Python的安装配置"
+                    href="/2018/11/08/0201-os-windows/"
+                    data-tooltip="Windows系统下 Python的安装配置"
+                    aria-label="下一篇: Windows系统下 Python的安装配置"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
@@ -550,6 +609,32 @@
                     aria-label="分享到 Google+"
                 >
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://yoursite.com/2018/11/09/0202-os-linux/"
+                    title="分享到 Weibo"
+                    aria-label="分享到 Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2018/11/09/0202-os-linux/&amp;title=Linux系统下 Python的安装配置"
+                    title="分享到 QQ"
+                    aria-label="分享到 QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -612,6 +697,32 @@
                     </a>
                 </li>
             
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://service.weibo.com/share/share.php?&amp;title=http://yoursite.com/2018/11/09/0202-os-linux/"
+                        aria-label="分享到 Weibo"
+                    >
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2018/11/09/0202-os-linux/&amp;title=Linux系统下 Python的安装配置"
+                        aria-label="分享到 QQ"
+                    >
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                    </a>
+                </li>
+            
         </ul>
     </div>
 
@@ -631,7 +742,7 @@
             <i class="fa fa-times"></i>
         </div>
         
-            <img id="about-card-picture" src="../../../../assets/images/avater.png" alt="作者的图片"/>
+            <img id="about-card-picture" src="/assets/images/avater.png" alt="作者的图片"/>
         
             <h4 id="about-card-name">Jim Wang</h4>
         
@@ -656,11 +767,43 @@
 </div>
 
         
+
+
+
+
+    
         
-<div id="cover" style="background-image:url('../../../../assets/images/background-cover.jpg');"></div>
+    
+
+
+
+    
+        
+    
+
+<div id="wechat">
+    <div id="wechat-card">
+        <div id="wechat-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="wechat-qrcode-picture" src="/assets/images/wechat-qrcode.jpg" alt="global.wechat_public_qr_code_image"/>
+        
+        
+            <div id="wechat-qrcode-desc"><p>请扫描上方的二维码订阅我的个人微信公众号</p> <hr style='margin: 8px auto; border-top: 2px solid rgba(1, 1, 1, 0.14); width: 60%;'> <p>原创不易，多多点赞分享支持。</p></div>
+        
+        
+            <img id="wechat-searchbar-picture" src="/assets/images/wechat-search-white.png" alt="global.wechat_public_search_bar_image"/>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/background-cover.jpg');"></div>
         <!--SCRIPTS-->
 
-<script src="../../../../assets/js/script-yyjcwyiewh7qb2ouwfvqnua5gkt7bpcashikdjxek4nr7fgyof1hlapuhw6g.min.js"></script>
+<script src="/assets/js/script-ptojr36syuappwxdmed3k3bauegoh3hywjbslyppojceawol43eit5qcf1dg.min.js"></script>
 
 <!--SCRIPTS END-->
 
