@@ -1488,3 +1488,135 @@
     }
   });
 })(jQuery);
+;(function($) {
+  'use strict';
+
+  // Fade out the blog and let drop the wechat card of the author and vice versa
+
+  /**
+   * WechatCard
+   * @constructor
+   */
+  var WechatCard = function() {
+    this.$openBtn = $('#sidebar, #header').find('a[href*="#wechat"]');
+    this.$closeBtn = $('#wechat-btn-close');
+    this.$blog = $('#blog');
+    this.$wechat = $('#wechat');
+    this.$wechatCard = $('#wechat-card');
+  };
+
+  WechatCard.prototype = {
+
+    /**
+     * Run WechatCard feature
+     * @return {void}
+     */
+    run: function() {
+      var self = this;
+      // Detect click on open button
+      self.$openBtn.click(function(e) {
+        e.preventDefault();
+        self.play();
+      });
+      // Detect click on close button
+      self.$closeBtn.click(function(e) {
+        e.preventDefault();
+        self.playBack();
+      });
+      // Detect click on close button outside of card
+      self.$wechat.click(function(e) {
+        e.preventDefault();
+        self.playBack();
+      });
+      // Deny closing the wechat page when users click on the card
+      self.$wechatCard.click(function(event) {
+        event.stopPropagation();
+      });
+    },
+
+    /**
+     * Play the animation
+     * @return {void}
+     */
+    play: function() {
+      var self = this;
+      // Fade out the blog
+      self.$blog.fadeOut();
+      // Fade in the wechat card
+      self.$wechat.fadeIn();
+      // Small timeout to drop the wechat card after that
+      // the wechat card fade in and the blog fade out
+      setTimeout(function() {
+        self.dropWechatCard();
+      }, 300);
+    },
+
+    /**
+     * Play back the animation
+     * @return {void}
+     */
+    playBack: function() {
+      var self = this;
+      // Lift the wechat card
+      self.liftWechatCard();
+      // Fade in the blog after that the wechat card lifted up
+      setTimeout(function() {
+        self.$blog.fadeIn();
+      }, 500);
+      // Fade out the wechat card after that the wechat card lifted up
+      setTimeout(function() {
+        self.$wechat.fadeOut();
+      }, 500);
+    },
+
+    /**
+     * Slide the card to the middle
+     * @return {void}
+     */
+    dropWechatCard: function() {
+      var self = this;
+      var wechatCardHeight = self.$wechatCard.innerHeight();
+      // default offset from top
+      var offsetTop = ($(window).height() / 2) - (wechatCardHeight / 2) + wechatCardHeight;
+      // if card is longer than the window
+      // scroll is enable
+      // and re-define offsetTop
+      if (wechatCardHeight + 30 > $(window).height()) {
+        offsetTop = wechatCardHeight;
+      }
+      self.$wechatCard
+        .css('top', '0px')
+        .css('top', '-' + wechatCardHeight + 'px')
+        .show(500, function() {
+          self.$wechatCard.animate({
+            top: '+=' + offsetTop + 'px'
+          });
+        });
+    },
+
+    /**
+     * Slide the card to the top
+     * @return {void}
+     */
+    liftWechatCard: function() {
+      var self = this;
+      var wechatCardHeight = self.$wechatCard.innerHeight();
+      // default offset from top
+      var offsetTop = ($(window).height() / 2) - (wechatCardHeight / 2) + wechatCardHeight;
+      if (wechatCardHeight + 30 > $(window).height()) {
+        offsetTop = wechatCardHeight;
+      }
+      self.$wechatCard.animate({
+        top: '-=' + offsetTop + 'px'
+      }, 500, function() {
+        self.$wechatCard.hide();
+        self.$wechatCard.removeAttr('style');
+      });
+    }
+  };
+
+  $(document).ready(function() {
+    var wechatCard = new WechatCard();
+    wechatCard.run();
+  });
+})(jQuery);

@@ -8148,6 +8148,80 @@ blockquote {
     #about #about-card #about-card-location {
       padding: 0 30px 0 15px; } }
 
+#wechat {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to right, #3ab5b0 0%, #3d99be 31%, #56317a 100%) !important;
+  text-align: center;
+  line-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  cursor: pointer;
+  z-index: 30; }
+  #wechat #wechat-card {
+    position: relative;
+    top: -1000px;
+    display: block;
+    background: white;
+    max-width: 400px;
+    margin: 15px auto;
+    border-radius: 3px;
+    padding: 30px 0;
+    cursor: initial;
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); }
+    #wechat #wechat-card #wechat-btn-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      color: #9eabb3;
+      cursor: pointer; }
+      #wechat #wechat-card #wechat-btn-close:hover {
+        color: #738691; }
+    #wechat #wechat-card #wechat-qrcode-picture {
+      margin-bottom: 15px;
+      object-fit: cover; }
+    #wechat #wechat-card #wechat-searchbar-picture {
+      margin-bottom: 15px;
+      object-fit: cover; }
+    #wechat #wechat-card #wechat-qrcode-desc {
+      margin-top: 0;
+      margin-bottom: 20px; }
+
+@media only screen and (max-width: 767px) {
+  #wechat #wechat-card {
+    width: 90%; }
+    #wechat #wechat-card #wechat-qrcode-picture {
+      height: 200px;
+      border-radius: 5px; }
+    #wechat #wechat-card #wechat-searchbar-picture {
+      width: 280px;
+      border-radius: 5px; }
+    #wechat #wechat-card #wechat-card-desc {
+      margin-bottom: 10px; }
+    #wechat #wechat-card p {
+      font-size: .5em;
+      margin: .5em 0em .5em 0em; } }
+
+@media only screen and (min-width: 768px) {
+  #wechat #wechat-card {
+    width: 80%; }
+    #wechat #wechat-card #wechat-qrcode-picture {
+      height: 220px;
+      border-radius: 5px; }
+    #wechat #wechat-card #wechat-searchbar-picture {
+      width: 350px;
+      border-radius: 5px; }
+    #wechat #wechat-card #wechat-card-desc {
+      margin-bottom: 15px; }
+    #wechat #wechat-card p {
+      margin: .5em 0em .5em 0em; } }
+
 #blog {
   position: absolute;
   top: 0;

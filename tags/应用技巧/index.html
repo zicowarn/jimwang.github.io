@@ -39,7 +39,7 @@
     
     <!--STYLES-->
     
-<link rel="stylesheet" href="/assets/css/style-rrdiqwquixweatnkiah1k7avyrncyyqqfqebutennjpcolzrguxjcpcxgzvi.min.css">
+<link rel="stylesheet" href="/assets/css/style-lh9m5qsk5uqjin3owpni8a1qtblql6jlqel1idwi2kxv8d5giolf430qyce2.min.css">
 
     <!--STYLES END-->
     
@@ -315,6 +315,588 @@
                         ">
                 
     <section class="postShorten-group main-content-wrap">
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2018/11/23/0701-issue-twosum/"
+                            aria-label=": Python 应用之 Two sum"
+                        >
+                            Python 应用之 Two sum
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-11-23T08:11:08+08:00">
+	
+		    11月 23, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-7-Python-%E5%BA%94%E7%94%A8/">Python 相关 - 7. Python 应用</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
+<p>最近一直考虑着下一篇关于Python的文章应该是什么样的内容，对比一些专业大咖的文章，目前应该写一个完整的且无错的程序，然后和大家一起一行行地分析代码相互学习，可是我实在不想如此亦步亦趋。在学习编程方面，我是一个实用主义者，认为“学以致用”才是学习的最终目的， 最近发现了一些有趣的东西，让我很感兴趣，也能检验我自己所学的东西。</p>
+<p>本着“学以致用”为先，从今天开始我们通过研究算法的方式，进而明白自己之前学的内容如何更好地使用。之所以打算写这样方面的内容，也是因为最近的一次和猎头通话时，被问到类似的问题，可是自己竟然不会，丢脸啊。所以就下定决心研究算法，在此把自己所学所想跟大家分享。</p>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a><strong>问题描述</strong></h2><p>* 英文原文：</p>
+<blockquote>
+<p>Given an array of integers, return indices of the two numbers such that they add up to a specific target. You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
+</blockquote>
+<p>* 我的理解：</p>
+<blockquote>
+<p>给定一个整数数组和一个目标值，求数组内两个元素和为目标值的指针。 需要保证每次输入都能得到正确的解，并且任何一个元素<strong>不能</strong>使用两次。</p>
+</blockquote>
+<p>* 例：</p>
+<blockquote>
+<p>如有列表 [2, 7, 11, 15] 若目标值 9， 因为 2 + 7 = 9， 所以得[0, 1]; 若目标值 18， 因为 7 + 11 = 18， 所以得[1, 2]。</p>
+</blockquote>
+<h2 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a><strong>解决思路</strong></h2><ul>
+<li><strong>第一步推导</strong></li>
+</ul>
+<p>使用最简单的思路暴力解决。 历遍列表中的每一个元素，然后检查是否相邻的两个元素的和是否和所求一致，如果相同则返回这两个元素的索引。代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Approach1</span><span class="params">(listInput, iTarget)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Brute Force</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        :type listInput: List[int]</span></span><br><span class="line"><span class="string">        :type iTarget: int</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> len(listInput) &lt;= <span class="number">1</span>:            </span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">for</span> iDx <span class="keyword">in</span> range(len(listInput)):            </span><br><span class="line">            <span class="keyword">for</span> jDx <span class="keyword">in</span> range(<span class="number">1</span>, len(listInput)):                </span><br><span class="line">                <span class="keyword">if</span> listInput[jDx] == (iTarget - listInput[iDx]):</span><br><span class="line">                    <span class="keyword">return</span> [iDx, jDx]</span><br></pre></td></tr></table></figure>
+
+<p>这样的方法虽然不能符合题目要求，因为列表中的每一个元素都被使用了两次。但是可以以此为基础，进一步探索找到解决问题的最优解。</p>
+<ul>
+<li><p><strong>第二步推导</strong></p>
+<p>因为第一步推导中方法的时间复杂度为O(n^2)。 为了优化时间复杂度，就要尝试找到一个更加高性能的方法来检查一个元素与目标值的差是否存在于列表中。 而且当其差值存在，我们还要得到该元素的索引。 那么最好的保存两者映射的途径是什么？ 当然是一个哈希表，在Python中为字典。</p>
+</li>
+</ul>
+<p>为了提高效率就要减少查找时间，准确地说把两者映射的查找次数从N降低到1。 而哈希表就是为此而生的。 理论上使用哈希表可以实现在恒定时间内完成查找。但是现实中可能会出现哈希函数不完善造成的冲突可能会导致查找次数重新从1退到n。 所以选择合适的哈希函数也是很重要的。 以此为思路优化第一步的推导，就得到下面的代码。 Python作为高级编程的语言，虽然解释器封装了哈希函数，也会存在碰撞冲突的风险，但一般很少出现。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Approach2</span><span class="params">(listInput, iTarget)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Two-pass Hash Table</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        :type listInput: List[int]</span></span><br><span class="line"><span class="string">        :type iTarget: int</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> len(listInput) &lt;= <span class="number">1</span>:            </span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="comment"># dictBuffer = &#123;&#125;</span></span><br><span class="line">        <span class="comment"># for iDx in range(len(listInput)):</span></span><br><span class="line">        <span class="comment">#    dictBuffer[listInput[iDx]] = iDx</span></span><br><span class="line">        dictBuffer = dict(zip(listInput, range(len(listInput))))        </span><br><span class="line">        <span class="keyword">for</span> iDx <span class="keyword">in</span> range(len(listInput)):</span><br><span class="line">            iComplement = iTarget - listInput[iDx]            </span><br><span class="line">            <span class="keyword">if</span> dictBuffer.has_key(iComplement) <span class="keyword">and</span> dictBuffer.get(iComplement) != iDx:</span><br><span class="line">                <span class="keyword">return</span> [iDx, dictBuffer.get(iComplement)]</span><br></pre></td></tr></table></figure>
+
+<p>上述的推导里面，使用了两个迭代，第一次迭代中（被注释的内容），循环将每个元素和其索引添加到字典内。然后在第二个迭代中，我们检查字典中是否存在其中一个元素差值为键的映射，如果存在就返回该元素以及差值对于的索引。 需要检验该差值不能为元素本身。</p>
+<ul>
+<li><strong>第三步推导</strong></li>
+</ul>
+<p>通过正确理解第二步推导，其实可以发现。 相同的目的也可以通过一次迭代完成。 在迭代的过程中，我们先判断当前元素是否存在于映射字典中，该映射字典保存了列表中一个元素与目标值的差以及该元素的索引。如果存在就立即返回。 若不存在，则将该元素与目标值的差作为键，其索引作为值，保存在这个映射字典中。代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Approach3</span><span class="params">(listInput, iTarget)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        One-pass Hash Table</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        :type listInput: List[int]</span></span><br><span class="line"><span class="string">        :type iTarget: int</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> len(listInput) &lt;= <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        dictBuffer = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> iDx <span class="keyword">in</span> range(len(listInput)):</span><br><span class="line">            <span class="keyword">if</span> listInput[iDx] <span class="keyword">in</span> dictBuffer:</span><br><span class="line">                <span class="keyword">return</span> [dictBuffer[listInput[iDx]], iDx]</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                dictBuffer[iTarget - listInput[iDx]] = iDx</span><br></pre></td></tr></table></figure>
+
+<p>可以看出第三步的推导能够满足题目的要求，即每个元素只能使用一次，而且解决方案的时间复杂度(O(n))和空间复杂度(O(n))都为最优。 关于算法的复杂度，即时间复杂度和空间复杂度的内容，我找机会总结后分享给大家。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><p>第三步推导完成之后，真的是醍醐灌顶。通过这三步推导，从最早的暴力解决，一步步地靠近正确的答案，发现这里面没有新的编程技术，也没有自创的数据类型。全都是之前文章介绍过的基本知识，可是通过改变这些基本内容的使用方法和方式，就能得到不一样的效果。也意识到，我们都有解决问题的能力和想到解决方案的智慧，只是很多时候面对问题时，都是以简单和快速为先，并没有考虑使用的方法是否最优。很多时候只要具有就是看下去的毅力和试下去的恒心，我们都能找到解决问题的最优解。</p>
+<p>研究这个算法的过程，也认识到自己离软件大拿和行业翘楚还很远。也明白自己看待问题的眼光，解决问题的思路包括编程的思维都是有局限。这篇文章也作为我自己对待编程的新起点，希望与君相互讨论帮助，共同进步学习。</p>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/2018/11/23/0701-issue-twosum/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                评论和共享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2018/11/21/030302-for/"
+                            aria-label=": Python 循环语句for"
+                        >
+                            Python 循环语句for
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-11-21T08:11:08+08:00">
+	
+		    11月 21, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-3-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/">Python 相关 - 3. 基本语法</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/2018/11/21/030302-for/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                评论和共享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2018/11/20/030301-if-elsif-else/"
+                            aria-label=": Python 条件语句if-elif-else"
+                        >
+                            Python 条件语句if-elif-else
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-11-20T22:11:08+08:00">
+	
+		    11月 20, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-3-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/">Python 相关 - 3. 基本语法</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/2018/11/20/030301-if-elsif-else/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                评论和共享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2018/11/20/030201-operator/"
+                            aria-label=": Python 运算符"
+                        >
+                            Python 运算符
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-11-20T15:11:08+08:00">
+	
+		    11月 20, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-3-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/">Python 相关 - 3. 基本语法</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
+<h2 id="Python运算符简介"><a href="#Python运算符简介" class="headerlink" title="Python运算符简介"></a>Python运算符简介</h2><p>程序语言运算符就是对数据操作的表示方法，即数据是如何处理的。理解运算符，在查看代码的时候就能理解代码中数据是如何加工处理的，掌握运算符就能过对数据按照自己所想操作加工处理。一般的教程或者学习资料会将操作符分为：算术运算符、连接运算符、关系运算符、赋值运算符和逻辑运算符。这也是普遍的共识。在本文中，我们稍作改变，我们分组分章节介绍，之所以这样，也是一些运算符好之间也有一定的关系。Python中有一种比较特殊的运算符，即身份运算，会单独介绍一下。位运算从本质上来讲也属于算术表达的一种，但是由于其比较特殊，常在硬件设计方面应用较多，日常的应用设计很少遇到，所以在文中也用单独的章节介绍。</p>
+<h2 id="算术运算符与赋值运算符"><a href="#算术运算符与赋值运算符" class="headerlink" title="算术运算符与赋值运算符"></a>算术运算符与赋值运算符</h2><h3 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h3><p>算术计算，在此是指常见的十进制计算，包括加法➕，减法➖，乘法✖️，除法➗，都是常见的数学计算，除了表现符号与数学课本上不一致，如，Python乘法（_），除法（/）。任何人理解这些符号的意义，在这里就不在赘述。在此我们仅介绍<strong>取模</strong>，<strong>取整</strong>， 和*幂运算(包括逆运算，即对数运算)_，Python中也有math或cmath模块，提供专门的函数来帮助你进行更复杂的算术运算，如有需要可以关注一下。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line">a = <span class="number">7</span></span><br><span class="line">b = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">c = a  // b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"取整 c 的值为："</span>, c</span><br><span class="line"></span><br><span class="line">c = a % b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"取模 c 的值为："</span>, c </span><br><span class="line"></span><br><span class="line">c = a ** b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"幂运算 c 的值为："</span>, c </span><br><span class="line"></span><br><span class="line">d = c ** (<span class="number">1.</span>/b)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"幂的逆运算 d 的值为："</span>, d</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">取整 c 的值为： 3</span><br><span class="line">取模 c 的值为： 1</span><br><span class="line">幂运算 c 的值为： 49</span><br><span class="line">幂的逆运算 d 的值为： 7.0</span><br></pre></td></tr></table></figure>
+
+<p>取整就是得到除法的结果的整数部分，取模就是得到除法的结果的余数（<strong>切记并非小数部分</strong>），幂运算可以处理平方，三次方等，幂运算符也可以处理幂运算的逆运算，即对数运算。上面代码1后面的那个点<strong>.</strong>就表示1要按照浮点数进行运算操作。</p>
+<h3 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h3><p>赋值运算就是将算数运算结果赋值于变量，符号为<strong>=</strong>。 算术运算符➕与赋值的组合能过更简化代码，也就是常说的变量自加。即算术运算过程中等号左边的变量也作为算术运算的参与者，简单举个例子。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line">a = <span class="number">7</span></span><br><span class="line">b = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># a + b</span></span><br><span class="line">a += b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"加法与赋值的值为：%s"</span> % a</span><br><span class="line"><span class="comment"># a - b</span></span><br><span class="line">a -= b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"加法与赋值的值为：%s"</span> % a</span><br><span class="line"><span class="comment"># a * b</span></span><br><span class="line">a *= b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"乘法与赋值的值为：%s"</span> % a</span><br><span class="line"><span class="comment"># a * b</span></span><br><span class="line">a *= b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"乘法与赋值的值为：%s"</span> % a</span><br><span class="line"><span class="comment"># a ** b</span></span><br><span class="line">a **= b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"幂与赋值的值为：%s"</span> % a</span><br><span class="line"><span class="comment"># a // b</span></span><br><span class="line">a //= b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"取整与赋值的值为：%s"</span> % a</span><br><span class="line"><span class="comment"># a % b</span></span><br><span class="line">a %= b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"取模与赋值的值为：%s"</span> % a</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">加法与赋值的值为：10</span><br><span class="line">加法与赋值的值为：7</span><br><span class="line">乘法与赋值的值为：21</span><br><span class="line">乘法与赋值的值为：63</span><br><span class="line">幂与赋值的值为：250047</span><br><span class="line">取整与赋值的值为：83349</span><br><span class="line">取模与赋值的值为：0</span><br></pre></td></tr></table></figure>
+
+<p>由于变量a参与了算术计算，所以变量a的值一直发生了变化，所以不要怀疑结果出了问题。</p>
+<h2 id="比较运算符，成员运算符，身份运算符"><a href="#比较运算符，成员运算符，身份运算符" class="headerlink" title="比较运算符，成员运算符，身份运算符"></a>比较运算符，成员运算符，身份运算符</h2><p>这个章节的运算符，在编程中主要用于与条件语句进行配合，并返回True 与 Flase布尔值的运算符。</p>
+<h3 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h3><p>比较运算符比较容易理解：等于==， 不等于!=或者&lt;&gt;, 大于&gt;与大于且等于&gt;=和小于&lt;与小于且等于&lt;= 。关于这些也就不再举例，需要注意的是比较的两个元素应该具有相同的数据类型，或者都是类的实例。</p>
+<h3 id="成员运算符"><a href="#成员运算符" class="headerlink" title="成员运算符"></a>成员运算符</h3><p>成员运算符是用于检查某一值是否在可迭代的对象里面，返回值True或False。</p>
+<p>可迭代的对象Iterable并不等于迭代器Iterator。Python中这两种定义有部分相同，但是还是有一些细节的差异的。为了便于区分，这里给你一个简单的方法来区别彼此，能用for进行循环迭代的都成为可迭代对象，能被next()调用不断返回下一个值的对象为迭代器。有关两者更细节话的区别，我们在以后的文章中介绍。</p>
+<p>可迭代的对象是一种集合数据类型，如list，tuple，dict，set与str等。成员运算符为”in”和”not in”。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line">a = <span class="number">10</span></span><br><span class="line">b = <span class="number">21</span></span><br><span class="line">c = <span class="string">"a"</span></span><br><span class="line">d = <span class="number">1</span></span><br><span class="line">lt = [<span class="number">11</span>, <span class="number">20</span>, <span class="number">10</span>, <span class="number">4</span>, <span class="number">5</span> ]</span><br><span class="line">tup = (<span class="number">11</span>, <span class="number">20</span>, <span class="number">10</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line">ss = set([<span class="number">11</span>, <span class="number">20</span>, <span class="number">10</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line">dic = &#123; <span class="string">"a"</span> : <span class="number">2</span>, <span class="string">"b"</span> : <span class="number">1</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> a <span class="keyword">in</span> lt:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 在给定的列表中"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 不在给定的列表中"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> b <span class="keyword">not</span> <span class="keyword">in</span> lt:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 b 不在给定的tuple 中"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 b 在给定的tuple中"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> b <span class="keyword">not</span> <span class="keyword">in</span> ss:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 b 不在给定的set 中"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 b 在给定的set 中"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> c <span class="keyword">in</span> dic:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 c 在给定的dict中"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 c 不在给定的dict中"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> d <span class="keyword">in</span> dic:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 d 在给定的dict中"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 d 不在给定的dict中"</span></span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">变量 a 在给定的列表中</span><br><span class="line">变量 b 不在给定的tuple 中</span><br><span class="line">变量 b 不在给定的set 中</span><br><span class="line">变量 c 在给定的dict中</span><br><span class="line">变量 d 不在给定的dict中</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，在Python 2.x中，成员运算符与dict结合使用的时候等效于has_key()函数，即用于检查是否字典dict变量存在某一键。但是Python 3.x不再具有该函数，所以只能用成员运算符。为了保证代码的兼容性和一致性，建议优先选用成员运算符来判断某一键存在与字典之中。在此我们也做个延伸，请看下方例子。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line">e = &#123;<span class="string">"a"</span> : <span class="number">1</span>, <span class="string">"b"</span> : <span class="number">2</span>, <span class="string">"c"</span> : <span class="number">3</span>&#125;</span><br><span class="line"></span><br><span class="line">akeys = e.keys()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="string">"a"</span> <span class="keyword">in</span> e:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"变量 'a' 在给定的dict中"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"变量 'a' 不在给定的dict中"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="string">"a"</span> <span class="keyword">in</span> akeys:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"变量 'a' 在给定的dict中"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"变量 'a' 不在给定的dict中"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">del</span> e[<span class="string">'a'</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="string">"a"</span> <span class="keyword">in</span> e:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"变量 'a' 在给定的dict中"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"变量 'a' 不在给定的dict中"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="string">"a"</span> <span class="keyword">in</span> akeys:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"变量 'a' 在给定的dict中"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"变量 'a' 不在给定的dict中"</span></span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">变量 &#39;a&#39; 在给定的dict中</span><br><span class="line">变量 &#39;a&#39; 在给定的dict中</span><br><span class="line">变量 &#39;a&#39; 在给定的dict中</span><br><span class="line">变量 &#39;a&#39; 不在给定的dict中</span><br><span class="line">变量 &#39;a&#39; 不在给定的dict中</span><br><span class="line">变量 &#39;a&#39; 在给定的dict中</span><br></pre></td></tr></table></figure>
+
+<p>有人可能会想，我在代码中某一处获取一个字典的所有键的列表，然后在以后需要判断的时候，直接使用这个键的列表来判断，这种想法是很危险的，也是不可取的。请参照上述例子。字典键的判断最好是按需实时进行，以避免误判。</p>
+<h3 id="身份运算符"><a href="#身份运算符" class="headerlink" title="身份运算符"></a>身份运算符</h3><p>身份运算符用于比较两个对象的储存单元。也就是判断两个引用的对象是否为同一个，即两个在储存意义上的一致。需要注意的是，Python程序中，<strong>值相同并不意味着”一致”，”一致”必然值相同</strong>。</p>
+<ul>
+<li><strong>is</strong> ，判断是否一致，是否引用自同一个对象 。 <strong>a is b</strong> 等效于 id(a) == id(b), id() 函数用于获取内存地址，地址一致则为同一个对象 。</li>
+<li><strong>not is</strong>， 与<strong>not</strong> 结合，意指取上述内容反义。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line">a = <span class="number">10</span></span><br><span class="line">b = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> a <span class="keyword">is</span> b :</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"a 和 b 有相同的标识，一致"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"a 和 b 没有相同的标识，不一致"</span></span><br><span class="line"></span><br><span class="line">b = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> a <span class="keyword">is</span> b :</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"a 和 b 有相同的标识，一致"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"a 和 b 没有相同的标识，不一致"</span></span><br><span class="line"></span><br><span class="line">c = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">d = c </span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> c <span class="keyword">is</span> d :</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"c 和 d 有相同的标识，一致"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"c 和 d 没有相同的标识，不一致"</span></span><br><span class="line"></span><br><span class="line">c = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">d = c[:]</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> c <span class="keyword">is</span> d :</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"c 和 d 有相同的标识，一致"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"c 和 d 没有相同的标识，不一致"</span></span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a 和 b 有相同的标识，一致</span><br><span class="line">a 和 b 有相同的标识，一致</span><br><span class="line">c 和 d 有相同的标识，一致</span><br><span class="line">c 和 d 没有相同的标识，不一致</span><br></pre></td></tr></table></figure>
+
+<p>从上述输出结果可以得知，整数（也包含浮点数）的变量，在值相同的情况下，赋值或者从新赋值，其引用的是同一块内存，列表在赋值的时候，上文中，从c赋值到d的时候也是引用的同一块内存。但是如果需要保证列表c和d在使用时相互之间不影响，就要对d进行重新赋值。这些都是需要在编写代码时候考虑的，从而避免不必要的错误。</p>
+<h2 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h2><p>逻辑运算符常在条件语句和while循环语句中与上述的比较运算符，成员运算符与身份运算符结合使用。用于结合两个条件，或者否定某一条件。但是需要注意的是，其他语言中的逻辑运算符并不在Python语言中兼容，在程序代码转换时候需要注意。</p>
+<table>
+<thead>
+<tr>
+<th align="center">逻辑运算符（其他语言）</th>
+<th align="center">逻辑运算符（Python）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">&amp;&amp;</td>
+<td align="center">and</td>
+</tr>
+<tr>
+<td align="center">||</td>
+<td align="center">or</td>
+</tr>
+<tr>
+<td align="center">！</td>
+<td align="center">not</td>
+</tr>
+</tbody></table>
+<p>代码实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line">a = <span class="literal">True</span></span><br><span class="line">b = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>  a <span class="keyword">and</span> b :  <span class="comment"># 等效其他语言的 &amp;&amp;</span></span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 都为 true"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 有一个不为 true"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> a <span class="keyword">or</span> b : <span class="comment"># 等效其他语言的 ||</span></span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 都为 true，或其中一个变量为 true"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 都不为 true"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改变量 a 的值</span></span><br><span class="line">a = <span class="literal">False</span></span><br><span class="line"><span class="keyword">if</span>  a <span class="keyword">and</span> b :</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 都为 true"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 有一个不为 true"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> a <span class="keyword">or</span> b :</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 都为 true，或其中一个变量为 true"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 都不为 true"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span>( a <span class="keyword">and</span> b ): <span class="comment"># 等效其他语言的 ！</span></span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 都为 false，或其中一个变量为 false"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 都为 true"</span></span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">变量 a 和 b 都为 true</span><br><span class="line">变量 a 和 b 都为 true，或其中一个变量为 true</span><br><span class="line">变量 a 和 b 有一个不为 true</span><br><span class="line">变量 a 和 b 都为 true，或其中一个变量为 true</span><br><span class="line">变量 a 和 b 都为 false，或其中一个变量为 false</span><br></pre></td></tr></table></figure>
+
+<p>以上介绍的都是常用的运算符，在日常程序设计实现时常常用到，对比其他编程语言Python有一下独有的运算符，或一些运算符在Python中的表现形式会有一些不同，都需要在实现代码时注意。</p>
+<h2 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h2><p>位运算符，会在硬件编程中用到，主要处理二进制的计算。在日常任务中并不常见，但是它也是学习进而掌握一种编程语言的必备知识。在我经历的任务中，比如需要得到RGB颜色的整数或者16进制数。RGB整数与RBG三色值之间的相互转换时，用到过位运算符。Python的位运算符与其他语言的位运算符一致，在本节我们介绍一下位运算符。</p>
+<ul>
+<li><strong>&amp;</strong>， 二进制的”<strong>与</strong>“操作。二进制相应位都位1，则结果为1，反之为0。</li>
+<li><strong>|</strong>， 二进制的”<strong>或</strong>“操作。结合逻辑运算符来理解，二进制相应位有一个位1时，结果就为1，反之为0。</li>
+<li><strong>^</strong>，二进制的”<strong>异或</strong>“操作。二进制相应位不同时，结果为1，反之为0。</li>
+<li><strong>~</strong>， 二进制的”**取反”操作。二进制数按位取反，1变为0，0变为1。</li>
+<li><strong>&lt;&lt;</strong>，二进制的”<strong>左移</strong>“操作。由符号”&lt;&lt;”右边的数字决定向左移动的位数，高位丢弃，低位补0。</li>
+<li><strong>&gt;&gt;</strong>，二进制的”<strong>右移</strong>“操作。由符号”&gt;&gt;”右边的数字决定向左移动的位数，高位补0。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line">a = <span class="number">50</span>           <span class="comment"># 50 = 0011 0010 </span></span><br><span class="line">b = <span class="number">14</span>           <span class="comment"># 14 = 0000 1110</span></span><br><span class="line">c = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">c = a &amp; b;        <span class="comment"># 2 = 0000 0010</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为dec："</span>, c</span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为bin：&#123;:#010b&#125;"</span>.format(c)</span><br><span class="line"></span><br><span class="line">c = a | b;        <span class="comment"># 62 = 0011 1110 </span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为dec："</span>, c</span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为bin：&#123;:#010b&#125;"</span>.format(c)</span><br><span class="line"></span><br><span class="line">c = a ^ b;        <span class="comment"># 60 = 0011 1100</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为dec："</span>, c</span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为bin：&#123;:#010b&#125;"</span>.format(c)</span><br><span class="line"></span><br><span class="line">c = ~a;           <span class="comment"># -51 = -0011 0011</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为dec："</span>, c</span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为bin：&#123;:#010b&#125;"</span>.format(c)</span><br><span class="line"></span><br><span class="line">c = a &lt;&lt; <span class="number">2</span>;       <span class="comment"># 200 = 1100 1000</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为dec："</span>, c</span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为bin：&#123;:#010b&#125;"</span>.format(c)</span><br><span class="line"></span><br><span class="line">c = a &gt;&gt; <span class="number">2</span>;       <span class="comment"># 12 = 0000 1100</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为dec："</span>, c</span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为bin：&#123;:#010b&#125;"</span>.format(c)</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">c 的值为dec： 2</span><br><span class="line">c 的值为bin：0b00000010</span><br><span class="line">c 的值为dec： 62</span><br><span class="line">c 的值为bin：0b00111110</span><br><span class="line">c 的值为dec： 60</span><br><span class="line">c 的值为bin：0b00111100</span><br><span class="line">c 的值为dec： -51</span><br><span class="line">c 的值为bin：-0b0110011</span><br><span class="line">c 的值为dec： 200</span><br><span class="line">c 的值为bin：0b11001000</span><br><span class="line">c 的值为dec： 12</span><br><span class="line">c 的值为bin：0b00001100</span><br></pre></td></tr></table></figure>
+
+<p>可使用bin()内置函数来获取而数的二进制字符串，但是如果要更好的格式化字符串，即带有前补零和”0b”标示的二进制字符串时，则可使用{:#010b}”.format(value)来实现。</p>
+<h2 id="运算符之间的优先级"><a href="#运算符之间的优先级" class="headerlink" title="运算符之间的优先级"></a>运算符之间的优先级</h2><p>尽然编程语言中的运算符种类如此之多，在相互之间结合使用的时候，哪个操作符会被先执行，这就是操作符之间的优先级问题。在此准备一表单，运算符优先级以数字形式表示，数值越小则表示优先级越高，即在运行时会被优先执行。</p>
+<table>
+<thead>
+<tr>
+<th align="center">优先级</th>
+<th align="left">运算符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="left">**</td>
+<td align="left">指数运算，最高优先级</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="left">~ + -</td>
+<td align="left">位的取反操作，一元加号与减号（标示数的正负）</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="left">* / % //</td>
+<td align="left">乘，除，取模和取整</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="left">+ -</td>
+<td align="left">加法，减法</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="left">&gt;&gt;,  &lt;&lt;</td>
+<td align="left">位操作左移，位操作右移</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="left">&amp;</td>
+<td align="left">位操作 与</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="left">^ ,  |</td>
+<td align="left">位操作 异或 与 或</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="left">&lt;=, &lt;&gt;, &gt;=</td>
+<td align="left">比较运算符</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="left">&lt;&gt;, ==, !=</td>
+<td align="left">等于，不等于运算符</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="left">=, %=, /=, -=, +=, <em>=, *</em>=</td>
+<td align="left">赋值运算符，自加，自减等</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="left">is, is not</td>
+<td align="left">身份运算符</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="left">in, not in</td>
+<td align="left">成员运算符</td>
+</tr>
+<tr>
+<td align="center">13</td>
+<td align="left">not, and, or</td>
+<td align="left">逻辑运算符</td>
+</tr>
+</tbody></table>
+<p>传统数学计算时的优先级也在上述列表中得到体现，如，乘除法运算优先与加减法运算。括号可以提升优先级。操作符的优先级结合数学计算的优先级，又加上了编程语言的特有预算符的优先级。掌握运算符的优先级，没有什么技巧，只有在不断的实践中加深印象，从而实现熟练使用。</p>
+<h2 id="运算符扩展—-函数注释-Function-Annotations"><a href="#运算符扩展—-函数注释-Function-Annotations" class="headerlink" title="运算符扩展— 函数注释 Function Annotations"></a>运算符扩展— 函数注释 Function Annotations</h2><p>Python 3.x 增加了一个新的特性Feature，叫做<strong>函数注释Function Annotations</strong>。其表现特征是函数定义是，在函数定义括号内使用”:”来注释参数，在右括号外添加”-&gt;”符号，来注释返回值。</p>
+<p>我们来举个例子，传统意义上定义函数为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a, b, c)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> a + b + c</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>func(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="number">6</span></span><br></pre></td></tr></table></figure>
+
+<p>添加注释的函数可以用如下形式表示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a: <span class="string">'spam'</span>, b: <span class="params">(<span class="number">1</span>, <span class="number">10</span>)</span>, c: float)</span> -&gt; int:</span></span><br><span class="line">    <span class="keyword">return</span> a + b + c</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>func(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="number">6</span></span><br></pre></td></tr></table></figure>
+
+<p>参数后的注释，即”:”后的内容可以是任何形式，返回值的注释需要注意返回值的数据类型必须为Python的数据类型。</p>
+<p>函数的注视添加之后会以属性的形式保存在函数中。查看函数注释可以使用如下语句：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>func.__annotations__</span><br><span class="line">&#123;'c': &lt;class 'float'&gt;, 'a': 'spam', 'b': (1, 10), 'return': &lt;class 'int'&gt;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>函数注释只是一种附加的特征，其并不影响函数的传统方式的使用。参数的注释只是一种帮助信息，并没有现实意义上的约束力。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>编程语言的运算符，是学习编程语言的基础。熟练掌握才能进行其他方面知识的学习。目前网络中存在很多Python的教程，本人也无意重复别人做过的事情，只是将自己在学习这门编程语言的时的一些感悟，也对某一部分内容的个人见解与内容的延伸以文字的方式记录下来，这样在查看别的文章的时候，如果遇到一些基本知识的内容，就可以在不跳转别的教程网站的情况下，解决学习中遇到的问题，方便读者也方便自己。欢迎订阅我的个人微信公众号。</p>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/2018/11/20/030201-operator/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                评论和共享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2018/11/19/030104-variable-dict-tips/"
+                            aria-label=": Python 变量之字典与应用技巧"
+                        >
+                            Python 变量之字典与应用技巧
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-11-19T15:11:08+08:00">
+	
+		    11月 19, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-3-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/">Python 相关 - 3. 基本语法</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
+<h2 id="Python-标准数据类型"><a href="#Python-标准数据类型" class="headerlink" title="Python 标准数据类型"></a><strong>Python 标准数据类型</strong></h2><p>大家好，最近更新比较慢，临近圣诞节和新年，公司的事情也就异常多。连续几天的会议，还要加紧修复bug，为新版本软件的发布做准备。好了言归正传，书接上回。Python 定义了一些标准数据类型，用于存储各种类型的数据。Python有五个标准的数据类型，分别是：</p>
+<ul>
+<li><ul>
+<li>Numbers（数字）</li>
+<li>String（字符串）</li>
+<li>List（列表）</li>
+<li>Tuple（元组）</li>
+<li>Dictionary（字典）</li>
+</ul>
+</li>
+</ul>
+<p>字典在Python中应该算是最后一个重要的基本变量，出现在代码中的频率也比较高。常被用作为一种可变的数据容器。今天就给大家介绍一下Python最后一个标准数据类型字典，即Dictionary的一些基础知识和在实际应用中的使用技巧。</p>
+<h2 id="Dictionary-字典的特征"><a href="#Dictionary-字典的特征" class="headerlink" title="Dictionary 字典的特征"></a><strong>Dictionary 字典的特征</strong></h2><p>作为一种可变容器模型，那么字典Dict在声明之后就能够任意被修改，比如添加，删除，或者更改。既然名为字典也就意味着其查询索引方式类如真实意义上的字典。Python的自己由一组<strong>键（key）与值（value）</strong>组成。两者之间用冒号隔开（<strong>：</strong>）。组与组之间与逗号（，）隔开。最后用花括号(大括号) “<strong>{}</strong>“ 包裹所有的键值组，就得到一个字典实例，如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">di = &#123;key_1 : value_1, key_2 : value_2, key_3: value_3&#125;</span><br></pre></td></tr></table></figure>
+
+<p>字典中，每一组键值，其键需要有唯一性，但是其值则不需要。在Python中，字典键值的唯一性就限制了它的数据类型选择范围。结合前面文章所介绍的的标准数据类型，除<strong>列表</strong>以外：数值型，元组，字符串都能够作为字典类型的<strong>键</strong>，经过实践可以告诉大家，任何类的实例都可以作为字典的键。因为类一旦实例化，其类实例在内存中的地址具有唯一性，因此也可以作为字典的键，参考下面代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line"><span class="meta">... </span>   <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line"><span class="meta">... </span>            <span class="keyword">pass</span>...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = A()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123; <span class="number">1</span>: <span class="string">"a"</span>, <span class="number">2</span>: <span class="string">"b"</span>, a:<span class="string">"Object"</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;&lt;__main__.A instance at <span class="number">0x0000000004D2A188</span>&gt;: <span class="string">'Object'</span>, <span class="number">1</span>: <span class="string">'a'</span>, <span class="number">2</span>: <span class="string">'b'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.keys()</span><br><span class="line">[&lt;__main__.A instance at <span class="number">0x0000000004D2A188</span>&gt;, <span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">&gt;&gt; d.keys()[<span class="number">0</span>]</span><br><span class="line">&lt;__main__.A instance at <span class="number">0x0000000004D2A188</span></span><br><span class="line">&gt;&gt;&gt;&gt; d.keys()[<span class="number">0</span>].isB = <span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.keys()[<span class="number">0</span>]</span><br><span class="line">&lt;__main__.A instance at <span class="number">0x0000000004D2A188</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>字典中，每组键值中的值，没有限定，可以是任意的数据类型。1. 键值是否可变，字典并不做约束，仅仅与数据类型本身有关。如下面代码的例子中，元组可以作为一对键值的值，因为元组本身不可变，所以该对键值的值不可变，但是不能因此认为字典的值不可改变。 2. 一对键值中，虽然字典也可以作为键值的值，而且在日常使用的时候也不会出现问题，但是在实际使用的时候，如果作为值的字典中存在bytes类的键值时，当尝试使用deepcopy复制字典实例的时候，可能会引发异常，当然类似的异常也会存在与复制相似结构的列表时诱发。各位可以留个印象，当以后遇见类似问题，或许可以帮助你确定异常诱发的原因。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>mydict = &#123;<span class="string">"str"</span>: <span class="string">"String"</span>, <span class="string">"list"</span>: [<span class="string">"list1"</span>, <span class="string">"list2"</span>], <span class="string">"tuple"</span>: (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>) , <span class="string">"dictionary"</span> : &#123;<span class="string">"a"</span>: <span class="string">"1"</span>, <span class="string">"b"</span>:<span class="number">2</span>&#125;&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>mydict</span><br><span class="line">&#123;<span class="string">'list'</span>: [<span class="string">'list1'</span>, <span class="string">'list2'</span>], <span class="string">'dictionary'</span>: &#123;<span class="string">'a'</span>: <span class="string">'1'</span>, <span class="string">'b'</span>: <span class="number">2</span>&#125;, <span class="string">'str'</span>: <span class="string">'String'</span>, <span class="string">'tuple'</span>: (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)&#125;</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">注：上述代码中我们会发现一个问题，字典键值打印时，键值组的顺序和自己声明字典时的顺序</span><br><span class="line">不一致。这样的问题在字典历遍或者索引的时候也会遇到。标准的Python中会有一个名为</span><br><span class="line">collections的模块，在该模块下有一个名为OderedDict的类，该类为Dict的子类，但具</span><br><span class="line">有保持字典中键值顺序与声明时相一致的特性。</span><br></pre></td></tr></table></figure>
+
+<p>总的来说，对于字典中键值对，键是由唯一且不可变的数据类型定义，准确地来说是可以哈希（hashable）的数据类型。值可以为任意数据类型。当同一键值被重复赋值，最后一次值将被采用。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/LNbO7CDlxmbTEl8FZc5icO1wlmSzmh1hmz96edbdYgnGu6yzrRGLqSfoLLonV16JRlvMHD1qCQHbo6QtKzdu3uA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
+<p>声明后的字典实例，修改添加和改变都很简单。其中为字典中添加一个元素和更改一个元素的书写方式是一样的。如下方代码：如果字典情况位置，键3值的修改和键4值的添加，方法一样。而列表再添加值的时候是需要使用类方法append()的。而如果使用数字作为键值，代码文件就由如<strong>d[3] = ‘d’</strong> 的内容， 这样的书写方法不利于代码的标准化，而且类似的需求完全可以由列表来实现。所以个人建议为了代码的标准化，使用字典时，还是应尽量避免数值类型作为键的值，避免代码出现歧义。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123; <span class="number">1</span>: <span class="string">"a"</span>, <span class="number">2</span>: <span class="string">"b"</span>, <span class="number">3</span>: <span class="string">"c"</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d[<span class="number">3</span>]</span><br><span class="line"><span class="string">'c'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d[<span class="number">3</span>] = <span class="string">'d'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d[<span class="number">4</span>] = <span class="string">'e'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;<span class="number">1</span>: <span class="string">'a'</span>, <span class="number">2</span>: <span class="string">'b'</span>, <span class="number">3</span>: <span class="string">'d'</span>, <span class="number">4</span>: <span class="string">'e'</span>&#125;</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>字典的删除操作，使用字典的类方法clear()可以删除字典中的所有元素，但是字典实例依旧存在。也可以使用关键字<strong>del</strong>来实现对字典单一元素和整个字典的清除。注意：使用关键字del删除整个字典，该字典的实例将从内存中清除，使用被清除的字典会引发异常。如下面代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123;<span class="number">1</span>: <span class="string">'a'</span>, <span class="number">2</span>: <span class="string">'b'</span>, <span class="number">3</span>: <span class="string">'d'</span>, <span class="number">4</span>: <span class="string">'e'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">del</span> d[<span class="number">4</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;<span class="number">1</span>: <span class="string">'a'</span>, <span class="number">2</span>: <span class="string">'b'</span>, <span class="number">3</span>: <span class="string">'d'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.clear()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123; <span class="number">1</span>: <span class="string">"a"</span>, <span class="number">2</span>: <span class="string">"b"</span>, <span class="number">3</span>: <span class="string">"c"</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">del</span> d[<span class="number">3</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;<span class="number">1</span>: <span class="string">'a'</span>, <span class="number">2</span>: <span class="string">'b'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">del</span> d</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">NameError: name <span class="string">'d'</span> <span class="keyword">is</span> <span class="keyword">not</span> defined</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Dictionary-字典的索引"><a href="#Dictionary-字典的索引" class="headerlink" title="Dictionary 字典的索引"></a><strong>Dictionary 字典的索引</strong></h2><p>Python中字典键值的索引总的来说有两种方法，一种使用方括号和键，类似列表的方法来索引和访问字典中的元素。第二种是使用get()类方法和键来索引和访问，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123;<span class="number">1</span>: <span class="string">'a'</span>, <span class="number">2</span>: <span class="string">'b'</span>, <span class="number">3</span>: <span class="string">'d'</span>, <span class="number">4</span>: <span class="string">'e'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d[<span class="number">1</span>]</span><br><span class="line"><span class="string">'a'</span></span><br><span class="line">&gt;&gt; d.get(<span class="number">1</span>)</span><br><span class="line"><span class="string">'a'</span></span><br></pre></td></tr></table></figure>
+
+<p>两种方法在效率上并没有差别，早前读过一篇文章讨论两种索引方式的效率。结果如下，结果显示使用方括号更直接高效。个人建议大家将图示的结果仅作为一个参考，因为也有Python开发人员有不同意见，认为实验方式有问题。</p>
+<p>在实际应用的时候，我个人觉得两种方法的效率其实并没有太大差别，更值得关注的是get()方法能够更好地避免因为键不存在引起的索引异常。如下面代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123;<span class="number">1</span>: <span class="string">'a'</span>, <span class="number">2</span>: <span class="string">'b'</span>, <span class="number">3</span>: <span class="string">'d'</span>, <span class="number">4</span>: <span class="string">'e'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d[<span class="number">6</span>]</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">KeyError: <span class="number">6</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.get(<span class="number">6</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.get(<span class="number">6</span>, <span class="string">"No Value"</span>)</span><br><span class="line"><span class="string">'No Value'</span></span><br></pre></td></tr></table></figure>
+
+<p>由上述代码可以发现，在遇到字典中不存在的键的问题的时候，方括号+键的方式会引发异常，为了避免异常还要添加代码（通常为if语句）来检测该字典中是否存在所求键值组。而使用get()方法则能避免引发这个异常，当字典中不存在所求键值组的时，使用该方法返回空，或者你也可以给定第二个变量作为默认值，当该键值不存在则会返回默认值。在实际使用中该方法优选，可以很大程度地减少代码数量。</p>
+<p>在这里我给大家介绍一个Python字典索引的<strong>应用技巧</strong>，具体方法如下方代码。假如一个字典有数字和字符串混合键，想要得到所有数字键的键值组。经典方法为，索引字典中的每一个键值组，检查键的数据类型，将符合条件的键值组的值加入一个列表里面，最终就可以得到所有符合要求的键值组的值的组合。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123;<span class="string">'1'</span>: <span class="string">"a"</span>, <span class="number">1</span>:<span class="string">"b"</span>, <span class="string">'2'</span>: <span class="string">"c"</span>, <span class="number">2</span> : <span class="string">"d"</span>, <span class="string">'3'</span>: <span class="string">"e"</span>, <span class="number">3</span>: <span class="string">"f"</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;<span class="number">1</span>: <span class="string">'b'</span>, <span class="number">2</span>: <span class="string">'d'</span>, <span class="number">3</span>: <span class="string">'f'</span>, <span class="string">'1'</span>: <span class="string">'a'</span>, <span class="string">'3'</span>: <span class="string">'e'</span>, <span class="string">'2'</span>: <span class="string">'c'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.keys()</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">'1'</span>, <span class="string">'3'</span>, <span class="string">'2'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>intKeys = filter(<span class="keyword">lambda</span> e: isinstance(e, int), d.keys())</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>intKeys</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>listValuesOfIntKeys = map(d.get, intKeys)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>listValuesOfIntKeys</span><br><span class="line">[<span class="string">'b'</span>, <span class="string">'d'</span>, <span class="string">'f'</span>]</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>使用上述方法，可以避免索引整个字典，代码简洁有效。这里值得关注的是使用filter()+lambda关键字来筛选一个列表，和使用map()函数一次性地用不同参数调用同一函数（在这里为字典的get()方法）。这样的方法或许可以提供一种不同的解决问题的思路。</p>
+<p>索引的特殊情况，历遍字典所有键值组。经典方法为<strong>for + in</strong> 的组合来进行迭代。请参考下方代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> key <span class="keyword">in</span> d:</span><br></pre></td></tr></table></figure>
+
+<p>该种方法也有效，但是不推荐使用。主要原因在于，底层代码要检验键值的唯一性，该方法会增加发生异常的频率。还有一个原因是for循环中的d[key] 会导致键再次被哈希，当字典较大时，这样的操作会消耗更多的时间。</p>
+<p>我个人比较推荐使用下面的方法，这样的方法同时迭代键与值，而且更见安全。这在Python 2.7 中常被使用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> key, value <span class="keyword">in</span> d.iteritems():</span><br></pre></td></tr></table></figure>
+
+<p>Python 3.0 会使用下面的方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> key, value <span class="keyword">in</span> d.items():</span><br></pre></td></tr></table></figure>
+
+<h2 id="关于字典的内置函数和类方法"><a href="#关于字典的内置函数和类方法" class="headerlink" title="关于字典的内置函数和类方法"></a><strong>关于字典的内置函数和类方法</strong></h2><p>字典作为Python的标准数据类型，Python这种语言自然为其准备了一些内置方法，常见的主要如下：</p>
+<blockquote>
+<ol>
+<li>len(dict) 函数：用于得到字典的长度，因为为键值组，所以键的数量和值的数量相当。</li>
+<li>str(dict) 函数：用于输出字典可打印的字符串，其表示内容，可通过继承字典类型， 复写<strong>repr</strong>(self)类函数来格式化输出内容。</li>
+<li>cmp(dict1, dict2）函数：用于比较字典的键值组是否完全一致，如果相同则返回真， 否则为假。</li>
+</ol>
+</blockquote>
+<p>字典在Python中也算是一种类，既然是类就有类方法。上文中介绍了一些常见的类方法比如使用键得到值的get()方法，清除字典内所有元素的clear()方法和得到字典内所有键值组键的方法keys()。 除此之外常用的方法还有：</p>
+<blockquote>
+<ol>
+<li><p>dict.copy() 类方法： 用于浅复制一个字典， 注。</p>
+</li>
+<li><p>dict.items() 类方法：返回值为该字典”（键，值）“样式的元组组成的列表 ，注。</p>
+</li>
+<li><p>dict.update(dict2) 类方法：使用dict2中的值，来更新dict中有相同键的键</p>
+<p>值组的值。</p>
+</li>
+<li><p>dict.values() 类方法：返回字典中所有值组成的列表。</p>
+</li>
+<li><p>dict.has_key(key) 类方法：用于判断字典中是否含有该键，有为true，否则为假。</p>
+</li>
+<li><p>dict.pop(key, default) 类方法：该方法与get()相似，删除一组键值，如果该键不</p>
+<p>存在则返回default值。 注： Python 2.x中有iteritems方法，在Python 3.0 中该方法被items()替代。 关于浅复制和深复制的内容，我将为在以后的文章中介绍给大家。</p>
+</li>
+</ol>
+</blockquote>
+<p>使用Python语言的内置方法和字典的类方法并结合一下编程技巧，我相信，各位读者能够正确使用字典来解决自己在项目中遇见的问题， 并在完成项目的同时会发现一些新的技巧，进而不断地提高自己的代码质量和代码效率。</p>
+<p>Python基本数据类型中的字典和其使用技巧今天就介绍到这里，我也会尽我所能提高更新频率。努力归纳自己在工作中遇见的问题，并把自己找到的解决方法介绍给大家。</p>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/2018/11/19/030104-variable-dict-tips/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                评论和共享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
     
     
     <article class="postShorten postShorten--thumbnailimg-bottom">
@@ -851,7 +1433,7 @@
 <div id="cover" style="background-image:url('/assets/images/background-cover.jpg');"></div>
         <!--SCRIPTS-->
 
-<script src="/assets/js/script-xdmrthwobmud7e5lrfngsymntimaja0qfhx55xzbnqss4qhtgovezujqinio.min.js"></script>
+<script src="/assets/js/script-xhlmbqja5kwmltzbaayc6g6t89ar6upohvttvjy1yj82zeldvqjoa2ctjwl3.min.js"></script>
 
 <!--SCRIPTS END-->
 
