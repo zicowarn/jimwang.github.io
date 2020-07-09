@@ -1164,7 +1164,6 @@ blockquote {
             line-height: 35px;
             font-size: 1.5rem;
             letter-spacing: 0.3px;
-            vertical-align: middle;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis; }
@@ -1309,7 +1308,6 @@ blockquote {
             line-height: 35px;
             font-size: 1.5rem;
             letter-spacing: 0.3px;
-            vertical-align: middle;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis; }

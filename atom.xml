@@ -17,7 +17,7 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Inno Setup 中的 Pascal 代码引起Hexo异常</title>
+    <title>Hexo 中特殊纯文本字符串引起异常</title>
     <link href="http://yoursite.com/2020/02/25/hexo-01-code-raise-error/"/>
     <id>http://yoursite.com/2020/02/25/hexo-01-code-raise-error/</id>
     <published>2020-02-25T00:11:08.000Z</published>
