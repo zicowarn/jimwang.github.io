@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Jim Wang">
-    <title>标签: Inno Setup - Jim Wang</title>
+    <title>Inno Setup 在x86和x64环境下安装-NET安装包 - Jim Wang</title>
     <meta name="author" content="Jim Wang">
     
     
@@ -17,15 +17,19 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{}</script>
-    <meta name="description" content="ssss">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"任务难点准备一个安装程序，以验证系统的体系结构并安装.NET。\n1. 介绍此安装脚本示例的目的是启动一个安装程序，该安装程序检查系统上当前安装的.NET版本，并仅在需要时安装一个。安装程序将在软件包中包括Microsoft提供的Web安装程序。 安装程序还将根据运行所在的体系结构安装一些库。\n2. 背景出于我们的目的，我们需要可从Microsoft下载站点下载的InnoSetup编译器和.NET Framework Web安装程序文件。Microsoft维护一组注册表项，这些注册表项指示已安装的.NET Framework版本和Service Pack。C＃MVP Scott Dorman在此Stack Overflow线程中发布了一个列表，其中包含版本1.0到4.0（在撰写本文时）。除1.0以外，大多数.NET Framework版本所需的注册表项都非常相似。无论如何，我们将忽略该版本已被1.1淘汰的版本。\n4.5版和更高版本有些棘手，因为它们可以作为4.0版的就地更新安装并重用完全相同的注册表项。MSDN官方页面“ 如何：确定安装的.NET Framework版本”建议检查DWORDvalue 的存在Release，所以我在下面做这件事。替代方法是检查.NET 4.0 的REG_SZ值Version4.0.30319，.NET 4.5的4.5.50709和.NET 4.6的4.6.00079。（可悲的是，在安装它们时，我不认为要记录4.5.1和4.5.2的版本字符串。）\n4.5.1版引入了另一个复杂性：根据Windows版本，可能有_两个_Release值！该脚本通过将所有4.5版或更高版本的查询视为_最低_要求来处理此问题，即，如果该Release值等于或大于任何系统上指定版本的最小值，则这些查询将成功。.NET 4.5或更高版本也可以满足.NET 4.0的查询，因为后者是作为就地更新安装的。对较早版本的查询需要完全匹配，即，即使应用程序兼容，.NET 4.0或更高版本也_无法_满足它们。\n3. 代码部分在[Code]部分，我们定义如下函数来检测以安装的.NET版本。该部分代码取自Jordan Russell的网站。 在下面的Inno Setup脚本代码块中，函数IsDotNetDetected检查是否安装了指定的.NET Framework版本和至少指定的Service Pack级别。所有列出的版本字符串均适用于最终发行版本；测试版和发行候选版通常具有不同的版本号。函数InitializeSetup演示了如何使用IsDotNetDetected不带Service Pack的.NET Framework 4.6进行检查。 原始代码如下：\n12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394[Code]function IsDotNetDetected(version: string; service: cardinal): boolean;// Indicates whether the specified version and service pack of the .NET Framework is installed.//// version -- Specify one of these strings for the required .NET Framework version://    'v1.1'          .NET Framework 1.1//    'v2.0'          .NET Framework 2.0//    'v3.0'          .NET Framework 3.0//    'v3.5'          .NET Framework 3.5//    'v4\\Client'     .NET Framework 4.0 Client Profile//    'v4\\Full'       .NET Framework 4.0 Full Installation//    'v4.5'          .NET Framework 4.5//    'v4.5.1'        .NET Framework 4.5.1//    'v4.5.2'        .NET Framework 4.5.2//    'v4.6'          .NET Framework 4.6//    'v4.6.1'        .NET Framework 4.6.1//    'v4.6.2'        .NET Framework 4.6.2//    'v4.7'          .NET Framework 4.7//    'v4.7.1'        .NET Framework 4.7.1//    'v4.7.2'        .NET Framework 4.7.2//    'v4.8'          .NET Framework 4.8//// service -- Specify any non-negative integer for the required service pack level://    0               No service packs required//    1, 2, etc.      Service pack 1, 2, etc. requiredvar    key, versionKey: string;    install, release, serviceCount, versionRelease: cardinal;    success: boolean;begin    versionKey := version;    versionRelease := 0;    // .NET 1.1 and 2.0 embed release number in version key    if version = 'v1.1' then begin        versionKey := 'v1.1.4322';    end else if version = 'v2.0' then begin        versionKey := 'v2.0.50727';    end    // .NET 4.5 and newer install as update to .NET 4.0 Full    else if Pos('v4.', version) = 1 then begin        versionKey := 'v4\\Full';        case version of          'v4.5':   versionRelease := 378389;          'v4.5.1': versionRelease := 378675; // 378758 on Windows 8 and older          'v4.5.2': versionRelease := 379893;          'v4.6':   versionRelease := 393295; // 393297 on Windows 8.1 and older          'v4.6.1': versionRelease := 394254; // 394271 before Win10 November Update          'v4.6.2': versionRelease := 394802; // 394806 before Win10 Anniversary Update          'v4.7':   versionRelease := 460798; // 460805 before Win10 Creators Update          'v4.7.1': versionRelease := 461308; // 461310 before Win10 Fall Creators Update          'v4.7.2': versionRelease := 461808; // 461814 before Win10 April 2018 Update          'v4.8':   versionRelease := 528040; // 528049 before Win10 May 2019 Update        end;    end;    // installation key group for all .NET versions    key := 'SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\' + versionKey;    // .NET 3.0 uses value InstallSuccess in subkey Setup    if Pos('v3.0', version) = 1 then begin        success := RegQueryDWordValue(HKLM, key + '\\Setup', 'InstallSuccess', install);    end else begin        success := RegQueryDWordValue(HKLM, key, 'Install', install);    end;    // .NET 4.0 and newer use value Servicing instead of SP    if Pos('v4', version) = 1 then begin        success := success and RegQueryDWordValue(HKLM, key, 'Servicing', serviceCount);    end else begin        success := success and RegQueryDWordValue(HKLM, key, 'SP', serviceCount);    end;    // .NET 4.5 and newer use additional value Release    if versionRelease &gt; 0 then begin        success := success and RegQueryDWordValue(HKLM, key, 'Release', release);        success := success and (release &gt;= versionRelease);    end;    result := success and (install = 1) and (serviceCount &gt;= service);end;function InitializeSetup(): Boolean;begin    if not IsDotNetDetected('v4.6', 0) then begin        MsgBox('MyApp requires Microsoft .NET Framework 4.6.'#13#13            'Please use Windows Update to install this version,'#13            'and then re-run the MyApp setup program.', mbInformation, MB_OK);        result := false;    end else        result := true;end;\n\n针对此代码，我们修改为如下形式：\n1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859[Code]function IsDotNetDetected(version: string; service: cardinal): boolean;// Indicates whether the specified version and service pack of the .NET Framework is installed.// see the link: https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed?redirectedfrom=MSDN#net_b// // version -- Specify one of these strings for the required .NET Framework version://    'v1.1.4322'     .NET Framework 1.1//    'v2.0.50727'    .NET Framework 2.0//    'v3.0'          .NET Framework 3.0//    'v3.5'          .NET Framework 3.5//    'v4\\Client'     .NET Framework 4.0 Client Profile//    'v4\\Full'       .NET Framework 4.0 Full Installation//    'v4.5'          .NET Framework 4.5 378389//    'v4.6'          .NET Framework 4.6 393295//    'v4.6.1'        .NET Framework 4.6.1 394254//    'v4.6.2'        .NET Framework 4.6.2 394802//    'v4.7'          .NET Framework 4.7 393295//// service -- Specify any non-negative integer for the required service pack level://    0               No service packs required//    1, 2, etc.      Service pack 1, 2, etc. requiredvar    key: string;    install, release, serviceCount: cardinal;    check45, success: boolean;var reqNetVer : string;begin    // .NET 4.5 installs as update to .NET 4.0 Full    if version = 'v4.5' then begin        version := 'v4\\Full';        check45 := true;    end else        check45 := false;    // installation key group for all .NET versions    key := 'SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\' + version;    // .NET 3.0 uses value InstallSuccess in subkey Setup    if Pos('v3.0', version) = 1 then begin        success := RegQueryDWordValue(HKLM, key + '\\Setup', 'InstallSuccess', install);    end else begin        success := RegQueryDWordValue(HKLM, key, 'Install', install);    end;    // .NET 4.0/4.5 uses value Servicing instead of SP    if Pos('v4', version) = 1 then begin        success := success and RegQueryDWordValue(HKLM, key, 'Servicing', serviceCount);    end else begin        success := success and RegQueryDWordValue(HKLM, key, 'SP', serviceCount);    end;    // .NET 4.5 uses additional value Release    if check45 then begin        success := success and RegQueryDWordValue(HKLM, key, 'Release', release);        success := success and (release &gt;= 378389);    end;    result := success and (install = 1) and (serviceCount &gt;= service);end;\n\n这是一个全局函数，用于验证是否正确安装了作为参数传递的.NET Framework版本。 现在，我们应该编写一个由安装程序在运行时调用的简单函数，以验证是否已安装所需的.NET版本。我们将以4.0为例。\n1234function IsRequiredDotNetDetected(): Boolean;  begin    result :&#x3D; IsDotNetDetected(&#39;v4\\Full&#39;, 0);end;\n\n如果需要，我们还可以在设置过程中发布一条消息：\n123456789function InitializeSetup(): Boolean;begin    if not IsDotNetDetected('v4\\Full', 0) then begin        MsgBox('&#123;#MyAppName&#125; requires Microsoft .NET Framework 4.0 Client Profile.'#13#13          'The installer will attempt to install it', mbInformation, MB_OK);            end    result := true;end;\n\n代码部分已经完成，现在我们可以关注[Files]部分。\n12[Files]Source: &quot;&#123;#MyDistFolder&#125;\\dotNetFx40_Full_setup.exe&quot;; DestDir: &#123;tmp&#125;; Flags: deleteafterinstall; Check: not IsRequiredDotNetDetected\n\n安装程序将复制.NET安装程序文件（这大约是850 KB的智能文件），只有在没有已经存在于系统中，到系统临时目录。安装完成后，该文件将被删除。现在已经复制了网络安装程序，如果需要，我们需要运行它。 在[run]部分中，输入以下内容：\n123[Run]Filename: &#123;tmp&#125;\\dotNetFx40_Full_setup.exe; Parameters: &quot;&#x2F;q:a &#x2F;c:&quot;&quot;install &#x2F;l   &#x2F;q&quot;&quot;&quot;; Check: not IsRequiredDotNetDetected; StatusMsg: Microsoft Framework 4.0 is beïng installed. Please wait...\n\n4. x86 / x64选项此示例显示安装程序如何根据系统体系结构运行。它将安装系统所需的本机库，以进行更智能的安装。在 [setuo]部分中，定义以下指令：\n1ArchitecturesInstallIn64BitMode=x64\n\n这两行将根据系统安装一个lib文件夹：\n12Source: &quot;&#123;#MyDistFolder&#125;\\lib\\x64\\*&quot;; DestDir: &quot;&#123;app&#125;\\lib\\x64&quot;; Check: Is64BitInstallMode; Flags: ignoreversion recursesubdirs createallsubdirsSource: &quot;&#123;#MyDistFolder&#125;\\lib\\x86\\*&quot;; DestDir: &quot;&#123;app&#125;\\lib\\x86&quot;; Check: not Is64BitInstallMode; Flags: ignoreversion recursesubdirs createallsubdirs\n\n5. 有关安装.NET过程代码的其它解决方案如果不行实现InnoSetup中的AfterInstall的标识，希望.NET的安装在文件[Files]执行的某一步骤时被执行，就需要主意.NET的执行顺序。请参看如下两部分代码。\n使用安装的返回值\n123456789101112[Code]procedure InstallFramework;var  ResultCode: Integer;begin  if not Exec(ExpandConstant('&#123;tmp&#125;\\dotNetFx40_Full_x86_x64.exe'), '/q /norestart', '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then  begin    &#123; you can interact with the user that the installation failed &#125;    MsgBox('.NET installation failed with code: ' + IntToStr(ResultCode) + '.',      mbError, MB_OK);  end;end;\n\n使用进度条显示安装进度，但是由于要获得.NET安装程序的安装进度并不容易，因此我将在安装执行过程中向用户简单显示无休止的选取框进度栏。 即，该进度条仅在此具用于显示，不能准确表示安装的进度。\n12345678910111213141516171819202122procedure InstallFramework;var  StatusText: string;  ResultCode: Integer;begin  StatusText := WizardForm.StatusLabel.Caption;  WizardForm.StatusLabel.Caption := 'Installing .NET framework...';  WizardForm.ProgressGauge.Style := npbstMarquee;  try      if not Exec(ExpandConstant('&#123;tmp&#125;\\dotNetFx45_Full_asetup.exe'), '/q /norestart', '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then  begin    // you can interact with the user that the installation failed    MsgBox('.NET installation failed with code: ' + IntToStr(ResultCode) + '.',      mbError, MB_OK);    CancelWithoutPrompt := true;    WizardForm.Close;         end;  finally    WizardForm.StatusLabel.Caption := StatusText;    WizardForm.ProgressGauge.Style := npbstNormal;  end;end;\n\n6. 提示Inno 是具有一个内置变量{dotnet40}的，ExpandConstant(‘{dotnet40}’)。其它有关的变量为：\n{dotnet11}\n32-bit .NET Framework version 1.1 root directory.\nAn exception will be raised if an attempt is made to expand this constant on a system with no .NET Framework version 1.1 present.\n32位.NET Framework 1.1版根目录。\n会将系统扩展到当前的.NET Framework版本1.1会发生例外。\n{dotnet20}\n.NET Framework version 2.0-3.5 root directory. {dotnet20} is equivalent to {dotnet2032} unless the install is running in [64-bit install mode], in which case it is equivalent to {dotnet2064}.\nAn exception will be raised if an attempt is made to expand this constant on a system with no .NET Framework version 2.0-3.5 present.\n.NET Framework 2.0-3.5版根目录。除非安装以64位安装模式运行，否则{dotnet20}等效于{dotnet2032}，在这种情况下，等效于{dotnet2064}。\n会将系统扩展到当前的.NET Framework版本2.0-3.5将会发生例外。\n{dotnet2032}\n32-bit .NET Framework version 2.0-3.5 root directory.\nAn exception will be raised if an attempt is made to expand this constant on a system with no .NET Framework version 2.0-3.5 present.\n32位.NET Framework 2.0-3.5版根目录。\n会将系统扩展到当前的.NET Framework版本2.0-3.5将会发生例外。\n{dotnet2064}\n64-bit Windows only: 64-bit .NET Framework version 2.0-3.5 root directory.\nAn exception will be raised if an attempt is made to expand this constant on a system with no .NET Framework version 2.0-3.5 present.\n仅适用于64位Windows：64位.NET Framework 2.0-3.5版根目录。\n会将系统扩展到当前的.NET Framework版本2.0-3.5将会发生例外。\n{dotnet40}\n.NET Framework version 4.0 and later root directory. {dotnet40} is equivalent to {dotnet4032} unless the install is running in [64-bit install mode], in which case it is equivalent to {dotnet4064}.\nAn exception will be raised if an attempt is made to expand this constant on a system with no .NET Framework version 4.0 or later present.\n.NET Framework 4.0版和更高版本的根目录。除非安装以64位安装模式运行，否则{dotnet40}等效于{dotnet4032}，在这种情况下，等效于{dotnet4064}。\n将系统扩展到.NET Framework 4.0或更高版本时，将发生例外。\n{dotnet4032}\n32-bit .NET Framework version 4.0 and later root directory.\nAn exception will be raised if an attempt is made to expand this constant on a system with no .NET Framework version 4.0 or later present.\n32位.NET Framework 4.0版和更高版本的根目录。\n将系统扩展到.NET Framework 4.0或更高版本时，将发生例外。\n{dotnet4064}\n64-bit Windows only: 64-bit .NET Framework version 4.0 and later root directory.\nAn exception will be raised if an attempt is made to expand this constant on a system with no .NET Framework version 4.0 or later present.\n仅适用于64位Windows：64位.NET Framework 4.0版和更高版本的根目录。\n将系统扩展到.NET Framework 4.0或更高版本时，将发生例外。\n7. 使用RegAsm.exe 注册 .NET DLL 文件其中[run]的代码如下， 主意其WorkingDir参数，其表示运行注册程序的时候，运行的目录：\n1Filename: \"&#123;dotnet20&#125;\\RegAsm.exe\"; Parameters: /codebase YourDLL.dll; WorkingDir: &#123;app&#125;; StatusMsg: \"Registering Controls...\"; Flags: runminimized\n\n8. 其它完整解决方案123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102// Other parts of installer file go here[CustomMessages]IDP_DownloadFailed=Download of .NET Framework 4.7.2 failed. .NET Framework 4.7 is required to run VidCoder.IDP_RetryCancel=Click 'Retry' to try downloading the files again, or click 'Cancel' to terminate setup.InstallingDotNetFramework=Installing .NET Framework 4.7.2. This might take a few minutes...DotNetFrameworkFailedToLaunch=Failed to launch .NET Framework Installer with error \"%1\". Please fix the error then run this installer again.DotNetFrameworkFailed1602=.NET Framework installation was cancelled. This installation can continue, but be aware that this application may not run unless the .NET Framework installation is completed successfully.DotNetFrameworkFailed1603=A fatal error occurred while installing the .NET Framework. Please fix the error, then run the installer again.DotNetFrameworkFailed5100=Your computer does not meet the requirements of the .NET Framework. Please consult the documentation.DotNetFrameworkFailedOther=The .NET Framework installer exited with an unexpected status code \"%1\". Please review any other messages shown by the installer to determine whether the installation completed successfully, and abort this installation and fix the problem if it did not.[Code]var  requiresRestart: boolean;function NetFrameworkIsMissing(): Boolean;var  bSuccess: Boolean;  regVersion: Cardinal;begin  Result := True;  bSuccess := RegQueryDWordValue(HKLM, 'Software\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full', 'Release', regVersion);  if (True = bSuccess) and (regVersion &gt;= 461308) then begin    Result := False;  end;end;procedure InitializeWizard;begin  if NetFrameworkIsMissing() then  begin    idpAddFile('http://go.microsoft.com/fwlink/?LinkId=863262', ExpandConstant('&#123;tmp&#125;\\NetFrameworkInstaller.exe'));    idpDownloadAfter(wpReady);  end;end;function InstallFramework(): String;var  StatusText: string;  ResultCode: Integer;begin  StatusText := WizardForm.StatusLabel.Caption;  WizardForm.StatusLabel.Caption := CustomMessage('InstallingDotNetFramework');  WizardForm.ProgressGauge.Style := npbstMarquee;  try    if not Exec(ExpandConstant('&#123;tmp&#125;\\NetFrameworkInstaller.exe'), '/passive /norestart /showrmui /showfinalerror', '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then    begin      Result := FmtMessage(CustomMessage('DotNetFrameworkFailedToLaunch'), [SysErrorMessage(resultCode)]);    end    else    begin      // See https://msdn.microsoft.com/en-us/library/ee942965(v=vs.110).aspx#return_codes      case resultCode of        0: begin          // Successful        end;        1602 : begin          MsgBox(CustomMessage('DotNetFrameworkFailed1602'), mbInformation, MB_OK);        end;        1603: begin          Result := CustomMessage('DotNetFrameworkFailed1603');        end;        1641: begin          requiresRestart := True;        end;        3010: begin          requiresRestart := True;        end;        5100: begin          Result := CustomMessage('DotNetFrameworkFailed5100');        end;        else begin          MsgBox(FmtMessage(CustomMessage('DotNetFrameworkFailedOther'), [IntToStr(resultCode)]), mbError, MB_OK);        end;      end;    end;  finally    WizardForm.StatusLabel.Caption := StatusText;    WizardForm.ProgressGauge.Style := npbstNormal;    DeleteFile(ExpandConstant('&#123;tmp&#125;\\NetFrameworkInstaller.exe'));  end;end;function PrepareToInstall(var NeedsRestart: Boolean): String;begin  // 'NeedsRestart' only has an effect if we return a non-empty string, thus aborting the installation.  // If the installers indicate that they want a restart, this should be done at the end of installation.  // Therefore we set the global 'restartRequired' if a restart is needed, and return this from NeedRestart()  if NetFrameworkIsMissing() then  begin    Result := InstallFramework();  end;end;function NeedRestart(): Boolean;begin  Result := requiresRestart;end;\n\n根据此版本修改后适用于自己项目的.NET框架安装代码如下：\n1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950function InstallFrameworkWebRuntime(): String;var  WasVisible: Boolean;  ResultCode: Integer;begin  ExtractTemporaryFile('&#123;#DotNetFrameWorkWebInstaller&#125;');  WasVisible := WizardForm.PreparingLabel.Visible;  try      WizardForm.PreparingLabel.Visible := True;      WizardForm.PreparingLabel.Caption := FmtMessage(CustomMessage('DotNetFrameworkWebInstallerCaption'), [TO_COMPARE_DOT_NET]);      ExtractTemporaryFile('&#123;#DotNetFrameWorkWebInstaller&#125;');      //if not Exec(ExpandConstant('&#123;tmp&#125;\\&#123;#DotNetFrameWorkWebInstaller&#125;'), '/q /norestart', '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then      if not Exec(ExpandConstant('&#123;tmp&#125;\\&#123;#DotNetFrameWorkWebInstaller&#125;'), '/passive /norestart /showrmui /showfinalerror', '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then        begin          // https://docs.microsoft.com/de-de/windows/win32/debug/system-error-codes--0-499-          // you can interact with the user that the installation failed, for example: error code 2: the system cannot find the file specified.          Result := FmtMessage(CustomMessage('DotNetFrameworkFailedToLaunch'), [SysErrorMessage(ResultCode)])             end      else        begin          case ResultCode of            0: begin              // Successful            end;            1602 : begin              MsgBox(CustomMessage('DotNetFrameworkFailed1602'), mbInformation, MB_OK);            end;            1603: begin              Result := CustomMessage('DotNetFrameworkFailed1603');            end;            1641: begin              bRequiresRestart := True;            end;            3010: begin              bRequiresRestart := True;            end;            5100: begin              Result := CustomMessage('DotNetFrameworkFailed5100');            end;            else begin              //MsgBox(FmtMessage(CustomMessage('DotNetFrameworkFailedOther'), [IntToStr(resultCode)]), mbError, MB_OK);              Result := FmtMessage(CustomMessage('DotNetFrameworkFailedOther'), IntToStr(ResultCode));                 end;          end;        end;  finally    WizardForm.PreparingLabel.Visible := WasVisible;  end;  DeleteFile(ExpandConstant('&#123;tmp&#125;&#123;#DotNetFrameWorkWebInstaller&#125;'));end;\n\n上述代码中\n1ExtractTemporaryFile('&#123;#DotNetFrameWorkWebInstaller&#125;');\n\n强制解压安装文件。该动作早于[Files]的运行。在安装结束之后删除该文件，使用代码如：\n1DeleteFile(ExpandConstant('&#123;tmp&#125;&#123;#DotNetFrameWorkWebInstaller&#125;'));\n\n有关.NET安装包运行时的错误代码可以参考连接：\n// See https://msdn.microsoft.com/en-us/library/ee942965(v=vs.110).aspx#return_codes\n有关Exec函数，其错误代码为Windows系统错误代码，运行时的错误文本，可以参考连接：\n// See [https://docs.microsoft.com/de-de/windows/win32/debug/system-error-codes--0-499-](\n9. Inno Setup 对注册表的操作由于安装.NET的框架的目的就是要使用一下依赖.NET框架的动态库文件。而这部分DLL文件能够顺利使用就需要对该DLL文件进行注册。\n9.1 Regasm  程序集注册工具Regasm 简介 ：\nEXE files such as RegAsm.exe are categorized as Executable Application (Windows Executable) files. As a Windows Executable file, it was created for use in Windows 10 by [Microsoft].\n像RegAsm.exe这样的EXE文件都被分类为可执行应用程序（Windows Executable）文件。 作为Windows可执行文件，它由Microsoft创建供Windows 10使用。\nThe first version of RegAsm.exe for Windows Vista was introduced on 11/08/2006 in Windows Vista. The most recent version [file version 10] was introduced on 07/29/2015 for Windows 10. RegAsm.exe is bundled with the software package in Windows 10, Windows 8.1, and Windows 8.\nWindows Vista的RegAsm.exe的第一版于2006年11月8日在Windows Vista中引入。 Windows 10的最新版本（文件版本10）已于07/29/2015引入。RegAsm.exe与Windows 10，Windows 8.1和Windows 8中的软件包捆绑在一起。\nPlease see below for more detailed information, EXE file troubleshooting instructions, and free downloads of different versions of RegAsm.exe.\n请参阅下面的详细信息，EXE文件故障排除说明以及RegAsm.exe不同版本的免费下载。\n作用： 读取程序集中的元数据，并将所需的项添加到注册表中。注册表允许 COM 客户程序以透明方式创建 .NET Framework 类。类一经注册，任何 COM 客户程序都可以使用它，就好像该类是一个 COM 类。类仅在安装程序集时注册一次。程序集中的类实例直到被实际注册时，才能从 COM 中创建。\n使用方法：\nregasm assemblyFile [options]\n重要参数：\n/codebase 在注册表中创建一个 Codebase 项。Codebase 项指定未安装到全局程序集缓存中的程序集的文件路径。如果随后要安装正在注册到全局程序集缓存中的程序集，则不应指定此选项。用 /codebase 选项指定的 assemblyFile 参数必须是具有强名称的程序集。\n9.2 Regsvr32  程序集注册工具作用： Regsvr32命令用于注册COM组件，是 Windows 系统提供的用来向系统注册控件或者卸载控件的命令，以命令行方式运行。WinXP及以上系统的regsvr32.exe在windows\\system32文件夹下；2000系统的regsvr32.exe在winnt\\system32文件夹下。\n9.3 两个DLL注册工具的差异使用regasm.exe来注册.NET 组件，regsvr32并不适用于.NET组件。 （或者您也可以将regasm.exe理解为.NET的regsvr32）。regsvr32不适用于.NET的组件的注册，感觉意思是对于非托管的代码使用regsvr32来注册，对于托管的代码使用regasm来注册。\nregsvr32 will load the library and try to call the DllRegisterServer() from that library. It doesn’t care what DllRegisterServer() actually does - it just calls that function and checks the returned value. You use it to register COM servers in unmanaged DLLs. It can’t generate a .tlb file.\nregsvr32将加载该库并尝试从该库中调用DllRegisterServer（）。 不管DllRegisterServer（）实际做什么，它只是调用该函数并检查返回的值。 您可以使用它在非托管DLL中注册COM服务器。 无法生成.tlb文件。\nregasm will register a COM-exposed .NET assembly as a COM server. You use it for .NET assemblies. It can generate a .tlb file given the assembly only - it inspects the type infromation stored in the assembly and includes the COM-exposed entities into the type library.\nregasm将把暴露于COM的.NET程序集注册为COM服务器。 您将其用于.NET程序集。 仅在给定程序集的情况下，它可以生成.tlb文件-它检查存储在程序集中的类型信息，并将COM公开的实体包括到类型库中。\n9.4  .NET中“托管代码”和“非托管代码”的区别托管代码 (managed code)\n托管代码是Visual Basic .NET和C#编译器创建的代码。它运行在CLR(公共语言运行时)，除其他外，它提供像垃圾收集，运行时类型检查和引用检查的服务。所以，认为它是，“我的代码是由CLR管理。\nVisual Basic和C#只能生成托管代码，所以，如果你正在用这些语言编写一个应用程序，你正在写一个由CLR管理的应用程序。如果您在Visual C .NET中编写应用程序，您可以根据需要生成托管代码，但它是可选的。\n非托管代码 (unmanaged code)\n非托管代码直接编译为机器代码。因此，通过该定义，所有由传统C/C++编译器编译的代码是“非托管代码”。此外，由于它编译为机器代码而不是中间语言，所以它是不可移植的。\n没有可用的内存管理或任何其他CLR提供。\n由于您不能使用Visual Basic或C#创建非托管代码，在Visual Studio中，所有非托管代码都用C/C++编写。\n混合两者\n由于Visual C可以编译为托管代码或非托管代码，因此可以在同一个应用程序中混合这两个代码。这模糊了两者之间的界限，并使定义复杂化，但值得一提的是，你知道，如果你使用的第三方库有一些严重的非托管代码，你仍然可能有内存泄漏。\n区别：\n1、托管代码是一种中间语言，运行在CLR上；\n 非托管代码被编译为机器码，运行在机器上。\n2、托管代码独立于平台和语言，能更好的实现不同语言平台之间的兼容；\n 非托管代码依赖于平台和语言。\n3、托管代码可享受CLR提供的服务（如安全检测、垃圾回收等），不需要自己完成这些操作；\n 非托管代码需要自己提供安全检测、垃圾回收等操作。\n托管代码就意味着托管数据？答案是否定的。\n对于Visual Basic和C#来说，生活是简单的，因为你没有其它选择。当你在那些语言里面声明一个类，那么这个类的实例会在托管堆中被创建，垃圾收集器(GC)会帮我们管理这些对象的回收。但是在Visual C++中，你有另一个选择。即使你正创建一个托管程序，你可以决定哪些类是托管类型，哪些类是非托管类型的。\n这就是非托管类型：\nclass Foo { private: int x; public: Foo(): x(0){} Foo(int xx): x(xx) {} };\n这就是托管类型\n__gc class Bar { private: int x; public: Bar(): x(0){} Bar(int xx): x(xx) {} };\n他们唯一的区别就是类Bar的定义中有__gc关键字。这个关键字会给代码带来巨大的区别。\n9.5 使用Inno Setup的 [Registry] 段注册.NET相关DLL文件12345678910111213141516171819202122232425262728[Registry]; ProgID part, TechTempRoot: HKCR; Subkey: \"XXXXXXXXXXXX.MMMMMMMMMMMMMMM\"; Flags: uninsdeletekeyifemptyRoot: HKCR; Subkey: \"XXXXXXXXXXXX.MMMMMMMMMMMMMMM\\CLSID\"; Flags: uninsdeletekeyRoot: HKCR; Subkey: \"XXXXXXXXXXXX.MMMMMMMMMMMMMMM\\CLSID\"; ValueType: string; ValueName: \"\"; ValueData: \"&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\"; Flags: uninsdeletevalue; CLSID Part, TechTemp Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\"; Flags: uninsdeletekeyifemptyRoot: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\"; ValueType: string; ValueName: \"\"; ValueData: \"XXXXXXXXXXXX.MMMMMMMMMMMMMMM\"; Flags: uninsdeletevalue; CLSID Part\\InprocServer32, TechTempRoot: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\"; Flags: uninsdeletekeyRoot: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\"; ValueType: string; ValueName: \"\"; ValueData: \"mscoree.dll\"; Flags: uninsdeletevalueRoot: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\"; ValueType: string; ValueName: \"ThreadingModel\"; ValueData: \"Both\"; Flags: uninsdeletevalueRoot: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\"; ValueType: string; ValueName: \"Class\"; ValueData: \"XXXXXXXXXXXX.MMMMMMMMMMMMMMM\"; Flags: uninsdeletevalueRoot: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\"; ValueType: string; ValueName: \"Assembly\"; ValueData: \"xxxxxxxxxxxxxxxxxxx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\"; Flags: uninsdeletevalueRoot: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\"; ValueType: string; ValueName: \"RuntimeVersion\"; ValueData: \"v4.0.30319\"; Flags: uninsdeletevalueRoot: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\"; ValueType: string; ValueName: \"CodeBase\"; ValueData: \"file:///&#123;#CommonappdataPathBackSlash&#125;/&#123;#AppPathBackSlash&#125;/bin/NET/xxxxxxxxxxxxxxxxxxx.dll\"; Flags: uninsdeletevalue; CLSID Part\\InprocServer32\\1.0.0.0, TechTempRoot: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\\1.0.0.0\"; Flags: uninsdeletekeyRoot: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\\1.0.0.0\"; ValueType: string; ValueName: \"Class\"; ValueData: \"XXXXXXXXXXXX.MMMMMMMMMMMMMMM\"; Flags: uninsdeletevalueRoot: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\\1.0.0.0\"; ValueType: string; ValueName: \"Assembly\"; ValueData: \"xxxxxxxxxxxxxxxxxxx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\"; Flags: uninsdeletevalueRoot: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\\1.0.0.0\"; ValueType: string; ValueName: \"RuntimeVersion\"; ValueData: \"v4.0.30319\"; Flags: uninsdeletevalueRoot: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\\1.0.0.0\"; ValueType: string; ValueName: \"CodeBase\"; ValueData: \"file:///&#123;#CommonappdataPathBackSlash&#125;/&#123;#AppPathBackSlash&#125;/bin/NET/xxxxxxxxxxxxxxxxxxx.dll\"; Flags: uninsdeletevalue; CLSID Part\\Implemented Categories, TechTempRoot: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\Implemented Categories\"; Flags: uninsdeletekeyRoot: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\Implemented Categories\\&#123;&#123;&#123;#DotNetDllCLSIDImplementedCategories&#125;&#125;\"; Flags: uninsdeletekey; CLSID Part\\ProgId, TechTempRoot: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\ProgId\"; Flags: uninsdeletekeyRoot: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\ProgId\"; ValueType: string; ValueName: \"\"; ValueData: \"XXXXXXXXXXXX.MMMMMMMMMMMMMMM\"; Flags: uninsdeletevalue\n\n10. 项目完整代码，最小测试版123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142143144145146147148149150151152153154155156157158159160161162163164165166167168169170171172173174175176177178179180181182183184185186187188189190191192193194195196197198199200201202203204205206207208209210211212213214215216217218219220221222223224225226227228229230231232233234235236237238239240241242243244245246247248249250251252253254255256257258259260261262263264265266267268269270271272273274275276277278279280281282283284285286287288289290291292293294295296297298299300301302303304305306307308309310311312313314315316317318319320321322323324325326327328329330331332333334335336337338339340341342343344345346347348349350351352353354355356357358359360361362363364365366367368369370371372373374375376377378379380381382383384385386387388389390391392393394395396397398399400401402403404405406407408409410411412413414415416417418419420421422423424425426427428429430431432433434435436437438439; -- Example1.iss --; Demonstrates copying 3 files and creating an icon.; SEE THE DOCUMENTATION FOR DETAILS ON CREATING .ISS SCRIPT FILES!#define ********AppPath#expr ********AppPath = \"\\********\\trunk\\hcnt\\wire\\\"#define DotNetRegistToolPath#expr DotNetRegistToolPath = \"\"#define DotNetFrameWorkInstallerPath#expr DotNetFrameWorkInstallerPath = \"..\\NET\\NET_Framework_Runtime\\462\\\"#define DotNet4OCTechTemplDllPath#expr DotNet4OCTechTemplDllPath = \"..\\helper\\xxxxxxxxxxxxxxxxxxx\"#define DotNetFrameWorkOfflineInstaller#expr DotNetFrameWorkOfflineInstaller = \"ndp48-x86-x64-allos-enu.exe\"#define DotNetFrameWorkWebInstaller#expr DotNetFrameWorkWebInstaller = \"ndp48-web.exe\";#define DotNetDllCLSID;#expr DotNetDllCLSID = \"62519924-26A8-3770-9F82-0A0BC26EE7D4\";#define DotNetDllCLSIDImplementedCategories;#expr DotNetDllCLSIDImplementedCategories = \"62C8FE65-4EBB-45E7-B440-6E39B2CDBF29\";#define AppPathBackSlash;#expr AppPathBackSlash = \"********/trunk/hcnt/wire\";#define CommonappdataPathBackSlash;#expr CommonappdataPathBackSlash = \"C:/ProgramData\"[Setup];SignTool=MyCustom sign /a /tr http://sha256timestamp.ws.symantec.com/sha256/timestamp /d $q******** for SolidWorks 2020 Beta3$q $fPrivilegesRequired=admin AppName=My ProgramAppVersion=1.5WizardStyle=modernDefaultDirName=&#123;autopf&#125;\\My ProgramDefaultGroupName=My ProgramUninstallDisplayIcon=&#123;app&#125;\\MyProg.exeCompression=lzma2SolidCompression=yesOutputDir=userdocs:Inno Setup Examples OutputArchitecturesInstallIn64BitMode = x64ArchitecturesAllowed = x64SetupLogging=yes[Languages]Name: ENGLISH; MessagesFile: compiler:Default.islName: DEUTSCH; MessagesFile: compiler:Languages\\German.isl; [Files]; .NET Part; .NET Framework Runtime, offline installer english all os runtime Source: \"&#123;#DotNetFrameWorkInstallerPath&#125;&#123;#DotNetFrameWorkOfflineInstaller&#125;\"; DestDir: \"&#123;tmp&#125;\"; Flags: dontcopy noencryption;; .NET Framework Runtime, web installer for other languagesSource: \"&#123;#DotNetFrameWorkInstallerPath&#125;&#123;#DotNetFrameWorkWebInstaller&#125;\"; DestDir: \"&#123;tmp&#125;\"; Flags: dontcopy noencryption;; xxxxxxxxxxxxxxxxxxx.dll + HilfsdllsSource: \"&#123;#DotNet4OCTechTemplDllPath&#125;\\*.*\"; DestDir: \"&#123;commonappdata&#125;\\&#123;#********AppPath&#125;\\bin\\NET\\\"; Flags: ignoreversion recursesubdirs; Permissions: everyone-full;Source: \"MyProg.exe\"; DestDir: \"&#123;app&#125;\"Source: \"MyProg.chm\"; DestDir: \"&#123;app&#125;\"Source: \"Readme.txt\"; DestDir: \"&#123;app&#125;\"; Flags: isreadme[Run]; Regist the .NET DLL file by using the tool regasm.exe, return 0: ERROR_SUCCESS; 1:ERROR_INVALID_FUNCTION; 2:ERROR_FILE_NOT_FOUND; 3: ERROR_PATH_NOT_FOUND  Filename:  &#123;code:GetCurrentRegAsmPath|&#123;#DotNetRegistToolPath&#125;&#125;\\regasm.exe; Parameters: \" \"\"&#123;commonappdata&#125;\\&#123;#********AppPath&#125;\\bin\\NET\\xxxxxxxxxxxxxxxxxxx.dll\"\" /codebase /verbose\"; WorkingDir: \"&#123;commonappdata&#125;\\&#123;#********AppPath&#125;\\bin\\NET\\\"; StatusMsg: Registering DLLs; Flags: 64bit runhidden waituntilterminated;[UninstallRun]; Regist the .NET DLL file by using the tool regasm.exe, return 0: ERROR_SUCCESS; 1:ERROR_INVALID_FUNCTION; 2:ERROR_FILE_NOT_FOUND; 3: ERROR_PATH_NOT_FOUND  Filename:  &#123;code:GetCurrentRegAsmPath|&#123;#DotNetRegistToolPath&#125;&#125;\\regasm.exe; Parameters: \"/unregister \"\"&#123;commonappdata&#125;\\&#123;#********AppPath&#125;\\bin\\NET\\xxxxxxxxxxxxxxxxxxx.dll\"\" /codebase /verbose\"; WorkingDir: \"&#123;commonappdata&#125;\\&#123;#********AppPath&#125;\\bin\\NET\\\"; StatusMsg: Unregistering DLLs; Flags: 64bit runhidden waituntilterminated;[CustomMessages]; .NET Framwork installation processing ENGLISH.DotNetFrameworkOfflineInstallerCaption = Installing Microsoft .NET framework %1 offline installer for Windows...ENGLISH.DotNetFrameworkWebInstallerCaption = Installing Microsoft .NET framework %1 Web installer for Windows...ENGLISH.DotNetFrameworkFailedToLaunch = .NET installation failed with code: %1. Please fix the error then run this installer again.ENGLISH.DotNetFrameworkFailed1602 = .NET Framework installation was cancelled. This installation can continue, but be aware that this application may not run unless the .NET Framework installation is completed successfully.ENGLISH.DotNetFrameworkFailed1603 = A fatal error occurred while installing the .NET Framework. Please fix the error, then run the installer again.ENGLISH.DotNetFrameworkFailed5100 = Your computer does not meet the requirements of the .NET Framework. Please consult the documentation.ENGLISH.DotNetFrameworkFailedOther = The .NET Framework installer exited with an unexpected status code \"%1\". Please review any other messages shown by the installer to determine whether the installation completed successfully, and abort this installation and fix the problem if it did not.; .NET Framwork installation processing DEUTSCH.DotNetFrameworkOfflineInstallerCaption = Installation von Microsoft .NET Framework %1 offline Installationsprogramm für Windows ...DEUTSCH.DotNetFrameworkWebInstallerCaption = Installation von Microsoft .NET Framework %1 Web Installationsprogramm für Windows ...DEUTSCH.DotNetFrameworkFailedToLaunch = .NET Installation fehlgeschlagen mit Code: %1. Bitte beheben Sie den Fehler und führen Sie das Installationsprogramm erneut aus.DEUTSCH.DotNetFrameworkFailed1602 = .NET Framework-Installation wurde abgebrochen. Diese Installation kann fortgesetzt werden. Beachten Sie jedoch, dass diese Anwendung möglicherweise erst ausgeführt wird, wenn die .NET Framework-Installation erfolgreich abgeschlossen wurde.DEUTSCH.DotNetFrameworkFailed1603 = Bei der Installation von .NET Framework ist ein schwerwiegender Fehler aufgetreten. Bitte beheben Sie den Fehler und führen Sie das Installationsprogramm erneut aus.DEUTSCH.DotNetFrameworkFailed5100 = Ihr Computer entspricht nicht den Anforderungen von .NET Framework. Bitte konsultieren Sie die Dokumentation.DEUTSCH.DotNetFrameworkFailedOther = Das .NET Framework-Installationsprogramm wurde mit dem unerwarteten Statuscode \"%1\" beendet. Überprüfen Sie alle anderen vom Installationsprogramm angezeigten Meldungen, um festzustellen, ob die Installation erfolgreich abgeschlossen wurde, und brechen Sie diese Installation ab, und beheben Sie das Problem, wenn dies nicht der Fall ist.;; Please do not delete the following, you can use it to check the resgition of the .NET DLL xxxxxxxxxxxxxxxxxxx.dll ;; ProgID part, TechTemp;Root: HKCR; Subkey: \"XXXXXXXXXXXX.MMMMMMMMMMMMMMM\"; Flags: uninsdeletekeyifempty;Root: HKCR; Subkey: \"XXXXXXXXXXXX.MMMMMMMMMMMMMMM\\CLSID\"; Flags: uninsdeletekey;Root: HKCR; Subkey: \"XXXXXXXXXXXX.MMMMMMMMMMMMMMM\\CLSID\"; ValueType: string; ValueName: \"\"; ValueData: \"&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\"; Flags: uninsdeletevalue;; CLSID Part, TechTemp ;Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\"; Flags: uninsdeletekeyifempty;Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\"; ValueType: string; ValueName: \"\"; ValueData: \"XXXXXXXXXXXX.MMMMMMMMMMMMMMM\"; Flags: uninsdeletevalue;; CLSID Part\\InprocServer32, TechTemp;Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\"; Flags: uninsdeletekey;Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\"; ValueType: string; ValueName: \"\"; ValueData: \"mscoree.dll\"; Flags: uninsdeletevalue;Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\"; ValueType: string; ValueName: \"ThreadingModel\"; ValueData: \"Both\"; Flags: uninsdeletevalue;Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\"; ValueType: string; ValueName: \"Class\"; ValueData: \"XXXXXXXXXXXX.MMMMMMMMMMMMMMM\"; Flags: uninsdeletevalue;Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\"; ValueType: string; ValueName: \"Assembly\"; ValueData: \"xxxxxxxxxxxxxxxxxxx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\"; Flags: uninsdeletevalue;Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\"; ValueType: string; ValueName: \"RuntimeVersion\"; ValueData: \"v4.0.30319\"; Flags: uninsdeletevalue;Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\"; ValueType: string; ValueName: \"CodeBase\"; ValueData: \"file:///&#123;#CommonappdataPathBackSlash&#125;/&#123;#AppPathBackSlash&#125;/bin/NET/xxxxxxxxxxxxxxxxxxx.dll\"; Flags: uninsdeletevalue;; CLSID Part\\InprocServer32\\1.0.0.0, TechTemp;Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\\1.0.0.0\"; Flags: uninsdeletekey;Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\\1.0.0.0\"; ValueType: string; ValueName: \"Class\"; ValueData: \"XXXXXXXXXXXX.MMMMMMMMMMMMMMM\"; Flags: uninsdeletevalue;Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\\1.0.0.0\"; ValueType: string; ValueName: \"Assembly\"; ValueData: \"xxxxxxxxxxxxxxxxxxx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null\"; Flags: uninsdeletevalue;Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\\1.0.0.0\"; ValueType: string; ValueName: \"RuntimeVersion\"; ValueData: \"v4.0.30319\"; Flags: uninsdeletevalue;Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\InprocServer32\\1.0.0.0\"; ValueType: string; ValueName: \"CodeBase\"; ValueData: \"file:///&#123;#CommonappdataPathBackSlash&#125;/&#123;#AppPathBackSlash&#125;/bin/NET/xxxxxxxxxxxxxxxxxxx.dll\"; Flags: uninsdeletevalue;; CLSID Part\\Implemented Categories, TechTemp;Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\Implemented Categories\"; Flags: uninsdeletekey;Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\Implemented Categories\\&#123;&#123;&#123;#DotNetDllCLSIDImplementedCategories&#125;&#125;\"; Flags: uninsdeletekey;; CLSID Part\\ProgId, TechTemp;Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\ProgId\"; Flags: uninsdeletekey;Root: HKCR; Subkey: \"CLSID\\&#123;&#123;&#123;#DotNetDllCLSID&#125;&#125;\\ProgId\"; ValueType: string; ValueName: \"\"; ValueData: \"XXXXXXXXXXXX.MMMMMMMMMMMMMMM\"; Flags: uninsdeletevalue[Icons]Name: \"&#123;group&#125;\\My Program\"; Filename: \"&#123;app&#125;\\MyProg.exe\"[Code]const TO_COMPARE_DOT_NET = 'v4.6.2';var bCancelWithoutPrompt: boolean;    bConnectWithNetwork: boolean;    bRequiresRestart: boolean;function GetCurrentRegAsmPath(S: String): String;var version: String;    key: String;    installPath: String;    success: boolean;begin    Result := S;    // .NET 4.6.2 installs also as update to .NET 4.0 Full, you can also be on the safe side, check the windows 10 anniversary update    // if the build was newer than (build 10.0.14393) with the code GetWindowsVersion &gt;= $A003839    if TO_COMPARE_DOT_NET = 'v4.6.2' then begin        version := 'v4\\Full';    end;    // .NET 4.5 installs as update to .NET 4.0 Full    if TO_COMPARE_DOT_NET = 'v4.5' then begin        version := 'v4\\Full';    end;    // installation key group for all .NET versions    key := 'SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\' + version;    success := RegQueryStringValue(HKLM, key, 'InstallPath', installPath);    if (success = True) and (S = '') then    begin      Result := installPath;    endend;function InstallFrameworkWebRuntime(): String;var  WasVisible: Boolean;  ResultCode: Integer;begin  ExtractTemporaryFile('&#123;#DotNetFrameWorkWebInstaller&#125;');  WasVisible := WizardForm.PreparingLabel.Visible;  try      WizardForm.PreparingLabel.Visible := True;      WizardForm.PreparingLabel.Caption := FmtMessage(CustomMessage('DotNetFrameworkWebInstallerCaption'), [TO_COMPARE_DOT_NET]);      ExtractTemporaryFile('&#123;#DotNetFrameWorkWebInstaller&#125;');      //if not Exec(ExpandConstant('&#123;tmp&#125;\\&#123;#DotNetFrameWorkWebInstaller&#125;'), '/q /norestart', '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then      if not Exec(ExpandConstant('&#123;tmp&#125;\\&#123;#DotNetFrameWorkWebInstaller&#125;'), '/passive /norestart /showrmui /showfinalerror', '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then        begin          // https://docs.microsoft.com/de-de/windows/win32/debug/system-error-codes--0-499-          // you can interact with the user that the installation failed, for example: error code 2: the system cannot find the file specified.          Result := FmtMessage(CustomMessage('DotNetFrameworkFailedToLaunch'), [SysErrorMessage(ResultCode)])             end      else        begin          case ResultCode of            0: begin              // Successful            end;            1602 : begin              MsgBox(CustomMessage('DotNetFrameworkFailed1602'), mbInformation, MB_OK);            end;            1603: begin              Result := CustomMessage('DotNetFrameworkFailed1603');            end;            1641: begin              bRequiresRestart := True;            end;            3010: begin              bRequiresRestart := True;            end;            5100: begin              Result := CustomMessage('DotNetFrameworkFailed5100');            end;            else begin              //MsgBox(FmtMessage(CustomMessage('DotNetFrameworkFailedOther'), [IntToStr(resultCode)]), mbError, MB_OK);              Result := FmtMessage(CustomMessage('DotNetFrameworkFailedOther'), IntToStr(ResultCode));                 end;          end;        end;  finally    WizardForm.PreparingLabel.Visible := WasVisible;  end;  DeleteFile(ExpandConstant('&#123;tmp&#125;\\&#123;#DotNetFrameWorkWebInstaller&#125;'));end;function InstallFrameworkOfflineRuntime(): String;var  WasVisible: Boolean;  ResultCode: Integer;begin  WasVisible := WizardForm.PreparingLabel.Visible;  try      WizardForm.PreparingLabel.Visible := True;      WizardForm.PreparingLabel.Caption := FmtMessage(CustomMessage('DotNetFrameworkOfflineInstallerCaption'), [TO_COMPARE_DOT_NET]);      ExtractTemporaryFile('&#123;#DotNetFrameWorkOfflineInstaller&#125;');      //if not Exec(ExpandConstant('&#123;tmp&#125;\\&#123;#DotNetFrameWorkOfflineInstaller&#125;'), '/q /norestart', '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then      if not Exec(ExpandConstant('&#123;tmp&#125;\\&#123;#DotNetFrameWorkOfflineInstaller&#125;'), '/passive /norestart /showrmui /showfinalerror', '', SW_SHOW, ewWaitUntilTerminated, ResultCode) then        begin          // https://docs.microsoft.com/de-de/windows/win32/debug/system-error-codes--0-499-          // you can interact with the user that the installation failed, for example: error code 2: the system cannot find the file specified.          Result := FmtMessage(CustomMessage('DotNetFrameworkFailedToLaunch'), [SysErrorMessage(ResultCode)])             end      else        begin          case ResultCode of            0: begin              // Successful            end;            1602 : begin              MsgBox(CustomMessage('DotNetFrameworkFailed1602'), mbInformation, MB_OK);            end;            1603: begin              Result := CustomMessage('DotNetFrameworkFailed1603');            end;            1641: begin              bRequiresRestart := True;            end;            3010: begin              bRequiresRestart := True;            end;            5100: begin              Result := CustomMessage('DotNetFrameworkFailed5100');            end;            else begin              //MsgBox(FmtMessage(CustomMessage('DotNetFrameworkFailedOther'), [IntToStr(resultCode)]), mbError, MB_OK);              Result := FmtMessage(CustomMessage('DotNetFrameworkFailedOther'), IntToStr(ResultCode));            end;          end;        end;  finally    WizardForm.PreparingLabel.Visible := WasVisible;  end;  DeleteFile(ExpandConstant('&#123;tmp&#125;\\&#123;#DotNetFrameWorkOfflineInstaller&#125;'));end;function IsNetWorkActivatedTried: boolean;var  WinHttpReq: Variant;  Connected: Boolean;  iTriedTime: Integer;begin  Connected := False;  iTriedTime := 0;  repeat    iTriedTime := iTriedTime + 1;    Log('Checking connection to the server, try ' +  + IntToStr(iTriedTime) + ' time.');    try       WinHttpReq := CreateOleObject('WinHttp.WinHttpRequest.5.1');      WinHttpReq.SetTimeouts('3000', '3000', '3000', '3000');      // Use your real server host name       WinHttpReq.Open('GET', 'https://www.camtek.de/', False);      WinHttpReq.Send('');      Log('Connected to the server; status: ' + IntToStr(WinHttpReq.Status) + ' ' +          WinHttpReq.StatusText);      Connected := True;    except      Log('Error connecting to the server, msg: ' + GetExceptionMessage + 'try again! ');    end;  until (iTriedTime = 3) or (Connected = True) ;  Result := Connected;end;function IsDotNetDetected(version: string; service: cardinal): boolean;// Indicates whether the specified version and service pack of the .NET Framework is installed.// see the link: https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed?redirectedfrom=MSDN#net_b// // version -- Specify one of these strings for the required .NET Framework version://    'v1.1.4322'     .NET Framework 1.1//    'v2.0.50727'    .NET Framework 2.0//    'v3.0'          .NET Framework 3.0//    'v3.5'          .NET Framework 3.5//    'v4\\Client'     .NET Framework 4.0 Client Profile//    'v4\\Full'       .NET Framework 4.0 Full Installation//    'v4.5'          .NET Framework 4.5 378389//    'v4.6'          .NET Framework 4.6 393295//    'v4.6.1'        .NET Framework 4.6.1 394254//    'v4.6.2'        .NET Framework 4.6.2 394802//    'v4.7'          .NET Framework 4.7 393295//// service -- Specify any non-negative integer for the required service pack level://    0               No service packs required//    1, 2, etc.      Service pack 1, 2, etc. requiredvar    key: string;    install, release, serviceCount: cardinal;    check45, check462, success: boolean;begin    // .NET 4.6.2 installs also as update to .NET 4.0 Full, you can also be on the safe side, check the windows 10 anniversary update    // if the build was newer than (build 10.0.14393) with the code GetWindowsVersion &gt;= $A003839    if version = 'v4.6.2' then begin        version := 'v4\\Full';        check462 := true;    end else        check462 := false;    // .NET 4.5 installs as update to .NET 4.0 Full    if version = 'v4.5' then begin        version := 'v4\\Full';        check45 := true;    end else        check45 := false;    // installation key group for all .NET versions    key := 'SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\' + version;    // .NET 3.0 uses value InstallSuccess in subkey Setup    if Pos('v3.0', version) = 1 then begin        success := RegQueryDWordValue(HKLM, key + '\\Setup', 'InstallSuccess', install);    end else begin        success := RegQueryDWordValue(HKLM, key, 'Install', install);    end;    // .NET 4.0/4.5 uses value Servicing instead of SP    if Pos('v4', version) = 1 then begin        success := success and RegQueryDWordValue(HKLM, key, 'Servicing', serviceCount);    end else begin        success := success and RegQueryDWordValue(HKLM, key, 'SP', serviceCount);    end;    // .NET 4.5 uses additional value Release    if check45 then begin        success := success and RegQueryDWordValue(HKLM, key, 'Release', release);        success := success and (release &gt;= 378389);    end;    // .NET 4.6.2 uses additional value Release    if check462 then begin        success := success and RegQueryDWordValue(HKLM, key, 'Release', release);        success := success and (release &gt;= 394802);    end;    Result := success and (install = 1) and (serviceCount &gt;= service);end;function IsRequiredDotNetDetected: Boolean;  begin    Result := IsDotNetDetected(TO_COMPARE_DOT_NET, 0);end;function InstallDotNetOfflineRuntime: Boolean;begin    if not bConnectWithNetwork then      begin        Result := True;      end     else       begin        if ActiveLanguage = 'ENGLISH' then          begin             Result := True;          end        else           begin            Result := False;          end      endend;function InstallDotNetWebRuntime: Boolean;begin    if (not bConnectWithNetwork) and ( not ActiveLanguage = 'ENGLISH') then      begin        Result := True;      end     else       begin        Result := False;      endend;function InitializeSetup(): Boolean;begin    bConnectWithNetwork := IsNetWorkActivatedTried;    Result := True;end; function PrepareToInstall(var NeedsRestart: Boolean): String;var bInstallWeb: boolean;    bInstallStd: boolean;begin  // 'NeedsRestart' only has an effect if we return a non-empty string, thus aborting the installation.  // If the installers indicate that they want a restart, this should be done at the end of installation.  // Therefore we set the global 'restartRequired' if a restart is needed, and return this from NeedRestart()  bCancelWithoutPrompt := false;  if not IsRequiredDotNetDetected then     begin      bInstallWeb := InstallDotNetWebRuntime;      bInstallStd := InstallDotNetOfflineRuntime;      if ( bInstallWeb = True) then         begin          Result := InstallFrameworkWebRuntime        end      else if ( bInstallStd = True) then         begin          Result := InstallFrameworkOfflineRuntime        end      else        begin          Result := InstallFrameworkWebRuntime        end;    end;end;          function NeedRestart(): Boolean;begin  Result := bRequiresRestart;end;\n\n欢迎订阅我的个人微信公众号，一起讨论学习。\n","dateCreated":"2019-06-30T08:11:08+08:00","dateModified":"2019-06-30T08:11:08+08:00","datePublished":"2019-06-30T08:11:08+08:00","description":"","headline":"Inno Setup 在x86和x64环境下安装-NET安装包","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/06/30/inno-02-installdotnet/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"http://yoursite.com/2019/06/30/inno-02-installdotnet/","keywords":"Inno Setup, NET安装包"}</script>
+    <meta name="description" content="任务难点准备一个安装程序，以验证系统的体系结构并安装.NET。 1. 介绍此安装脚本示例的目的是启动一个安装程序，该安装程序检查系统上当前安装的.NET版本，并仅在需要时安装一个。安装程序将在软件包中包括Microsoft提供的Web安装程序。 安装程序还将根据运行所在的体系结构安装一些库。 2. 背景出于我们的目的，我们需要可从Microsoft下载站点下载的InnoSetup编译器和.NET">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Jim Wang">
-<meta property="og:url" content="http://yoursite.com/tags/Inno-Setup/index.html">
+<meta property="og:title" content="Inno Setup 在x86和x64环境下安装-NET安装包">
+<meta property="og:url" content="http://yoursite.com/2019/06/30/inno-02-installdotnet/index.html">
 <meta property="og:site_name" content="Jim Wang">
-<meta property="og:description" content="ssss">
+<meta property="og:description" content="任务难点准备一个安装程序，以验证系统的体系结构并安装.NET。 1. 介绍此安装脚本示例的目的是启动一个安装程序，该安装程序检查系统上当前安装的.NET版本，并仅在需要时安装一个。安装程序将在软件包中包括Microsoft提供的Web安装程序。 安装程序还将根据运行所在的体系结构安装一些库。 2. 背景出于我们的目的，我们需要可从Microsoft下载站点下载的InnoSetup编译器和.NET">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-06-30T00:11:08.000Z">
+<meta property="article:modified_time" content="2019-06-30T00:11:08.000Z">
 <meta property="article:author" content="Jim Wang">
+<meta property="article:tag" content="Inno Setup">
+<meta property="article:tag" content="NET安装包">
 <meta name="twitter:card" content="summary">
     
     
@@ -66,6 +70,8 @@
 
 
     
+        
+    
 </head>
 
     <body>
@@ -79,7 +85,7 @@
         
     
 
-<header id="header" data-behavior="1">
+<header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a
@@ -112,7 +118,7 @@
         
     
 
-<nav id="sidebar" data-behavior="1">
+<nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
         
             <div class="sidebar-profile">
@@ -309,283 +315,22 @@
 </nav>
 
             
-            <div id="main" data-behavior="1"
+            <div id="main" data-behavior="4"
                  class="
                         hasCoverMetaIn
                         ">
                 
-    <section class="postShorten-group main-content-wrap">
+<article class="post">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/08/10/inno-05-beautify-wizard-laben/"
-                            aria-label=": Inno Setup 如何更换向导页面标题部分的背景"
-                        >
-                            Inno Setup 如何更换向导页面标题部分的背景
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-08-10T08:11:08+08:00">
-	
-		    8月 10, 2019
-    	
-    </time>
+        <div class="post-header main-content-wrap text-left">
     
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/Inno-Setup-%E7%9B%B8%E5%85%B3/">Inno Setup 相关</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
-<h2 id="InnoSetup-如何更换向导页面标题部分的背景"><a href="#InnoSetup-如何更换向导页面标题部分的背景" class="headerlink" title="InnoSetup 如何更换向导页面标题部分的背景"></a>InnoSetup 如何更换向导页面标题部分的背景</h2><p>开发部领导新的要求，希望在产品安装包的向导页面做些美化。比如，显示公司的logo在向导页面的标题部分。</p>
-<p><img src="/2019/08/10/inno-05-beautify-wizard-laben/inno-label-part.png" alt></p>
-<p>所谓标题即Label部分就是上图中红色方格标注的部分。 标注部分右侧是logo图标。</p>
-<h3 id="1-初探，如何更换logo部分"><a href="#1-初探，如何更换logo部分" class="headerlink" title="1. 初探，如何更换logo部分"></a>1. 初探，如何更换logo部分</h3><p>Inno Setup开发文档里里有介绍如何更换Label中右侧的logo的方法。可以通过在<strong>[Setup]</strong>可以定义<code>WizardSmallImageFile</code>=”logo文件路径”来实现。但其要求的logo图片都是长宽相等的。长款不等的图片在显示会被拉伸，其效果惨不忍睹。该选项支持多重文件，即:你可以一次定义多个分辨率的logo文件，Inno Setup在安装的时候会根据系统当前的DPI设置，来自动选择合适分辨率的图片。多重定义的方法如下：</p>
-<figure class="highlight pascal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Example:</span><br><span class="line">WizardSmallImageFile=mysmallimage.bmp,mysmallimage2.bmp</span><br></pre></td></tr></table></figure>
-
-<p>Logo文件分辨率要求如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">100%	55x55</span><br><span class="line">125%	64x68</span><br><span class="line">150%	83x80</span><br><span class="line">175%	92x97</span><br><span class="line">200%	110x106</span><br><span class="line">225%	119x123</span><br><span class="line">250%	138x140</span><br></pre></td></tr></table></figure>
-
-<p>图片被拉伸通常发生在以下两种情况，一、显示器的设置发生了变化。二、Inno Setup向导页面被设定未可缩放。向导页面的缩放可以通过<code>WizardSizePercen</code>和<code>WizardResizable</code>。<code>WizardSizePercent</code>的合法值为从100值150。该参数的目的是允许你在不改变文字大小的前提下等比例缩放所以的安装和卸载向导页面。150意思是缩放为默认大小的150%，即增到50%。这里<code>WizardResizable</code>的合法值为yes和no，而当<code>WizardStyle</code>（其合法值为classic和modern）被设置为modern的时候，就默认为<code>WizardResizable</code>的值为yes，也同时默认为<code>WizardSizePercen</code>为120%。具体解释可以查看Inno Setup的官方文档。</p>
-<h3 id="2-深入，如何得到当前的显示器的DPI"><a href="#2-深入，如何得到当前的显示器的DPI" class="headerlink" title="2. 深入，如何得到当前的显示器的DPI"></a>2. 深入，如何得到当前的显示器的DPI</h3><p>上文说到，图片的拉伸除了与向导页面有关，与系统的显示设置也相关，那如何得到当前显示的DPI呢？在Win7之前的系统中，要得到当前显示器的DPI，在Inno Setup的<strong>[Code]</strong>部分可以使用<code>TGraphicsObject.PixelsPerInch</code> 这个属性得到当前系统显示器设定的DPI。TGraphicsObject 这里有个小例子，代码如下：</p>
-<figure class="highlight pascal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">procedure</span> <span class="title">CheckDPI</span>;</span></span><br><span class="line"><span class="keyword">var</span></span><br><span class="line">  CurrentDPI, StandardDPI, MediumDPI, LargeDPI: Integer;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  <span class="comment">&#123; Get the current DPI, 从向导页面的字体中得到当前的DPI &#125;</span> </span><br><span class="line">  CurrentDPI  := WizardForm.Font.PixelsPerInch;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">&#123; Store defaults determined from Windows DPI settings &#125;</span></span><br><span class="line">  StandardDPI := <span class="number">96</span>;  <span class="comment">&#123; 100% &#125;</span></span><br><span class="line">  MediumDPI   := <span class="number">120</span>; <span class="comment">&#123; 125% &#125;</span></span><br><span class="line">  LargeDPI    := <span class="number">144</span>; <span class="comment">&#123; 150% &#125;</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (CurrentDPI &gt;= StandardDPI) <span class="keyword">and</span> (CurrentDPI &lt; MediumDPI) <span class="keyword">then</span> </span><br><span class="line">  <span class="keyword">begin</span></span><br><span class="line">    <span class="comment">&#123; Execute some custom code for small to medium DPI &#125;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (CurrentDPI &gt;= MediumDPI) <span class="keyword">and</span> (CurrentDPI &lt; LargeDPI) <span class="keyword">then</span></span><br><span class="line">  <span class="keyword">begin</span></span><br><span class="line">    <span class="comment">&#123; Execute some custom code for medium to large DPI &#125;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (CurrentDPI &gt;= LargeDPI) <span class="keyword">then</span></span><br><span class="line">  <span class="keyword">begin</span></span><br><span class="line">    <span class="comment">&#123; Execute some custom code for large DPI or above &#125;</span></span><br><span class="line">  <span class="keyword">end</span>;</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
-
-<p>从Inno Setup 的5.6的版本开始，在多重定义的时候，Inno Setup就会根据当前DPI自动选择图片大小。这个自动选择是如何实现的呢。 下面的代码就使用了<code>PixelsPerInch</code>这个属性，并尝试模拟了自动选择这部分功能。</p>
-<figure class="highlight pascal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">[Setup]</span><br><span class="line">; Use <span class="number">100</span>% images by <span class="keyword">default</span></span><br><span class="line">WizardImageFile=WizardImage <span class="number">100</span>.bmp</span><br><span class="line">WizardSmallImageFile=WizardSmallImage <span class="number">100</span>.bmp</span><br><span class="line"></span><br><span class="line">[Files]</span><br><span class="line">; Embed all other sizes <span class="keyword">to</span> the installer</span><br><span class="line">Source: "WizardImage *.bmp"; Excludes: "* 100.bmp"; Flags: dontcopy</span><br><span class="line">Source: "WizardSmallImage *.bmp"; Excludes: "* 100.bmp"; Flags: dontcopy</span><br><span class="line"></span><br><span class="line">[Code]</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">GetScalingFactor</span>:</span> Integer;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  <span class="keyword">if</span> WizardForm.Font.PixelsPerInch &gt;= <span class="number">192</span> <span class="keyword">then</span> Result := <span class="number">200</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">  <span class="keyword">if</span> WizardForm.Font.PixelsPerInch &gt;= <span class="number">144</span> <span class="keyword">then</span> Result := <span class="number">150</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">  <span class="keyword">if</span> WizardForm.Font.PixelsPerInch &gt;= <span class="number">120</span> <span class="keyword">then</span> Result := <span class="number">125</span></span><br><span class="line">    <span class="keyword">else</span> Result := <span class="number">100</span>;</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">procedure</span> <span class="title">LoadEmbededScaledBitmap</span><span class="params">(Image: TBitmapImage; NameBase: <span class="keyword">string</span>)</span>;</span></span><br><span class="line"><span class="keyword">var</span></span><br><span class="line">  <span class="keyword">Name</span>: <span class="keyword">String</span>;</span><br><span class="line">  FileName: <span class="keyword">String</span>;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  <span class="keyword">Name</span> := Format(<span class="string">'%s %d.bmp'</span>, [NameBase, GetScalingFactor]);</span><br><span class="line">  ExtractTemporaryFile(<span class="keyword">Name</span>);</span><br><span class="line">  FileName := ExpandConstant(<span class="string">'&#123;tmp&#125;\'</span> + <span class="keyword">Name</span>);</span><br><span class="line">  Image.Bitmap.LoadFromFile(FileName);</span><br><span class="line">  DeleteFile(FileName);</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">procedure</span> <span class="title">InitializeWizard</span>;</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  <span class="comment">&#123; If using larger scaling, load the correct size of images &#125;</span></span><br><span class="line">  <span class="keyword">if</span> GetScalingFactor &gt; <span class="number">100</span> <span class="keyword">then</span> </span><br><span class="line">  <span class="keyword">begin</span></span><br><span class="line">    LoadEmbededScaledBitmap(WizardForm.WizardBitmapImage, <span class="string">'WizardImage'</span>);</span><br><span class="line">    LoadEmbededScaledBitmap(WizardForm.WizardBitmapImage2, <span class="string">'WizardImage'</span>);</span><br><span class="line">    LoadEmbededScaledBitmap(WizardForm.WizardSmallBitmapImage, <span class="string">'WizardSmallImage'</span>);</span><br><span class="line">  <span class="keyword">end</span>;</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
-
-<p>那么有没有在不用重复定义，仅用一张图片然后根据当前的DPI来进行人为的缩放，也能达到良好的显示效果呢，当然有，方法如下：</p>
-<figure class="highlight pascal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span></span><br><span class="line">  CustomPage: TWizardPage;</span><br><span class="line">  BtnImage: TBitmapImage;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">procedure</span> <span class="title">InitializeWizard</span>;</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  CustomPage := CreateCustomPage(wpLicense, <span class="string">'Heading'</span>, <span class="string">'Sub heading.'</span>);</span><br><span class="line">  ExtractTemporaryFile(<span class="string">'image.bmp'</span>);</span><br><span class="line">  BtnImage := TBitmapImage.Create(WizardForm); <span class="comment">//在当前页面即wpLicense页面创建一个Image按钮。</span></span><br><span class="line">  <span class="keyword">with</span> BtnImage <span class="keyword">do</span></span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">      Parent := CustomPage.Surface;</span><br><span class="line">      Bitmap.LoadFromFile(ExpandConstant(<span class="string">'&#123;tmp&#125;'</span>)+<span class="string">'\image.bmp'</span>);</span><br><span class="line">      AutoSize := True;</span><br><span class="line">      AutoSize := False;  <span class="comment">// 缩放之前 关系BtnImage的自由大小属性</span></span><br><span class="line">      Height := ScaleX(Height); <span class="comment">// 然后根据当前BtnImage的大小进行缩放</span></span><br><span class="line">      Width := ScaleY(Width);</span><br><span class="line">      Stretch := True;</span><br><span class="line">      Left := ScaleX(<span class="number">90</span>);</span><br><span class="line">      Top := WizardForm.SelectTasksPage.Top + WizardForm.SelectTasksPage.Height -</span><br><span class="line">             Height - ScaleY(<span class="number">8</span>);</span><br><span class="line">      Cursor := crHand;</span><br><span class="line">      OnClick := @ImageOnClick;</span><br><span class="line">    <span class="keyword">end</span>;</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-进阶，Win8之后新系统得到当前的显示器的DPI"><a href="#3-进阶，Win8之后新系统得到当前的显示器的DPI" class="headerlink" title="3. 进阶，Win8之后新系统得到当前的显示器的DPI"></a>3. 进阶，Win8之后新系统得到当前的显示器的DPI</h3><p>由于Windows 8.1之后的系统中，用户可以调整每个监视器的DPI缩放比例，并且Font.PixelsPerInch始终为主监视器返回DPI值，因此<strong>第2节</strong>中的方法就不在适用新的系统了。如果在多显示多DPI的复杂环境中，<strong>第2节</strong>中的方法表现的也不尽如人意。某些时候，可以监听WM_DPICHANGED事件，然后手动并使窗口适应变化的DPI（但此更改可以只是将窗口移动到具有不同DPI设置的监视器）。而 要获取某个窗口的DPI，就需要考虑别的解决方案了。我在网上找到了相关的介绍，但是我当前的项目中不需要这些，也就没对代码进行测试。感兴趣的朋友可以自己尝试一下，代码如下：</p>
-<figure class="highlight pascal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">[Code]</span><br><span class="line"><span class="keyword">const</span></span><br><span class="line">  S_OK = $<span class="number">00000000</span>;</span><br><span class="line">  LOGPIXELSY = <span class="number">90</span>;</span><br><span class="line">  MONITOR_DEFAULTTONULL = $<span class="number">00000000</span>;</span><br><span class="line">  MONITOR_DEFAULTTOPRIMARY = $<span class="number">00000001</span>;</span><br><span class="line">  MONITOR_DEFAULTTONEAREST = $<span class="number">00000002</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span></span><br><span class="line">  HDC = THandle;</span><br><span class="line">  HMONITOR = THandle;</span><br><span class="line">  MONITOR_DPI_TYPE = (</span><br><span class="line">    MDT_EFFECTIVE_DPI,</span><br><span class="line">    MDT_ANGULAR_DPI,</span><br><span class="line">    MDT_RAW_DPI</span><br><span class="line">  );</span><br><span class="line"><span class="keyword">const</span></span><br><span class="line">  MDT_DEFAULT = MDT_EFFECTIVE_DPI;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">GetDC</span><span class="params">(hWnd: HWND)</span>:</span> HDC;</span><br><span class="line">  <span class="keyword">external</span> <span class="string">'GetDC@user32.dll stdcall'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ReleaseDC</span><span class="params">(hWnd: HWND; hDC: HDC)</span>:</span> Integer;</span><br><span class="line">  <span class="keyword">external</span> <span class="string">'ReleaseDC@user32.dll stdcall'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">GetDeviceCaps</span><span class="params">(hdc: HDC; <span class="keyword">index</span>: Integer)</span>:</span> Integer;</span><br><span class="line">  <span class="keyword">external</span> <span class="string">'GetDeviceCaps@gdi32.dll stdcall'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MonitorFromWindow</span><span class="params">(hwnd: HWND; dwFlags: DWORD)</span>:</span> HMONITOR;</span><br><span class="line">  <span class="keyword">external</span> <span class="string">'MonitorFromWindow@user32.dll stdcall'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">GetDpiForMonitor</span><span class="params">(hmonitor: HMONITOR; dpiType: MONITOR_DPI_TYPE;</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">out</span> dpiX: UINT; <span class="keyword">out</span> dpiY: UINT)</span>:</span> HRESULT;</span><br><span class="line">  <span class="keyword">external</span> <span class="string">'GetDpiForMonitor@shcore.dll stdcall delayload'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">IsWindows81OrLater</span>:</span> Boolean;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  Result := GetWindowsVersion &gt;= $<span class="number">06030000</span>;</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">GetPrimaryMonitorDPI</span>:</span> Integer;</span><br><span class="line"><span class="keyword">var</span></span><br><span class="line">  DC: HDC;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  <span class="comment">// no need for try..finally block here; just get the desktop DC handle,</span></span><br><span class="line">  <span class="comment">// get the DPI and release the obtained handle</span></span><br><span class="line">  DC := GetDC(<span class="number">0</span>);</span><br><span class="line">  Result := GetDeviceCaps(DC, LOGPIXELSY);</span><br><span class="line">  ReleaseDC(<span class="number">0</span>, DC);</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">GetWindowMonitorDPI</span><span class="params">(Handle: HWND)</span>:</span> Integer;</span><br><span class="line"><span class="keyword">var</span></span><br><span class="line">  HorzDPI: UINT;</span><br><span class="line">  VertDPI: UINT;</span><br><span class="line">  Monitor: HMONITOR;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  <span class="comment">// if we're not on at least Windows 8.1, then return the primary monitor</span></span><br><span class="line">  <span class="comment">// DPI since earlier systems did not allow per monitor DPI settings</span></span><br><span class="line">  <span class="keyword">if</span> <span class="keyword">not</span> IsWindows81OrLater <span class="keyword">then</span></span><br><span class="line">    Result := GetPrimaryMonitorDPI</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  <span class="comment">// otherwise determine which monitor the given window intersects and try</span></span><br><span class="line">  <span class="comment">// to get DPI settings of the found monitor (if any; check MSDN docs for</span></span><br><span class="line">  <span class="comment">// the explanation and other options how to find the nearest monitor)</span></span><br><span class="line">  <span class="keyword">begin</span></span><br><span class="line">    <span class="comment">// try to get the monitor which the window intersects</span></span><br><span class="line">    Monitor := MonitorFromWindow(Handle, MONITOR_DEFAULTTONULL);</span><br><span class="line">    <span class="comment">// if there's any, then...</span></span><br><span class="line">    <span class="keyword">if</span> Monitor &lt;&gt; <span class="number">0</span> <span class="keyword">then</span></span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">      <span class="comment">// try to get DPI for that monitor; if it succeeds, return the value,</span></span><br><span class="line">      <span class="comment">// raise an exception otherwise (for details check the MSDN docs)</span></span><br><span class="line">      <span class="keyword">if</span> GetDpiForMonitor(Monitor, MDT_DEFAULT, HorzDPI, VertDPI) = S_OK <span class="keyword">then</span></span><br><span class="line">        Result := VertDPI</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">        RaiseException(<span class="string">'GetDpiForMonitor function call failed!'</span>);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      RaiseException(<span class="string">'The given window does not intersect any monitor!'</span>);</span><br><span class="line">  <span class="keyword">end</span>;</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
-
-<p>这是Windows SDK中介绍的方法，整个设计相对来说比较复杂。简单来说，将上述代码加入你的项目中，当你需要显示器的DPI的时候就调用<code>GetWindowMonitorDPI</code>函数，然后根据DPI结合<strong>第2节</strong>中的方法来缩放或者选择你要显示的图片。</p>
-<h3 id="4-回到项目，更换向导页面标题部分的背景"><a href="#4-回到项目，更换向导页面标题部分的背景" class="headerlink" title="4. 回到项目，更换向导页面标题部分的背景"></a>4. 回到项目，更换向导页面标题部分的背景</h3><p>上述的内容，也是我再寻找解决新需求的过程中，搜集和整理的部分内容，记录下来也是为了以后需要的时候知道应该向那个方向努力。我告诉开发主管的是，我个人不建议将我们安装应用程序的向导页面设置为可缩放，因为这样需要做出的改变特别多，而且当前的大小也能满足使用需求。但美化工作不能少，第一步的任务核心就是页面简介背景部分，代码如下：</p>
-<figure class="highlight pascal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">[Files]</span><br><span class="line">Source: "Logo-header.bmp"; Flags: dontcopy</span><br><span class="line"></span><br><span class="line">[Code]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">procedure</span> <span class="title">InitializeWizard</span><span class="params">()</span>;</span></span><br><span class="line"><span class="keyword">var</span></span><br><span class="line">  BitmapImage: TBitmapImage;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  <span class="comment">// </span></span><br><span class="line">  ExtractTemporaryFile(<span class="string">'Logo-header.bmp'</span>);</span><br><span class="line">  BitmapImage := TBitmapImage.Create(WizardForm);</span><br><span class="line">  BitmapImage.Parent := WizardForm.MainPanel;</span><br><span class="line">  BitmapImage.Width := WizardForm.MainPanel.Width;</span><br><span class="line">  BitmapImage.Height := WizardForm.MainPanel.Height;</span><br><span class="line">  BitmapImage.Stretch := True;</span><br><span class="line">  BitmapImage.AutoSize := False;</span><br><span class="line">  BitmapImage.Bitmap.LoadFromFile(ExpandConstant(<span class="string">'&#123;tmp&#125;\Logo-header.bmp'</span>));</span><br><span class="line">	</span><br><span class="line">  <span class="comment">// 禁用 原始页面的小图标</span></span><br><span class="line">  WizardForm.WizardSmallBitmapImage.Visible := False;</span><br><span class="line">  <span class="comment">// 启用 页面简介标题</span></span><br><span class="line">  WizardForm.PageDescriptionLabel.Visible := True;</span><br><span class="line">  <span class="comment">// 启用 页面名称标题</span></span><br><span class="line">  WizardForm.PageNameLabel.Visible := True;</span><br><span class="line">  <span class="comment">// 限定页面简介标题宽度</span></span><br><span class="line">  WizardForm.PageDescriptionLabel.Width :=</span><br><span class="line">    WizardForm.PageDescriptionLabel.Width - ScaleX(<span class="number">120</span>);</span><br><span class="line">  <span class="comment">// 限定页面名称标题宽度</span></span><br><span class="line">  WizardForm.PageNameLabel.Width :=</span><br><span class="line">    WizardForm.PageNameLabel.Width - ScaleX(<span class="number">120</span>)</span><br><span class="line"> <span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
-
-<p>上述代码的核心思想就是，准备一张图片，该图片并不会被拷贝在目标文件夹中，在页面初始的时候，设定页面标题简述部分的背景，由于原始页面小logo被禁用，就需要缩进标题名称和简介文本的宽度，防止其覆盖图片的部分内容。</p>
-<p><img src="/2019/08/10/inno-05-beautify-wizard-laben/inno-welcome-part.png" alt="image-20200220170839898"></p>
-<p>任务第二部分内容，就是更改欢迎页面的背景图片，即上图中红色部分框选的地方。首先在<strong>[Setup]</strong>中定义属性为<a href="http://www.jrsoftware.org/ishelp/index.php?topic=setup_disablewelcomepage" target="_blank" rel="noopener"><code>DisableWelcomePage=no</code></a>，意指启用欢迎页面。 然后在<strong>[Setup]</strong>部分定义<code>WizardBitmapImage</code>属性即可。结束页面（下图）与开始页面相似，只需在<strong>[Setup]</strong>部分定义<code>WizardBitmapImage2</code> 属性即可。</p>
-<p><img src="/2019/08/10/inno-05-beautify-wizard-laben/inno-finish-part.png" alt="image-20200220170935862"></p>
-<p>需要说明的是，如果属性<code>WizardBitmapImage2</code>为被定义，而属性<code>WizardBitmapImage</code>被定义，则结束页面会选择<code>WizardBitmapImage</code>中定义的图片作为上图中红色部分圈选的背景图片。</p>
-<h3 id="5-扩展，欢迎页面和结束页面整页照片"><a href="#5-扩展，欢迎页面和结束页面整页照片" class="headerlink" title="5. 扩展，欢迎页面和结束页面整页照片"></a>5. 扩展，欢迎页面和结束页面整页照片</h3><p>我们在<strong>第4节</strong>部分，了解了如何在使用Inno Setup的属性设定，更改欢迎和结束页面的左侧背景图片，那么有没有一种可能，即省去这两个页面的文字（通常需要考虑翻译的问题），直接使用一张图片作为整个页面的背景呢？有，本节我们就探索一下。中心思想为四部：</p>
-<ul>
-<li>在各自的父页面上拉伸“ WizardBitmapImage”（欢迎）和“ WizardBitmapImage2”（完成），因为这两个页面都有图片部分，就不需要再初始化TBitmapImage了。</li>
-<li>隐藏其它内容，例如 标题和段落.</li>
-<li>确保安装程序永远不需要重新启动计算机，否则会在结束图片上会显示上重新启动提示。</li>
-<li>请确保在<strong>[Run]</strong>部分中没有任何<code>postinstall</code>条目。否则结束页面上也会显示提示信息。</li>
-</ul>
-<p><img src="/2019/08/10/inno-05-beautify-wizard-laben/inno-finish-part-full.png" alt="image-20200220171021313"></p>
-<p>实现这部分的代码如下：</p>
-<figure class="highlight pascal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[Setup]</span><br><span class="line">DisableWelcomePage=no</span><br><span class="line">WizardImageFile=Demo.bmp  <span class="comment">// 如果WizardImageFile2 没定义则结束页面也使用该图片</span></span><br><span class="line"></span><br><span class="line">[Code]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">procedure</span> <span class="title">InitializeWizard</span><span class="params">()</span>;</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  <span class="comment">// 欢迎页面</span></span><br><span class="line">  <span class="comment">// 隐藏 部分内容</span></span><br><span class="line">  WizardForm.WelcomeLabel1.Visible := False;</span><br><span class="line">  WizardForm.WelcomeLabel2.Visible := False;</span><br><span class="line">  <span class="comment">// 拉伸页面宽度</span></span><br><span class="line">  WizardForm.WizardBitmapImage.Width := WizardForm.WizardBitmapImage.Parent.Width;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 结束页面</span></span><br><span class="line">  <span class="comment">// 隐藏 部分内容</span></span><br><span class="line">  WizardForm.FinishedLabel.Visible := False;</span><br><span class="line">  WizardForm.FinishedHeadingLabel.Visible := False;</span><br><span class="line">  <span class="comment">// 拉伸页面宽度</span></span><br><span class="line">  WizardForm.WizardBitmapImage2.Width := WizardForm.WizardBitmapImage2.Parent.Width;</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="6-扩展2，在向导页脚左侧显示版本号"><a href="#6-扩展2，在向导页脚左侧显示版本号" class="headerlink" title="6. 扩展2，在向导页脚左侧显示版本号"></a>6. 扩展2，在向导页脚左侧显示版本号</h3><p>需要的显示结果如下图所示：</p>
-<p><img src="/2019/08/10/inno-05-beautify-wizard-laben/inno-bottom-left-part.png" alt="image-20200221093833941"></p>
-<p>代码如下：</p>
-<figure class="highlight pascal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[Code]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">procedure</span> <span class="title">InitializeWizard</span><span class="params">()</span>;</span></span><br><span class="line"><span class="keyword">var</span></span><br><span class="line">  VersionLabel: TNewStaticText;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  <span class="comment">// 定义一个静态文本实例</span></span><br><span class="line">  VersionLabel := TNewStaticText.Create(WizardForm);</span><br><span class="line">  <span class="comment">// 从Setup部分的设定中获取版本号</span></span><br><span class="line">  VersionLabel.Caption := Format(<span class="string">'Version: %s'</span>, [<span class="string">'&#123;#SetupSetting("AppVersion")&#125;'</span>]);</span><br><span class="line">  <span class="comment">// 所有页面有效</span></span><br><span class="line">  VersionLabel.Parent := WizardForm;</span><br><span class="line">  <span class="comment">// 左侧位置</span></span><br><span class="line">  VersionLabel.Left := ScaleX(<span class="number">16</span>);</span><br><span class="line">  <span class="comment">// 保证 文本与按钮的 在水平方向 中心对齐</span></span><br><span class="line">  VersionLabel.Top :=</span><br><span class="line">    WizardForm.BackButton.Top +</span><br><span class="line">    (WizardForm.BackButton.Height <span class="keyword">div</span> <span class="number">2</span>) -</span><br><span class="line">    (VersionLabel.Height <span class="keyword">div</span> <span class="number">2</span>)</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
-
-<p>对齐的方式，以按钮的左上位置为基点，加上按钮高度与文本高度之差即可。</p>
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/08/10/inno-05-beautify-wizard-laben/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                评论和共享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
+        <h1 class="post-title">
+            Inno Setup 在x86和x64环境下安装-NET安装包
+        </h1>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/07/10/inno-04-registry-hcr/"
-                            aria-label=": Inno Setup Windows 注册表关键字HKEY\_CLASSES\_ROOT相关内容"
-                        >
-                            Inno Setup Windows 注册表关键字HKEY\_CLASSES\_ROOT相关内容
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-07-10T08:11:08+08:00">
-	
-		    7月 10, 2019
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/Inno-Setup-%E7%9B%B8%E5%85%B3/">Inno Setup 相关</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
-<h2 id="Windows-注册表"><a href="#Windows-注册表" class="headerlink" title="Windows 注册表"></a>Windows 注册表</h2><p>HKEY_CLASSES_ROOT在此关键字之下，可以看见有一个CLSID关键字。在CLSID关键字之下列有系统中安装的所有组件的CLSID。注册表CLSID是一个具有如下格式的串：00000010-0000-0010-8000-00AA00D2EA4</p>
-<p>HKEY_CLASSES_ROOT的开头，列出了将是各种应用程序所注册的文件扩展名。在扩展名之后，可以看到许多其它的名字。此类名字大多数被称作是ProgID，表示是程序员定义的标识符。某些名称表示的不是ProgID而实一些特殊的关键字。</p>
-<p>如：</p>
-<ul>
-<li>CLSID</li>
-<li>AppID，此关键字下的子关键字的作用是将某个APPID（应用程序的ID）映射成某个远程服务器名称。分式COM（DCOM）将用到此关键字。</li>
-<li>组件类别，注册表的这一分支可以将CATID（组件类别ID）映射成某个特定的组件类别。</li>
-<li>Interface，此关键字将用于将IID映射成某个接口相关的信息。这些信息主要用于在跨进程边界使用接口的情况。</li>
-<li>Licenses，保存的是授权使用COM组件的一些认可信息。</li>
-<li>TypeLib，类型库关键字保存的是关于接口成员函数所用的参数的信息。另外还有一些信息。此关键字可以将一个LIBID映射成存储类型库的文件名称。</li>
-</ul>
-<h3 id="ProgID"><a href="#ProgID" class="headerlink" title="ProgID"></a>ProgID</h3><p>所谓ProgID指的是程序员给某个CLSID指定的一个程序员易记的名称。ProgID命名规则为：..，如下图：</p>
-<p>如WPDSp.WPDServiceProvider是版本无关ProgID，根据其值可在CLSID下找到相应键，进而找到相应信息，如组件最新版本信息。</p>
-<p>WPDSp.WPDServiceProvider.1是版本相关ProgID，根据其CLSID值可以找到该版本组件的信息。</p>
-<h3 id="ProgID注册表格式"><a href="#ProgID注册表格式" class="headerlink" title="ProgID注册表格式"></a>ProgID注册表格式</h3><p>ProgID及与版本无关的ProgID被列在组件CLSID下面。</p>
-<p>ProgID的主要作用是获取相应的CLSID。在每一个CLSID项中查找查个ProgID将非常低效的。因此在其下面也将直接列出ProgID。由于ProgID不是针对最终用户而定义的，因此ProgID关键字的缺省值为用户易记的名称。在之下有一个名为CLSID的关键字，其缺省值为组件的CLSID。如下图所示：</p>
-<p>与版本好无关的ProgID也直接被列在HKEY_CLASSES_ROOT下面。它们还有另外一个关键字CurVer，其缺省值为组件当前版本的ProgID，如下图：</p>
-<h3 id="ProgID和CLSID的转换"><a href="#ProgID和CLSID的转换" class="headerlink" title="ProgID和CLSID的转换"></a>ProgID和CLSID的转换</h3><ul>
-<li>CLSIDFromProgID</li>
-<li>ProgIDFromCLSID</li>
-</ul>
-<h3 id="组件的自注册"><a href="#组件的自注册" class="headerlink" title="组件的自注册"></a>组件的自注册</h3><p>为把组件注册到注册表，在DLL中一定要输出如下两个函数：</p>
-<p>STDAPI DllRegisterServer(); //注册</p>
-<p>STDAPI DllUnregisterServer(); //反注册</p>
-<p>我们使用Regsvr32.exe注册某个组件或者反注册某个组件时，其实就是调用这两个函数的过程。</p>
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/07/10/inno-04-registry-hcr/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                评论和共享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/07/05/inno-03-check-network-state/"
-                            aria-label=": Inno Setup 检查网络连接的Pascal代码"
-                        >
-                            Inno Setup 检查网络连接的Pascal代码
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-07-05T08:11:08+08:00">
-	
-		    7月 05, 2019
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/Inno-Setup-%E7%9B%B8%E5%85%B3/">Inno Setup 相关</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content">
-                    <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
-<h2 id="InnoSetup-检查网络连接"><a href="#InnoSetup-检查网络连接" class="headerlink" title="InnoSetup 检查网络连接"></a>InnoSetup 检查网络连接</h2><h3 id="1-循环检查网络连接直至连接成共，代码如下："><a href="#1-循环检查网络连接直至连接成共，代码如下：" class="headerlink" title="1. 循环检查网络连接直至连接成共，代码如下："></a>1. 循环检查网络连接直至连接成共，代码如下：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">function IsNetWorkActivatedRepeated: boolean;</span><br><span class="line">var</span><br><span class="line">  WinHttpReq: Variant;</span><br><span class="line">  Connected: Boolean;</span><br><span class="line">begin</span><br><span class="line">  Connected :&#x3D; False;</span><br><span class="line">  repeat</span><br><span class="line">    Log(&#39;Checking connection to the server&#39;);</span><br><span class="line">    try</span><br><span class="line">      WinHttpReq :&#x3D; CreateOleObject(&#39;WinHttp.WinHttpRequest.5.1&#39;);</span><br><span class="line">      &#123; Use your real server host name &#125;</span><br><span class="line">      WinHttpReq.Open(&#39;GET&#39;, &#39;https:&#x2F;&#x2F;www.camtek.de&#x2F;&#39;, False);</span><br><span class="line">      WinHttpReq.Send(&#39;&#39;);</span><br><span class="line">      Log(&#39;Connected to the server; status: &#39; + IntToStr(WinHttpReq.Status) + &#39; &#39; +</span><br><span class="line">          WinHttpReq.StatusText);</span><br><span class="line">      Connected :&#x3D; True;</span><br><span class="line">    except</span><br><span class="line">      Log(&#39;Error connecting to the server: &#39; + GetExceptionMessage);</span><br><span class="line">      if WizardSilent then</span><br><span class="line">      begin</span><br><span class="line">        Log(&#39;Connection to the server is not available, aborting silent installation&#39;);</span><br><span class="line">        Result :&#x3D; False;</span><br><span class="line">        Exit;</span><br><span class="line">      end</span><br><span class="line">        else</span><br><span class="line">      if MsgBox(&#39;Cannot reach server. Please check your Internet connection.&#39;,</span><br><span class="line">                mbError, MB_RETRYCANCEL) &#x3D; IDRETRY then</span><br><span class="line">      begin</span><br><span class="line">        Log(&#39;Retrying&#39;);</span><br><span class="line">      end</span><br><span class="line">        else</span><br><span class="line">      begin</span><br><span class="line">        Log(&#39;Aborting&#39;);</span><br><span class="line">        Result :&#x3D; False;</span><br><span class="line">        Exit;</span><br><span class="line">      end;</span><br><span class="line">    end;</span><br><span class="line">  until Connected;</span><br><span class="line"></span><br><span class="line">  Result :&#x3D; True;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-有限次数检测网络，代码如下："><a href="#2-有限次数检测网络，代码如下：" class="headerlink" title="2. 有限次数检测网络，代码如下："></a>2. 有限次数检测网络，代码如下：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">function IsNetWorkActivatedTried: boolean;</span><br><span class="line">var</span><br><span class="line">  WinHttpReq: Variant;</span><br><span class="line">  Connected: Boolean;</span><br><span class="line">  iTriedTime: Integer;</span><br><span class="line">begin</span><br><span class="line">  Connected :&#x3D; False;</span><br><span class="line">  iTriedTime :&#x3D; 0;</span><br><span class="line">  repeat</span><br><span class="line">    iTriedTime :&#x3D; iTriedTime + 1;</span><br><span class="line">    Log(&#39;Checking connection to the server, try &#39; +  + IntToStr(iTriedTime) + &#39; time.&#39;);</span><br><span class="line">    try</span><br><span class="line"></span><br><span class="line">      WinHttpReq :&#x3D; CreateOleObject(&#39;WinHttp.WinHttpRequest.5.1&#39;);</span><br><span class="line">      WinHttpReq.SetTimeouts(&#39;3000&#39;, &#39;3000&#39;, &#39;3000&#39;, &#39;3000&#39;);</span><br><span class="line">      &#x2F;&#x2F; Use your real server host name </span><br><span class="line">      WinHttpReq.Open(&#39;GET&#39;, &#39;https:&#x2F;&#x2F;www.goolge.de&#x2F;&#39;, False);</span><br><span class="line">      WinHttpReq.Send(&#39;&#39;);</span><br><span class="line">      Log(&#39;Connected to the server; status: &#39; + IntToStr(WinHttpReq.Status) + &#39; &#39; +</span><br><span class="line">          WinHttpReq.StatusText);</span><br><span class="line">      Connected :&#x3D; True;</span><br><span class="line">    except</span><br><span class="line">      Log(&#39;Error connecting to the server, msg: &#39; + GetExceptionMessage + &#39;try again! &#39;);</span><br><span class="line">    end;</span><br><span class="line">  until (iTriedTime &#x3D; 3) or (Connected &#x3D; True) ;</span><br><span class="line">  Result :&#x3D; Connected;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
-
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/07/05/inno-03-check-network-state/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                评论和共享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/06/30/inno-02-installdotnet/"
-                            aria-label=": Inno Setup 在x86和x64环境下安装-NET安装包"
-                        >
-                            Inno Setup 在x86和x64环境下安装-NET安装包
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
+        <div class="post-meta">
     <time datetime="2019-06-30T08:11:08+08:00">
 	
 		    6月 30, 2019
@@ -600,10 +345,13 @@
     
 </div>
 
-            </div>
-            
-                <div class="postShorten-content">
-                    <h3 id="任务难点"><a href="#任务难点" class="headerlink" title="任务难点"></a>任务难点</h3><p>准备一个安装程序，以验证系统的体系结构并安装.NET。</p>
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <h3 id="任务难点"><a href="#任务难点" class="headerlink" title="任务难点"></a>任务难点</h3><p>准备一个安装程序，以验证系统的体系结构并安装.NET。</p>
 <h3 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1. 介绍"></a>1. 介绍</h3><p>此安装脚本示例的目的是启动一个安装程序，该安装程序检查系统上当前安装的.NET版本，并仅在需要时安装一个。安装程序将在软件包中包括Microsoft提供的Web安装程序。 安装程序还将根据运行所在的体系结构安装一些库。</p>
 <h3 id="2-背景"><a href="#2-背景" class="headerlink" title="2. 背景"></a>2. 背景</h3><p>出于我们的目的，我们需要可从Microsoft下载站点下载的InnoSetup编译器和.NET Framework Web安装程序文件。Microsoft维护一组注册表项，这些注册表项指示已安装的.NET Framework版本和Service Pack。C＃MVP Scott Dorman在此<a href="http://stackoverflow.com/questions/199080/how-to-detect-what-net-framework-versions-and-service-packs-are-installed" target="_blank" rel="noopener">Stack Overflow线程中</a>发布了一个列表，其中包含版本1.0到4.0（在撰写本文时）。除1.0以外，大多数.NET Framework版本所需的注册表项都非常相似。无论如何，我们将忽略该版本已被1.1淘汰的版本。</p>
 <p>4.5版和更高版本有些棘手，因为它们可以作为4.0版的就地更新安装并重用完全相同的注册表项。MSDN官方页面“ <a href="https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed" target="_blank" rel="noopener">如何：确定安装的.NET Framework版本”</a>建议检查<code>DWORD</code>value 的存在<code>Release</code>，所以我在下面做这件事。替代方法是检查.NET 4.0 的<code>REG_SZ</code>值<code>Version</code>4.0.30319，.NET 4.5的4.5.50709和.NET 4.6的4.6.00079。（可悲的是，在安装它们时，我不认为要记录4.5.1和4.5.2的版本字符串。）</p>
@@ -741,155 +489,151 @@
 
 <p>欢迎订阅我的个人微信公众号，一起讨论学习。</p>
 
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/06/30/inno-02-installdotnet/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                评论和共享
-                            </a>
-                        </p>
-                    
-                </div>
             
+
+
         </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2019/06/25/inno-01-run-as-admin/"
-                            aria-label=": Inno Setup 如何以管理员的身份运行"
-                        >
-                            Inno Setup 如何以管理员的身份运行
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2019-06-25T08:11:08+08:00">
-	
-		    6月 25, 2019
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/Inno-Setup-%E7%9B%B8%E5%85%B3/">Inno Setup 相关</a>
-
-
-    
-</div>
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Inno-Setup/" rel="tag">Inno Setup</a> <a class="tag tag--primary tag--small t-link" href="/tags/NET%E5%AE%89%E8%A3%85%E5%8C%85/" rel="tag">NET安装包</a>
 
             </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/07/05/inno-03-check-network-state/"
+                    data-tooltip="Inno Setup 检查网络连接的Pascal代码"
+                    aria-label="上一篇: Inno Setup 检查网络连接的Pascal代码"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/06/25/inno-01-run-as-admin/"
+                    data-tooltip="Inno Setup 如何以管理员的身份运行"
+                    aria-label="下一篇: Inno Setup 如何以管理员的身份运行"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
             
-                <div class="postShorten-content">
-                    <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
-<h2 id="Inno-Setup-如何以管理员的身份相关"><a href="#Inno-Setup-如何以管理员的身份相关" class="headerlink" title="Inno Setup 如何以管理员的身份相关"></a>Inno Setup 如何以管理员的身份相关</h2><h3 id="1-如何以管理员身份运行一个Batch脚本文件"><a href="#1-如何以管理员身份运行一个Batch脚本文件" class="headerlink" title="1. 如何以管理员身份运行一个Batch脚本文件"></a>1. 如何以管理员身份运行一个Batch脚本文件</h3><p>If you are using <code>[Run]</code> section then make sure you use <code>runascurrentuser</code> flag (If this flag is specified, the spawned process will inherit Setup/Uninstall’s user credentials (typically, full administrative privileges))</p>
-<p>Else there are three ways how to run applications programatically (recommended way):</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function Exec(const Filename, Params, WorkingDir: String; const ShowCmd: Integer; const Wait: TExecWait; var ResultCode: Integer): Boolean;</span><br><span class="line"></span><br><span class="line">function ShellExec(const Verb, Filename, Params, WorkingDir: String; const ShowCmd: Integer; const Wait: TExecWait; var ErrorCode: Integer): Boolean;</span><br><span class="line"></span><br><span class="line">function ShellExecAsOriginalUser(const Verb, Filename, Params, WorkingDir: String; const ShowCmd: Integer; const Wait: TExecWait; var ErrorCode: Integer): Boolean;</span><br></pre></td></tr></table></figure>
-
-<p>You should use <code>Exec()</code> or <code>ShellExec()</code> because they open the specified file or performs another action specified by Verb, using the same credentials as Setup/Uninstall.</p>
-<p>But none of mentioned ways will work if your installer is not running in elevated mode. So make sure the UAC window will appear before installer starts:</p>
-<p>In section <code>[Setup]</code> use directive <code>PrivilegesRequired</code></p>
-<p>Valid values:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">none&#96;, &#96;poweruser&#96;, &#96;admin&#96;, or &#96;lowest</span><br></pre></td></tr></table></figure>
-
-<p>Use admin to ensure appropriate credentials.</p>
-<h3 id="2-各个合法值在不同版本中的表现"><a href="#2-各个合法值在不同版本中的表现" class="headerlink" title="2. 各个合法值在不同版本中的表现"></a>2. 各个合法值在不同版本中的表现</h3><h4 id="合法值为："><a href="#合法值为：" class="headerlink" title="合法值为："></a>合法值为：</h4><ul>
-<li>none, poweruser, admin, or lowest</li>
-</ul>
-<h4 id="默认值为：Default-value"><a href="#默认值为：Default-value" class="headerlink" title="默认值为：Default value:"></a>默认值为：Default value:</h4><ul>
-<li>admin</li>
-</ul>
-<h4 id="描述Description"><a href="#描述Description" class="headerlink" title="描述Description:"></a>描述Description:</h4><p>The effect of this directive depends on which version of Windows the user is running:</p>
-<p>此参数的效果取决于用户运行的Windows版本：</p>
-<p><strong>On Windows Vista and later:</strong></p>
-<p>This directive affects whether elevated rights are requested (via a User Account Control dialog) when the installation is started.</p>
-<p>该指令影响安装开始时是否要求提升权限（通过“用户帐户控制”对话框）。</p>
-<p>When set to admin (the default) or poweruser, Setup will always run with administrative privileges. If Setup was started by an unprivileged user, Windows will ask for the password to an account that has administrative privileges, and Setup will then run under that account.</p>
-<p>当设置为admin（默认）或超级用户时，安装程序将始终以管理特权运行。 如果安装程序是由非特权用户启动的，则Windows将要求输入具有管理特权的帐户的密码，然后安装程序将在该帐户下运行。</p>
-<p>When set to none, Setup will only run with administrative privileges if it was started by a member of the Administrators group. Do not use this setting unless you are sure your installation will run successfully on unprivileged accounts.</p>
-<p>如果设置为none，则安装程序仅由Administrators组的成员启动时才具有管理特权。 除非您确定安装将在非特权帐户上成功运行，否则不要使用此设置。</p>
-<p>When set to lowest, Setup will not request to be run administrative privileges even if it was started by a member of the Administrators group. Additionally, the uninstall info root key will always be HKEY_CURRENT_USER, and the “common” forms of the Shell Folder constants are mapped to the “user” forms, even if administrative privileges are available. Do not use this setting unless you are sure your installation will run successfully on unprivileged accounts.</p>
-<p>设置为最低时，即使安装程序是由Administrators组的成员启动的，它也不会请求运行管理权限。 此外，卸载信息的根密钥将始终为HKEY_CURRENT_USER，并且即使具有管理特权，Shell文件夹常量的“公共”形式也将映射到“用户”形式。 除非您确定安装将在非特权帐户上成功运行，否则不要使用此设置。</p>
-<p><strong>On Windows NT/2000/XP/2003</strong></p>
-<p>This directive specifies the minimum user privileges required to run the installation.</p>
-<p>该指令指定运行安装所需的最低用户特权。</p>
-<p>When set to admin (the default), Setup will only run if the user is a member of the Administrators group. Otherwise, it will display the following message and exit: “You must be logged in as an administrator when installing this program.”</p>
-<p>当设置为admin（默认值）时，仅当用户是Administrators组的成员时，安装程序才会运行。 否则，它将显示以下消息并退出：“安装此程序时，您必须以管理员身份登录。”</p>
-<p>When set to poweruser, Setup will only run if the user is a member of the Administrators or Power Users groups. Otherwise, it will display the following message and exit: “You must be logged in as an administrator or as a member of the Power Users group when installing this program.”</p>
-<p>设置为poweruser时，仅当用户是Administrators或Power Users组的成员时，安装程序才会运行。 否则，它将显示以下消息并退出：“安装此程序时，您必须以管理员或Power Users组成员的身份登录。”</p>
-<p>When set to none Setup will not check the user’s group membership. Do not use this setting unless you are sure your installation will run successfully on unprivileged accounts.</p>
-<p>设置为none时，安装程序将不检查用户的组成员身份。 除非您确定安装将在非特权帐户上成功运行，否则不要使用此设置。</p>
-<p>When set to lowest Setup will not check the user’s group membership. Additionally, the uninstall info root key will always be HKEY_CURRENT_USER, and the “common” forms of the Shell Folder constants are mapped to the “user” forms, even if administrative privileges are available. Do not use this setting unless you are sure your installation will run successfully on unprivileged accounts.</p>
-<p>设置为最低时，安装程序将不检查用户的组成员身份。 此外，卸载信息的根密钥将始终为HKEY_CURRENT_USER，并且即使具有管理特权，Shell文件夹常量的“公共”形式也将映射到“用户”形式。 除非您确定安装将在非特权帐户上成功运行，否则不要使用此设置。</p>
-<p><strong>On Windows 95/98/Me</strong></p>
-<p>This directive has no effect on these versions of Windows.</p>
-<p>该指令对这些版本的Windows无效。</p>
-<h3 id="以管理员身份安装和非管理员身份安装的区别"><a href="#以管理员身份安装和非管理员身份安装的区别" class="headerlink" title="以管理员身份安装和非管理员身份安装的区别"></a>以管理员身份安装和非管理员身份安装的区别</h3><p>An installation can run in one of two modes: administrative or non administrative. Which mode is selected is specified by the <a href="http://www.jrsoftware.org/ishelp/topic_setup_privilegesrequired.htm" target="_blank" rel="noopener">PrivilegesRequired</a> and <a href="http://www.jrsoftware.org/ishelp/topic_setup_privilegesrequiredoverridesallowed.htm" target="_blank" rel="noopener">PrivilegesRequiredOverridesAllowed</a> [Setup] section directives.</p>
-<p>In administrative install mode:</p>
-<ul>
-<li>The <code>{group}</code> folder is created in the <em>All Users</em> profile.</li>
-<li>The “auto” form of the directory and Shell Folder constants is mapped to the “common” form.</li>
-<li>The <a href="http://www.jrsoftware.org/ishelp/topic_registrysection.htm" target="_blank" rel="noopener">HKA</a> and uninstall info root keys will be HKEY_LOCAL_MACHINE.</li>
-</ul>
-<p>In non administrative install mode:</p>
-<ul>
-<li>The <code>{group}</code> folder is created in the current user’s profile.</li>
-<li>The “auto” form of the directory and Shell Folder constants is mapped to the “user” form.</li>
-<li>The <a href="http://www.jrsoftware.org/ishelp/topic_registrysection.htm" target="_blank" rel="noopener">HKA</a> and uninstall info root keys will be HKEY_CURRENT_USER.</li>
-</ul>
-<p><strong>Notes:</strong></p>
-<p>Regardless of the version of Windows, if the installation is running in administrative install mode then you should be careful about making any per-user area changes: such changes may not achieve what you are intending. The compiler will warn you about this, which can be disabled using <a href="http://www.jrsoftware.org/ishelp/topic_setup_useduserareaswarning.htm" target="_blank" rel="noopener">UsedUserAreasWarning</a>.</p>
-<p>无论Windows的版本如何，如果安装均以管理安装模式运行，则应谨慎进行每个用户区域的更改：此类更改可能无法实现您的预期。 编译器将对此警告，可以使用<a href="http://www.jrsoftware.org/ishelp/topic_setup_useduserareaswarning.htm" target="_blank" rel="noopener">UsedUserAreasWarning</a>禁用。</p>
-<p>If the installation is running in non administrative install mode, but administrative privileges are available anyway then Setup or the [Code] section might still make use of these privileges. For this reason the uninstaller will always be marked as requiring administrative privileges in this case, just as if the installation was running in administrative install mode.</p>
-<p>如果安装程序在非管理安装模式下运行，但是仍然具有管理特权，则安装程序或[Code]部分可能仍会使用这些特权。 因此，在这种情况下，卸载程序将始终被标记为需要管理特权，就像安装在管理安装模式下运行一样。</p>
-
-                    
-                        
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/06/25/inno-01-run-as-admin/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                评论和共享
-                            </a>
-                        </p>
-                    
-                </div>
             
-        </div>
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/06/30/inno-02-installdotnet/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
         
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/06/30/inno-02-installdotnet/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/06/30/inno-02-installdotnet/"
+                    title="分享到 Google+"
+                    aria-label="分享到 Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://yoursite.com/2019/06/30/inno-02-installdotnet/"
+                    title="分享到 Weibo"
+                    aria-label="分享到 Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/06/30/inno-02-installdotnet/&amp;title=Inno Setup 在x86和x64环境下安装-NET安装包"
+                    title="分享到 QQ"
+                    aria-label="分享到 QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
         
         
-        <li class="pagination-number">第 1 页 共 1 页</li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
     </ul>
 </div>
 
-</section>
+
+        
+        
+            
+        
+    </div>
+</article>
+
 
 
                 <footer id="footer" class="main-content-wrap">
@@ -899,6 +643,206 @@
 </footer>
 
             </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/07/05/inno-03-check-network-state/"
+                    data-tooltip="Inno Setup 检查网络连接的Pascal代码"
+                    aria-label="上一篇: Inno Setup 检查网络连接的Pascal代码"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2019/06/25/inno-01-run-as-admin/"
+                    data-tooltip="Inno Setup 如何以管理员的身份运行"
+                    aria-label="下一篇: Inno Setup 如何以管理员的身份运行"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/06/30/inno-02-installdotnet/"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/06/30/inno-02-installdotnet/"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/06/30/inno-02-installdotnet/"
+                    title="分享到 Google+"
+                    aria-label="分享到 Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://yoursite.com/2019/06/30/inno-02-installdotnet/"
+                    title="分享到 Weibo"
+                    aria-label="分享到 Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/06/30/inno-02-installdotnet/&amp;title=Inno Setup 在x86和x64环境下安装-NET安装包"
+                    title="分享到 QQ"
+                    aria-label="分享到 QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/06/30/inno-02-installdotnet/"
+                        aria-label="分享到 Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/06/30/inno-02-installdotnet/"
+                        aria-label="分享到 Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=http://yoursite.com/2019/06/30/inno-02-installdotnet/"
+                        aria-label="分享到 Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://service.weibo.com/share/share.php?&amp;title=http://yoursite.com/2019/06/30/inno-02-installdotnet/"
+                        aria-label="分享到 Weibo"
+                    >
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/06/30/inno-02-installdotnet/&amp;title=Inno Setup 在x86和x64环境下安装-NET安装包"
+                        aria-label="分享到 QQ"
+                    >
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
             
         </div>
         
@@ -979,6 +923,8 @@
 
 <!--SCRIPTS END-->
 
+
+    
 
 
 
