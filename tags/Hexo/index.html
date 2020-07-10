@@ -317,7 +317,7 @@
     <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -349,48 +349,21 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
 <p>在转移自己的文章的时候发现了一个很有意思的事情，现在记录下来，咱们一起看看问题在哪。问题是这样的的，我之前的文章有如下文字</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ExtractTemporaryFile(<span class="string">'&#123;#DotNetFrameWorkWebInstaller&#125;'</span>);</span><br></pre></td></tr></table></figure>
 
 <p>如果上述字符以纯文本的形式，即非代码样式和引用样式存在于md文件中，如果这时尝试使用hexo s命令的话，就会有如下异常被抛出。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">someone@somenode-Pro TestBlog % hexo s</span><br><span class="line">INFO  Start processing</span><br><span class="line">FATAL Something<span class="string">'s wrong. Maybe you can find the solution here: https://hexo.io/docs/troubleshooting.html</span></span><br><span class="line"><span class="string">Template render error: (unknown path)</span></span><br><span class="line"><span class="string">  Error: expected end of comment, got end of file</span></span><br><span class="line"><span class="string">    at Object._prettifyError (/Users/someone/workspace/TestBlog/node_modules/nunjucks/src/lib.js:36:11)</span></span><br><span class="line"><span class="string">    at Template.render (/Users/someone/workspace/TestBlog/node_modules/nunjucks/src/environment.js:536:21)</span></span><br><span class="line"><span class="string">    at Environment.renderString (/Users/someone/workspace/TestBlog/node_modules/nunjucks/src/environment.js:378:17)</span></span><br><span class="line"><span class="string">    at /Users/someone/workspace/TestBlog/node_modules/hexo/lib/extend/tag.js:120:48</span></span><br><span class="line"><span class="string">    at tryCatcher (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/util.js:16:23)</span></span><br><span class="line"><span class="string">    at Function.Promise.fromNode.Promise.fromCallback (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/promise.js:209:30)</span></span><br><span class="line"><span class="string">    at Tag.render (/Users/someone/workspace/TestBlog/node_modules/hexo/lib/extend/tag.js:120:18)</span></span><br><span class="line"><span class="string">    at Object.onRenderEnd (/Users/someone/workspace/TestBlog/node_modules/hexo/lib/hexo/post.js:291:22)</span></span><br><span class="line"><span class="string">    at /Users/someone/workspace/TestBlog/node_modules/hexo/lib/hexo/render.js:79:21</span></span><br><span class="line"><span class="string">    at tryCatcher (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/util.js:16:23)</span></span><br><span class="line"><span class="string">    at Promise._settlePromiseFromHandler (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/promise.js:547:31)</span></span><br><span class="line"><span class="string">    at Promise._settlePromise (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/promise.js:604:18)</span></span><br><span class="line"><span class="string">    at Promise._settlePromise0 (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/promise.js:649:10)</span></span><br><span class="line"><span class="string">    at Promise._settlePromises (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/promise.js:729:18)</span></span><br><span class="line"><span class="string">    at _drainQueueStep (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/async.js:93:12)</span></span><br><span class="line"><span class="string">    at _drainQueue (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/async.js:86:9)</span></span><br><span class="line"><span class="string">    at Async._drainQueues (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/async.js:102:5)</span></span><br><span class="line"><span class="string">    at Immediate.Async.drainQueues (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/async.js:15:14)</span></span><br><span class="line"><span class="string">    at processImmediate (internal/timers.js:456:21)</span></span><br></pre></td></tr></table></figure>
-
-<p>上述异常信息中，重点为Template render error: (unknown path)。应该是，Markdown文件在渲染成html时，<strong>ExtractTemporaryFile</strong>被视为代码了，而如果修改括号中的参数值为空，异常就不存在了，如下纯文本：</p>
-<p>ExtractTemporaryFile(‘’);</p>
-<p>确实非常有意思。我有常识了如下的文本，也同样会抛出相同的异常。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">render(<span class="string">'&#123;#DotNetFrameWorkWebInstaller&#125;'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>如果试一试一个随意的函数名称呢？比如hello这个作为函数的姓名，如下，一样会抛出异常。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hello(<span class="string">'&#123;#DotNetFrameWorkWebInstaller&#125;'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>这样的话问题应该位于参数部分，即：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;#DotNetFrameWorkWebInstaller&#125;</span><br></pre></td></tr></table></figure>
-
-<p>我也做了尝试，如果上述内容作为纯文本出现在Markdown文件内，则会抛出异常。那么如果换个变量名字呢？比如，newparams，即参数部分如下，一行会抛出异常。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;#newparams&#125;</span><br></pre></td></tr></table></figure>
-
-<p>问题在于#这个符号，#后面跟着英文字符就会被理解成<strong>锚点</strong>了。该错误与圆括号有关，即Markdown文件中任何以：<strong>左圆括号 + #号 + 英文字符</strong> 形式存在的纯文本字符串都会引发上述异常（右侧圆括号可以不存在，例如，下列的字符若以纯文本存在就会引发异常：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;#dedee</span><br></pre></td></tr></table></figure>
-
-<p>目前找到的解决方法为在#号前输入两个\ 反斜杠。但是渲染后，还会存在一个反斜杠，所以要额外对此进行说明。感兴趣关注微信公众号，一起讨论学习。</p>
-
                     
+                        <a
+                            href="/2020/02/25/hexo-01-code-raise-error/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Hexo 中特殊纯文本字符串引起异常"
+                        >
+                            阅读全文
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2020/02/25/hexo-01-code-raise-error/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                评论和共享
-                            </a>
-                        </p>
                     
                 </div>
             

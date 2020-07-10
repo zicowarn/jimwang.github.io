@@ -317,7 +317,7 @@
     <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -349,46 +349,19 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
 <p>由于Python日渐流行，已知的是，较新版本的Mac OS也已经预装了Python 2.7的版本。 比如OS X 10.8至10.10系统已经自带的Python版本是2.7。</p>
 <p>但是可能存在的问题是，系统自带的2.7.x的版本相对较老，如果需要安装最新的2.7和3.0版本，可以借助Homebrew 来解决问题。</p>
-<p>在Homebrew安装之前，需要检查系统里是否已经安装了Xcode，若没有可以在应用商店里查询Xcode并安装。</p>
-<p>然后就可以安装Homebrew，在终端里面输入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ &#x2F;usr&#x2F;bin&#x2F;ruby -e &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Homebrew&#x2F;install&#x2F;master&#x2F;install)&quot;</span><br></pre></td></tr></table></figure>
-
-<p>来安装Homebrew，在安装结束之后需要将Homebrew的安装路径告知Mac OS系统。方法是：</p>
-<p>在当前用户根目录下找到个人配置文件即：<strong>~/.profile</strong> 文件末尾加入下列内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH&#x3D;&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;usr&#x2F;local&#x2F;sbin:$PATH</span><br></pre></td></tr></table></figure>
-
-<p>然后就可以使用Homebrew安装最新版本的Python了。</p>
-<p>安装Python3.x 在终端里键入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install python3</span><br></pre></td></tr></table></figure>
-
-<p>安装最新Python2.x 在终端里键入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install python</span><br></pre></td></tr></table></figure>
-
-<p>值得注意的是：Homebrew会将Python2.7的解释器命名为python2。而系统自带的Python还是用python来运行，即：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ python -V   # 系统Python解释器</span><br><span class="line"></span><br><span class="line">$ python2 -V  # Python 2解释器</span><br><span class="line"></span><br><span class="line">$ python3 -V  # Python 3解释器（如果安装了）</span><br></pre></td></tr></table></figure>
-
-<p>在用Homebrew安装Python的同时，pip也会被安装，其中pip2 管理最新的Python2.7的第三方扩展库 （非系统自带）。其中pip3 管理最新的Python3.x的扩展库。</p>
-<p>因为最新的电脑里面还没安装Mac OS的虚拟机。所以上所写的是之前笔记中的内容，可能与目前情况有出入。如有问题，欢迎留言讨论。</p>
-
                     
+                        <a
+                            href="/2018/11/11/0203-os-mac/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Mac OS系统下 Python的安装配置"
+                        >
+                            阅读全文
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2018/11/11/0203-os-mac/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                评论和共享
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -397,7 +370,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -429,40 +402,18 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
 <p>Python已经预装在大多数的Linux发行版本里。以Linux的发行版Ubuntu为例，在Ubuntu 16.04.3 LTS的版本里，同时预装了Python 2.7.12 和Python3.5.2 两个不同的版本。</p>
-<p>在console<strong>终端</strong>里面键入：Python的话，系统会自动默认为需要启动Python2.7 如下图：</p>
-<p><img src="/2018/11/09/0202-os-linux/640-20200708205720946.png" alt="img"></p>
-<p>但是如果你需要启动指定的Python的话，可以键入”python2” 或者 “python2.7” 来启动Python2.7版本。或者可以键入”python3” 或者 “python3.5” 来启动Python3.5版本。如图：</p>
-<p><img src="/2018/11/09/0202-os-linux/640-20200708205724297.jpeg" alt="img"></p>
-<p>Linux 系统下的32bit和64bit的混合安装比较复杂，但是绝对可以实现的（亲测）。建议借助pyenv来管理Python的多版本安装。</p>
-<p>需要指出的是：虽然Python 已经预装在Linux多数发行版本里，但是pip 即：Python的扩展库的管理程序却没有预装在系统里面，还是需要手动安装的。</p>
-<p>以Ubuntu系统为例，可以在终端里面键入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python-pip</span><br></pre></td></tr></table></figure>
-
-<p>来安装pip。</p>
-<p>或者从网站<a href="https://pip.pypa.io/en/stable/installing/下载**get-pip.py**的模块，然后在终端键入：" target="_blank" rel="noopener">https://pip.pypa.io/en/stable/installing/下载**get-pip.py**的模块，然后在终端键入：</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python get-pip.py</span><br></pre></td></tr></table></figure>
-
-<p>来安装pip。 个人建议使用后者，这样pip里记录的第三方模块的信息会相对较新。否则可能还要手动更新记录才能安装第三方模块。</p>
-<p>如有问题，欢迎留言讨论。</p>
-
                     
+                        <a
+                            href="/2018/11/09/0202-os-linux/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Linux系统下 Python的安装配置"
+                        >
+                            阅读全文
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2018/11/09/0202-os-linux/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                评论和共享
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -471,7 +422,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -503,71 +454,18 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
 <p>Python 解释器的安装是通过一个MSI安装（不是exe文件，exe可以作为安装文件，但更多的是作为可执行的程序，MSI才是标准的Windows安装引导文件）文件自动完成的。这个文件可以在Python的官方网站.<a href="https://www.python.org/downloads/下载，本文不在赘述。" target="_blank" rel="noopener">https://www.python.org/downloads/下载，本文不在赘述。</a></p>
-<p>一般情况下，你下载的安装包是64bit的。在双击安装包之后，遇到安装程序的第一个界面时，如下图：</p>
-<p><img src="/2018/11/08/0201-os-windows/0201-os-windows01.png" alt="avatar"></p>
-<p>建议选择第二个，一是节省磁盘空间，而是在多用户电脑上不影响其他用户。</p>
-<p>如果遇到选择安装路径界面的时候，如下图：</p>
-<p><img src="/2018/11/08/0201-os-windows/0201-os-windows02.png" alt="avatar"></p>
-<p>如果最终需要同时在该电脑上安装32bit的Python的话，我建议你将路径改为C:\Python27_X64\，未来来安装32bitPython的时候安装路径为：C:\Python27_X32 。</p>
-<p>遇见安装选项界面的时候，如下图：</p>
-<p><img src="/2018/11/08/0201-os-windows/640.jpeg" alt="img"></p>
-<p>请勾选”pip”选项（pip 是Python的扩展包管理程序，就如同手机里的应用市场一样，用于管理Python模块：安装，升级或卸载）。</p>
-<p>至于”Add python.exe to Path “，如果打算只安装一个Python版本，可以勾选。但是如果要安装不同版本，比如Python 32bit和64bit 的混合安装，建议这一步最后手动完成。</p>
-<p>接下来的步骤就是”<strong>下一步”</strong>了。 直到安装引导程序运行完毕。 如果是需要64bit和32bit的Python混合安装，建议在C:\Python27_X64\目录下找到python.exe 和 pythonw.exe 两个可执行文件，<strong>复制**</strong>黏贴<strong>并</strong>重命名**在当前目录里，如下图：</p>
-<p><img src="/2018/11/08/0201-os-windows/640-20200708152952042.png" alt="avatar"></p>
-<p>同样在32bit的Python安装完之后，建议在C:\Python27_X32\目录下找到python.exe 和 pythonw.exe 两个可执行文件，只需要<strong>重命名</strong>所选文件在当前目录里，如下图：</p>
-<p><img src="/2018/11/08/0201-os-windows/640-20200708152958583.png" alt="avatar"></p>
-<p>如果是64bit和32bit同时安装在系统里面，那么就需要手动告知操作系统Python解释器的安装位置。在Windows 10 系统下:</p>
-<blockquote>
-<p>我的电脑-&gt;属性-&gt;高级-&gt;环境变量-&gt;系统变量</p>
-</blockquote>
-<p>中的找到名为PATH的系统环境变量: 将Python解释器的安装路径C:\Python27_X64 (或C:\Python27_X32\）添加在<strong>系统环境变量</strong>的PATH下。</p>
-<ul>
-<li>技巧1： 通过PowerShell 可以完成，打开PowerShell输入下面的命令：</li>
-</ul>
-<p>64bit 的Python:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Environment]::SetEnvironmentVariable(&quot;Path&quot;, &quot;$env:Path;C:\Python27_X64\;C:\Python27_X64\Scripts\&quot;, &quot;User&quot;)</span><br></pre></td></tr></table></figure>
-
-<p>32bit 的Python：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Environment]::SetEnvironmentVariable(&quot;Path&quot;, &quot;$env:Path;C:\Python27_X32\;C:\Python27_X32\Scripts\&quot;, &quot;User&quot;)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>技巧2， 或者通过CMD的命令来配置环境变量，如下：</li>
-</ul>
-<p>64bit 的Python:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PATH&#x3D;PATH;c:\python27_X64</span><br></pre></td></tr></table></figure>
-
-<p>32bit 的Python:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PATH&#x3D;PATH;c:\python27_X32</span><br></pre></td></tr></table></figure>
-
-<p>最后，检测Python是否成功安装。 打开命令提示符窗口，键入python (python指向默认的解释器即Python 64bit，或键入python64或python32)。 如果出现下面的情况：</p>
-<p><img src="/2018/11/08/0201-os-windows/640-20200708153158201.jpeg" alt="avatar"></p>
-<p>那么恭喜你安装成功。</p>
-<p>但是如果出现下面的情况：</p>
-<blockquote>
-<p>‘python’不是内部或外部命令，也不是可运行的程序或批处理文件。</p>
-</blockquote>
-<p>就需要检查是不是<strong>系统环境变量</strong>里Python的<strong>安装路径</strong>是否正确。</p>
-<p>如有问题，欢迎留言讨论.</p>
-
                     
+                        <a
+                            href="/2018/11/08/0201-os-windows/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Windows系统下 Python的安装配置"
+                        >
+                            阅读全文
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2018/11/08/0201-os-windows/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                评论和共享
-                            </a>
-                        </p>
                     
                 </div>
             

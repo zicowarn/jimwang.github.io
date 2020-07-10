@@ -431,7 +431,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -463,199 +463,18 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
 <h2 id="Python运算符简介"><a href="#Python运算符简介" class="headerlink" title="Python运算符简介"></a>Python运算符简介</h2><p>程序语言运算符就是对数据操作的表示方法，即数据是如何处理的。理解运算符，在查看代码的时候就能理解代码中数据是如何加工处理的，掌握运算符就能过对数据按照自己所想操作加工处理。一般的教程或者学习资料会将操作符分为：算术运算符、连接运算符、关系运算符、赋值运算符和逻辑运算符。这也是普遍的共识。在本文中，我们稍作改变，我们分组分章节介绍，之所以这样，也是一些运算符好之间也有一定的关系。Python中有一种比较特殊的运算符，即身份运算，会单独介绍一下。位运算从本质上来讲也属于算术表达的一种，但是由于其比较特殊，常在硬件设计方面应用较多，日常的应用设计很少遇到，所以在文中也用单独的章节介绍。</p>
-<h2 id="算术运算符与赋值运算符"><a href="#算术运算符与赋值运算符" class="headerlink" title="算术运算符与赋值运算符"></a>算术运算符与赋值运算符</h2><h3 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h3><p>算术计算，在此是指常见的十进制计算，包括加法➕，减法➖，乘法✖️，除法➗，都是常见的数学计算，除了表现符号与数学课本上不一致，如，Python乘法（_），除法（/）。任何人理解这些符号的意义，在这里就不在赘述。在此我们仅介绍<strong>取模</strong>，<strong>取整</strong>， 和*幂运算(包括逆运算，即对数运算)_，Python中也有math或cmath模块，提供专门的函数来帮助你进行更复杂的算术运算，如有需要可以关注一下。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line">a = <span class="number">7</span></span><br><span class="line">b = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">c = a  // b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"取整 c 的值为："</span>, c</span><br><span class="line"></span><br><span class="line">c = a % b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"取模 c 的值为："</span>, c </span><br><span class="line"></span><br><span class="line">c = a ** b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"幂运算 c 的值为："</span>, c </span><br><span class="line"></span><br><span class="line">d = c ** (<span class="number">1.</span>/b)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"幂的逆运算 d 的值为："</span>, d</span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">取整 c 的值为： 3</span><br><span class="line">取模 c 的值为： 1</span><br><span class="line">幂运算 c 的值为： 49</span><br><span class="line">幂的逆运算 d 的值为： 7.0</span><br></pre></td></tr></table></figure>
-
-<p>取整就是得到除法的结果的整数部分，取模就是得到除法的结果的余数（<strong>切记并非小数部分</strong>），幂运算可以处理平方，三次方等，幂运算符也可以处理幂运算的逆运算，即对数运算。上面代码1后面的那个点<strong>.</strong>就表示1要按照浮点数进行运算操作。</p>
-<h3 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h3><p>赋值运算就是将算数运算结果赋值于变量，符号为<strong>=</strong>。 算术运算符➕与赋值的组合能过更简化代码，也就是常说的变量自加。即算术运算过程中等号左边的变量也作为算术运算的参与者，简单举个例子。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line">a = <span class="number">7</span></span><br><span class="line">b = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># a + b</span></span><br><span class="line">a += b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"加法与赋值的值为：%s"</span> % a</span><br><span class="line"><span class="comment"># a - b</span></span><br><span class="line">a -= b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"加法与赋值的值为：%s"</span> % a</span><br><span class="line"><span class="comment"># a * b</span></span><br><span class="line">a *= b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"乘法与赋值的值为：%s"</span> % a</span><br><span class="line"><span class="comment"># a * b</span></span><br><span class="line">a *= b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"乘法与赋值的值为：%s"</span> % a</span><br><span class="line"><span class="comment"># a ** b</span></span><br><span class="line">a **= b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"幂与赋值的值为：%s"</span> % a</span><br><span class="line"><span class="comment"># a // b</span></span><br><span class="line">a //= b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"取整与赋值的值为：%s"</span> % a</span><br><span class="line"><span class="comment"># a % b</span></span><br><span class="line">a %= b</span><br><span class="line"><span class="keyword">print</span> <span class="string">"取模与赋值的值为：%s"</span> % a</span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">加法与赋值的值为：10</span><br><span class="line">加法与赋值的值为：7</span><br><span class="line">乘法与赋值的值为：21</span><br><span class="line">乘法与赋值的值为：63</span><br><span class="line">幂与赋值的值为：250047</span><br><span class="line">取整与赋值的值为：83349</span><br><span class="line">取模与赋值的值为：0</span><br></pre></td></tr></table></figure>
-
-<p>由于变量a参与了算术计算，所以变量a的值一直发生了变化，所以不要怀疑结果出了问题。</p>
-<h2 id="比较运算符，成员运算符，身份运算符"><a href="#比较运算符，成员运算符，身份运算符" class="headerlink" title="比较运算符，成员运算符，身份运算符"></a>比较运算符，成员运算符，身份运算符</h2><p>这个章节的运算符，在编程中主要用于与条件语句进行配合，并返回True 与 Flase布尔值的运算符。</p>
-<h3 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h3><p>比较运算符比较容易理解：等于==， 不等于!=或者&lt;&gt;, 大于&gt;与大于且等于&gt;=和小于&lt;与小于且等于&lt;= 。关于这些也就不再举例，需要注意的是比较的两个元素应该具有相同的数据类型，或者都是类的实例。</p>
-<h3 id="成员运算符"><a href="#成员运算符" class="headerlink" title="成员运算符"></a>成员运算符</h3><p>成员运算符是用于检查某一值是否在可迭代的对象里面，返回值True或False。</p>
-<p>可迭代的对象Iterable并不等于迭代器Iterator。Python中这两种定义有部分相同，但是还是有一些细节的差异的。为了便于区分，这里给你一个简单的方法来区别彼此，能用for进行循环迭代的都成为可迭代对象，能被next()调用不断返回下一个值的对象为迭代器。有关两者更细节话的区别，我们在以后的文章中介绍。</p>
-<p>可迭代的对象是一种集合数据类型，如list，tuple，dict，set与str等。成员运算符为”in”和”not in”。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line">a = <span class="number">10</span></span><br><span class="line">b = <span class="number">21</span></span><br><span class="line">c = <span class="string">"a"</span></span><br><span class="line">d = <span class="number">1</span></span><br><span class="line">lt = [<span class="number">11</span>, <span class="number">20</span>, <span class="number">10</span>, <span class="number">4</span>, <span class="number">5</span> ]</span><br><span class="line">tup = (<span class="number">11</span>, <span class="number">20</span>, <span class="number">10</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line">ss = set([<span class="number">11</span>, <span class="number">20</span>, <span class="number">10</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line">dic = &#123; <span class="string">"a"</span> : <span class="number">2</span>, <span class="string">"b"</span> : <span class="number">1</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> a <span class="keyword">in</span> lt:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 在给定的列表中"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 不在给定的列表中"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> b <span class="keyword">not</span> <span class="keyword">in</span> lt:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 b 不在给定的tuple 中"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 b 在给定的tuple中"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> b <span class="keyword">not</span> <span class="keyword">in</span> ss:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 b 不在给定的set 中"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 b 在给定的set 中"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> c <span class="keyword">in</span> dic:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 c 在给定的dict中"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 c 不在给定的dict中"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> d <span class="keyword">in</span> dic:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 d 在给定的dict中"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 d 不在给定的dict中"</span></span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">变量 a 在给定的列表中</span><br><span class="line">变量 b 不在给定的tuple 中</span><br><span class="line">变量 b 不在给定的set 中</span><br><span class="line">变量 c 在给定的dict中</span><br><span class="line">变量 d 不在给定的dict中</span><br></pre></td></tr></table></figure>
-
-<p>需要注意的是，在Python 2.x中，成员运算符与dict结合使用的时候等效于has_key()函数，即用于检查是否字典dict变量存在某一键。但是Python 3.x不再具有该函数，所以只能用成员运算符。为了保证代码的兼容性和一致性，建议优先选用成员运算符来判断某一键存在与字典之中。在此我们也做个延伸，请看下方例子。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line">e = &#123;<span class="string">"a"</span> : <span class="number">1</span>, <span class="string">"b"</span> : <span class="number">2</span>, <span class="string">"c"</span> : <span class="number">3</span>&#125;</span><br><span class="line"></span><br><span class="line">akeys = e.keys()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="string">"a"</span> <span class="keyword">in</span> e:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"变量 'a' 在给定的dict中"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"变量 'a' 不在给定的dict中"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="string">"a"</span> <span class="keyword">in</span> akeys:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"变量 'a' 在给定的dict中"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"变量 'a' 不在给定的dict中"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">del</span> e[<span class="string">'a'</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="string">"a"</span> <span class="keyword">in</span> e:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"变量 'a' 在给定的dict中"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"变量 'a' 不在给定的dict中"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="string">"a"</span> <span class="keyword">in</span> akeys:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"变量 'a' 在给定的dict中"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"变量 'a' 不在给定的dict中"</span></span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">变量 &#39;a&#39; 在给定的dict中</span><br><span class="line">变量 &#39;a&#39; 在给定的dict中</span><br><span class="line">变量 &#39;a&#39; 在给定的dict中</span><br><span class="line">变量 &#39;a&#39; 不在给定的dict中</span><br><span class="line">变量 &#39;a&#39; 不在给定的dict中</span><br><span class="line">变量 &#39;a&#39; 在给定的dict中</span><br></pre></td></tr></table></figure>
-
-<p>有人可能会想，我在代码中某一处获取一个字典的所有键的列表，然后在以后需要判断的时候，直接使用这个键的列表来判断，这种想法是很危险的，也是不可取的。请参照上述例子。字典键的判断最好是按需实时进行，以避免误判。</p>
-<h3 id="身份运算符"><a href="#身份运算符" class="headerlink" title="身份运算符"></a>身份运算符</h3><p>身份运算符用于比较两个对象的储存单元。也就是判断两个引用的对象是否为同一个，即两个在储存意义上的一致。需要注意的是，Python程序中，<strong>值相同并不意味着”一致”，”一致”必然值相同</strong>。</p>
-<ul>
-<li><strong>is</strong> ，判断是否一致，是否引用自同一个对象 。 <strong>a is b</strong> 等效于 id(a) == id(b), id() 函数用于获取内存地址，地址一致则为同一个对象 。</li>
-<li><strong>not is</strong>， 与<strong>not</strong> 结合，意指取上述内容反义。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line">a = <span class="number">10</span></span><br><span class="line">b = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> a <span class="keyword">is</span> b :</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"a 和 b 有相同的标识，一致"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"a 和 b 没有相同的标识，不一致"</span></span><br><span class="line"></span><br><span class="line">b = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> a <span class="keyword">is</span> b :</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"a 和 b 有相同的标识，一致"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"a 和 b 没有相同的标识，不一致"</span></span><br><span class="line"></span><br><span class="line">c = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">d = c </span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> c <span class="keyword">is</span> d :</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"c 和 d 有相同的标识，一致"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"c 和 d 没有相同的标识，不一致"</span></span><br><span class="line"></span><br><span class="line">c = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">d = c[:]</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> c <span class="keyword">is</span> d :</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"c 和 d 有相同的标识，一致"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"c 和 d 没有相同的标识，不一致"</span></span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a 和 b 有相同的标识，一致</span><br><span class="line">a 和 b 有相同的标识，一致</span><br><span class="line">c 和 d 有相同的标识，一致</span><br><span class="line">c 和 d 没有相同的标识，不一致</span><br></pre></td></tr></table></figure>
-
-<p>从上述输出结果可以得知，整数（也包含浮点数）的变量，在值相同的情况下，赋值或者从新赋值，其引用的是同一块内存，列表在赋值的时候，上文中，从c赋值到d的时候也是引用的同一块内存。但是如果需要保证列表c和d在使用时相互之间不影响，就要对d进行重新赋值。这些都是需要在编写代码时候考虑的，从而避免不必要的错误。</p>
-<h2 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h2><p>逻辑运算符常在条件语句和while循环语句中与上述的比较运算符，成员运算符与身份运算符结合使用。用于结合两个条件，或者否定某一条件。但是需要注意的是，其他语言中的逻辑运算符并不在Python语言中兼容，在程序代码转换时候需要注意。</p>
-<table>
-<thead>
-<tr>
-<th align="center">逻辑运算符（其他语言）</th>
-<th align="center">逻辑运算符（Python）</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">&amp;&amp;</td>
-<td align="center">and</td>
-</tr>
-<tr>
-<td align="center">||</td>
-<td align="center">or</td>
-</tr>
-<tr>
-<td align="center">！</td>
-<td align="center">not</td>
-</tr>
-</tbody></table>
-<p>代码实例：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line">a = <span class="literal">True</span></span><br><span class="line">b = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>  a <span class="keyword">and</span> b :  <span class="comment"># 等效其他语言的 &amp;&amp;</span></span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 都为 true"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 有一个不为 true"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> a <span class="keyword">or</span> b : <span class="comment"># 等效其他语言的 ||</span></span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 都为 true，或其中一个变量为 true"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 都不为 true"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改变量 a 的值</span></span><br><span class="line">a = <span class="literal">False</span></span><br><span class="line"><span class="keyword">if</span>  a <span class="keyword">and</span> b :</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 都为 true"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 有一个不为 true"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> a <span class="keyword">or</span> b :</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 都为 true，或其中一个变量为 true"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 都不为 true"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span>( a <span class="keyword">and</span> b ): <span class="comment"># 等效其他语言的 ！</span></span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 都为 false，或其中一个变量为 false"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"变量 a 和 b 都为 true"</span></span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">变量 a 和 b 都为 true</span><br><span class="line">变量 a 和 b 都为 true，或其中一个变量为 true</span><br><span class="line">变量 a 和 b 有一个不为 true</span><br><span class="line">变量 a 和 b 都为 true，或其中一个变量为 true</span><br><span class="line">变量 a 和 b 都为 false，或其中一个变量为 false</span><br></pre></td></tr></table></figure>
-
-<p>以上介绍的都是常用的运算符，在日常程序设计实现时常常用到，对比其他编程语言Python有一下独有的运算符，或一些运算符在Python中的表现形式会有一些不同，都需要在实现代码时注意。</p>
-<h2 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h2><p>位运算符，会在硬件编程中用到，主要处理二进制的计算。在日常任务中并不常见，但是它也是学习进而掌握一种编程语言的必备知识。在我经历的任务中，比如需要得到RGB颜色的整数或者16进制数。RGB整数与RBG三色值之间的相互转换时，用到过位运算符。Python的位运算符与其他语言的位运算符一致，在本节我们介绍一下位运算符。</p>
-<ul>
-<li><strong>&amp;</strong>， 二进制的”<strong>与</strong>“操作。二进制相应位都位1，则结果为1，反之为0。</li>
-<li><strong>|</strong>， 二进制的”<strong>或</strong>“操作。结合逻辑运算符来理解，二进制相应位有一个位1时，结果就为1，反之为0。</li>
-<li><strong>^</strong>，二进制的”<strong>异或</strong>“操作。二进制相应位不同时，结果为1，反之为0。</li>
-<li><strong>~</strong>， 二进制的”**取反”操作。二进制数按位取反，1变为0，0变为1。</li>
-<li><strong>&lt;&lt;</strong>，二进制的”<strong>左移</strong>“操作。由符号”&lt;&lt;”右边的数字决定向左移动的位数，高位丢弃，低位补0。</li>
-<li><strong>&gt;&gt;</strong>，二进制的”<strong>右移</strong>“操作。由符号”&gt;&gt;”右边的数字决定向左移动的位数，高位补0。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line">a = <span class="number">50</span>           <span class="comment"># 50 = 0011 0010 </span></span><br><span class="line">b = <span class="number">14</span>           <span class="comment"># 14 = 0000 1110</span></span><br><span class="line">c = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">c = a &amp; b;        <span class="comment"># 2 = 0000 0010</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为dec："</span>, c</span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为bin：&#123;:#010b&#125;"</span>.format(c)</span><br><span class="line"></span><br><span class="line">c = a | b;        <span class="comment"># 62 = 0011 1110 </span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为dec："</span>, c</span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为bin：&#123;:#010b&#125;"</span>.format(c)</span><br><span class="line"></span><br><span class="line">c = a ^ b;        <span class="comment"># 60 = 0011 1100</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为dec："</span>, c</span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为bin：&#123;:#010b&#125;"</span>.format(c)</span><br><span class="line"></span><br><span class="line">c = ~a;           <span class="comment"># -51 = -0011 0011</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为dec："</span>, c</span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为bin：&#123;:#010b&#125;"</span>.format(c)</span><br><span class="line"></span><br><span class="line">c = a &lt;&lt; <span class="number">2</span>;       <span class="comment"># 200 = 1100 1000</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为dec："</span>, c</span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为bin：&#123;:#010b&#125;"</span>.format(c)</span><br><span class="line"></span><br><span class="line">c = a &gt;&gt; <span class="number">2</span>;       <span class="comment"># 12 = 0000 1100</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为dec："</span>, c</span><br><span class="line"><span class="keyword">print</span> <span class="string">"c 的值为bin：&#123;:#010b&#125;"</span>.format(c)</span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">c 的值为dec： 2</span><br><span class="line">c 的值为bin：0b00000010</span><br><span class="line">c 的值为dec： 62</span><br><span class="line">c 的值为bin：0b00111110</span><br><span class="line">c 的值为dec： 60</span><br><span class="line">c 的值为bin：0b00111100</span><br><span class="line">c 的值为dec： -51</span><br><span class="line">c 的值为bin：-0b0110011</span><br><span class="line">c 的值为dec： 200</span><br><span class="line">c 的值为bin：0b11001000</span><br><span class="line">c 的值为dec： 12</span><br><span class="line">c 的值为bin：0b00001100</span><br></pre></td></tr></table></figure>
-
-<p>可使用bin()内置函数来获取而数的二进制字符串，但是如果要更好的格式化字符串，即带有前补零和”0b”标示的二进制字符串时，则可使用{:#010b}”.format(value)来实现。</p>
-<h2 id="运算符之间的优先级"><a href="#运算符之间的优先级" class="headerlink" title="运算符之间的优先级"></a>运算符之间的优先级</h2><p>尽然编程语言中的运算符种类如此之多，在相互之间结合使用的时候，哪个操作符会被先执行，这就是操作符之间的优先级问题。在此准备一表单，运算符优先级以数字形式表示，数值越小则表示优先级越高，即在运行时会被优先执行。</p>
-<table>
-<thead>
-<tr>
-<th align="center">优先级</th>
-<th align="left">运算符</th>
-<th align="left">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">1</td>
-<td align="left">**</td>
-<td align="left">指数运算，最高优先级</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="left">~ + -</td>
-<td align="left">位的取反操作，一元加号与减号（标示数的正负）</td>
-</tr>
-<tr>
-<td align="center">3</td>
-<td align="left">* / % //</td>
-<td align="left">乘，除，取模和取整</td>
-</tr>
-<tr>
-<td align="center">4</td>
-<td align="left">+ -</td>
-<td align="left">加法，减法</td>
-</tr>
-<tr>
-<td align="center">5</td>
-<td align="left">&gt;&gt;,  &lt;&lt;</td>
-<td align="left">位操作左移，位操作右移</td>
-</tr>
-<tr>
-<td align="center">6</td>
-<td align="left">&amp;</td>
-<td align="left">位操作 与</td>
-</tr>
-<tr>
-<td align="center">7</td>
-<td align="left">^ ,  |</td>
-<td align="left">位操作 异或 与 或</td>
-</tr>
-<tr>
-<td align="center">8</td>
-<td align="left">&lt;=, &lt;&gt;, &gt;=</td>
-<td align="left">比较运算符</td>
-</tr>
-<tr>
-<td align="center">9</td>
-<td align="left">&lt;&gt;, ==, !=</td>
-<td align="left">等于，不等于运算符</td>
-</tr>
-<tr>
-<td align="center">10</td>
-<td align="left">=, %=, /=, -=, +=, <em>=, *</em>=</td>
-<td align="left">赋值运算符，自加，自减等</td>
-</tr>
-<tr>
-<td align="center">11</td>
-<td align="left">is, is not</td>
-<td align="left">身份运算符</td>
-</tr>
-<tr>
-<td align="center">12</td>
-<td align="left">in, not in</td>
-<td align="left">成员运算符</td>
-</tr>
-<tr>
-<td align="center">13</td>
-<td align="left">not, and, or</td>
-<td align="left">逻辑运算符</td>
-</tr>
-</tbody></table>
-<p>传统数学计算时的优先级也在上述列表中得到体现，如，乘除法运算优先与加减法运算。括号可以提升优先级。操作符的优先级结合数学计算的优先级，又加上了编程语言的特有预算符的优先级。掌握运算符的优先级，没有什么技巧，只有在不断的实践中加深印象，从而实现熟练使用。</p>
-<h2 id="运算符扩展—-函数注释-Function-Annotations"><a href="#运算符扩展—-函数注释-Function-Annotations" class="headerlink" title="运算符扩展— 函数注释 Function Annotations"></a>运算符扩展— 函数注释 Function Annotations</h2><p>Python 3.x 增加了一个新的特性Feature，叫做<strong>函数注释Function Annotations</strong>。其表现特征是函数定义是，在函数定义括号内使用”:”来注释参数，在右括号外添加”-&gt;”符号，来注释返回值。</p>
-<p>我们来举个例子，传统意义上定义函数为：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a, b, c)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> a + b + c</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>func(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="number">6</span></span><br></pre></td></tr></table></figure>
-
-<p>添加注释的函数可以用如下形式表示：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(a: <span class="string">'spam'</span>, b: <span class="params">(<span class="number">1</span>, <span class="number">10</span>)</span>, c: float)</span> -&gt; int:</span></span><br><span class="line">    <span class="keyword">return</span> a + b + c</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>func(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="number">6</span></span><br></pre></td></tr></table></figure>
-
-<p>参数后的注释，即”:”后的内容可以是任何形式，返回值的注释需要注意返回值的数据类型必须为Python的数据类型。</p>
-<p>函数的注视添加之后会以属性的形式保存在函数中。查看函数注释可以使用如下语句：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>func.__annotations__</span><br><span class="line">&#123;'c': &lt;class 'float'&gt;, 'a': 'spam', 'b': (1, 10), 'return': &lt;class 'int'&gt;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>函数注释只是一种附加的特征，其并不影响函数的传统方式的使用。参数的注释只是一种帮助信息，并没有现实意义上的约束力。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>编程语言的运算符，是学习编程语言的基础。熟练掌握才能进行其他方面知识的学习。目前网络中存在很多Python的教程，本人也无意重复别人做过的事情，只是将自己在学习这门编程语言的时的一些感悟，也对某一部分内容的个人见解与内容的延伸以文字的方式记录下来，这样在查看别的文章的时候，如果遇到一些基本知识的内容，就可以在不跳转别的教程网站的情况下，解决学习中遇到的问题，方便读者也方便自己。欢迎订阅我的个人微信公众号。</p>
-
                     
+                        <a
+                            href="/2018/11/20/030201-operator/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Python 运算符"
+                        >
+                            阅读全文
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2018/11/20/030201-operator/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                评论和共享
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -664,7 +483,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -696,104 +515,18 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
 <h2 id="Python-标准数据类型"><a href="#Python-标准数据类型" class="headerlink" title="Python 标准数据类型"></a><strong>Python 标准数据类型</strong></h2><p>大家好，最近更新比较慢，临近圣诞节和新年，公司的事情也就异常多。连续几天的会议，还要加紧修复bug，为新版本软件的发布做准备。好了言归正传，书接上回。Python 定义了一些标准数据类型，用于存储各种类型的数据。Python有五个标准的数据类型，分别是：</p>
-<ul>
-<li><ul>
-<li>Numbers（数字）</li>
-<li>String（字符串）</li>
-<li>List（列表）</li>
-<li>Tuple（元组）</li>
-<li>Dictionary（字典）</li>
-</ul>
-</li>
-</ul>
-<p>字典在Python中应该算是最后一个重要的基本变量，出现在代码中的频率也比较高。常被用作为一种可变的数据容器。今天就给大家介绍一下Python最后一个标准数据类型字典，即Dictionary的一些基础知识和在实际应用中的使用技巧。</p>
-<h2 id="Dictionary-字典的特征"><a href="#Dictionary-字典的特征" class="headerlink" title="Dictionary 字典的特征"></a><strong>Dictionary 字典的特征</strong></h2><p>作为一种可变容器模型，那么字典Dict在声明之后就能够任意被修改，比如添加，删除，或者更改。既然名为字典也就意味着其查询索引方式类如真实意义上的字典。Python的自己由一组<strong>键（key）与值（value）</strong>组成。两者之间用冒号隔开（<strong>：</strong>）。组与组之间与逗号（，）隔开。最后用花括号(大括号) “<strong>{}</strong>“ 包裹所有的键值组，就得到一个字典实例，如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">di = &#123;key_1 : value_1, key_2 : value_2, key_3: value_3&#125;</span><br></pre></td></tr></table></figure>
-
-<p>字典中，每一组键值，其键需要有唯一性，但是其值则不需要。在Python中，字典键值的唯一性就限制了它的数据类型选择范围。结合前面文章所介绍的的标准数据类型，除<strong>列表</strong>以外：数值型，元组，字符串都能够作为字典类型的<strong>键</strong>，经过实践可以告诉大家，任何类的实例都可以作为字典的键。因为类一旦实例化，其类实例在内存中的地址具有唯一性，因此也可以作为字典的键，参考下面代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line"><span class="meta">... </span>   <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line"><span class="meta">... </span>            <span class="keyword">pass</span>...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = A()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123; <span class="number">1</span>: <span class="string">"a"</span>, <span class="number">2</span>: <span class="string">"b"</span>, a:<span class="string">"Object"</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;&lt;__main__.A instance at <span class="number">0x0000000004D2A188</span>&gt;: <span class="string">'Object'</span>, <span class="number">1</span>: <span class="string">'a'</span>, <span class="number">2</span>: <span class="string">'b'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.keys()</span><br><span class="line">[&lt;__main__.A instance at <span class="number">0x0000000004D2A188</span>&gt;, <span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">&gt;&gt; d.keys()[<span class="number">0</span>]</span><br><span class="line">&lt;__main__.A instance at <span class="number">0x0000000004D2A188</span></span><br><span class="line">&gt;&gt;&gt;&gt; d.keys()[<span class="number">0</span>].isB = <span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.keys()[<span class="number">0</span>]</span><br><span class="line">&lt;__main__.A instance at <span class="number">0x0000000004D2A188</span>&gt;</span><br></pre></td></tr></table></figure>
-
-<p>字典中，每组键值中的值，没有限定，可以是任意的数据类型。1. 键值是否可变，字典并不做约束，仅仅与数据类型本身有关。如下面代码的例子中，元组可以作为一对键值的值，因为元组本身不可变，所以该对键值的值不可变，但是不能因此认为字典的值不可改变。 2. 一对键值中，虽然字典也可以作为键值的值，而且在日常使用的时候也不会出现问题，但是在实际使用的时候，如果作为值的字典中存在bytes类的键值时，当尝试使用deepcopy复制字典实例的时候，可能会引发异常，当然类似的异常也会存在与复制相似结构的列表时诱发。各位可以留个印象，当以后遇见类似问题，或许可以帮助你确定异常诱发的原因。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>mydict = &#123;<span class="string">"str"</span>: <span class="string">"String"</span>, <span class="string">"list"</span>: [<span class="string">"list1"</span>, <span class="string">"list2"</span>], <span class="string">"tuple"</span>: (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>) , <span class="string">"dictionary"</span> : &#123;<span class="string">"a"</span>: <span class="string">"1"</span>, <span class="string">"b"</span>:<span class="number">2</span>&#125;&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>mydict</span><br><span class="line">&#123;<span class="string">'list'</span>: [<span class="string">'list1'</span>, <span class="string">'list2'</span>], <span class="string">'dictionary'</span>: &#123;<span class="string">'a'</span>: <span class="string">'1'</span>, <span class="string">'b'</span>: <span class="number">2</span>&#125;, <span class="string">'str'</span>: <span class="string">'String'</span>, <span class="string">'tuple'</span>: (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)&#125;</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">注：上述代码中我们会发现一个问题，字典键值打印时，键值组的顺序和自己声明字典时的顺序</span><br><span class="line">不一致。这样的问题在字典历遍或者索引的时候也会遇到。标准的Python中会有一个名为</span><br><span class="line">collections的模块，在该模块下有一个名为OderedDict的类，该类为Dict的子类，但具</span><br><span class="line">有保持字典中键值顺序与声明时相一致的特性。</span><br></pre></td></tr></table></figure>
-
-<p>总的来说，对于字典中键值对，键是由唯一且不可变的数据类型定义，准确地来说是可以哈希（hashable）的数据类型。值可以为任意数据类型。当同一键值被重复赋值，最后一次值将被采用。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/LNbO7CDlxmbTEl8FZc5icO1wlmSzmh1hmz96edbdYgnGu6yzrRGLqSfoLLonV16JRlvMHD1qCQHbo6QtKzdu3uA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
-<p>声明后的字典实例，修改添加和改变都很简单。其中为字典中添加一个元素和更改一个元素的书写方式是一样的。如下方代码：如果字典情况位置，键3值的修改和键4值的添加，方法一样。而列表再添加值的时候是需要使用类方法append()的。而如果使用数字作为键值，代码文件就由如<strong>d[3] = ‘d’</strong> 的内容， 这样的书写方法不利于代码的标准化，而且类似的需求完全可以由列表来实现。所以个人建议为了代码的标准化，使用字典时，还是应尽量避免数值类型作为键的值，避免代码出现歧义。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123; <span class="number">1</span>: <span class="string">"a"</span>, <span class="number">2</span>: <span class="string">"b"</span>, <span class="number">3</span>: <span class="string">"c"</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d[<span class="number">3</span>]</span><br><span class="line"><span class="string">'c'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d[<span class="number">3</span>] = <span class="string">'d'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d[<span class="number">4</span>] = <span class="string">'e'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;<span class="number">1</span>: <span class="string">'a'</span>, <span class="number">2</span>: <span class="string">'b'</span>, <span class="number">3</span>: <span class="string">'d'</span>, <span class="number">4</span>: <span class="string">'e'</span>&#125;</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
-
-<p>字典的删除操作，使用字典的类方法clear()可以删除字典中的所有元素，但是字典实例依旧存在。也可以使用关键字<strong>del</strong>来实现对字典单一元素和整个字典的清除。注意：使用关键字del删除整个字典，该字典的实例将从内存中清除，使用被清除的字典会引发异常。如下面代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123;<span class="number">1</span>: <span class="string">'a'</span>, <span class="number">2</span>: <span class="string">'b'</span>, <span class="number">3</span>: <span class="string">'d'</span>, <span class="number">4</span>: <span class="string">'e'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">del</span> d[<span class="number">4</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;<span class="number">1</span>: <span class="string">'a'</span>, <span class="number">2</span>: <span class="string">'b'</span>, <span class="number">3</span>: <span class="string">'d'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.clear()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123; <span class="number">1</span>: <span class="string">"a"</span>, <span class="number">2</span>: <span class="string">"b"</span>, <span class="number">3</span>: <span class="string">"c"</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">del</span> d[<span class="number">3</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;<span class="number">1</span>: <span class="string">'a'</span>, <span class="number">2</span>: <span class="string">'b'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">del</span> d</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">NameError: name <span class="string">'d'</span> <span class="keyword">is</span> <span class="keyword">not</span> defined</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
-
-<h2 id="Dictionary-字典的索引"><a href="#Dictionary-字典的索引" class="headerlink" title="Dictionary 字典的索引"></a><strong>Dictionary 字典的索引</strong></h2><p>Python中字典键值的索引总的来说有两种方法，一种使用方括号和键，类似列表的方法来索引和访问字典中的元素。第二种是使用get()类方法和键来索引和访问，代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123;<span class="number">1</span>: <span class="string">'a'</span>, <span class="number">2</span>: <span class="string">'b'</span>, <span class="number">3</span>: <span class="string">'d'</span>, <span class="number">4</span>: <span class="string">'e'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d[<span class="number">1</span>]</span><br><span class="line"><span class="string">'a'</span></span><br><span class="line">&gt;&gt; d.get(<span class="number">1</span>)</span><br><span class="line"><span class="string">'a'</span></span><br></pre></td></tr></table></figure>
-
-<p>两种方法在效率上并没有差别，早前读过一篇文章讨论两种索引方式的效率。结果如下，结果显示使用方括号更直接高效。个人建议大家将图示的结果仅作为一个参考，因为也有Python开发人员有不同意见，认为实验方式有问题。</p>
-<p>在实际应用的时候，我个人觉得两种方法的效率其实并没有太大差别，更值得关注的是get()方法能够更好地避免因为键不存在引起的索引异常。如下面代码:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123;<span class="number">1</span>: <span class="string">'a'</span>, <span class="number">2</span>: <span class="string">'b'</span>, <span class="number">3</span>: <span class="string">'d'</span>, <span class="number">4</span>: <span class="string">'e'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d[<span class="number">6</span>]</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">KeyError: <span class="number">6</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.get(<span class="number">6</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.get(<span class="number">6</span>, <span class="string">"No Value"</span>)</span><br><span class="line"><span class="string">'No Value'</span></span><br></pre></td></tr></table></figure>
-
-<p>由上述代码可以发现，在遇到字典中不存在的键的问题的时候，方括号+键的方式会引发异常，为了避免异常还要添加代码（通常为if语句）来检测该字典中是否存在所求键值组。而使用get()方法则能避免引发这个异常，当字典中不存在所求键值组的时，使用该方法返回空，或者你也可以给定第二个变量作为默认值，当该键值不存在则会返回默认值。在实际使用中该方法优选，可以很大程度地减少代码数量。</p>
-<p>在这里我给大家介绍一个Python字典索引的<strong>应用技巧</strong>，具体方法如下方代码。假如一个字典有数字和字符串混合键，想要得到所有数字键的键值组。经典方法为，索引字典中的每一个键值组，检查键的数据类型，将符合条件的键值组的值加入一个列表里面，最终就可以得到所有符合要求的键值组的值的组合。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123;<span class="string">'1'</span>: <span class="string">"a"</span>, <span class="number">1</span>:<span class="string">"b"</span>, <span class="string">'2'</span>: <span class="string">"c"</span>, <span class="number">2</span> : <span class="string">"d"</span>, <span class="string">'3'</span>: <span class="string">"e"</span>, <span class="number">3</span>: <span class="string">"f"</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;<span class="number">1</span>: <span class="string">'b'</span>, <span class="number">2</span>: <span class="string">'d'</span>, <span class="number">3</span>: <span class="string">'f'</span>, <span class="string">'1'</span>: <span class="string">'a'</span>, <span class="string">'3'</span>: <span class="string">'e'</span>, <span class="string">'2'</span>: <span class="string">'c'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.keys()</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">'1'</span>, <span class="string">'3'</span>, <span class="string">'2'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>intKeys = filter(<span class="keyword">lambda</span> e: isinstance(e, int), d.keys())</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>intKeys</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>listValuesOfIntKeys = map(d.get, intKeys)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>listValuesOfIntKeys</span><br><span class="line">[<span class="string">'b'</span>, <span class="string">'d'</span>, <span class="string">'f'</span>]</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
-
-<p>使用上述方法，可以避免索引整个字典，代码简洁有效。这里值得关注的是使用filter()+lambda关键字来筛选一个列表，和使用map()函数一次性地用不同参数调用同一函数（在这里为字典的get()方法）。这样的方法或许可以提供一种不同的解决问题的思路。</p>
-<p>索引的特殊情况，历遍字典所有键值组。经典方法为<strong>for + in</strong> 的组合来进行迭代。请参考下方代码。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> key <span class="keyword">in</span> d:</span><br></pre></td></tr></table></figure>
-
-<p>该种方法也有效，但是不推荐使用。主要原因在于，底层代码要检验键值的唯一性，该方法会增加发生异常的频率。还有一个原因是for循环中的d[key] 会导致键再次被哈希，当字典较大时，这样的操作会消耗更多的时间。</p>
-<p>我个人比较推荐使用下面的方法，这样的方法同时迭代键与值，而且更见安全。这在Python 2.7 中常被使用：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> key, value <span class="keyword">in</span> d.iteritems():</span><br></pre></td></tr></table></figure>
-
-<p>Python 3.0 会使用下面的方法：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> key, value <span class="keyword">in</span> d.items():</span><br></pre></td></tr></table></figure>
-
-<h2 id="关于字典的内置函数和类方法"><a href="#关于字典的内置函数和类方法" class="headerlink" title="关于字典的内置函数和类方法"></a><strong>关于字典的内置函数和类方法</strong></h2><p>字典作为Python的标准数据类型，Python这种语言自然为其准备了一些内置方法，常见的主要如下：</p>
-<blockquote>
-<ol>
-<li>len(dict) 函数：用于得到字典的长度，因为为键值组，所以键的数量和值的数量相当。</li>
-<li>str(dict) 函数：用于输出字典可打印的字符串，其表示内容，可通过继承字典类型， 复写<strong>repr</strong>(self)类函数来格式化输出内容。</li>
-<li>cmp(dict1, dict2）函数：用于比较字典的键值组是否完全一致，如果相同则返回真， 否则为假。</li>
-</ol>
-</blockquote>
-<p>字典在Python中也算是一种类，既然是类就有类方法。上文中介绍了一些常见的类方法比如使用键得到值的get()方法，清除字典内所有元素的clear()方法和得到字典内所有键值组键的方法keys()。 除此之外常用的方法还有：</p>
-<blockquote>
-<ol>
-<li><p>dict.copy() 类方法： 用于浅复制一个字典， 注。</p>
-</li>
-<li><p>dict.items() 类方法：返回值为该字典”（键，值）“样式的元组组成的列表 ，注。</p>
-</li>
-<li><p>dict.update(dict2) 类方法：使用dict2中的值，来更新dict中有相同键的键</p>
-<p>值组的值。</p>
-</li>
-<li><p>dict.values() 类方法：返回字典中所有值组成的列表。</p>
-</li>
-<li><p>dict.has_key(key) 类方法：用于判断字典中是否含有该键，有为true，否则为假。</p>
-</li>
-<li><p>dict.pop(key, default) 类方法：该方法与get()相似，删除一组键值，如果该键不</p>
-<p>存在则返回default值。 注： Python 2.x中有iteritems方法，在Python 3.0 中该方法被items()替代。 关于浅复制和深复制的内容，我将为在以后的文章中介绍给大家。</p>
-</li>
-</ol>
-</blockquote>
-<p>使用Python语言的内置方法和字典的类方法并结合一下编程技巧，我相信，各位读者能够正确使用字典来解决自己在项目中遇见的问题， 并在完成项目的同时会发现一些新的技巧，进而不断地提高自己的代码质量和代码效率。</p>
-<p>Python基本数据类型中的字典和其使用技巧今天就介绍到这里，我也会尽我所能提高更新频率。努力归纳自己在工作中遇见的问题，并把自己找到的解决方法介绍给大家。</p>
-
                     
+                        <a
+                            href="/2018/11/19/030104-variable-dict-tips/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Python 变量之字典与应用技巧"
+                        >
+                            阅读全文
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2018/11/19/030104-variable-dict-tips/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                评论和共享
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -802,7 +535,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -834,11 +567,10 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
 <h3 id="Python-标准数据类型"><a href="#Python-标准数据类型" class="headerlink" title="Python 标准数据类型"></a><strong>Python 标准数据类型</strong></h3><p>Python 定义了一些标准数据类型，用于存储各种类型的数据。Python有五个标准的数据类型，分别是：</p>
 <ul>
-<li><ul>
 <li>Numbers（数字）</li>
 <li>String（字符串）</li>
 <li>List（列表）</li>
@@ -846,88 +578,15 @@
 <li>Dictionary（字典）</li>
 </ul>
 <p>Python 变量申明自由，使用灵活，每种数据类型都有存在的原因和使用的技巧。今天的文章我们就介绍一下<strong>元组</strong>的基本知识，介绍一下它的使用技巧，讨论一下它存在的原因。</p>
-</li>
-</ul>
-<p><img src="/2018/11/18/030103-variable-tuple-tips/971594283516_.pic.jpg" alt="img"></p>
-<h3 id="Python-数据类型之元组"><a href="#Python-数据类型之元组" class="headerlink" title="Python 数据类型之元组"></a><strong>Python 数据类型之元组</strong></h3><p>前一篇文章提到的五种标准变量类型中string, list, tuple 都属于序列(sequence)类型。Python内置共有6种序列类型变量，分别为：</p>
-<h2 id="str-unicode-list-tuple-buffer-xrange-range"><a href="#str-unicode-list-tuple-buffer-xrange-range" class="headerlink" title="str, unicode, list, tuple, buffer, xrange(range)"></a><code>str, unicode, list, tuple, buffer, xrange(range)</code></h2><p>除一种可变序列类型，即List列表，其余的如tuple和range都属于不可变的序列类型。这里所谓的”不可变” （immutable）是说，对象创建之后，就不可以通过一些操作改变其内部状态，简言之就是对象本身不可改变。</p>
-<p><img src="/2018/11/18/030103-variable-tuple-tips/981594283545_.pic.jpg" alt="img"></p>
-<h3 id="Python-元组赋值与快速赋值"><a href="#Python-元组赋值与快速赋值" class="headerlink" title="Python 元组赋值与快速赋值"></a><strong>Python 元组赋值与快速赋值</strong></h3><p>Python 元组使用圆括号“（）”，作为与其他数据类型区别的标志， 元素之间用逗号“，”分隔。元组在创建时元素的数据类型不限，可以是各种数据类型的集合。与列表相似，元组中的每个元素都分配一个数字作为索引，第一个索引值为0， 第二个为1，以此类推。元组列表普通赋值定义方法如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tup1 = (<span class="string">'physics'</span>, <span class="string">'chemistry'</span>, <span class="number">1997</span>, <span class="number">2000</span>)</span><br><span class="line">tup2 = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> )</span><br><span class="line">tup3 = (<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>)</span><br></pre></td></tr></table></figure>
-
-<p>初始化完成之后就可以使用元组。元组和上一篇关于列表的文章相似。如果元组初始化长度过长，就可以使用下列方法对元组赋值：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup1 = (<span class="number">0</span>,) * <span class="number">5</span> <span class="comment"># 数字类型</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup1(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup2 = (<span class="string">""</span>,) * <span class="number">8</span> <span class="comment"># 字符串类型</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup2 </span><br><span class="line">(<span class="string">''</span>, <span class="string">''</span>, <span class="string">''</span>, <span class="string">''</span>, <span class="string">''</span>, <span class="string">''</span>, <span class="string">''</span>, <span class="string">''</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup3 = (<span class="literal">None</span>,) * <span class="number">9</span> <span class="comment"># 空</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup3</span><br><span class="line">(<span class="literal">None</span>, <span class="literal">None</span>, <span class="literal">None</span>, <span class="literal">None</span>, <span class="literal">None</span>, <span class="literal">None</span>, <span class="literal">None</span>, <span class="literal">None</span>, <span class="literal">None</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup4 = (<span class="literal">True</span>, )*<span class="number">7</span> <span class="comment"># 布尔类型</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup4</span><br><span class="line">(<span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
-
-<p>此方法快速高效，可以对指定长度的组元进行快速初始化，弊端在于不能在指定元素的类型，但可以按顺序混合元素的数据类型，如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup5 = (<span class="literal">True</span>, <span class="string">""</span>)* <span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup5</span><br><span class="line">(<span class="literal">True</span>, <span class="string">''</span>, <span class="literal">True</span>, <span class="string">''</span>, <span class="literal">True</span>, <span class="string">''</span>)</span><br></pre></td></tr></table></figure>
-
-<p>在这里要指出两点，一、此种快速赋值初始化元组理论上可行，但是不具有任何使用意义。理论上不存在，需要初始化一个元素相同的元组的情况。二、与列表不同，在初始化元组的候，如果元组中只有一个元素，那么需要在该元素后面添加逗号来消除歧义，如果没有，Python解释器会视为申明一个普通变量而非元组类型。</p>
-<h3 id="Python-的列表索引，切片与排序"><a href="#Python-的列表索引，切片与排序" class="headerlink" title="Python 的列表索引，切片与排序"></a><strong>Python 的列表索引，切片与排序</strong></h3><p> Python 的元组索引方式和列表的索引方式相似：使用元组的变量名加方括号与索引值进行索引。Python的独特优势：在方括号中使用冒号“<strong>：</strong>”+“<strong>数字</strong>” 切片方式同样适用于元组。切片可以理解为：取元组中指定的<strong>连续</strong>元素，返回值同为元组。如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup1 = (<span class="string">'Google'</span>, <span class="string">'Runoob'</span>, <span class="string">'Taobao'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup1[<span class="number">2</span>] <span class="comment"># 取第二个</span></span><br><span class="line"><span class="string">'Taobao'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup1[<span class="number">-1</span>] <span class="comment"># 取倒数第一个</span></span><br><span class="line"><span class="string">'Taobao'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup1[<span class="number">1</span>:] <span class="comment"># 取 从索引1至最后一个</span></span><br><span class="line">(<span class="string">'Runoob'</span>, <span class="string">'Taobao'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup1[:<span class="number">2</span>] <span class="comment"># 取 从开始至索引2</span></span><br><span class="line">(<span class="string">'Google'</span>, <span class="string">'Runoob'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup1[<span class="number">-1</span>:] <span class="comment"># 取倒数第一个至倒数第一个</span></span><br><span class="line">(<span class="string">'Taobao'</span>,)</span><br><span class="line">注意：上述示例中，tup1[<span class="number">-1</span>]意为取最后一个，得到的结果为一个字符串类型，</span><br><span class="line">tup1[<span class="number">-1</span>:]也同为取最后一个，但因为指定了切片范围，则返回值为一个单一元素的元</span><br><span class="line">组。在编程时应注意这点，避免因数据类型问题写出很多不必要的代码。</span><br></pre></td></tr></table></figure>
-
-<p>如同列表一样，元组在Python也是一个类。意味着元组有自己的类方法。可以通过类方法对元组进行操作。常用类方法如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>    tup.count(obj) <span class="comment"># 某个元素在列表中出现的次数</span></span><br><span class="line"><span class="number">2</span>    tup.index(obj) <span class="comment"># 从列表中找出某个值第一个匹配项的索引位置</span></span><br></pre></td></tr></table></figure>
-
-<p>感兴趣的可以对比一下<a href="http://mp.weixin.qq.com/s?__biz=MzU3MTI2ODk0MA==&mid=2247483757&idx=1&sn=32ceb9602e51d9964876cfc772b8034d&chksm=fce38b4ecb940258b0bc183b52ed4f43386e3a06334dda1f7e6396241957c8190be19782dbcd&scene=21#wechat_redirect" target="_blank" rel="noopener">上一篇关于列表</a>的文章，对比一下两者类方法相同与不同之处。简言之：<strong>元组不具有任何能改变自己的类方法</strong>。</p>
-<p><img src="/2018/11/18/030103-variable-tuple-tips/991594283548_.pic.jpg" alt="img"></p>
-<p>接下来我给大家介绍一下元组<strong>倒序排列</strong>(revers)和<strong>整理排序</strong>(sort)的应用技巧。整理排序时，默认情况下，数字元组排序规则为：由小到大；字符串元组排列规则：由“0”到“10”，然后由a到z；数字和字符串混合型元组排序规则为：先数字，后字符。请参考下方例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup = (<span class="string">'a'</span>, <span class="number">1</span>, <span class="string">"c"</span>, <span class="number">3</span>, <span class="string">"b"</span>, <span class="number">2</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sorted(tup) <span class="comment"># 使用Python内置方法</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]</span><br><span class="line">注意，sorted()为Python编程语言的</span><br><span class="line">内置函数，元组不具有类似列表的类</span><br><span class="line">方法sort()用于排序。</span><br></pre></td></tr></table></figure>
-
-<p>仔细观察上述示例，使用Python内置函数sorted()，返回值为一个列表，这与变量tup数据类型无关，仅与该函数的返回值类型有关。在元组倒序排列的问题，请参考下方例子，可以通过一种特殊的切片方法直接生成出一个倒序排列的新的元组。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup = (<span class="string">'a'</span>, <span class="number">1</span>, <span class="string">"c"</span>, <span class="number">3</span>, <span class="string">"b"</span>, <span class="number">2</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup[::<span class="number">-1</span>] <span class="comment"># 采用切片法</span></span><br><span class="line">(<span class="number">2</span>, <span class="string">'b'</span>, <span class="number">3</span>, <span class="string">'c'</span>, <span class="number">1</span>, <span class="string">'a'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lt</span><br><span class="line">[<span class="string">'a'</span>, <span class="number">1</span>, <span class="string">'c'</span>, <span class="number">3</span>, <span class="string">'b'</span>, <span class="number">2</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>reversed(tup)</span><br><span class="line">&lt;reversed object at <span class="number">0x00000000002AEED68</span>&gt;</span><br></pre></td></tr></table></figure>
-
-<p>虽然python也有一个用于倒序排列的内置函数reversed() 也可以用于元组。此函数返回值为一个元组型的迭(die)代器实例，而非一个新的元组，所以说用类似“<strong>[::-1]</strong>”切片方式才是元组倒序排列的最佳选择。</p>
-<p>Python编程语言一些内置函数，比如：元组间比较cmp()，获取长度len()，最大值max()和最小值min()，转变为列表list(seq)等，这些函数不仅适用于列表，也同样适用于元组，毕竟两者都属于序列类型。如上篇文章所介绍的，用于检测是否为<strong>非空</strong>的函数all()，和是否有任一个元素为<strong>空</strong>的函数any也能用于元组。</p>
-<h3 id="列表与元组"><a href="#列表与元组" class="headerlink" title="列表与元组"></a><strong>列表与元组</strong></h3><p>如果大家开始学习Python，学到这里的时候，脑子里都应该有这样一个问题，Python中有列表这种数据类型，为什么还需要一个元组。接下来我们来探讨一下其存在的原因。</p>
-<p>列表和元组两者是相似的数据类型，都是作为一个容器，用于存储数据。本质上都属于序列类型，但列表可变，元组不可变。除了关注”变”以外，理论上我们还需要注意他们在语法上的应用区别，元组应当作为异构的数据集合（元素数据类型不同），类似于C语言里面的struct 结构体；列表应当作同构的数据集合（元素数据类型相同），类似与C语言中的array数组。两者在Python中的使用原则应为，<strong>元组关注结构，列表关注排列</strong>。但在实际应用中，因为Python的列表并不限制数据类型，所以这一原则并没有被严格遵守。</p>
-<p>元组使用场景通常为：同时为多个变量名赋值；一次性为函数传递所有参数和调用函数时一次性返回不同的类型的数据，如下：</p>
-<ul>
-<li>场景一，为多个变量名同时赋值：</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a, b, c = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>) <span class="comment"># case 1： 使用元组</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a, b, c</span><br><span class="line">(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a, b, c = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>] <span class="comment"># case 2： 使用列表</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a, b, c</span><br><span class="line">(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a, b, c = <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>   <span class="comment"># case 3： 此种方法也视为 元组赋值</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a, b, c</span><br><span class="line">(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a, b, c = d         <span class="comment"># case 4： 此种方法也视为 元组赋值</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a, b, c</span><br><span class="line">(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a, b, c = d         <span class="comment"># case 5： 此种方法也视为 元组赋值</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a, b, c</span><br><span class="line">(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
-
-<p>虽然上述场景中，case1与case2, case4与case5能达到相同的目的但是本质上来讲case2和case5都是由Python解释权将列表转换为元组，然后再给a, b, c三个变量赋值的。case3比较特殊，虽然没有使用圆括号，但是Python的解释权会自动讲”1， 2， 3“ 转换为元组，然后进行赋值。</p>
-<ul>
-<li>场景二，一次性为函数传递所有参数：</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">fun1</span><span class="params">(a=<span class="string">""</span>, b=None, c=False)</span>:</span></span><br><span class="line"><span class="meta">... </span>    <span class="keyword">print</span> <span class="string">"a : "</span>,</span><br><span class="line"><span class="meta">... </span>    <span class="keyword">print</span> a,</span><br><span class="line"><span class="meta">... </span>    <span class="keyword">print</span> <span class="string">" b : "</span>,</span><br><span class="line"><span class="meta">... </span>    <span class="keyword">print</span> b,</span><br><span class="line"><span class="meta">... </span>    <span class="keyword">print</span> <span class="string">" c : "</span>,</span><br><span class="line"><span class="meta">... </span>    <span class="keyword">print</span> c</span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)     <span class="comment"># 使用元组</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>fun1(d)           <span class="comment"># 错误方式</span></span><br><span class="line">a :  (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)  b :  <span class="literal">None</span>  c :  <span class="literal">False</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>fun1(*d)          <span class="comment"># 正确方式a :  1  b :  2  c :  3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]     <span class="comment"># 使用列表</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>fun1(d)           <span class="comment"># 错误方式</span></span><br><span class="line">a :  [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]  b :  <span class="literal">None</span>  c :  <span class="literal">False</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>fun1(*d)          <span class="comment"># 正确方式</span></span><br><span class="line">a :  <span class="number">1</span>  b :  <span class="number">2</span>  c :  <span class="number">3</span></span><br></pre></td></tr></table></figure>
-
-<p>同样的虽然上述场景中，使用列表和元组通过正确地方式都能够一次性地传递多个参数给函数fun1()。 但是与场景一相同，都是由Python解释权将列表转换为元组，然后再给a, b, c三个参数赋值的。</p>
-<p> 场景三，调用函数时一次性返回不同的类型的数据：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">fun2</span><span class="params">()</span>:</span></span><br><span class="line"><span class="meta">... </span>    <span class="keyword">return</span> <span class="string">"HalloWorld"</span>, <span class="number">1</span>, <span class="literal">False</span></span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>fun2()</span><br><span class="line">(<span class="string">'HalloWorld'</span>, <span class="number">1</span>, <span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
-<p>上述场景中的问题，<strong>只能</strong>通过元组来实现（圆括号有与无，都为元组）。虽然也可以定义一个列表，将所有返回值打包然后返回一个列表，但是会产生许多不必要的代码，还需要索引使用返回值，过于繁琐。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> x <span class="keyword">in</span> (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>): <span class="keyword">print</span> x</span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="number">123</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> x <span class="keyword">in</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]: <span class="keyword">print</span> x</span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="number">123</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> x <span class="keyword">in</span> <span class="string">"123"</span>: <span class="keyword">print</span> x</span><br><span class="line"><span class="meta">... </span></span><br><span class="line"><span class="number">123</span></span><br></pre></td></tr></table></figure>
-
-<p>在做上述相同工作的时候，列表和远足可以得到相似的结果，但是效率上呢？我们做些测试，如下：</p>
-<p>测试一：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ python -mtimeit <span class="string">"['fee', 'fie', 'fo', 'fum']"</span></span><br><span class="line"><span class="number">10000000</span> loops, best of <span class="number">3</span>: <span class="number">0.432</span> usec per loop</span><br><span class="line">$ python -mtimeit <span class="string">"('fee', 'fie', 'fo', 'fum')"</span></span><br><span class="line"><span class="number">10000000</span> loops, best of <span class="number">3</span>: <span class="number">0.0563</span> usec per loop</span><br></pre></td></tr></table></figure>
-
-<p>测试二：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = tuple(range(<span class="number">1000</span>))</span><br><span class="line">b = list(range(<span class="number">1000</span>))</span><br><span class="line">a.__sizeof__() <span class="comment"># 8024</span></span><br><span class="line">b.__sizeof__() <span class="comment"># 9088</span></span><br></pre></td></tr></table></figure>
-
-<p>第一个测试中，我们分别创建元素相同的列表和元组。然后测试Python解释器创建它们所需时间，进而得出最优值。我们可以发现元组的创建时间是列表创建时间的八分之一。第二个测试中，我们尝试初始化相同长度的元组和列表，然后比较两个所需内存大小，结果现实元组相比列表所需内存相对较少。总而言之：元组的性能优于列表。在需要关注性能与内存使用率的时候，元组还是最优选择。</p>
-<p>但如果作为仅作为序列型的数据，忽略两者性能上的差异，列表可以完全替代元组解决程序中遇到的问题。这样的话，是不是在Python中，元组就没有专属的应用场景了呢？是不是就不存在非元组不可的情况呢？<strong>当然不是</strong>。</p>
-<p>列表作为可变序列，是不可以成为字典（dictionary，Python的一种数据类型）的键值（即key）的，而元组为不可变序列则可以作为键值。如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a    = (<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">b    = [<span class="number">1</span>,<span class="number">2</span>] </span><br><span class="line">c = &#123;a: <span class="number">1</span>&#125;     <span class="comment"># 合法</span></span><br><span class="line">c = &#123;b: <span class="number">1</span>&#125;     <span class="comment"># 非法</span></span><br></pre></td></tr></table></figure>
-
-<p>该种情况的使用场景为：如果需要将<strong>经纬度</strong>当多一个字典的键值时；如果需要将<strong>行列值</strong>作为一个字典的键值是；如果需要讲<strong>屏幕位置</strong>作为一个字典的键值等。</p>
-
                     
+                        <a
+                            href="/2018/11/18/030103-variable-tuple-tips/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Python 变量之元组与应用技巧"
+                        >
+                            阅读全文
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2018/11/18/030103-variable-tuple-tips/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                评论和共享
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -936,7 +595,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -968,7 +627,7 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
 <h3 id="Python-标准数据类型"><a href="#Python-标准数据类型" class="headerlink" title="Python 标准数据类型"></a><strong>Python 标准数据类型</strong></h3><p>Python 定义了一些标准数据类型，用于存储各种类型的数据。Python有五个标准的数据类型，分别是：</p>
 <ul>
@@ -978,74 +637,15 @@
 <li>Tuple（元组）</li>
 <li>Dictionary（字典）</li>
 </ul>
-<p>Python 中的变量赋值不需要类型声明，也就是说声明变量不需要使用关键字。Python 中变量赋值之后该变量就被创建。可以简单对单一变量赋值，亦可对同一变量重新赋值（不同数据类型也可以），也可以同时为多个变量赋值，如下。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">counter = <span class="number">100</span> <span class="comment"># 赋值整型变量</span></span><br><span class="line">miles = <span class="number">1000.0</span> <span class="comment"># 浮点型</span></span><br><span class="line">name = <span class="string">"John"</span> <span class="comment"># 字符串</span></span><br><span class="line">ame = <span class="number">100</span> <span class="comment"># ame 被定义为新的数据类型</span></span><br><span class="line">ame1 = ame2 = ame3 = <span class="number">100</span> <span class="comment">#此三个变量被同时定义和赋值</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Python-数据类型之列表"><a href="#Python-数据类型之列表" class="headerlink" title="Python 数据类型之列表"></a><strong>Python 数据类型之列表</strong></h3><p>Python的变量灵活多变，不同的变量类型也有不同的使用技巧。上述的五种标准变量类型中string, list, tuple 都属于序列(sequence)类型。Python内置共有6种序列类型变量，分别为：</p>
-<h2 id="str-unicode-list-tuple-buffer-xrange-range"><a href="#str-unicode-list-tuple-buffer-xrange-range" class="headerlink" title="str, unicode, list, tuple, buffer, xrange(range)"></a><code>str, unicode, list, tuple, buffer, xrange(range)</code></h2><p>其中只有一种可变序列类型，即List列表，其余的如tuple和range（关于xrange和range的区别，我会在以后总结介绍，或者可以在百度知道搜索#<strong>python for in原理</strong>#参考我的回答）都属于不可变的序列类型。这里所谓的”变” （mutable）是说，在对象创建之后，可以通过一些操作改变其内部状态，简言之就是改变对象本身。因为最近的工作遇到了很多关于列表的问题，今天我就借助这篇文章给大家介绍Python基本变量类型中的List，同时也给大家介绍一下List和Python内置函数相互配合的使用技巧。</p>
-<h3 id="Python-列表赋值与快速赋值"><a href="#Python-列表赋值与快速赋值" class="headerlink" title="Python 列表赋值与快速赋值"></a><strong>Python 列表赋值与快速赋值</strong></h3><p>Python 列表使用方括号“[ ]”， 元素之间用逗号“，”分隔。列表元素的数据类型不限，可以是各种数据类型的集合，这点要比其他编程语言方便。列表元素个数不限，理论上只要内存足够大，元素个数就可以无限大。列表中的每个元素都分配一个数字作为索引，第一个索引值为0， 第二个为1，以此类推。List 列表普通赋值定义方法如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">list1 = [<span class="string">'physics'</span>, <span class="string">'chemistry'</span>, <span class="number">1997</span>, <span class="number">2000</span>]</span><br><span class="line">list2 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> ]</span><br><span class="line">list3 = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>]</span><br></pre></td></tr></table></figure>
-
-<p>然后就可以使用列表，但是在一些实际应用中需要初始化给定长度的列表，并对列表中每一个元素进行赋<strong>初值</strong>。如果列表长度在10以内，普通赋值依旧适用。如果列表长度过长，有可能需要写个循环进行赋值。<strong>技巧</strong>：可以使用下列方法对列表进行赋值：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>list1 = [<span class="number">0</span>] * <span class="number">5</span> <span class="comment"># 数字类型</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list1</span><br><span class="line">[<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list2 = [<span class="string">""</span>] * <span class="number">8</span> <span class="comment"># 字符串类型</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list2</span><br><span class="line">[<span class="string">''</span>, <span class="string">''</span>, <span class="string">''</span>, <span class="string">''</span>, <span class="string">''</span>, <span class="string">''</span>, <span class="string">''</span>, <span class="string">''</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list3 = [<span class="literal">None</span>] * <span class="number">9</span> <span class="comment"># 空</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list3</span><br><span class="line">[<span class="literal">None</span>, <span class="literal">None</span>, <span class="literal">None</span>, <span class="literal">None</span>, <span class="literal">None</span>, <span class="literal">None</span>, <span class="literal">None</span>, <span class="literal">None</span>, <span class="literal">None</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list4 = [<span class="literal">True</span>] *<span class="number">7</span> <span class="comment"># 布尔类型</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list4</span><br><span class="line">[<span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>, <span class="literal">True</span>]</span><br></pre></td></tr></table></figure>
-
-<p> 该方法快速高效，可以对指定长度的列表进行快速初始化，弊端在于不能在限定元素的类型，但可以按序混合元素的数据类型，如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>list5 = [<span class="literal">True</span>, <span class="string">""</span>] * <span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list5</span><br><span class="line">[<span class="literal">True</span>, <span class="string">''</span>, <span class="literal">True</span>, <span class="string">''</span>, <span class="literal">True</span>, <span class="string">''</span>]</span><br></pre></td></tr></table></figure>
-
-<h3 id="Python-的列表索引，切片，改变与排序"><a href="#Python-的列表索引，切片，改变与排序" class="headerlink" title="Python 的列表索引，切片，改变与排序"></a><strong>Python 的列表索引，切片，改变与排序</strong></h3><p>Python 的列表索引方式和其他编程语言相似，即使用列表变量名，方括号与索引值进行索引。但Python与其他语言相比又有独特优势。即在方括号中使用冒号“<strong>：</strong>”+“<strong>数字</strong>” 对列表进行切片。切片可以理解为：取列表中指定的<strong>连续</strong>元素。如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>List1 = [<span class="string">'Google'</span>, <span class="string">'Runoob'</span>, <span class="string">'Taobao'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>List1[<span class="number">2</span>] <span class="comment"># 取第二个</span></span><br><span class="line"><span class="string">'Taobao'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>List1[<span class="number">-1</span>] <span class="comment"># 取倒数第一个</span></span><br><span class="line"><span class="string">'Taobao'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>List1[<span class="number">1</span>:] <span class="comment"># 取 从索引1至最后一个</span></span><br><span class="line">[<span class="string">'Runoob'</span>, <span class="string">'Taobao'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>List1[:<span class="number">2</span>] <span class="comment"># 取 从开始至索引2</span></span><br><span class="line">[<span class="string">'Google'</span>, <span class="string">'Runoob'</span>]</span><br></pre></td></tr></table></figure>
-
-<p>Python 的列表是一个类的实例，也就意味着列表有自己的类方法。可以通过类方法对列表进行改变或者其他操作。常用类方法如下：</p>
-<ol>
-<li>list.append(obj) # 在列表末尾添加新的对象</li>
-<li>list.count(obj) # 某个元素在列表中出现的次数</li>
-<li>list.extend(seq) # 在列表末尾一次性追加另一个序列中的多个值（用新列表扩展原来的列表）</li>
-<li>list.index(obj) # 从列表中找出某个值第一个匹配项的索引位置</li>
-<li>list.insert(index, obj) # 将对象插入列表</li>
-<li>list.pop(obj=list[-1]) # 移除列表中的一个元素（默认最后一个元素），并且返回该元素的值</li>
-<li>list.remove(obj) # 移除列表中某个值的第一个匹配项</li>
-<li>list.reverse() # 反向列表中元素</li>
-<li>list.sort([func]) # 对原列表进行排序</li>
-</ol>
-<p>在这里我给大家介绍一下列表操作中，<strong>倒序排列</strong>(revers)和<strong>整理排序</strong>(sort)的应用技巧。整理排序时，默认情况下，数字列表排序规则为：由小到大；字符串列表排列规则：由“0”到“10”，然后由a到z；数字和字符串混合型列表排序规则为：先数字，后字符。请参考下方例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>lt = [<span class="string">'a'</span>, <span class="number">1</span>, <span class="string">"c"</span>, <span class="number">3</span>, <span class="string">"b"</span>, <span class="number">2</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sorted(lt) <span class="comment"># 使用内置方法</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lt</span><br><span class="line">[<span class="string">'a'</span>, <span class="number">1</span>, <span class="string">'c'</span>, <span class="number">3</span>, <span class="string">'b'</span>, <span class="number">2</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lt.sort() <span class="comment"># 使用类方法</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lt</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>    </span><br><span class="line">注意，sort() 为数据类型列表的类方法，</span><br><span class="line">sorted()为Python编程语言的内置函数。</span><br></pre></td></tr></table></figure>
-
-<p>由上述例子可知，使用Python内置函数，返回值为一个列表，使用列表的类方法则返回值为空。意思就是说：在整理排序时，内置函数不改变原始列表，而使用类方法则原始列表将发生变化。在处理某些问题的时候，我们需要保持原始列表不变，这时候就应该考虑，哪一种方法更合适。这样的情况在倒序排列的时候也会发生，使用reverse()类方法时，虽然得到了倒序排列的列表，但是列表本身发生了变化，为了避免类似情况发生，备份一下原始列表是一种方法，但是会比较复杂。在这里我给大家介绍一个实用技巧。我们可以通过一种特殊的列表切片方法直接生成出一个倒序排列的新的列表，请参考下方例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>lt = [<span class="string">'a'</span>, <span class="number">1</span>, <span class="string">"c"</span>, <span class="number">3</span>, <span class="string">"b"</span>, <span class="number">2</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lt[::<span class="number">-1</span>] <span class="comment"># 采用切片法</span></span><br><span class="line">[<span class="number">2</span>, <span class="string">'b'</span>, <span class="number">3</span>, <span class="string">'c'</span>, <span class="number">1</span>, <span class="string">'a'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lt</span><br><span class="line">[<span class="string">'a'</span>, <span class="number">1</span>, <span class="string">'c'</span>, <span class="number">3</span>, <span class="string">'b'</span>, <span class="number">2</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lt.reverse() <span class="comment"># 采用类方法</span></span><br><span class="line">&gt;&gt; lt</span><br><span class="line">[<span class="number">2</span>, <span class="string">'b'</span>, <span class="number">3</span>, <span class="string">'c'</span>, <span class="number">1</span>, <span class="string">'a'</span>]</span><br></pre></td></tr></table></figure>
-
-<p>虽然python也有一个用于倒序排列的内置函数reversed(). 但是与sorted()函数不同，此函数返回值为一个列表迭(die)代器实例（iterator，以后的文章会详细介绍迭代器）而非一个新的列表，所以说用类似“<strong>[::-1]</strong>”的列表切片更为合适。</p>
-<p>Python编程语言还有一些其它的内置函数用于处理列表。比如：不同列表间比较cmp(list1, list2)，获取列表长度len(list)，最大值max(list)最小值min(list)，将元素变为列表list(seq)等。</p>
-<blockquote>
-<p>Tipp 1: 虽然list不是python的保留字符 可以用list作为变量名，而且不会产生错误。 但是还是不建议使用其作为变量名。</p>
-<p>Tipp 2: 其实python还有其他的不经常用到 的内置函数: 用all(list)来检查列表中是否所有元素都 为非空。 用any(list)来检查列表中是否有任何一个 为空。</p>
-</blockquote>
-<h3 id="Python-列表数据类型转换和应用技巧"><a href="#Python-列表数据类型转换和应用技巧" class="headerlink" title="Python 列表数据类型转换和应用技巧"></a><strong>Python 列表数据类型转换和应用技巧</strong></h3><p>列表数据转换问题，一般分为两种情况。列表中元素的数据类型转换问题和整个列表数据类型转换问题。</p>
-<p>列表元素数据类型转换，常见问题为数值类型和字符串类型间转换。例如将列表中的数字化字符串元素转换为数值类型元素，或反之； 或者将字符串列表的所有元素拼接，或反之。请参考下面例子。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>ll = [<span class="number">1</span>, <span class="number">2.3</span>, <span class="number">3.4</span>, <span class="number">4.5</span>, <span class="number">5.6</span>] <span class="comment"># 将数值型转换为字符</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ll</span><br><span class="line">[<span class="number">1</span>, <span class="number">2.3</span>, <span class="number">3.4</span>, <span class="number">4.5</span>, <span class="number">5.6</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>map(str, ll)</span><br><span class="line">[<span class="string">'1'</span>, <span class="string">'2.3'</span>, <span class="string">'3.4'</span>, <span class="string">'4.5'</span>, <span class="string">'5.6'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ss = [<span class="string">'1'</span>, <span class="string">'2.3'</span>, <span class="string">'3.4'</span>, <span class="string">'4.5'</span>, <span class="string">'5.6'</span>]  <span class="comment"># 将字符型转换为数值型</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>map(float, ss)</span><br><span class="line">[<span class="number">1.0</span>, <span class="number">2.3</span>, <span class="number">3.4</span>, <span class="number">4.5</span>, <span class="number">5.6</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tt = [<span class="string">"h"</span>, <span class="string">"e"</span>, <span class="string">"l"</span>, <span class="string">"l"</span>, <span class="string">"o"</span>] <span class="comment"># 元素拼合</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tt</span><br><span class="line">[<span class="string">'h'</span>, <span class="string">'e'</span>, <span class="string">'l'</span>, <span class="string">'l'</span>, <span class="string">'o'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">""</span>.join(tt)</span><br><span class="line"><span class="string">'hello'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>st = <span class="string">"hello"</span>  <span class="comment"># 字符串拆分</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list(st)</span><br><span class="line">[<span class="string">'h'</span>, <span class="string">'e'</span>, <span class="string">'l'</span>, <span class="string">'l'</span>, <span class="string">'o'</span>]</span><br></pre></td></tr></table></figure>
-
-<p> 列表整体式地数据类型转换，常见问题：将列表整体转换为一个字符串和将一个字符串中的<strong>列表部分</strong>转换为一个列表。第一种情况请参考下方例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>ss = [<span class="string">'a'</span>, <span class="number">1</span>, <span class="string">'c'</span>, <span class="number">3</span>, <span class="string">'b'</span>, <span class="number">2</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ss</span><br><span class="line">[<span class="string">'a'</span>, <span class="number">1</span>, <span class="string">'c'</span>, <span class="number">3</span>, <span class="string">'b'</span>, <span class="number">2</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>str(ss)</span><br><span class="line"><span class="string">"['a', 1, 'c', 3, 'b', 2]"</span></span><br></pre></td></tr></table></figure>
-
-<p>可以看出只需要使用python的内置方法str()就实现。可是如果是第二种情况呢？如果要将字符串化的列表转换为一个列表，<strong>千万不要</strong>使用内置函数list()。因为不会得到预期的结果，这里要使用内置函数eval()。参考下方代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>st = <span class="string">"['a', 1, 'c', 3, 'b', 2]"</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list(st) <span class="comment"># 若使用list函数</span></span><br><span class="line">[<span class="string">'['</span>, <span class="string">"'"</span>, <span class="string">'a'</span>, <span class="string">"'"</span>, <span class="string">','</span>, <span class="string">' '</span>, <span class="string">'1'</span>, <span class="string">','</span>, <span class="string">' '</span>, <span class="string">"'"</span>, <span class="string">'c'</span>, <span class="string">"'"</span>, <span class="string">','</span>, <span class="string">' '</span>, <span class="string">'3'</span>, <span class="string">','</span>, <span class="string">' '</span>, <span class="string">"'"</span>, <span class="string">'b'</span>, <span class="string">"'"</span>, <span class="string">','</span>, <span class="string">' '</span>, <span class="string">'2'</span>, <span class="string">']'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>eval(st) <span class="comment"># 若使用eval函数</span></span><br><span class="line">[<span class="string">'a'</span>, <span class="number">1</span>, <span class="string">'c'</span>, <span class="number">3</span>, <span class="string">'b'</span>, <span class="number">2</span>]</span><br></pre></td></tr></table></figure>
-
-<p>Python基本数据类型中的List列表和列表的使用技巧今天就介绍到这里。想比大家都有这样的印象：如果能合理并巧妙地使用python内置函数来处理列表，将能够大大减少代码数量和提高代码质量。如果大家有别的想法或者其他使用技巧。欢迎订阅我的个人微信公共号，留言分享。</p>
-
                     
+                        <a
+                            href="/2018/11/15/030102-variable-list-tips/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Python 变量之列表与应用技巧"
+                        >
+                            阅读全文
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2018/11/15/030102-variable-list-tips/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                评论和共享
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -1054,7 +654,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -1086,155 +686,26 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
-<p> Python 定义了一些标准数据类型，用于存储各种类型的数据。Python有五个标准的数据类型，分别是：</p>
+<p>Python 定义了一些标准数据类型，用于存储各种类型的数据。Python有五个标准的数据类型，分别是：</p>
 <ul>
-<li><ul>
 <li>Numbers（数字）</li>
 <li>String（字符串）</li>
 <li>List（列表）</li>
 <li>Tuple（元组）</li>
 <li>Dictionary（字典）</li>
 </ul>
-</li>
-</ul>
 <p>字符串作为Python编程的常用数据类型，在代码中出现的频率相当高。今天借着这篇文章来给大家介绍一下关于Python编程中，String字符串这种数据类型的基本知识和实际运用中会遇到的问题及解决方法，同时也给大家介绍一些常用的使用技巧。</p>
-<p><img src="/2018/11/12/030101-variable-string-tips/640-20200709090923198.png" alt="img"></p>
-<h3 id="String字符串的特征"><a href="#String字符串的特征" class="headerlink" title="String字符串的特征"></a><strong>String字符串的特征</strong></h3><p>前几篇文章中都有介绍，Python的变量声明简单明确。字符串类型的变量声明也十分简单，任何用引号包裹的内容都可以理解为字符串，无论是单引号（single quotes），或者是双引号 （double quotes）, 还是三引号（triple quotes）。如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>st = <span class="string">'Hallo World'</span>  <span class="comment"># 单引号</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>st = <span class="string">"Hallo World"</span>  <span class="comment"># 双引号</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>st = <span class="string">"""Hallo World"""</span>  <span class="comment"># 三引号</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>st = <span class="string">u"Hallo World"</span>  <span class="comment"># unicode 宽字符串</span></span><br></pre></td></tr></table></figure>
-
-<p>有时作为输出需要，还是要将引号本身作为字符串的一部分输出来了。这时候需要引号套用，在Python中，每种引号都可以包含其他的引号，如果要包含引号自身则需要”转义”。如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> <span class="string">'Hallo " World'</span>  <span class="comment"># 单引号 包含双引号</span></span><br><span class="line">Hallo <span class="string">" World</span></span><br><span class="line"><span class="string">&gt;&gt;&gt; print 'Hallo "</span><span class="string">""</span> World<span class="string">' # 单引号 包含双引号</span></span><br><span class="line"><span class="string">Hallo """ World</span></span><br><span class="line"><span class="string">&gt;&gt;&gt; print "Hallo '</span> World<span class="string">"   # 双引号 包含单引号</span></span><br><span class="line"><span class="string">Hallo ' World</span></span><br><span class="line"><span class="string">&gt;&gt;&gt; print 'Hallo \' World'  # 单引号 包含单引号（转义）</span></span><br><span class="line"><span class="string">Hallo ' World</span></span><br><span class="line"><span class="string">&gt;&gt;&gt; print r'Hallo \' World'  # 停止 转义</span></span><br><span class="line"><span class="string">Hallo \' World</span></span><br><span class="line"><span class="string">“转义” 的意思是告诉解释器或编译器，转义符后面的一个或者几个</span></span><br><span class="line"><span class="string">字符串要使用一种替代的解释或者编译方式。</span></span><br></pre></td></tr></table></figure>
-
-<p>“转义”在很多程序语言中都有用到。那么问题来了，Python中的转移符号位反斜杠”&quot;。如果根据输出需要：在单引号包含单引号（转义）的情况下，在包含的单引号前显示一个反斜杠符号”&quot;，该如何实现。方法如下。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> <span class="string">'Hallo \' World'</span>  <span class="comment"># 为了显示包含的单引号</span></span><br><span class="line">Hallo <span class="string">' World</span></span><br><span class="line"><span class="string">&gt;&gt;&gt; print '</span>Hallo \\\<span class="string">' World'</span> <span class="comment"># 为了现实单引号和反斜杠</span></span><br><span class="line">Hallo \<span class="string">' World</span></span><br></pre></td></tr></table></figure>
-
-<p>上面的例子中第二行代码中的&lt;<strong>\‘</strong>&gt;。这部分内容应该这样理解：第三个反斜杠是用于转义单引号字符。第一个反斜杠是用于转义第二个反斜杠。转义符的复用和套用会在实际应用中经常出现，如在处理字符串的大杀器<strong>正则表达式</strong>中，许多语法就用到转移符。如果能够正确使用转义符，也有助于快速理解代码和准确调试代码。</p>
-<p>上一篇文章介绍过，Python中的字符也属于序列类型(Sequence)，且为非可变序列类型，作为序列，它可以是迭代(iterable)，可以历遍(traverse)。这样的就赋予了字符串一些特殊的性能。比如类似与元组，可以使用for或者enumerate来历遍整个字符串中的字符。如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> a <span class="keyword">in</span> <span class="string">"Hallo World"</span>:</span><br><span class="line"><span class="meta">... </span>    <span class="keyword">print</span> a</span><br><span class="line">...</span><br><span class="line">H</span><br><span class="line">a</span><br><span class="line">l</span><br><span class="line">l</span><br><span class="line">o</span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> i, a <span class="keyword">in</span> enumerate(<span class="string">"Hallo World"</span>):</span><br><span class="line"><span class="meta">... </span>    <span class="keyword">print</span> `i` + <span class="string">" "</span> + a</span><br><span class="line"><span class="number">0</span> H</span><br><span class="line"><span class="number">1</span> a</span><br><span class="line"><span class="number">2</span> l</span><br><span class="line"><span class="number">3</span> l</span><br><span class="line"><span class="number">4</span> o</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
-<p>在判断元素是否存在与序列中是， 用到的逻辑判断关键字 <strong>in</strong> 和 <strong>not in</strong> 也适用于字符串。 类似元组和列表的索引和切片方式也同样适用于字符串，在这里就不赘述了。需要指出，在逻辑判断时，准确地说，在比较两个字符串是否相等时，虽然可以使用关键字 “<strong>is</strong>“ 或逻辑判断符 “<strong>==</strong>“ 或者<strong>cmp( )</strong> 函数等。但是三者还是有所不同的。在Python中 “is” 是用于判断两个变量是否引用的是同一对象；逻辑判断符 “==” 用于判断两个变量的值是否相同；cmp( ) 函数的用法和逻辑判断符 “==” 相似。在Python3 中，该函数被移除了。考虑到代码的兼容性和稳定性，建议在对比字符串是否相同时采用逻辑判断符 “==”。</p>
-<p>值得注意的是，上述的例子中我用到了反引号，在Python中<strong>反引号</strong>，内置函数<strong>str( )</strong> 和<strong>repr( )</strong> 都是用来将非字符串类型转换为字符串类型的。 三者相似但不相同：</p>
-<blockquote>
-<ol>
-<li><p>反引号， 该语法只适用于Python2.7 中，Python3.0已经不再</p>
-<p>支持该语法。</p>
-</li>
-<li><p>str（）， 使用该方法得到的字符串具有很好的可读性。非常适</p>
-<p>用于print的输出。</p>
-</li>
-<li><p>repr（）， 用于返回一个类实例的标准字符串表示，至于如何</p>
-<p>表现，可以在类中的<strong>repr</strong>(self)，方法中定义。该方法的</p>
-<p>特点为，该方法一般情况下：</p>
-<p>适用等式：  obj = eval(repr(obj)) 。意味着可以使用该等</p>
-<p>式从字符串中重新获得该对象。</p>
-</li>
-</ol>
-</blockquote>
-<p>需要强调：字符串作为<strong>不可变</strong>序列。意味着，字符在初始化之后，就<strong>不能</strong>再对字符串的实例进行改变。字符串的自加和拼接，虽然都可以使用相同的变量名来接收新的值，但本质上是申明了一个新的字符串变量，只是名字相同而已，比如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>my_string = <span class="string">"AAA "</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>id(my_string)</span><br><span class="line"><span class="number">42835040L</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>my_string += <span class="string">"AAA "</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>id(my_string)</span><br><span class="line"><span class="number">42794176L</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>my_string = <span class="string">"AAA "</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>id(my_string)</span><br><span class="line"><span class="number">42834960L</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>my_string = <span class="string">"AAA "</span>  +  <span class="string">" BBB"</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>id(my_string)</span><br><span class="line"><span class="number">42794416L</span></span><br></pre></td></tr></table></figure>
-
-<p>由上述例子可知，虽然使用了相同的变量名，用来接收新的值，但随着字符串变量值的变化，对象的id也发生了变化，也就意味着虽然变量名称不变，但是其本质上已经是一个<strong>新的变量</strong>。</p>
-<h3 id="String字符串的类方法"><a href="#String字符串的类方法" class="headerlink" title="String字符串的类方法"></a><strong>String字符串的类方法</strong></h3><p>字符串作为一个类，即对象。也就意味了它会有类方法和类属性，随着Python的日渐完善。字符串的类方法也日渐健全与强大，字符串的类方法有很多，在此只列举出一些经常遇见的类方法，请看下方表格：</p>
-<table>
-<thead>
-<tr>
-<th align="left"></th>
-<th align="left"></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">string.isalnum()</td>
-<td align="left">判断 string 中是否所有字符都是字母或数字。是则返回 True,否则返回 False</td>
-</tr>
-<tr>
-<td align="left">string.isalpha()</td>
-<td align="left">判断 string 中是否含有字符并且所有字符都是字母，是则返回 True,否则返回 False</td>
-</tr>
-<tr>
-<td align="left">string.isdecimal()</td>
-<td align="left">判断 string 中是否只包含十进制数字，是返回 True 否则返回 False.</td>
-</tr>
-<tr>
-<td align="left">string.isdigit()</td>
-<td align="left">判断 string 中是否只包含数字，是则返回 True，否则返回 False.</td>
-</tr>
-<tr>
-<td align="left">string.islower()</td>
-<td align="left">判断 string 中是否包含一个或者多个区分大小写的字符，字符都是小写。则返回 True，否则返回 False</td>
-</tr>
-<tr>
-<td align="left">string.istitle()</td>
-<td align="left">判断 string 中是否第一个字符为大写。是则返回 True，否则返回 False</td>
-</tr>
-<tr>
-<td align="left">string.isupper()</td>
-<td align="left">判断string 中是否所以字符都是大写。 则返回 True，否则返回 False</td>
-</tr>
-<tr>
-<td align="left">string.lower()</td>
-<td align="left">讲转换 string 中所有字符转变为小写.</td>
-</tr>
-<tr>
-<td align="left">max(str)</td>
-<td align="left">返回字符串 <em>str</em> 中最大的字母，参考 ascii 表。</td>
-</tr>
-<tr>
-<td align="left">min(str)</td>
-<td align="left">返回字符串 <em>str</em> 中最小的字母，参考 ascii 表。</td>
-</tr>
-<tr>
-<td align="left">string.title()</td>
-<td align="left">将所有单词都是的第一个字母大写，其余字母均为小写</td>
-</tr>
-<tr>
-<td align="left">string.upper()</td>
-<td align="left">转换 string 中的所有字母改为大写</td>
-</tr>
-</tbody></table>
-<p>熟练掌握上述类方法在Python编程中很有益处，比如：在遇见到需要将数字型的字符串转化为数值型变量时。如果可以先使用string.isdigit()这个类方法对变量进行检查，就能够避免因出现转换异常（Exception）造成整个程序的意外退出。</p>
-<p>与类方法相匹配，Python还提供了一些模块用于辅助处理字符串。例如，常见的文件操作中，需要对文件路径进行处理。该变量在Python也是字符串类型。如需要对路径进行拼接和拆分，获取文件名或文件后缀类型。Python中的os.path模块就非常适合做这样的工作，如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> os</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>my_path = <span class="string">"C:\\temp\main.py"</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>os.path.split(my_path)</span><br><span class="line">(<span class="string">'C:\\temp'</span>, <span class="string">'main.py'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>os.path.splitext(my_path)</span><br><span class="line">(<span class="string">'C:\\temp\\main'</span>, <span class="string">'.py'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>os.path.join(<span class="string">"C:\\tmp"</span>, <span class="string">"main.py"</span>)</span><br><span class="line"><span class="string">'C:\\tmp\\main.py'</span></span><br></pre></td></tr></table></figure>
-
-<p>在处理路径是，申明路径字符串变量时，尽量使用<strong>双反斜杠</strong>，这样可以避免一些错误异常。如果我们使用os.path模块下的函数来处理路径，就能够尽可能地避免很多对反斜杠的操作。代码也能够简洁高效。</p>
-<h3 id="String字符串的转码问题"><a href="#String字符串的转码问题" class="headerlink" title="String字符串的转码问题"></a><strong>String字符串的转码问题</strong></h3><p>常见的字符处理事务中还会遇见字符串转码问题。由于计算机只能处理数字，处理文本类的时候也需要先将文本类转换为数字。在编程中，字符串独立作为一种数据类型，但是其本身在内存中也是一组数字。如何将文本类转换为数字，就是我们要讨论的编码问题。</p>
-<p>Unicode也称为宽字节字符。Unicode的目的是将所有语言都统一到一套编码里，从而避免乱码问题。举个例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">字母 A 用ASCII编码是十进制的65，二进制的01000001。</span><br><span class="line">字母 A 用Unicode编码，  编码是00000000 01000001。</span><br></pre></td></tr></table></figure>
-
-<p>可以看出，如果将字母 A 转变成 Unicode，则编码长度变长，但其值不发生变化，因为低字节已经足以满足要求，但最为宽体字符我们需要在高字节补零。如果一个Unicode字符，其高字节不全为零，强制性将其转换为ASCII编码字符。就会发生错误: 超出编码范围。</p>
-<p>文中插图中强调 “unicode” != “utf-8” 。意思是说utf-8是编码方式，除了常见的的uft-8还有utf-16，以及中文编码方式gbk等等。unicode 则是这些转码后的宽字符串的统称。在Python中，可以将unicode理解为一种新的字符串数据类型。该字符串与普通ascii字符串用法相似，但它能够接收和处理非ascii编码的文本类型。举个例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-*- coding: gbk -*-</span></span><br><span class="line">string=<span class="string">'中国'</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"string: "</span>, type(string)</span><br><span class="line"><span class="keyword">print</span> string</span><br><span class="line"></span><br><span class="line">ustring=<span class="string">u"中国"</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"ustring: "</span>,</span><br><span class="line">type(ustring)</span><br><span class="line"><span class="keyword">print</span> ustring</span><br><span class="line"></span><br><span class="line">gbkstring=ustring.encode(<span class="string">"gbk"</span>)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"gbkstring: "</span>, type(gbkstring)</span><br><span class="line"><span class="keyword">print</span> gbkstring</span><br></pre></td></tr></table></figure>
-
-<p> 输入结果为：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">string: &lt;type <span class="string">'str'</span>&gt;</span><br><span class="line">我的</span><br><span class="line">ustring: &lt;type <span class="string">'unicode'</span>&gt;</span><br><span class="line">鎴戠殑</span><br><span class="line">gbkstring: &lt;type <span class="string">'str'</span>&gt;</span><br><span class="line">我的</span><br></pre></td></tr></table></figure>
-
-<p>上述例子中unicode接收了宽体字符，它也作为媒介用于实现字符串编码的转换。而只有准确的将unicode编码解码，才能得到正确的结果。</p>
-<h3 id="String字符串的查找与替换"><a href="#String字符串的查找与替换" class="headerlink" title="String字符串的查找与替换"></a><strong>String字符串的查找与替换</strong></h3><p>处理String字符串的终极问题是：从字符串特定位置，得到符合特定条件的子字符串或者在符合特定条件的位置插入子字符串。解决类似问题的大杀器就是Python的<strong>正则表达式</strong>。文章篇幅问题，关于正则表达式的内容在以后的文章里面介绍。本文就简单介绍一下find( ) 和 replace( ) 两个函数。</p>
-<p>find也好repleace 也罢，都是string类的类方法，可作为实例方法，也可以作为该类的静态方法。举个例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> string</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>my_str = <span class="string">'abca'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>my_str.find(<span class="string">'a'</span>)  <span class="comment"># 实例方法</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>string.find(my_str, <span class="string">'a'</span>)  <span class="comment"># 静态方法</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>my_str.find(<span class="string">'a'</span>, <span class="number">1</span>)</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>string.find(my_str, <span class="string">'a'</span>, <span class="number">1</span>)</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
-
-<p>要找到特定字符在字符串中的位置，最好是给定查找的初始位置。默认情况下初始位置为零，而且该方法找到即返回，不会迭代查找。如果没有找到则返回值为-1，这里的 “-1” 可以用于逻辑判断。</p>
-<p>repleace方法和find方法近似。但是默认情况下会替换字符串中所有符合条件的字符。如果想删除字符串中的某些字符，则可以将用于替换的字符设置为空，如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>str =<span class="string">"ab1cd1ef"</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>str.replace(<span class="string">"1"</span>,<span class="string">""</span>)</span><br><span class="line"><span class="string">'abcdef'</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
-
-<p>Python基本数据类型中的字符串和其使用技巧今天就介绍到这里。欢迎订阅我的个人微信公共号，如果您有问题或者不同见解，请在下方留言。</p>
-
                     
+                        <a
+                            href="/2018/11/12/030101-variable-string-tips/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Python 变量之字符串与应用技巧"
+                        >
+                            阅读全文
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2018/11/12/030101-variable-string-tips/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                评论和共享
-                            </a>
-                        </p>
                     
                 </div>
             

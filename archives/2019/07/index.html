@@ -317,7 +317,7 @@
     <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -349,49 +349,18 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
 <h2 id="Windows-注册表"><a href="#Windows-注册表" class="headerlink" title="Windows 注册表"></a>Windows 注册表</h2><p>HKEY_CLASSES_ROOT在此关键字之下，可以看见有一个CLSID关键字。在CLSID关键字之下列有系统中安装的所有组件的CLSID。注册表CLSID是一个具有如下格式的串：00000010-0000-0010-8000-00AA00D2EA4</p>
-<p>HKEY_CLASSES_ROOT的开头，列出了将是各种应用程序所注册的文件扩展名。在扩展名之后，可以看到许多其它的名字。此类名字大多数被称作是ProgID，表示是程序员定义的标识符。某些名称表示的不是ProgID而实一些特殊的关键字。</p>
-<p>如：</p>
-<ul>
-<li>CLSID</li>
-<li>AppID，此关键字下的子关键字的作用是将某个APPID（应用程序的ID）映射成某个远程服务器名称。分式COM（DCOM）将用到此关键字。</li>
-<li>组件类别，注册表的这一分支可以将CATID（组件类别ID）映射成某个特定的组件类别。</li>
-<li>Interface，此关键字将用于将IID映射成某个接口相关的信息。这些信息主要用于在跨进程边界使用接口的情况。</li>
-<li>Licenses，保存的是授权使用COM组件的一些认可信息。</li>
-<li>TypeLib，类型库关键字保存的是关于接口成员函数所用的参数的信息。另外还有一些信息。此关键字可以将一个LIBID映射成存储类型库的文件名称。</li>
-</ul>
-<h3 id="ProgID"><a href="#ProgID" class="headerlink" title="ProgID"></a>ProgID</h3><p>所谓ProgID指的是程序员给某个CLSID指定的一个程序员易记的名称。ProgID命名规则为：..，如下图：</p>
-<p>如WPDSp.WPDServiceProvider是版本无关ProgID，根据其值可在CLSID下找到相应键，进而找到相应信息，如组件最新版本信息。</p>
-<p>WPDSp.WPDServiceProvider.1是版本相关ProgID，根据其CLSID值可以找到该版本组件的信息。</p>
-<h3 id="ProgID注册表格式"><a href="#ProgID注册表格式" class="headerlink" title="ProgID注册表格式"></a>ProgID注册表格式</h3><p>ProgID及与版本无关的ProgID被列在组件CLSID下面。</p>
-<p>ProgID的主要作用是获取相应的CLSID。在每一个CLSID项中查找查个ProgID将非常低效的。因此在其下面也将直接列出ProgID。由于ProgID不是针对最终用户而定义的，因此ProgID关键字的缺省值为用户易记的名称。在之下有一个名为CLSID的关键字，其缺省值为组件的CLSID。如下图所示：</p>
-<p>与版本好无关的ProgID也直接被列在HKEY_CLASSES_ROOT下面。它们还有另外一个关键字CurVer，其缺省值为组件当前版本的ProgID，如下图：</p>
-<h3 id="ProgID和CLSID的转换"><a href="#ProgID和CLSID的转换" class="headerlink" title="ProgID和CLSID的转换"></a>ProgID和CLSID的转换</h3><ul>
-<li>CLSIDFromProgID</li>
-<li>ProgIDFromCLSID</li>
-</ul>
-<h3 id="组件的自注册"><a href="#组件的自注册" class="headerlink" title="组件的自注册"></a>组件的自注册</h3><p>为把组件注册到注册表，在DLL中一定要输出如下两个函数：</p>
-<p>STDAPI DllRegisterServer(); //注册</p>
-<p>STDAPI DllUnregisterServer(); //反注册</p>
-<p>我们使用Regsvr32.exe注册某个组件或者反注册某个组件时，其实就是调用这两个函数的过程。</p>
-
                     
+                        <a
+                            href="/2019/07/10/inno-04-registry-hcr/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Inno Setup Windows 注册表关键字HKEY\_CLASSES\_ROOT相关内容"
+                        >
+                            阅读全文
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/07/10/inno-04-registry-hcr/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                评论和共享
-                            </a>
-                        </p>
                     
                 </div>
             
@@ -400,7 +369,7 @@
     </article>
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -432,28 +401,18 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
-<h2 id="InnoSetup-检查网络连接"><a href="#InnoSetup-检查网络连接" class="headerlink" title="InnoSetup 检查网络连接"></a>InnoSetup 检查网络连接</h2><h3 id="1-循环检查网络连接直至连接成共，代码如下："><a href="#1-循环检查网络连接直至连接成共，代码如下：" class="headerlink" title="1. 循环检查网络连接直至连接成共，代码如下："></a>1. 循环检查网络连接直至连接成共，代码如下：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">function IsNetWorkActivatedRepeated: boolean;</span><br><span class="line">var</span><br><span class="line">  WinHttpReq: Variant;</span><br><span class="line">  Connected: Boolean;</span><br><span class="line">begin</span><br><span class="line">  Connected :&#x3D; False;</span><br><span class="line">  repeat</span><br><span class="line">    Log(&#39;Checking connection to the server&#39;);</span><br><span class="line">    try</span><br><span class="line">      WinHttpReq :&#x3D; CreateOleObject(&#39;WinHttp.WinHttpRequest.5.1&#39;);</span><br><span class="line">      &#123; Use your real server host name &#125;</span><br><span class="line">      WinHttpReq.Open(&#39;GET&#39;, &#39;https:&#x2F;&#x2F;www.camtek.de&#x2F;&#39;, False);</span><br><span class="line">      WinHttpReq.Send(&#39;&#39;);</span><br><span class="line">      Log(&#39;Connected to the server; status: &#39; + IntToStr(WinHttpReq.Status) + &#39; &#39; +</span><br><span class="line">          WinHttpReq.StatusText);</span><br><span class="line">      Connected :&#x3D; True;</span><br><span class="line">    except</span><br><span class="line">      Log(&#39;Error connecting to the server: &#39; + GetExceptionMessage);</span><br><span class="line">      if WizardSilent then</span><br><span class="line">      begin</span><br><span class="line">        Log(&#39;Connection to the server is not available, aborting silent installation&#39;);</span><br><span class="line">        Result :&#x3D; False;</span><br><span class="line">        Exit;</span><br><span class="line">      end</span><br><span class="line">        else</span><br><span class="line">      if MsgBox(&#39;Cannot reach server. Please check your Internet connection.&#39;,</span><br><span class="line">                mbError, MB_RETRYCANCEL) &#x3D; IDRETRY then</span><br><span class="line">      begin</span><br><span class="line">        Log(&#39;Retrying&#39;);</span><br><span class="line">      end</span><br><span class="line">        else</span><br><span class="line">      begin</span><br><span class="line">        Log(&#39;Aborting&#39;);</span><br><span class="line">        Result :&#x3D; False;</span><br><span class="line">        Exit;</span><br><span class="line">      end;</span><br><span class="line">    end;</span><br><span class="line">  until Connected;</span><br><span class="line"></span><br><span class="line">  Result :&#x3D; True;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-有限次数检测网络，代码如下："><a href="#2-有限次数检测网络，代码如下：" class="headerlink" title="2. 有限次数检测网络，代码如下："></a>2. 有限次数检测网络，代码如下：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">function IsNetWorkActivatedTried: boolean;</span><br><span class="line">var</span><br><span class="line">  WinHttpReq: Variant;</span><br><span class="line">  Connected: Boolean;</span><br><span class="line">  iTriedTime: Integer;</span><br><span class="line">begin</span><br><span class="line">  Connected :&#x3D; False;</span><br><span class="line">  iTriedTime :&#x3D; 0;</span><br><span class="line">  repeat</span><br><span class="line">    iTriedTime :&#x3D; iTriedTime + 1;</span><br><span class="line">    Log(&#39;Checking connection to the server, try &#39; +  + IntToStr(iTriedTime) + &#39; time.&#39;);</span><br><span class="line">    try</span><br><span class="line"></span><br><span class="line">      WinHttpReq :&#x3D; CreateOleObject(&#39;WinHttp.WinHttpRequest.5.1&#39;);</span><br><span class="line">      WinHttpReq.SetTimeouts(&#39;3000&#39;, &#39;3000&#39;, &#39;3000&#39;, &#39;3000&#39;);</span><br><span class="line">      &#x2F;&#x2F; Use your real server host name </span><br><span class="line">      WinHttpReq.Open(&#39;GET&#39;, &#39;https:&#x2F;&#x2F;www.goolge.de&#x2F;&#39;, False);</span><br><span class="line">      WinHttpReq.Send(&#39;&#39;);</span><br><span class="line">      Log(&#39;Connected to the server; status: &#39; + IntToStr(WinHttpReq.Status) + &#39; &#39; +</span><br><span class="line">          WinHttpReq.StatusText);</span><br><span class="line">      Connected :&#x3D; True;</span><br><span class="line">    except</span><br><span class="line">      Log(&#39;Error connecting to the server, msg: &#39; + GetExceptionMessage + &#39;try again! &#39;);</span><br><span class="line">    end;</span><br><span class="line">  until (iTriedTime &#x3D; 3) or (Connected &#x3D; True) ;</span><br><span class="line">  Result :&#x3D; Connected;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
-
-
+<h2 id="InnoSetup-检查网络连接"><a href="#InnoSetup-检查网络连接" class="headerlink" title="InnoSetup 检查网络连接"></a>InnoSetup 检查网络连接</h2><h3 id="1-循环检查网络连接直至连接成共，代码如下："><a href="#1-循环检查网络连接直至连接成共，代码如下：" class="headerlink" title="1. 循环检查网络连接直至连接成共，代码如下："></a>1. 循环检查网络连接直至连接成共，代码如下：</h3>
                     
+                        <a
+                            href="/2019/07/05/inno-03-check-network-state/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Inno Setup 检查网络连接的Pascal代码"
+                        >
+                            阅读全文
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/07/05/inno-03-check-network-state/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                评论和共享
-                            </a>
-                        </p>
                     
                 </div>
             

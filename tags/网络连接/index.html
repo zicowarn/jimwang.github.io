@@ -317,7 +317,7 @@
     <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom">
+    <article class="postShorten postShorten--thumbnailimg-right">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -349,28 +349,18 @@
 
             </div>
             
-                <div class="postShorten-content">
+                <div class="postShorten-excerpt">
                     <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
-<h2 id="InnoSetup-检查网络连接"><a href="#InnoSetup-检查网络连接" class="headerlink" title="InnoSetup 检查网络连接"></a>InnoSetup 检查网络连接</h2><h3 id="1-循环检查网络连接直至连接成共，代码如下："><a href="#1-循环检查网络连接直至连接成共，代码如下：" class="headerlink" title="1. 循环检查网络连接直至连接成共，代码如下："></a>1. 循环检查网络连接直至连接成共，代码如下：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">function IsNetWorkActivatedRepeated: boolean;</span><br><span class="line">var</span><br><span class="line">  WinHttpReq: Variant;</span><br><span class="line">  Connected: Boolean;</span><br><span class="line">begin</span><br><span class="line">  Connected :&#x3D; False;</span><br><span class="line">  repeat</span><br><span class="line">    Log(&#39;Checking connection to the server&#39;);</span><br><span class="line">    try</span><br><span class="line">      WinHttpReq :&#x3D; CreateOleObject(&#39;WinHttp.WinHttpRequest.5.1&#39;);</span><br><span class="line">      &#123; Use your real server host name &#125;</span><br><span class="line">      WinHttpReq.Open(&#39;GET&#39;, &#39;https:&#x2F;&#x2F;www.camtek.de&#x2F;&#39;, False);</span><br><span class="line">      WinHttpReq.Send(&#39;&#39;);</span><br><span class="line">      Log(&#39;Connected to the server; status: &#39; + IntToStr(WinHttpReq.Status) + &#39; &#39; +</span><br><span class="line">          WinHttpReq.StatusText);</span><br><span class="line">      Connected :&#x3D; True;</span><br><span class="line">    except</span><br><span class="line">      Log(&#39;Error connecting to the server: &#39; + GetExceptionMessage);</span><br><span class="line">      if WizardSilent then</span><br><span class="line">      begin</span><br><span class="line">        Log(&#39;Connection to the server is not available, aborting silent installation&#39;);</span><br><span class="line">        Result :&#x3D; False;</span><br><span class="line">        Exit;</span><br><span class="line">      end</span><br><span class="line">        else</span><br><span class="line">      if MsgBox(&#39;Cannot reach server. Please check your Internet connection.&#39;,</span><br><span class="line">                mbError, MB_RETRYCANCEL) &#x3D; IDRETRY then</span><br><span class="line">      begin</span><br><span class="line">        Log(&#39;Retrying&#39;);</span><br><span class="line">      end</span><br><span class="line">        else</span><br><span class="line">      begin</span><br><span class="line">        Log(&#39;Aborting&#39;);</span><br><span class="line">        Result :&#x3D; False;</span><br><span class="line">        Exit;</span><br><span class="line">      end;</span><br><span class="line">    end;</span><br><span class="line">  until Connected;</span><br><span class="line"></span><br><span class="line">  Result :&#x3D; True;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-有限次数检测网络，代码如下："><a href="#2-有限次数检测网络，代码如下：" class="headerlink" title="2. 有限次数检测网络，代码如下："></a>2. 有限次数检测网络，代码如下：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">function IsNetWorkActivatedTried: boolean;</span><br><span class="line">var</span><br><span class="line">  WinHttpReq: Variant;</span><br><span class="line">  Connected: Boolean;</span><br><span class="line">  iTriedTime: Integer;</span><br><span class="line">begin</span><br><span class="line">  Connected :&#x3D; False;</span><br><span class="line">  iTriedTime :&#x3D; 0;</span><br><span class="line">  repeat</span><br><span class="line">    iTriedTime :&#x3D; iTriedTime + 1;</span><br><span class="line">    Log(&#39;Checking connection to the server, try &#39; +  + IntToStr(iTriedTime) + &#39; time.&#39;);</span><br><span class="line">    try</span><br><span class="line"></span><br><span class="line">      WinHttpReq :&#x3D; CreateOleObject(&#39;WinHttp.WinHttpRequest.5.1&#39;);</span><br><span class="line">      WinHttpReq.SetTimeouts(&#39;3000&#39;, &#39;3000&#39;, &#39;3000&#39;, &#39;3000&#39;);</span><br><span class="line">      &#x2F;&#x2F; Use your real server host name </span><br><span class="line">      WinHttpReq.Open(&#39;GET&#39;, &#39;https:&#x2F;&#x2F;www.goolge.de&#x2F;&#39;, False);</span><br><span class="line">      WinHttpReq.Send(&#39;&#39;);</span><br><span class="line">      Log(&#39;Connected to the server; status: &#39; + IntToStr(WinHttpReq.Status) + &#39; &#39; +</span><br><span class="line">          WinHttpReq.StatusText);</span><br><span class="line">      Connected :&#x3D; True;</span><br><span class="line">    except</span><br><span class="line">      Log(&#39;Error connecting to the server, msg: &#39; + GetExceptionMessage + &#39;try again! &#39;);</span><br><span class="line">    end;</span><br><span class="line">  until (iTriedTime &#x3D; 3) or (Connected &#x3D; True) ;</span><br><span class="line">  Result :&#x3D; Connected;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
-
-
+<h2 id="InnoSetup-检查网络连接"><a href="#InnoSetup-检查网络连接" class="headerlink" title="InnoSetup 检查网络连接"></a>InnoSetup 检查网络连接</h2><h3 id="1-循环检查网络连接直至连接成共，代码如下："><a href="#1-循环检查网络连接直至连接成共，代码如下：" class="headerlink" title="1. 循环检查网络连接直至连接成共，代码如下："></a>1. 循环检查网络连接直至连接成共，代码如下：</h3>
                     
+                        <a
+                            href="/2019/07/05/inno-03-check-network-state/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Inno Setup 检查网络连接的Pascal代码"
+                        >
+                            阅读全文
+                        </a>
                         
-
-
-                    
-                    
-                        <p>
-                            <a
-                                href="/2019/07/05/inno-03-check-network-state/#post-footer"
-                                class="postShorten-excerpt_link link"
-                                aria-label=""
-                            >
-                                评论和共享
-                            </a>
-                        </p>
                     
                 </div>
             
