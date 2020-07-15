@@ -10,18 +10,18 @@
     <meta name="author" content="Jim Wang">
     
     
-        <link rel="icon" href="http://yoursite.com/assets/images/favicon.png">
+        <link rel="icon" href="http://127.0.0.1:4000/assets/images/favicon.png">
     
     
         
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Barbossa 公众号: 巴博萨船长\nWindows 注册表HKEY_CLASSES_ROOT在此关键字之下，可以看见有一个CLSID关键字。在CLSID关键字之下列有系统中安装的所有组件的CLSID。注册表CLSID是一个具有如下格式的串：00000010-0000-0010-8000-00AA00D2EA4\n\n\nHKEY_CLASSES_ROOT的开头，列出了将是各种应用程序所注册的文件扩展名。在扩展名之后，可以看到许多其它的名字。此类名字大多数被称作是ProgID，表示是程序员定义的标识符。某些名称表示的不是ProgID而实一些特殊的关键字。\n如：\n\nCLSID\nAppID，此关键字下的子关键字的作用是将某个APPID（应用程序的ID）映射成某个远程服务器名称。分式COM（DCOM）将用到此关键字。\n组件类别，注册表的这一分支可以将CATID（组件类别ID）映射成某个特定的组件类别。\nInterface，此关键字将用于将IID映射成某个接口相关的信息。这些信息主要用于在跨进程边界使用接口的情况。\nLicenses，保存的是授权使用COM组件的一些认可信息。\nTypeLib，类型库关键字保存的是关于接口成员函数所用的参数的信息。另外还有一些信息。此关键字可以将一个LIBID映射成存储类型库的文件名称。\n\nProgID所谓ProgID指的是程序员给某个CLSID指定的一个程序员易记的名称。ProgID命名规则为：..，如下图：\n如WPDSp.WPDServiceProvider是版本无关ProgID，根据其值可在CLSID下找到相应键，进而找到相应信息，如组件最新版本信息。\nWPDSp.WPDServiceProvider.1是版本相关ProgID，根据其CLSID值可以找到该版本组件的信息。\nProgID注册表格式ProgID及与版本无关的ProgID被列在组件CLSID下面。\nProgID的主要作用是获取相应的CLSID。在每一个CLSID项中查找查个ProgID将非常低效的。因此在其下面也将直接列出ProgID。由于ProgID不是针对最终用户而定义的，因此ProgID关键字的缺省值为用户易记的名称。在之下有一个名为CLSID的关键字，其缺省值为组件的CLSID。如下图所示：\n与版本好无关的ProgID也直接被列在HKEY_CLASSES_ROOT下面。它们还有另外一个关键字CurVer，其缺省值为组件当前版本的ProgID，如下图：\nProgID和CLSID的转换\nCLSIDFromProgID\nProgIDFromCLSID\n\n组件的自注册为把组件注册到注册表，在DLL中一定要输出如下两个函数：\nSTDAPI DllRegisterServer(); //注册\nSTDAPI DllUnregisterServer(); //反注册\n我们使用Regsvr32.exe注册某个组件或者反注册某个组件时，其实就是调用这两个函数的过程。\n","dateCreated":"2019-07-10T08:11:08+08:00","dateModified":"2019-07-10T08:11:08+08:00","datePublished":"2019-07-10T08:11:08+08:00","description":"作者: Barbossa 公众号: 巴博萨船长\nWindows 注册表HKEY_CLASSES_ROOT在此关键字之下，可以看见有一个CLSID关键字。在CLSID关键字之下列有系统中安装的所有组件的CLSID。注册表CLSID是一个具有如下格式的串：00000010-0000-0010-8000-00AA00D2EA4","headline":"Inno Setup Windows 注册表关键字HKEY\\_CLASSES\\_ROOT相关内容","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2019/07/10/inno-04-registry-hcr/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"http://yoursite.com/2019/07/10/inno-04-registry-hcr/","keywords":"Inno Setup, 注册表, HCR"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Barbossa 公众号: 巴博萨船长\nWindows 注册表HKEY_CLASSES_ROOT在此关键字之下，可以看见有一个CLSID关键字。在CLSID关键字之下列有系统中安装的所有组件的CLSID。注册表CLSID是一个具有如下格式的串：00000010-0000-0010-8000-00AA00D2EA4\n\n\nHKEY_CLASSES_ROOT的开头，列出了将是各种应用程序所注册的文件扩展名。在扩展名之后，可以看到许多其它的名字。此类名字大多数被称作是ProgID，表示是程序员定义的标识符。某些名称表示的不是ProgID而实一些特殊的关键字。\n如：\n\nCLSID\nAppID，此关键字下的子关键字的作用是将某个APPID（应用程序的ID）映射成某个远程服务器名称。分式COM（DCOM）将用到此关键字。\n组件类别，注册表的这一分支可以将CATID（组件类别ID）映射成某个特定的组件类别。\nInterface，此关键字将用于将IID映射成某个接口相关的信息。这些信息主要用于在跨进程边界使用接口的情况。\nLicenses，保存的是授权使用COM组件的一些认可信息。\nTypeLib，类型库关键字保存的是关于接口成员函数所用的参数的信息。另外还有一些信息。此关键字可以将一个LIBID映射成存储类型库的文件名称。\n\nProgID所谓ProgID指的是程序员给某个CLSID指定的一个程序员易记的名称。ProgID命名规则为：..，如下图：\n如WPDSp.WPDServiceProvider是版本无关ProgID，根据其值可在CLSID下找到相应键，进而找到相应信息，如组件最新版本信息。\nWPDSp.WPDServiceProvider.1是版本相关ProgID，根据其CLSID值可以找到该版本组件的信息。\nProgID注册表格式ProgID及与版本无关的ProgID被列在组件CLSID下面。\nProgID的主要作用是获取相应的CLSID。在每一个CLSID项中查找查个ProgID将非常低效的。因此在其下面也将直接列出ProgID。由于ProgID不是针对最终用户而定义的，因此ProgID关键字的缺省值为用户易记的名称。在之下有一个名为CLSID的关键字，其缺省值为组件的CLSID。如下图所示：\n与版本好无关的ProgID也直接被列在HKEY_CLASSES_ROOT下面。它们还有另外一个关键字CurVer，其缺省值为组件当前版本的ProgID，如下图：\nProgID和CLSID的转换\nCLSIDFromProgID\nProgIDFromCLSID\n\n组件的自注册为把组件注册到注册表，在DLL中一定要输出如下两个函数：\nSTDAPI DllRegisterServer(); //注册\nSTDAPI DllUnregisterServer(); //反注册\n我们使用Regsvr32.exe注册某个组件或者反注册某个组件时，其实就是调用这两个函数的过程。\n","dateCreated":"2019-07-10T08:11:08+08:00","dateModified":"2019-07-10T08:11:08+08:00","datePublished":"2019-07-10T08:11:08+08:00","description":"作者: Barbossa 公众号: 巴博萨船长\nWindows 注册表HKEY_CLASSES_ROOT在此关键字之下，可以看见有一个CLSID关键字。在CLSID关键字之下列有系统中安装的所有组件的CLSID。注册表CLSID是一个具有如下格式的串：00000010-0000-0010-8000-00AA00D2EA4","headline":"Inno Setup Windows 注册表关键字HKEY\\_CLASSES\\_ROOT相关内容","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://127.0.0.1:4000/2019/07/10/inno-04-registry-hcr/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"http://127.0.0.1:4000/2019/07/10/inno-04-registry-hcr/","keywords":"Inno Setup, 注册表, HCR"}</script>
     <meta name="description" content="作者: Barbossa 公众号: 巴博萨船长 Windows 注册表HKEY_CLASSES_ROOT在此关键字之下，可以看见有一个CLSID关键字。在CLSID关键字之下列有系统中安装的所有组件的CLSID。注册表CLSID是一个具有如下格式的串：00000010-0000-0010-8000-00AA00D2EA4">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Inno Setup Windows 注册表关键字HKEY\_CLASSES\_ROOT相关内容">
-<meta property="og:url" content="http://yoursite.com/2019/07/10/inno-04-registry-hcr/index.html">
+<meta property="og:url" content="http://127.0.0.1:4000/2019/07/10/inno-04-registry-hcr/index.html">
 <meta property="og:site_name" content="Jim Wang">
 <meta property="og:description" content="作者: Barbossa 公众号: 巴博萨船长 Windows 注册表HKEY_CLASSES_ROOT在此关键字之下，可以看见有一个CLSID关键字。在CLSID关键字之下列有系统中安装的所有组件的CLSID。注册表CLSID是一个具有如下格式的串：00000010-0000-0010-8000-00AA00D2EA4">
 <meta property="og:locale" content="zh_CN">
@@ -37,7 +37,7 @@
         
     
     
-        <meta property="og:image" content="http://yoursite.com/assets/images/avater.png"/>
+        <meta property="og:image" content="http://127.0.0.1:4000/assets/images/avater.png"/>
     
     
     
@@ -434,7 +434,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -445,7 +445,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/10/inno-04-registry-hcr/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1:4000/2019/07/10/inno-04-registry-hcr/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -458,7 +458,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/10/inno-04-registry-hcr/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://127.0.0.1:4000/2019/07/10/inno-04-registry-hcr/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -471,7 +471,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/10/inno-04-registry-hcr/"
+                    target="new" href="https://plus.google.com/share?url=http://127.0.0.1:4000/2019/07/10/inno-04-registry-hcr/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -484,7 +484,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://yoursite.com/2019/07/10/inno-04-registry-hcr/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://127.0.0.1:4000/2019/07/10/inno-04-registry-hcr/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -497,7 +497,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/10/inno-04-registry-hcr/&amp;title=Inno Setup Windows 注册表关键字HKEY\_CLASSES\_ROOT相关内容"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://127.0.0.1:4000/2019/07/10/inno-04-registry-hcr/&amp;title=Inno Setup Windows 注册表关键字HKEY\_CLASSES\_ROOT相关内容"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -510,7 +510,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -575,7 +575,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -586,7 +586,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/10/inno-04-registry-hcr/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1:4000/2019/07/10/inno-04-registry-hcr/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -599,7 +599,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/10/inno-04-registry-hcr/"
+                    target="new" href="https://twitter.com/intent/tweet?text=http://127.0.0.1:4000/2019/07/10/inno-04-registry-hcr/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -612,7 +612,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://yoursite.com/2019/07/10/inno-04-registry-hcr/"
+                    target="new" href="https://plus.google.com/share?url=http://127.0.0.1:4000/2019/07/10/inno-04-registry-hcr/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -625,7 +625,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://yoursite.com/2019/07/10/inno-04-registry-hcr/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://127.0.0.1:4000/2019/07/10/inno-04-registry-hcr/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -638,7 +638,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/10/inno-04-registry-hcr/&amp;title=Inno Setup Windows 注册表关键字HKEY\_CLASSES\_ROOT相关内容"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://127.0.0.1:4000/2019/07/10/inno-04-registry-hcr/&amp;title=Inno Setup Windows 注册表关键字HKEY\_CLASSES\_ROOT相关内容"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -651,7 +651,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -672,7 +672,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/07/10/inno-04-registry-hcr/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1:4000/2019/07/10/inno-04-registry-hcr/"
                         aria-label="分享到 Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
@@ -685,7 +685,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=http://yoursite.com/2019/07/10/inno-04-registry-hcr/"
+                        href="https://twitter.com/intent/tweet?text=http://127.0.0.1:4000/2019/07/10/inno-04-registry-hcr/"
                         aria-label="分享到 Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
@@ -698,7 +698,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=http://yoursite.com/2019/07/10/inno-04-registry-hcr/"
+                        href="https://plus.google.com/share?url=http://127.0.0.1:4000/2019/07/10/inno-04-registry-hcr/"
                         aria-label="分享到 Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
@@ -711,7 +711,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://service.weibo.com/share/share.php?&amp;title=http://yoursite.com/2019/07/10/inno-04-registry-hcr/"
+                        href="http://service.weibo.com/share/share.php?&amp;title=http://127.0.0.1:4000/2019/07/10/inno-04-registry-hcr/"
                         aria-label="分享到 Weibo"
                     >
                         <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
@@ -724,7 +724,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/07/10/inno-04-registry-hcr/&amp;title=Inno Setup Windows 注册表关键字HKEY\_CLASSES\_ROOT相关内容"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=http://127.0.0.1:4000/2019/07/10/inno-04-registry-hcr/&amp;title=Inno Setup Windows 注册表关键字HKEY\_CLASSES\_ROOT相关内容"
                         aria-label="分享到 QQ"
                     >
                         <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
