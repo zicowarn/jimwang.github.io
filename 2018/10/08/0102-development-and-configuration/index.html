@@ -5,24 +5,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Jim Wang">
-    <title>Python 开发环境与配置技巧 - Jim Wang</title>
+    <meta name="generator" content="Jim Wang 的个人技术博客">
+    <title>Python 开发环境与配置技巧 - Jim Wang 的个人技术博客</title>
     <meta name="author" content="Jim Wang">
     
+        <meta name="keywords" content="个人博客,实践,技术,经验,分享,全栈,Technology,blog,Python,Inno Setup,TypeScript,SQLite,AWS,CAM,EDM,">
     
-        <link rel="icon" href="http://127.0.0.1:4000/assets/images/favicon.png">
+    
+        <link rel="icon" href="https://zicowarn.github.io/assets/images/favicon.png">
     
     
         
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Barbossa 公众号: 巴博萨船长\nPython的软件开发与其他编程语言例如C++/Java开发类似，开发环境的配置是前提。如何完成Python开发环境的搭建与搭建技巧，不同Python版本之间混合安装，比如3.0与2.x的混合安装或者32bit与64bit的混合安装，如何配置上述开发环境，今天就接着这篇文章给大家做个简单介绍。\n\n\n3.0还是2.7在之前的文章里解释了3.0和2.7的区别，两个版本并不兼容。3.0应该说是Python进化或改变的最终目标。因为大量的第三方库即支持模块都是以2.7\n为基础完成的，而且Python的开源性，也就造成了代码维护和升级周期过长。所以建议还是从Python2.7学起。\nPython 开发环境与跨平台Python 是一种解释程序，也就是说编写的文本类py文件不是可执行文件如（如exe），是需要一个翻译者，翻译或者解释给计算机的。这里的翻译者就是Python解释器。Python的开发环境的配置也就是解释器的安装与配置。需要指出的是：Python解释器的代码与规范都是开源的，也就是说只要你水平够高，专业够硬就可以自己写Python解释器来运行你的Python代码。因为存在很多不同的Python解释器，所以我们这里解释器是标准的解释器。\nPython支持跨平台开发，这里所说的跨平台是我们熟知Microsoft Windows， Linux （或Unix）或者Mac OS，而不是一些人理解的由移动设备如手机到PC的跨平台，也不是64bit和32bit的跨平台。这里要强调的是：一般情况下，Python的模块文件也就是后缀为py文件，可以用64bit的解释器或者32bit解释器运行。但编译过的文件，即后缀为pyc的文件却不行。\nPython在不同系统下的环境配置与配置技巧，请查看该条公共消息的附属内容。\n","dateCreated":"2018-10-08T11:27:20+08:00","dateModified":"2018-10-08T11:27:20+08:00","datePublished":"2018-10-08T11:27:20+08:00","description":"作者: Barbossa 公众号: 巴博萨船长\nPython的软件开发与其他编程语言例如C++/Java开发类似，开发环境的配置是前提。如何完成Python开发环境的搭建与搭建技巧，不同Python版本之间混合安装，比如3.0与2.x的混合安装或者32bit与64bit的混合安装，如何配置上述开发环境，今天就接着这篇文章给大家做个简单介绍。","headline":"Python 开发环境与配置技巧","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://127.0.0.1:4000/2018/10/08/0102-development-and-configuration/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"http://127.0.0.1:4000/2018/10/08/0102-development-and-configuration/","keywords":"Python, 开发环境, 配置"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Barbossa 公众号: 巴博萨船长\nPython的软件开发与其他编程语言例如C++/Java开发类似，开发环境的配置是前提。如何完成Python开发环境的搭建与搭建技巧，不同Python版本之间混合安装，比如3.0与2.x的混合安装或者32bit与64bit的混合安装，如何配置上述开发环境，今天就接着这篇文章给大家做个简单介绍。\n\n\n3.0还是2.7在之前的文章里解释了3.0和2.7的区别，两个版本并不兼容。3.0应该说是Python进化或改变的最终目标。因为大量的第三方库即支持模块都是以2.7\n为基础完成的，而且Python的开源性，也就造成了代码维护和升级周期过长。所以建议还是从Python2.7学起。\nPython 开发环境与跨平台Python 是一种解释程序，也就是说编写的文本类py文件不是可执行文件如（如exe），是需要一个翻译者，翻译或者解释给计算机的。这里的翻译者就是Python解释器。Python的开发环境的配置也就是解释器的安装与配置。需要指出的是：Python解释器的代码与规范都是开源的，也就是说只要你水平够高，专业够硬就可以自己写Python解释器来运行你的Python代码。因为存在很多不同的Python解释器，所以我们这里解释器是标准的解释器。\nPython支持跨平台开发，这里所说的跨平台是我们熟知Microsoft Windows， Linux （或Unix）或者Mac OS，而不是一些人理解的由移动设备如手机到PC的跨平台，也不是64bit和32bit的跨平台。这里要强调的是：一般情况下，Python的模块文件也就是后缀为py文件，可以用64bit的解释器或者32bit解释器运行。但编译过的文件，即后缀为pyc的文件却不行。\nPython在不同系统下的环境配置与配置技巧，请查看该条公共消息的附属内容。\n","dateCreated":"2018-10-08T11:27:20+08:00","dateModified":"2018-10-08T11:27:20+08:00","datePublished":"2018-10-08T11:27:20+08:00","description":"作者: Barbossa 公众号: 巴博萨船长\nPython的软件开发与其他编程语言例如C++/Java开发类似，开发环境的配置是前提。如何完成Python开发环境的搭建与搭建技巧，不同Python版本之间混合安装，比如3.0与2.x的混合安装或者32bit与64bit的混合安装，如何配置上述开发环境，今天就接着这篇文章给大家做个简单介绍。","headline":"Python 开发环境与配置技巧","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/","keywords":"Python, 开发环境, 配置"}</script>
     <meta name="description" content="作者: Barbossa 公众号: 巴博萨船长 Python的软件开发与其他编程语言例如C++&#x2F;Java开发类似，开发环境的配置是前提。如何完成Python开发环境的搭建与搭建技巧，不同Python版本之间混合安装，比如3.0与2.x的混合安装或者32bit与64bit的混合安装，如何配置上述开发环境，今天就接着这篇文章给大家做个简单介绍。">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Python 开发环境与配置技巧">
-<meta property="og:url" content="http://127.0.0.1:4000/2018/10/08/0102-development-and-configuration/index.html">
-<meta property="og:site_name" content="Jim Wang">
+<meta property="og:url" content="https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/index.html">
+<meta property="og:site_name" content="Jim Wang 的个人技术博客">
 <meta property="og:description" content="作者: Barbossa 公众号: 巴博萨船长 Python的软件开发与其他编程语言例如C++&#x2F;Java开发类似，开发环境的配置是前提。如何完成Python开发环境的搭建与搭建技巧，不同Python版本之间混合安装，比如3.0与2.x的混合安装或者32bit与64bit的混合安装，如何配置上述开发环境，今天就接着这篇文章给大家做个简单介绍。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-10-08T03:27:20.000Z">
@@ -37,14 +39,14 @@
         
     
     
-        <meta property="og:image" content="http://127.0.0.1:4000/assets/images/avater.png"/>
+        <meta property="og:image" content="https://zicowarn.github.io/assets/images/avater.png"/>
     
     
     
     
     <!--STYLES-->
     
-<link rel="stylesheet" href="/assets/css/style-fx8pfb7gmpbfvuyjdgcgxx7dh6cxsyyxtpy3wt1y3clihgtywjvsieddbi4q.min.css">
+<link rel="stylesheet" href="/assets/css/style-rcbsyf3zxtvk5r4bclvxqq47csnpzztn4oemzroin9gvdglmeooveygwvrxa.min.css">
 
     <!--STYLES END-->
     
@@ -63,7 +65,7 @@
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d";
+      hm.src = "https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
@@ -94,7 +96,7 @@
             href="/%20"
             aria-label=""
         >
-            Jim Wang
+            Jim Wang 的个人技术博客
         </a>
     </div>
     
@@ -426,7 +428,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1:4000/2018/10/08/0102-development-and-configuration/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -439,7 +441,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://127.0.0.1:4000/2018/10/08/0102-development-and-configuration/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -452,7 +454,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://127.0.0.1:4000/2018/10/08/0102-development-and-configuration/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -465,7 +467,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://127.0.0.1:4000/2018/10/08/0102-development-and-configuration/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -478,7 +480,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://127.0.0.1:4000/2018/10/08/0102-development-and-configuration/&amp;title=Python 开发环境与配置技巧"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/&amp;title=Python 开发环境与配置技巧"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -567,7 +569,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1:4000/2018/10/08/0102-development-and-configuration/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -580,7 +582,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://127.0.0.1:4000/2018/10/08/0102-development-and-configuration/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -593,7 +595,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://127.0.0.1:4000/2018/10/08/0102-development-and-configuration/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -606,7 +608,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://127.0.0.1:4000/2018/10/08/0102-development-and-configuration/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -619,7 +621,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://127.0.0.1:4000/2018/10/08/0102-development-and-configuration/&amp;title=Python 开发环境与配置技巧"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/&amp;title=Python 开发环境与配置技巧"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -653,7 +655,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1:4000/2018/10/08/0102-development-and-configuration/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/"
                         aria-label="分享到 Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
@@ -666,7 +668,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=http://127.0.0.1:4000/2018/10/08/0102-development-and-configuration/"
+                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/"
                         aria-label="分享到 Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
@@ -679,7 +681,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=http://127.0.0.1:4000/2018/10/08/0102-development-and-configuration/"
+                        href="https://plus.google.com/share?url=https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/"
                         aria-label="分享到 Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
@@ -692,7 +694,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://service.weibo.com/share/share.php?&amp;title=http://127.0.0.1:4000/2018/10/08/0102-development-and-configuration/"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/"
                         aria-label="分享到 Weibo"
                     >
                         <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
@@ -705,7 +707,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://connect.qq.com/widget/shareqq/index.html?url=http://127.0.0.1:4000/2018/10/08/0102-development-and-configuration/&amp;title=Python 开发环境与配置技巧"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/&amp;title=Python 开发环境与配置技巧"
                         aria-label="分享到 QQ"
                     >
                         <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
@@ -792,7 +794,7 @@
 <div id="cover" style="background-image:url('/assets/images/background-cover.jpg');"></div>
         <!--SCRIPTS-->
 
-<script src="/assets/js/script-re9vwctebhi1gz1fcjsq4m74c4tlkutxazohbpkfrmrrfeyue8iwxcfue8hv.min.js"></script>
+<script src="/assets/js/script-jpjwphoirnz6psazjcdcsk769bqidzryh2n1c6kdyrwbad49zwfp6lfnzwrk.min.js"></script>
 
 <!--SCRIPTS END-->
 

@@ -5,28 +5,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Jim Wang">
-    <title>Linux系统下 Python的安装配置 - Jim Wang</title>
+    <meta name="generator" content="Jim Wang 的个人技术博客">
+    <title>Linux系统下 Python的安装配置 - Jim Wang 的个人技术博客</title>
     <meta name="author" content="Jim Wang">
     
+        <meta name="keywords" content="个人博客,实践,技术,经验,分享,全栈,Technology,blog,Python,Inno Setup,TypeScript,SQLite,AWS,CAM,EDM,">
     
-        <link rel="icon" href="http://127.0.0.1:4000/assets/images/favicon.png">
+    
+        <link rel="icon" href="https://zicowarn.github.io/assets/images/favicon.png">
     
     
         
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Barbossa 公众号: 巴博萨船长\nPython已经预装在大多数的Linux发行版本里。以Linux的发行版Ubuntu为例，在Ubuntu 16.04.3 LTS的版本里，同时预装了Python 2.7.12 和Python3.5.2 两个不同的版本。\n\n\n在console终端里面键入：Python的话，系统会自动默认为需要启动Python2.7 如下图：\n\n但是如果你需要启动指定的Python的话，可以键入”python2” 或者 “python2.7” 来启动Python2.7版本。或者可以键入”python3” 或者 “python3.5” 来启动Python3.5版本。如图：\n\nLinux 系统下的32bit和64bit的混合安装比较复杂，但是绝对可以实现的（亲测）。建议借助pyenv来管理Python的多版本安装。\n需要指出的是：虽然Python 已经预装在Linux多数发行版本里，但是pip 即：Python的扩展库的管理程序却没有预装在系统里面，还是需要手动安装的。\n以Ubuntu系统为例，可以在终端里面键入：\n1sudo apt-get install python-pip\n\n来安装pip。\n或者从网站https://pip.pypa.io/en/stable/installing/下载**get-pip.py**的模块，然后在终端键入：\n1python get-pip.py\n\n来安装pip。 个人建议使用后者，这样pip里记录的第三方模块的信息会相对较新。否则可能还要手动更新记录才能安装第三方模块。\n如有问题，欢迎留言讨论。\n","dateCreated":"2018-11-09T15:11:08+08:00","dateModified":"2018-11-09T15:11:08+08:00","datePublished":"2018-11-09T15:11:08+08:00","description":"作者: Barbossa 公众号: 巴博萨船长\nPython已经预装在大多数的Linux发行版本里。以Linux的发行版Ubuntu为例，在Ubuntu 16.04.3 LTS的版本里，同时预装了Python 2.7.12 和Python3.5.2 两个不同的版本。","headline":"Linux系统下 Python的安装配置","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://127.0.0.1:4000/2018/11/09/0202-os-linux/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"http://127.0.0.1:4000/2018/11/09/0202-os-linux/","keywords":"Python, 配置, Linux"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Barbossa 公众号: 巴博萨船长\nPython已经预装在大多数的Linux发行版本里。以Linux的发行版Ubuntu为例，在Ubuntu 16.04.3 LTS的版本里，同时预装了Python 2.7.12 和Python3.5.2 两个不同的版本。\n\n\n在console终端里面键入：Python的话，系统会自动默认为需要启动Python2.7 如下图：\n\n但是如果你需要启动指定的Python的话，可以键入”python2” 或者 “python2.7” 来启动Python2.7版本。或者可以键入”python3” 或者 “python3.5” 来启动Python3.5版本。如图：\n\nLinux 系统下的32bit和64bit的混合安装比较复杂，但是绝对可以实现的（亲测）。建议借助pyenv来管理Python的多版本安装。\n需要指出的是：虽然Python 已经预装在Linux多数发行版本里，但是pip 即：Python的扩展库的管理程序却没有预装在系统里面，还是需要手动安装的。\n以Ubuntu系统为例，可以在终端里面键入：\n1sudo apt-get install python-pip\n\n来安装pip。\n或者从网站https://pip.pypa.io/en/stable/installing/下载**get-pip.py**的模块，然后在终端键入：\n1python get-pip.py\n\n来安装pip。 个人建议使用后者，这样pip里记录的第三方模块的信息会相对较新。否则可能还要手动更新记录才能安装第三方模块。\n如有问题，欢迎留言讨论。\n","dateCreated":"2018-11-09T15:11:08+08:00","dateModified":"2018-11-09T15:11:08+08:00","datePublished":"2018-11-09T15:11:08+08:00","description":"作者: Barbossa 公众号: 巴博萨船长\nPython已经预装在大多数的Linux发行版本里。以Linux的发行版Ubuntu为例，在Ubuntu 16.04.3 LTS的版本里，同时预装了Python 2.7.12 和Python3.5.2 两个不同的版本。","headline":"Linux系统下 Python的安装配置","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2018/11/09/0202-os-linux/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2018/11/09/0202-os-linux/","keywords":"Python, 配置, Linux"}</script>
     <meta name="description" content="作者: Barbossa 公众号: 巴博萨船长 Python已经预装在大多数的Linux发行版本里。以Linux的发行版Ubuntu为例，在Ubuntu 16.04.3 LTS的版本里，同时预装了Python 2.7.12 和Python3.5.2 两个不同的版本。">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Linux系统下 Python的安装配置">
-<meta property="og:url" content="http://127.0.0.1:4000/2018/11/09/0202-os-linux/index.html">
-<meta property="og:site_name" content="Jim Wang">
+<meta property="og:url" content="https://zicowarn.github.io/2018/11/09/0202-os-linux/index.html">
+<meta property="og:site_name" content="Jim Wang 的个人技术博客">
 <meta property="og:description" content="作者: Barbossa 公众号: 巴博萨船长 Python已经预装在大多数的Linux发行版本里。以Linux的发行版Ubuntu为例，在Ubuntu 16.04.3 LTS的版本里，同时预装了Python 2.7.12 和Python3.5.2 两个不同的版本。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://127.0.0.1:4000/2018/11/09/0202-os-linux/640-20200708205720946.png">
-<meta property="og:image" content="http://127.0.0.1:4000/2018/11/09/0202-os-linux/640-20200708205724297.jpeg">
+<meta property="og:image" content="https://zicowarn.github.io/2018/11/09/0202-os-linux/640-20200708205720946.png">
+<meta property="og:image" content="https://zicowarn.github.io/2018/11/09/0202-os-linux/640-20200708205724297.jpeg">
 <meta property="article:published_time" content="2018-11-09T07:11:08.000Z">
 <meta property="article:modified_time" content="2018-11-09T07:11:08.000Z">
 <meta property="article:author" content="Jim Wang">
@@ -34,20 +36,20 @@
 <meta property="article:tag" content="配置">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://127.0.0.1:4000/2018/11/09/0202-os-linux/640-20200708205720946.png">
+<meta name="twitter:image" content="https://zicowarn.github.io/2018/11/09/0202-os-linux/640-20200708205720946.png">
     
     
         
     
     
-        <meta property="og:image" content="http://127.0.0.1:4000/assets/images/avater.png"/>
+        <meta property="og:image" content="https://zicowarn.github.io/assets/images/avater.png"/>
     
     
     
     
     <!--STYLES-->
     
-<link rel="stylesheet" href="/assets/css/style-fx8pfb7gmpbfvuyjdgcgxx7dh6cxsyyxtpy3wt1y3clihgtywjvsieddbi4q.min.css">
+<link rel="stylesheet" href="/assets/css/style-rcbsyf3zxtvk5r4bclvxqq47csnpzztn4oemzroin9gvdglmeooveygwvrxa.min.css">
 
     <!--STYLES END-->
     
@@ -66,7 +68,7 @@
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d";
+      hm.src = "https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
@@ -97,7 +99,7 @@
             href="/%20"
             aria-label=""
         >
-            Jim Wang
+            Jim Wang 的个人技术博客
         </a>
     </div>
     
@@ -439,7 +441,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1:4000/2018/11/09/0202-os-linux/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2018/11/09/0202-os-linux/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -452,7 +454,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://127.0.0.1:4000/2018/11/09/0202-os-linux/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2018/11/09/0202-os-linux/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -465,7 +467,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://127.0.0.1:4000/2018/11/09/0202-os-linux/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2018/11/09/0202-os-linux/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -478,7 +480,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://127.0.0.1:4000/2018/11/09/0202-os-linux/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2018/11/09/0202-os-linux/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -491,7 +493,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://127.0.0.1:4000/2018/11/09/0202-os-linux/&amp;title=Linux系统下 Python的安装配置"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2018/11/09/0202-os-linux/&amp;title=Linux系统下 Python的安装配置"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -580,7 +582,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1:4000/2018/11/09/0202-os-linux/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2018/11/09/0202-os-linux/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -593,7 +595,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://127.0.0.1:4000/2018/11/09/0202-os-linux/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2018/11/09/0202-os-linux/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -606,7 +608,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://127.0.0.1:4000/2018/11/09/0202-os-linux/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2018/11/09/0202-os-linux/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -619,7 +621,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://127.0.0.1:4000/2018/11/09/0202-os-linux/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2018/11/09/0202-os-linux/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -632,7 +634,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://127.0.0.1:4000/2018/11/09/0202-os-linux/&amp;title=Linux系统下 Python的安装配置"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2018/11/09/0202-os-linux/&amp;title=Linux系统下 Python的安装配置"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -666,7 +668,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1:4000/2018/11/09/0202-os-linux/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2018/11/09/0202-os-linux/"
                         aria-label="分享到 Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
@@ -679,7 +681,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=http://127.0.0.1:4000/2018/11/09/0202-os-linux/"
+                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2018/11/09/0202-os-linux/"
                         aria-label="分享到 Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
@@ -692,7 +694,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=http://127.0.0.1:4000/2018/11/09/0202-os-linux/"
+                        href="https://plus.google.com/share?url=https://zicowarn.github.io/2018/11/09/0202-os-linux/"
                         aria-label="分享到 Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
@@ -705,7 +707,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://service.weibo.com/share/share.php?&amp;title=http://127.0.0.1:4000/2018/11/09/0202-os-linux/"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2018/11/09/0202-os-linux/"
                         aria-label="分享到 Weibo"
                     >
                         <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
@@ -718,7 +720,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://connect.qq.com/widget/shareqq/index.html?url=http://127.0.0.1:4000/2018/11/09/0202-os-linux/&amp;title=Linux系统下 Python的安装配置"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2018/11/09/0202-os-linux/&amp;title=Linux系统下 Python的安装配置"
                         aria-label="分享到 QQ"
                     >
                         <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
@@ -805,7 +807,7 @@
 <div id="cover" style="background-image:url('/assets/images/background-cover.jpg');"></div>
         <!--SCRIPTS-->
 
-<script src="/assets/js/script-re9vwctebhi1gz1fcjsq4m74c4tlkutxazohbpkfrmrrfeyue8iwxcfue8hv.min.js"></script>
+<script src="/assets/js/script-jpjwphoirnz6psazjcdcsk769bqidzryh2n1c6kdyrwbad49zwfp6lfnzwrk.min.js"></script>
 
 <!--SCRIPTS END-->
 

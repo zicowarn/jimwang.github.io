@@ -17978,6 +17978,7 @@ return jQuery;
    */
   var WechatCard = function() {
     this.$openBtn = $('#sidebar, #header').find('a[href*="#wechat"]');
+    this.$altOpenBtn = $('#main').find('a[href*="#wechat"][class="main-button-link"]');
     this.$closeBtn = $('#wechat-btn-close');
     this.$blog = $('#blog');
     this.$wechat = $('#wechat');
@@ -17994,6 +17995,11 @@ return jQuery;
       var self = this;
       // Detect click on open button
       self.$openBtn.click(function(e) {
+        e.preventDefault();
+        self.play();
+      });
+      // Detect click on alternative open button
+      self.$altOpenBtn.click(function(e) {
         e.preventDefault();
         self.play();
       });

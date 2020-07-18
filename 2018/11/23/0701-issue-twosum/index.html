@@ -5,24 +5,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Jim Wang">
-    <title>Python 应用之 Two sum - Jim Wang</title>
+    <meta name="generator" content="Jim Wang 的个人技术博客">
+    <title>Python 应用之 Two sum - Jim Wang 的个人技术博客</title>
     <meta name="author" content="Jim Wang">
     
+        <meta name="keywords" content="个人博客,实践,技术,经验,分享,全栈,Technology,blog,Python,Inno Setup,TypeScript,SQLite,AWS,CAM,EDM,">
     
-        <link rel="icon" href="http://127.0.0.1:4000/assets/images/favicon.png">
+    
+        <link rel="icon" href="https://zicowarn.github.io/assets/images/favicon.png">
     
     
         
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Barbossa 公众号: 巴博萨船长\n最近一直考虑着下一篇关于Python的文章应该是什么样的内容，对比一些专业大咖的文章，目前应该写一个完整的且无错的程序，然后和大家一起一行行地分析代码相互学习，可是我实在不想如此亦步亦趋。在学习编程方面，我是一个实用主义者，认为“学以致用”才是学习的最终目的， 最近发现了一些有趣的东西，让我很感兴趣，也能检验我自己所学的东西。\n\n\n本着“学以致用”为先，从今天开始我们通过研究算法的方式，进而明白自己之前学的内容如何更好地使用。之所以打算写这样方面的内容，也是因为最近的一次和猎头通话时，被问到类似的问题，可是自己竟然不会，丢脸啊。所以就下定决心研究算法，在此把自己所学所想跟大家分享。\n问题描述* 英文原文：\n\nGiven an array of integers, return indices of the two numbers such that they add up to a specific target. You may assume that each input would have exactly one solution, and you may not use the same element twice.\n\n* 我的理解：\n\n给定一个整数数组和一个目标值，求数组内两个元素和为目标值的指针。 需要保证每次输入都能得到正确的解，并且任何一个元素不能使用两次。\n\n* 例：\n\n如有列表 [2, 7, 11, 15] 若目标值 9， 因为 2 + 7 = 9， 所以得[0, 1]; 若目标值 18， 因为 7 + 11 = 18， 所以得[1, 2]。\n\n解决思路\n第一步推导\n\n使用最简单的思路暴力解决。 历遍列表中的每一个元素，然后检查是否相邻的两个元素的和是否和所求一致，如果相同则返回这两个元素的索引。代码如下：\n1234567891011121314def Approach1(listInput, iTarget):        \"\"\"        Brute Force        :type listInput: List[int]        :type iTarget: int        :rtype: List[int]        \"\"\"        if len(listInput) &lt;= 1:                        return False        for iDx in range(len(listInput)):                        for jDx in range(1, len(listInput)):                                if listInput[jDx] == (iTarget - listInput[iDx]):                    return [iDx, jDx]\n\n这样的方法虽然不能符合题目要求，因为列表中的每一个元素都被使用了两次。但是可以以此为基础，进一步探索找到解决问题的最优解。\n\n第二步推导\n因为第一步推导中方法的时间复杂度为O(n^2)。 为了优化时间复杂度，就要尝试找到一个更加高性能的方法来检查一个元素与目标值的差是否存在于列表中。 而且当其差值存在，我们还要得到该元素的索引。 那么最好的保存两者映射的途径是什么？ 当然是一个哈希表，在Python中为字典。\n\n\n为了提高效率就要减少查找时间，准确地说把两者映射的查找次数从N降低到1。 而哈希表就是为此而生的。 理论上使用哈希表可以实现在恒定时间内完成查找。但是现实中可能会出现哈希函数不完善造成的冲突可能会导致查找次数重新从1退到n。 所以选择合适的哈希函数也是很重要的。 以此为思路优化第一步的推导，就得到下面的代码。 Python作为高级编程的语言，虽然解释器封装了哈希函数，也会存在碰撞冲突的风险，但一般很少出现。\n123456789101112131415161718def Approach2(listInput, iTarget):        \"\"\"        Two-pass Hash Table        :type listInput: List[int]        :type iTarget: int        :rtype: List[int]        \"\"\"        if len(listInput) &lt;= 1:                        return False        # dictBuffer = &#123;&#125;        # for iDx in range(len(listInput)):        #    dictBuffer[listInput[iDx]] = iDx        dictBuffer = dict(zip(listInput, range(len(listInput))))                for iDx in range(len(listInput)):            iComplement = iTarget - listInput[iDx]                        if dictBuffer.has_key(iComplement) and dictBuffer.get(iComplement) != iDx:                return [iDx, dictBuffer.get(iComplement)]\n\n上述的推导里面，使用了两个迭代，第一次迭代中（被注释的内容），循环将每个元素和其索引添加到字典内。然后在第二个迭代中，我们检查字典中是否存在其中一个元素差值为键的映射，如果存在就返回该元素以及差值对于的索引。 需要检验该差值不能为元素本身。\n\n第三步推导\n\n通过正确理解第二步推导，其实可以发现。 相同的目的也可以通过一次迭代完成。 在迭代的过程中，我们先判断当前元素是否存在于映射字典中，该映射字典保存了列表中一个元素与目标值的差以及该元素的索引。如果存在就立即返回。 若不存在，则将该元素与目标值的差作为键，其索引作为值，保存在这个映射字典中。代码如下：\n12345678910111213141516def Approach3(listInput, iTarget):        \"\"\"        One-pass Hash Table        :type listInput: List[int]        :type iTarget: int        :rtype: List[int]        \"\"\"        if len(listInput) &lt;= 1:            return False        dictBuffer = &#123;&#125;        for iDx in range(len(listInput)):            if listInput[iDx] in dictBuffer:                return [dictBuffer[listInput[iDx]], iDx]            else:                dictBuffer[iTarget - listInput[iDx]] = iDx\n\n可以看出第三步的推导能够满足题目的要求，即每个元素只能使用一次，而且解决方案的时间复杂度(O(n))和空间复杂度(O(n))都为最优。 关于算法的复杂度，即时间复杂度和空间复杂度的内容，我找机会总结后分享给大家。\n总结第三步推导完成之后，真的是醍醐灌顶。通过这三步推导，从最早的暴力解决，一步步地靠近正确的答案，发现这里面没有新的编程技术，也没有自创的数据类型。全都是之前文章介绍过的基本知识，可是通过改变这些基本内容的使用方法和方式，就能得到不一样的效果。也意识到，我们都有解决问题的能力和想到解决方案的智慧，只是很多时候面对问题时，都是以简单和快速为先，并没有考虑使用的方法是否最优。很多时候只要具有就是看下去的毅力和试下去的恒心，我们都能找到解决问题的最优解。\n研究这个算法的过程，也认识到自己离软件大拿和行业翘楚还很远。也明白自己看待问题的眼光，解决问题的思路包括编程的思维都是有局限。这篇文章也作为我自己对待编程的新起点，希望与君相互讨论帮助，共同进步学习。\n","dateCreated":"2018-11-23T08:11:08+08:00","dateModified":"2018-11-23T08:11:08+08:00","datePublished":"2018-11-23T08:11:08+08:00","description":"作者: Barbossa 公众号: 巴博萨船长\n最近一直考虑着下一篇关于Python的文章应该是什么样的内容，对比一些专业大咖的文章，目前应该写一个完整的且无错的程序，然后和大家一起一行行地分析代码相互学习，可是我实在不想如此亦步亦趋。在学习编程方面，我是一个实用主义者，认为“学以致用”才是学习的最终目的， 最近发现了一些有趣的东西，让我很感兴趣，也能检验我自己所学的东西。","headline":"Python 应用之 Two sum","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"http://127.0.0.1:4000/2018/11/23/0701-issue-twosum/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"http://127.0.0.1:4000/2018/11/23/0701-issue-twosum/","keywords":"Python, 应用技巧"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Barbossa 公众号: 巴博萨船长\n最近一直考虑着下一篇关于Python的文章应该是什么样的内容，对比一些专业大咖的文章，目前应该写一个完整的且无错的程序，然后和大家一起一行行地分析代码相互学习，可是我实在不想如此亦步亦趋。在学习编程方面，我是一个实用主义者，认为“学以致用”才是学习的最终目的， 最近发现了一些有趣的东西，让我很感兴趣，也能检验我自己所学的东西。\n\n\n本着“学以致用”为先，从今天开始我们通过研究算法的方式，进而明白自己之前学的内容如何更好地使用。之所以打算写这样方面的内容，也是因为最近的一次和猎头通话时，被问到类似的问题，可是自己竟然不会，丢脸啊。所以就下定决心研究算法，在此把自己所学所想跟大家分享。\n问题描述* 英文原文：\n\nGiven an array of integers, return indices of the two numbers such that they add up to a specific target. You may assume that each input would have exactly one solution, and you may not use the same element twice.\n\n* 我的理解：\n\n给定一个整数数组和一个目标值，求数组内两个元素和为目标值的指针。 需要保证每次输入都能得到正确的解，并且任何一个元素不能使用两次。\n\n* 例：\n\n如有列表 [2, 7, 11, 15] 若目标值 9， 因为 2 + 7 = 9， 所以得[0, 1]; 若目标值 18， 因为 7 + 11 = 18， 所以得[1, 2]。\n\n解决思路\n第一步推导\n\n使用最简单的思路暴力解决。 历遍列表中的每一个元素，然后检查是否相邻的两个元素的和是否和所求一致，如果相同则返回这两个元素的索引。代码如下：\n1234567891011121314def Approach1(listInput, iTarget):        \"\"\"        Brute Force        :type listInput: List[int]        :type iTarget: int        :rtype: List[int]        \"\"\"        if len(listInput) &lt;= 1:                        return False        for iDx in range(len(listInput)):                        for jDx in range(1, len(listInput)):                                if listInput[jDx] == (iTarget - listInput[iDx]):                    return [iDx, jDx]\n\n这样的方法虽然不能符合题目要求，因为列表中的每一个元素都被使用了两次。但是可以以此为基础，进一步探索找到解决问题的最优解。\n\n第二步推导\n因为第一步推导中方法的时间复杂度为O(n^2)。 为了优化时间复杂度，就要尝试找到一个更加高性能的方法来检查一个元素与目标值的差是否存在于列表中。 而且当其差值存在，我们还要得到该元素的索引。 那么最好的保存两者映射的途径是什么？ 当然是一个哈希表，在Python中为字典。\n\n\n为了提高效率就要减少查找时间，准确地说把两者映射的查找次数从N降低到1。 而哈希表就是为此而生的。 理论上使用哈希表可以实现在恒定时间内完成查找。但是现实中可能会出现哈希函数不完善造成的冲突可能会导致查找次数重新从1退到n。 所以选择合适的哈希函数也是很重要的。 以此为思路优化第一步的推导，就得到下面的代码。 Python作为高级编程的语言，虽然解释器封装了哈希函数，也会存在碰撞冲突的风险，但一般很少出现。\n123456789101112131415161718def Approach2(listInput, iTarget):        \"\"\"        Two-pass Hash Table        :type listInput: List[int]        :type iTarget: int        :rtype: List[int]        \"\"\"        if len(listInput) &lt;= 1:                        return False        # dictBuffer = &#123;&#125;        # for iDx in range(len(listInput)):        #    dictBuffer[listInput[iDx]] = iDx        dictBuffer = dict(zip(listInput, range(len(listInput))))                for iDx in range(len(listInput)):            iComplement = iTarget - listInput[iDx]                        if dictBuffer.has_key(iComplement) and dictBuffer.get(iComplement) != iDx:                return [iDx, dictBuffer.get(iComplement)]\n\n上述的推导里面，使用了两个迭代，第一次迭代中（被注释的内容），循环将每个元素和其索引添加到字典内。然后在第二个迭代中，我们检查字典中是否存在其中一个元素差值为键的映射，如果存在就返回该元素以及差值对于的索引。 需要检验该差值不能为元素本身。\n\n第三步推导\n\n通过正确理解第二步推导，其实可以发现。 相同的目的也可以通过一次迭代完成。 在迭代的过程中，我们先判断当前元素是否存在于映射字典中，该映射字典保存了列表中一个元素与目标值的差以及该元素的索引。如果存在就立即返回。 若不存在，则将该元素与目标值的差作为键，其索引作为值，保存在这个映射字典中。代码如下：\n12345678910111213141516def Approach3(listInput, iTarget):        \"\"\"        One-pass Hash Table        :type listInput: List[int]        :type iTarget: int        :rtype: List[int]        \"\"\"        if len(listInput) &lt;= 1:            return False        dictBuffer = &#123;&#125;        for iDx in range(len(listInput)):            if listInput[iDx] in dictBuffer:                return [dictBuffer[listInput[iDx]], iDx]            else:                dictBuffer[iTarget - listInput[iDx]] = iDx\n\n可以看出第三步的推导能够满足题目的要求，即每个元素只能使用一次，而且解决方案的时间复杂度(O(n))和空间复杂度(O(n))都为最优。 关于算法的复杂度，即时间复杂度和空间复杂度的内容，我找机会总结后分享给大家。\n总结第三步推导完成之后，真的是醍醐灌顶。通过这三步推导，从最早的暴力解决，一步步地靠近正确的答案，发现这里面没有新的编程技术，也没有自创的数据类型。全都是之前文章介绍过的基本知识，可是通过改变这些基本内容的使用方法和方式，就能得到不一样的效果。也意识到，我们都有解决问题的能力和想到解决方案的智慧，只是很多时候面对问题时，都是以简单和快速为先，并没有考虑使用的方法是否最优。很多时候只要具有就是看下去的毅力和试下去的恒心，我们都能找到解决问题的最优解。\n研究这个算法的过程，也认识到自己离软件大拿和行业翘楚还很远。也明白自己看待问题的眼光，解决问题的思路包括编程的思维都是有局限。这篇文章也作为我自己对待编程的新起点，希望与君相互讨论帮助，共同进步学习。\n","dateCreated":"2018-11-23T08:11:08+08:00","dateModified":"2018-11-23T08:11:08+08:00","datePublished":"2018-11-23T08:11:08+08:00","description":"作者: Barbossa 公众号: 巴博萨船长\n最近一直考虑着下一篇关于Python的文章应该是什么样的内容，对比一些专业大咖的文章，目前应该写一个完整的且无错的程序，然后和大家一起一行行地分析代码相互学习，可是我实在不想如此亦步亦趋。在学习编程方面，我是一个实用主义者，认为“学以致用”才是学习的最终目的， 最近发现了一些有趣的东西，让我很感兴趣，也能检验我自己所学的东西。","headline":"Python 应用之 Two sum","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2018/11/23/0701-issue-twosum/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2018/11/23/0701-issue-twosum/","keywords":"Python, 应用技巧"}</script>
     <meta name="description" content="作者: Barbossa 公众号: 巴博萨船长 最近一直考虑着下一篇关于Python的文章应该是什么样的内容，对比一些专业大咖的文章，目前应该写一个完整的且无错的程序，然后和大家一起一行行地分析代码相互学习，可是我实在不想如此亦步亦趋。在学习编程方面，我是一个实用主义者，认为“学以致用”才是学习的最终目的， 最近发现了一些有趣的东西，让我很感兴趣，也能检验我自己所学的东西。">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Python 应用之 Two sum">
-<meta property="og:url" content="http://127.0.0.1:4000/2018/11/23/0701-issue-twosum/index.html">
-<meta property="og:site_name" content="Jim Wang">
+<meta property="og:url" content="https://zicowarn.github.io/2018/11/23/0701-issue-twosum/index.html">
+<meta property="og:site_name" content="Jim Wang 的个人技术博客">
 <meta property="og:description" content="作者: Barbossa 公众号: 巴博萨船长 最近一直考虑着下一篇关于Python的文章应该是什么样的内容，对比一些专业大咖的文章，目前应该写一个完整的且无错的程序，然后和大家一起一行行地分析代码相互学习，可是我实在不想如此亦步亦趋。在学习编程方面，我是一个实用主义者，认为“学以致用”才是学习的最终目的， 最近发现了一些有趣的东西，让我很感兴趣，也能检验我自己所学的东西。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-11-23T00:11:08.000Z">
@@ -36,14 +38,14 @@
         
     
     
-        <meta property="og:image" content="http://127.0.0.1:4000/assets/images/avater.png"/>
+        <meta property="og:image" content="https://zicowarn.github.io/assets/images/avater.png"/>
     
     
     
     
     <!--STYLES-->
     
-<link rel="stylesheet" href="/assets/css/style-fx8pfb7gmpbfvuyjdgcgxx7dh6cxsyyxtpy3wt1y3clihgtywjvsieddbi4q.min.css">
+<link rel="stylesheet" href="/assets/css/style-rcbsyf3zxtvk5r4bclvxqq47csnpzztn4oemzroin9gvdglmeooveygwvrxa.min.css">
 
     <!--STYLES END-->
     
@@ -62,7 +64,7 @@
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d";
+      hm.src = "https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
@@ -93,7 +95,7 @@
             href="/%20"
             aria-label=""
         >
-            Jim Wang
+            Jim Wang 的个人技术博客
         </a>
     </div>
     
@@ -458,7 +460,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1:4000/2018/11/23/0701-issue-twosum/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2018/11/23/0701-issue-twosum/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -471,7 +473,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://127.0.0.1:4000/2018/11/23/0701-issue-twosum/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2018/11/23/0701-issue-twosum/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -484,7 +486,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://127.0.0.1:4000/2018/11/23/0701-issue-twosum/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2018/11/23/0701-issue-twosum/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -497,7 +499,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://127.0.0.1:4000/2018/11/23/0701-issue-twosum/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2018/11/23/0701-issue-twosum/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -510,7 +512,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://127.0.0.1:4000/2018/11/23/0701-issue-twosum/&amp;title=Python 应用之 Two sum"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2018/11/23/0701-issue-twosum/&amp;title=Python 应用之 Two sum"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -599,7 +601,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1:4000/2018/11/23/0701-issue-twosum/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2018/11/23/0701-issue-twosum/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -612,7 +614,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=http://127.0.0.1:4000/2018/11/23/0701-issue-twosum/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2018/11/23/0701-issue-twosum/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -625,7 +627,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=http://127.0.0.1:4000/2018/11/23/0701-issue-twosum/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2018/11/23/0701-issue-twosum/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -638,7 +640,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=http://127.0.0.1:4000/2018/11/23/0701-issue-twosum/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2018/11/23/0701-issue-twosum/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -651,7 +653,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=http://127.0.0.1:4000/2018/11/23/0701-issue-twosum/&amp;title=Python 应用之 Two sum"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2018/11/23/0701-issue-twosum/&amp;title=Python 应用之 Two sum"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -685,7 +687,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=http://127.0.0.1:4000/2018/11/23/0701-issue-twosum/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2018/11/23/0701-issue-twosum/"
                         aria-label="分享到 Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
@@ -698,7 +700,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=http://127.0.0.1:4000/2018/11/23/0701-issue-twosum/"
+                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2018/11/23/0701-issue-twosum/"
                         aria-label="分享到 Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
@@ -711,7 +713,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=http://127.0.0.1:4000/2018/11/23/0701-issue-twosum/"
+                        href="https://plus.google.com/share?url=https://zicowarn.github.io/2018/11/23/0701-issue-twosum/"
                         aria-label="分享到 Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
@@ -724,7 +726,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://service.weibo.com/share/share.php?&amp;title=http://127.0.0.1:4000/2018/11/23/0701-issue-twosum/"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2018/11/23/0701-issue-twosum/"
                         aria-label="分享到 Weibo"
                     >
                         <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
@@ -737,7 +739,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://connect.qq.com/widget/shareqq/index.html?url=http://127.0.0.1:4000/2018/11/23/0701-issue-twosum/&amp;title=Python 应用之 Two sum"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2018/11/23/0701-issue-twosum/&amp;title=Python 应用之 Two sum"
                         aria-label="分享到 QQ"
                     >
                         <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
@@ -824,7 +826,7 @@
 <div id="cover" style="background-image:url('/assets/images/background-cover.jpg');"></div>
         <!--SCRIPTS-->
 
-<script src="/assets/js/script-re9vwctebhi1gz1fcjsq4m74c4tlkutxazohbpkfrmrrfeyue8iwxcfue8hv.min.js"></script>
+<script src="/assets/js/script-jpjwphoirnz6psazjcdcsk769bqidzryh2n1c6kdyrwbad49zwfp6lfnzwrk.min.js"></script>
 
 <!--SCRIPTS END-->
 
