@@ -44,7 +44,7 @@
     
     <!--STYLES-->
     
-<link rel="stylesheet" href="/assets/css/style-7ero1ykd6hcymk9pkgdfyixupjankaqsgeqrwzvwnkebo7vscsiduodylvxb.min.css">
+<link rel="stylesheet" href="/assets/css/style-fx8pfb7gmpbfvuyjdgcgxx7dh6cxsyyxtpy3wt1y3clihgtywjvsieddbi4q.min.css">
 
     <!--STYLES END-->
     
@@ -352,7 +352,7 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>作者: Barbossa 公众号: <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzU3MTI2ODk0MA==#wechat_redirect" target="_blank" rel="noopener">巴博萨船长</a></p>
+            <p>作者: Barbossa 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
 <h2 id="InnoSetup-检查网络连接"><a href="#InnoSetup-检查网络连接" class="headerlink" title="InnoSetup 检查网络连接"></a>InnoSetup 检查网络连接</h2><h3 id="1-循环检查网络连接直至连接成共，代码如下："><a href="#1-循环检查网络连接直至连接成共，代码如下：" class="headerlink" title="1. 循环检查网络连接直至连接成共，代码如下："></a>1. 循环检查网络连接直至连接成共，代码如下：</h3><a id="more"></a>
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">function IsNetWorkActivatedRepeated: boolean;</span><br><span class="line">var</span><br><span class="line">  WinHttpReq: Variant;</span><br><span class="line">  Connected: Boolean;</span><br><span class="line">begin</span><br><span class="line">  Connected :&#x3D; False;</span><br><span class="line">  repeat</span><br><span class="line">    Log(&#39;Checking connection to the server&#39;);</span><br><span class="line">    try</span><br><span class="line">      WinHttpReq :&#x3D; CreateOleObject(&#39;WinHttp.WinHttpRequest.5.1&#39;);</span><br><span class="line">      &#123; Use your real server host name &#125;</span><br><span class="line">      WinHttpReq.Open(&#39;GET&#39;, &#39;https:&#x2F;&#x2F;www.camtek.de&#x2F;&#39;, False);</span><br><span class="line">      WinHttpReq.Send(&#39;&#39;);</span><br><span class="line">      Log(&#39;Connected to the server; status: &#39; + IntToStr(WinHttpReq.Status) + &#39; &#39; +</span><br><span class="line">          WinHttpReq.StatusText);</span><br><span class="line">      Connected :&#x3D; True;</span><br><span class="line">    except</span><br><span class="line">      Log(&#39;Error connecting to the server: &#39; + GetExceptionMessage);</span><br><span class="line">      if WizardSilent then</span><br><span class="line">      begin</span><br><span class="line">        Log(&#39;Connection to the server is not available, aborting silent installation&#39;);</span><br><span class="line">        Result :&#x3D; False;</span><br><span class="line">        Exit;</span><br><span class="line">      end</span><br><span class="line">        else</span><br><span class="line">      if MsgBox(&#39;Cannot reach server. Please check your Internet connection.&#39;,</span><br><span class="line">                mbError, MB_RETRYCANCEL) &#x3D; IDRETRY then</span><br><span class="line">      begin</span><br><span class="line">        Log(&#39;Retrying&#39;);</span><br><span class="line">      end</span><br><span class="line">        else</span><br><span class="line">      begin</span><br><span class="line">        Log(&#39;Aborting&#39;);</span><br><span class="line">        Result :&#x3D; False;</span><br><span class="line">        Exit;</span><br><span class="line">      end;</span><br><span class="line">    end;</span><br><span class="line">  until Connected;</span><br><span class="line"></span><br><span class="line">  Result :&#x3D; True;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
@@ -413,7 +413,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -489,7 +489,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -554,7 +554,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -630,7 +630,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -790,7 +790,7 @@
 <div id="cover" style="background-image:url('/assets/images/background-cover.jpg');"></div>
         <!--SCRIPTS-->
 
-<script src="/assets/js/script-vwto2xz8otstovrq4vhanmncfcdjtw2zpmj48dsedrhns1bfrbkbzs4no7bh.min.js"></script>
+<script src="/assets/js/script-re9vwctebhi1gz1fcjsq4m74c4tlkutxazohbpkfrmrrfeyue8iwxcfue8hv.min.js"></script>
 
 <!--SCRIPTS END-->
 
