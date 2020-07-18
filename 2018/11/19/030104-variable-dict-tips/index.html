@@ -76,6 +76,10 @@
 
     
         
+            
+<link rel="stylesheet" href="/assets/css/gitment.css">
+
+        
     
 </head>
 
@@ -490,7 +494,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -563,10 +567,20 @@
         
         
             
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitment"
+                        aria-label="Kommentieren"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -577,6 +591,8 @@
 
         
         
+            
+                <div id="gitment"></div>
             
         
     </div>
@@ -631,7 +647,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -704,10 +720,20 @@
         
         
             
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#gitment"
+                        aria-label="Kommentieren"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -872,6 +898,23 @@
 <!--SCRIPTS END-->
 
 
+    
+        
+<script src="/assets/js/gitment.js"></script>
+
+        <script type="text/javascript">
+          (function() {
+            new Gitment({
+              id: 'https://zicowarn.github.io/2018/11/19/030104-variable-dict-tips/',
+              owner: 'zicowarn',
+              repo: 'https://github.com/zicowarn/MyHexoBlog.git',
+              oauth: {
+                client_id: '69e9a76edd5982957d29',
+                client_secret: '50f7e5e0b476e5a60f4634cee739291635bb4686'
+              }
+            }).render('gitment')
+          })()
+        </script>
     
 
 
