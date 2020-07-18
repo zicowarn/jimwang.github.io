@@ -573,7 +573,9 @@
         
         
             
-                <div id="gitment"></div>
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
             
         
     </div>
@@ -880,21 +882,21 @@
 
 
     
-        
-<script src="/assets/js/gitment.js"></script>
-
-        <script type="text/javascript">
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'https://zicowarn.github.io/2018/11/15/030102-variable-list-tips/';
+              
+            this.page.identifier = '2018/11/15/030102-variable-list-tips/';
+              
+          };
           (function() {
-            new Gitment({
-              id: 'https://zicowarn.github.io/2018/11/15/030102-variable-list-tips/',
-              owner: 'zicowarn',
-              repo: 'https://github.com/zicowarn/MyHexoBlog.git',
-              oauth: {
-                client_id: '69e9a76edd5982957d29',
-                client_secret: '50f7e5e0b476e5a60f4634cee739291635bb4686'
-              }
-            }).render('gitment')
-          })()
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'Jim';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
         </script>
     
 
