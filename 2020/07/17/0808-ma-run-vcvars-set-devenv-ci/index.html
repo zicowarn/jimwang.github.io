@@ -358,7 +358,7 @@
             <!-- excerpt -->
 
 <p>作者: Jim Wang 公众号:  <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
-<h2 id="任务背景"><a href="#任务背景" class="headerlink" title="任务背景"></a>任务背景</h2><p> 该任务是：当前所用的完成持续集成的脚本是Python语言实现的。在现有的脚本的核心内容是，使用subprocess.Popen方法来调用devenv命令，从而实现项目的清理clean和构建build。</p>
+<h3 id="任务背景"><a href="#任务背景" class="headerlink" title="任务背景"></a>任务背景</h3><p> 该任务是：当前所用的完成持续集成的脚本是Python语言实现的。在现有的脚本的核心内容是，使用subprocess.Popen方法来调用devenv命令，从而实现项目的清理clean和构建build。</p>
 <p>今年伊始，项目中引用了.NET组件。一部分代码使用.NET完成了一个交互界面窗口。由于使用了.NET，编译的时候就需要对.NET的程序集进行强名称签名等一系列操作。例如，在导出类型库时会使用到的类型库导出工具Tlbexp.exe（一般在Visual Studio项目属性中<strong>[生成]</strong>部分中的“为COM互操作注册”被勾选时），以及程序集注册工具Regasm.exe等。此类工具的路径为：C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\。理论上，当在命令行中使用devenv命令工具时，该工具就会自动查找上述的工具目录，并保证在编译解决方案的时候能够访问到这些工具。实践得知，devenv不能完成诸如此类环境变量的设置。进而在使用devenv时，因为项目配置中的所用到的工具因为无法找到会发生编译错误。</p>
 <p>既然devenv不能实现理论结果，那就需要用到vsvars32.bat个batch文件了了。该文件是visual studio自带的文件，本质就是配置环境变量，工作目录的一些批处理命令。任务中遇到的问题是Tlbexp.exe无法找到，问题的本质是工具的路径不在系统环境中：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VS140COMNTOOLS&#x3D;C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\</span><br></pre></td></tr></table></figure>
@@ -433,7 +433,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -509,7 +509,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -571,7 +571,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -647,7 +647,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
