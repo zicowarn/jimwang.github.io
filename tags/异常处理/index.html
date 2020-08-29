@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Jim Wang 的个人技术博客">
-    <title>标签: NET安装包 - Jim Wang 的个人技术博客</title>
+    <title>标签: 异常处理 - Jim Wang 的个人技术博客</title>
     <meta name="author" content="Jim Wang">
     
         <meta name="keywords" content="个人博客,实践,技术,经验,分享,全栈,Technology,blog,Python,Inno Setup,TypeScript,SQLite,AWS,CAM,EDM,">
@@ -23,7 +23,7 @@
     <meta name="description" content="记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Jim Wang 的个人技术博客">
-<meta property="og:url" content="https://zicowarn.github.io/tags/NET%E5%AE%89%E8%A3%85%E5%8C%85/index.html">
+<meta property="og:url" content="https://zicowarn.github.io/tags/%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/index.html">
 <meta property="og:site_name" content="Jim Wang 的个人技术博客">
 <meta property="og:description" content="记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多">
 <meta property="og:locale" content="zh_CN">
@@ -342,23 +342,23 @@
                     
                         <a
                             class="link-unstyled"
-                            href="/2019/06/30/inno-02-installdotnet/"
-                            aria-label=": Inno Setup 在x86和x64环境下安装-NET安装包"
+                            href="/2020/02/25/hexo-01-code-raise-error/"
+                            aria-label=": Hexo 中特殊纯文本字符串引起异常"
                         >
-                            Inno Setup 在x86和x64环境下安装-NET安装包
+                            Hexo 中特殊纯文本字符串引起异常
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time datetime="2019-06-30T08:11:08+08:00">
+    <time datetime="2020-02-25T08:11:08+08:00">
 	
-		    6月 30, 2019
+		    2月 25, 2020
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/Inno-Setup-%E7%9B%B8%E5%85%B3/">Inno Setup 相关</a>
+    <a class="category-link" href="/categories/Hexo-%E7%9B%B8%E5%85%B3-%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/">Hexo 相关 - 实战经验</a>
 
 
     
@@ -368,13 +368,15 @@
             
                 <div class="postShorten-excerpt">
                     <p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
-<h3 id="任务难点"><a href="#任务难点" class="headerlink" title="任务难点"></a>任务难点</h3><p>准备一个安装程序，以验证系统的体系结构并安装.NET。</p>
-<h3 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1. 介绍"></a>1. 介绍</h3><p>此安装脚本示例的目的是启动一个安装程序，该安装程序检查系统上当前安装的.NET版本，并仅在需要时安装一个。安装程序将在软件包中包括Microsoft提供的Web安装程序。 安装程序还将根据运行所在的体系结构安装一些库。</p>
+<p>在转移自己的文章的时候发现了一个很有意思的事情，现在记录下来，咱们一起看看问题在哪。问题是这样的的，我之前的文章有如下文字</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ExtractTemporaryFile(<span class="string">'&#123;#DotNetFrameWorkWebInstaller&#125;'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>如果上述字符以纯文本的形式，即非代码样式和引用样式存在于md文件中，如果这时尝试使用hexo s命令的话，就会有如下异常被抛出。</p>
                     
                         <a
-                            href="/2019/06/30/inno-02-installdotnet/"
+                            href="/2020/02/25/hexo-01-code-raise-error/"
                             class="postShorten-excerpt_link link"
-                            aria-label=": Inno Setup 在x86和x64环境下安装-NET安装包"
+                            aria-label=": Hexo 中特殊纯文本字符串引起异常"
                         >
                             阅读全文
                         </a>
