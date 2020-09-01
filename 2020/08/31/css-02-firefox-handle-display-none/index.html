@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Jim Wang 的个人技术博客">
-    <title>Windows系统下 Python的安装配置 - Jim Wang 的个人技术博客</title>
+    <title>css-02-firefox-handle-display-none - Jim Wang 的个人技术博客</title>
     <meta name="author" content="Jim Wang">
     
         <meta name="keywords" content="个人博客,实践,技术,经验,分享,全栈,Technology,blog,Python,Inno Setup,TypeScript,SQLite,AWS,CAM,EDM,JavaScript,CSS,HTML,">
@@ -19,27 +19,20 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Jim Wang 公众号: 巴博萨船长\nPython 解释器的安装是通过一个MSI安装（不是exe文件，exe可以作为安装文件，但更多的是作为可执行的程序，MSI才是标准的Windows安装引导文件）文件自动完成的。这个文件可以在Python的官方网站.https://www.python.org/downloads/下载，本文不在赘述。\n\n\n一般情况下，你下载的安装包是64bit的。在双击安装包之后，遇到安装程序的第一个界面时，如下图：\n\n建议选择第二个，一是节省磁盘空间，而是在多用户电脑上不影响其他用户。\n如果遇到选择安装路径界面的时候，如下图：\n\n如果最终需要同时在该电脑上安装32bit的Python的话，我建议你将路径改为C:\\Python27_X64\\，未来来安装32bitPython的时候安装路径为：C:\\Python27_X32 。\n遇见安装选项界面的时候，如下图：\n\n请勾选”pip”选项（pip 是Python的扩展包管理程序，就如同手机里的应用市场一样，用于管理Python模块：安装，升级或卸载）。\n至于”Add python.exe to Path “，如果打算只安装一个Python版本，可以勾选。但是如果要安装不同版本，比如Python 32bit和64bit 的混合安装，建议这一步最后手动完成。\n接下来的步骤就是”下一步”了。 直到安装引导程序运行完毕。 如果是需要64bit和32bit的Python混合安装，建议在C:\\Python27_X64\\目录下找到python.exe 和 pythonw.exe 两个可执行文件，复制**黏贴并重命名**在当前目录里，如下图：\n\n同样在32bit的Python安装完之后，建议在C:\\Python27_X32\\目录下找到python.exe 和 pythonw.exe 两个可执行文件，只需要重命名所选文件在当前目录里，如下图：\n\n如果是64bit和32bit同时安装在系统里面，那么就需要手动告知操作系统Python解释器的安装位置。在Windows 10 系统下:\n\n我的电脑-&gt;属性-&gt;高级-&gt;环境变量-&gt;系统变量\n\n中的找到名为PATH的系统环境变量: 将Python解释器的安装路径C:\\Python27_X64 (或C:\\Python27_X32\\）添加在系统环境变量的PATH下。\n\n技巧1： 通过PowerShell 可以完成，打开PowerShell输入下面的命令：\n\n64bit 的Python:\n1[Environment]::SetEnvironmentVariable(&quot;Path&quot;, &quot;$env:Path;C:\\Python27_X64\\;C:\\Python27_X64\\Scripts\\&quot;, &quot;User&quot;)\n\n32bit 的Python：\n1[Environment]::SetEnvironmentVariable(&quot;Path&quot;, &quot;$env:Path;C:\\Python27_X32\\;C:\\Python27_X32\\Scripts\\&quot;, &quot;User&quot;)\n\n\n技巧2， 或者通过CMD的命令来配置环境变量，如下：\n\n64bit 的Python:\n1PATH&#x3D;PATH;c:\\python27_X64\n\n32bit 的Python:\n1PATH&#x3D;PATH;c:\\python27_X32\n\n最后，检测Python是否成功安装。 打开命令提示符窗口，键入python (python指向默认的解释器即Python 64bit，或键入python64或python32)。 如果出现下面的情况：\n\n那么恭喜你安装成功。\n但是如果出现下面的情况：\n\n‘python’不是内部或外部命令，也不是可运行的程序或批处理文件。\n\n就需要检查是不是系统环境变量里Python的安装路径是否正确。\n如有问题，欢迎留言讨论.\n\n\n          版权声明：文章首发于  Jim Wang's blog ，\n          转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n        ","dateCreated":"2018-11-08T15:11:08+08:00","dateModified":"2018-11-08T15:11:08+08:00","datePublished":"2018-11-08T15:11:08+08:00","description":"作者: Jim Wang 公众号: 巴博萨船长\nPython 解释器的安装是通过一个MSI安装（不是exe文件，exe可以作为安装文件，但更多的是作为可执行的程序，MSI才是标准的Windows安装引导文件）文件自动完成的。这个文件可以在Python的官方网站.https://www.python.org/downloads/下载，本文不在赘述。","headline":"Windows系统下 Python的安装配置","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2018/11/08/0201-os-windows/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2018/11/08/0201-os-windows/","keywords":"Python, 配置"}</script>
-    <meta name="description" content="作者: Jim Wang 公众号: 巴博萨船长 Python 解释器的安装是通过一个MSI安装（不是exe文件，exe可以作为安装文件，但更多的是作为可执行的程序，MSI才是标准的Windows安装引导文件）文件自动完成的。这个文件可以在Python的官方网站.https:&#x2F;&#x2F;www.python.org&#x2F;downloads&#x2F;下载，本文不在赘述。">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n\nddddd\ndownloads\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2020-08-31T20:14:40+08:00","dateModified":"2020-08-31T20:14:40+08:00","datePublished":"2020-08-31T20:14:40+08:00","description":"ssssssss","headline":"css-02-firefox-handle-display-none","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2020/08/31/css-02-firefox-handle-display-none/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2020/08/31/css-02-firefox-handle-display-none/","keywords":"前端, CSS"}</script>
+    <meta name="description" content="ssssssss">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Windows系统下 Python的安装配置">
-<meta property="og:url" content="https://zicowarn.github.io/2018/11/08/0201-os-windows/index.html">
+<meta property="og:title" content="css-02-firefox-handle-display-none">
+<meta property="og:url" content="https://zicowarn.github.io/2020/08/31/css-02-firefox-handle-display-none/index.html">
 <meta property="og:site_name" content="Jim Wang 的个人技术博客">
-<meta property="og:description" content="作者: Jim Wang 公众号: 巴博萨船长 Python 解释器的安装是通过一个MSI安装（不是exe文件，exe可以作为安装文件，但更多的是作为可执行的程序，MSI才是标准的Windows安装引导文件）文件自动完成的。这个文件可以在Python的官方网站.https:&#x2F;&#x2F;www.python.org&#x2F;downloads&#x2F;下载，本文不在赘述。">
+<meta property="og:description" content="ssssssss">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zicowarn.github.io/2018/11/08/0201-os-windows/0201-os-windows01.png">
-<meta property="og:image" content="https://zicowarn.github.io/2018/11/08/0201-os-windows/0201-os-windows02.png">
-<meta property="og:image" content="https://zicowarn.github.io/2018/11/08/0201-os-windows/640.jpeg">
-<meta property="og:image" content="https://zicowarn.github.io/2018/11/08/0201-os-windows/640-20200708152952042.png">
-<meta property="og:image" content="https://zicowarn.github.io/2018/11/08/0201-os-windows/640-20200708152958583.png">
-<meta property="og:image" content="https://zicowarn.github.io/2018/11/08/0201-os-windows/640-20200708153158201.jpeg">
-<meta property="article:published_time" content="2018-11-08T07:11:08.000Z">
-<meta property="article:modified_time" content="2018-11-08T07:11:08.000Z">
+<meta property="article:published_time" content="2020-08-31T12:14:40.000Z">
+<meta property="article:modified_time" content="2020-08-31T12:14:40.000Z">
 <meta property="article:author" content="Jim Wang">
-<meta property="article:tag" content="Python">
-<meta property="article:tag" content="配置">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="CSS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zicowarn.github.io/2018/11/08/0201-os-windows/0201-os-windows01.png">
     
     
         
@@ -335,20 +328,20 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Windows系统下 Python的安装配置
+            css-02-firefox-handle-display-none
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2018-11-08T15:11:08+08:00">
+    <time datetime="2020-08-31T20:14:40+08:00">
 	
-		    11月 08, 2018
+		    8月 31, 2020
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-2-%E9%85%8D%E7%BD%AEPython/">Python 相关 - 2. 配置Python</a>
+    <a class="category-link" href="/categories/CSS-%E7%9B%B8%E5%85%B3-%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/">CSS 相关 - 实战经验</a>
 
 
     
@@ -360,61 +353,16 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
-<p>Python 解释器的安装是通过一个MSI安装（不是exe文件，exe可以作为安装文件，但更多的是作为可执行的程序，MSI才是标准的Windows安装引导文件）文件自动完成的。这个文件可以在Python的官方网站.<a href="https://www.python.org/downloads/下载，本文不在赘述。" target="_blank" rel="noopener">https://www.python.org/downloads/下载，本文不在赘述。</a></p>
-<a id="more"></a>
+            <!-- excerpt -->
 
-<p>一般情况下，你下载的安装包是64bit的。在双击安装包之后，遇到安装程序的第一个界面时，如下图：</p>
-<p><img src="/2018/11/08/0201-os-windows/0201-os-windows01.png" alt="avatar"></p>
-<p>建议选择第二个，一是节省磁盘空间，而是在多用户电脑上不影响其他用户。</p>
-<p>如果遇到选择安装路径界面的时候，如下图：</p>
-<p><img src="/2018/11/08/0201-os-windows/0201-os-windows02.png" alt="avatar"></p>
-<p>如果最终需要同时在该电脑上安装32bit的Python的话，我建议你将路径改为C:\Python27_X64\，未来来安装32bitPython的时候安装路径为：C:\Python27_X32 。</p>
-<p>遇见安装选项界面的时候，如下图：</p>
-<p><img src="/2018/11/08/0201-os-windows/640.jpeg" alt="img"></p>
-<p>请勾选”pip”选项（pip 是Python的扩展包管理程序，就如同手机里的应用市场一样，用于管理Python模块：安装，升级或卸载）。</p>
-<p>至于”Add python.exe to Path “，如果打算只安装一个Python版本，可以勾选。但是如果要安装不同版本，比如Python 32bit和64bit 的混合安装，建议这一步最后手动完成。</p>
-<p>接下来的步骤就是”<strong>下一步”</strong>了。 直到安装引导程序运行完毕。 如果是需要64bit和32bit的Python混合安装，建议在C:\Python27_X64\目录下找到python.exe 和 pythonw.exe 两个可执行文件，<strong>复制**</strong>黏贴<strong>并</strong>重命名**在当前目录里，如下图：</p>
-<p><img src="/2018/11/08/0201-os-windows/640-20200708152952042.png" alt="avatar"></p>
-<p>同样在32bit的Python安装完之后，建议在C:\Python27_X32\目录下找到python.exe 和 pythonw.exe 两个可执行文件，只需要<strong>重命名</strong>所选文件在当前目录里，如下图：</p>
-<p><img src="/2018/11/08/0201-os-windows/640-20200708152958583.png" alt="avatar"></p>
-<p>如果是64bit和32bit同时安装在系统里面，那么就需要手动告知操作系统Python解释器的安装位置。在Windows 10 系统下:</p>
-<blockquote>
-<p>我的电脑-&gt;属性-&gt;高级-&gt;环境变量-&gt;系统变量</p>
-</blockquote>
-<p>中的找到名为PATH的系统环境变量: 将Python解释器的安装路径C:\Python27_X64 (或C:\Python27_X32\）添加在<strong>系统环境变量</strong>的PATH下。</p>
-<ul>
-<li>技巧1： 通过PowerShell 可以完成，打开PowerShell输入下面的命令：</li>
-</ul>
-<p>64bit 的Python:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Environment]::SetEnvironmentVariable(&quot;Path&quot;, &quot;$env:Path;C:\Python27_X64\;C:\Python27_X64\Scripts\&quot;, &quot;User&quot;)</span><br></pre></td></tr></table></figure>
 
-<p>32bit 的Python：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Environment]::SetEnvironmentVariable(&quot;Path&quot;, &quot;$env:Path;C:\Python27_X32\;C:\Python27_X32\Scripts\&quot;, &quot;User&quot;)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>技巧2， 或者通过CMD的命令来配置环境变量，如下：</li>
-</ul>
-<p>64bit 的Python:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PATH&#x3D;PATH;c:\python27_X64</span><br></pre></td></tr></table></figure>
-
-<p>32bit 的Python:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PATH&#x3D;PATH;c:\python27_X32</span><br></pre></td></tr></table></figure>
-
-<p>最后，检测Python是否成功安装。 打开命令提示符窗口，键入python (python指向默认的解释器即Python 64bit，或键入python64或python32)。 如果出现下面的情况：</p>
-<p><img src="/2018/11/08/0201-os-windows/640-20200708153158201.jpeg" alt="avatar"></p>
-<p>那么恭喜你安装成功。</p>
-<p>但是如果出现下面的情况：</p>
-<blockquote>
-<p>‘python’不是内部或外部命令，也不是可运行的程序或批处理文件。</p>
-</blockquote>
-<p>就需要检查是不是<strong>系统环境变量</strong>里Python的<strong>安装路径</strong>是否正确。</p>
-<p>如有问题，欢迎留言讨论.</p>
+<p>ddddd</p>
+<p><a href="/downloads/code/css-02-demo/css-02-demo.html">downloads</a></p>
 <hr>
 <div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">
-          版权声明：<br>文章首发于 <a href="http://zhichaowang.online" target="_blank" rel="noopener"> Jim Wang's blog </a>，
-          转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。
-        </div>
+    版权声明：<br>文章首发于 <a href="http://zhichaowang.online" target="_blank" rel="noopener"> Jim Wang's blog </a>，
+    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。
+</div>
             
 
 
@@ -425,7 +373,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Python/" rel="tag">Python</a> <a class="tag tag--primary tag--small t-link" href="/tags/%E9%85%8D%E7%BD%AE/" rel="tag">配置</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/CSS/" rel="tag">CSS</a> <a class="tag tag--primary tag--small t-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a>
 
             </div>
         
@@ -435,14 +383,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2018/11/09/0202-os-linux/"
-                    data-tooltip="Linux系统下 Python的安装配置"
-                    aria-label="上一篇: Linux系统下 Python的安装配置"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
                     </a>
@@ -452,9 +397,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2018/10/08/0102-development-and-configuration/"
-                    data-tooltip="Python 开发环境与配置技巧"
-                    aria-label="下一篇: Python 开发环境与配置技巧"
+                    href="/2020/08/29/css-01-use-css-hide-content/"
+                    data-tooltip="CSS 如何运用CSS来隐藏页面文本"
+                    aria-label="下一篇: CSS 如何运用CSS来隐藏页面文本"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
@@ -479,7 +424,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2018/11/08/0201-os-windows/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2020/08/31/css-02-firefox-handle-display-none/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -492,7 +437,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2018/11/08/0201-os-windows/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2020/08/31/css-02-firefox-handle-display-none/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -505,7 +450,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2018/11/08/0201-os-windows/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2020/08/31/css-02-firefox-handle-display-none/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -518,7 +463,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2018/11/08/0201-os-windows/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2020/08/31/css-02-firefox-handle-display-none/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -531,7 +476,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2018/11/08/0201-os-windows/&amp;title=Windows系统下 Python的安装配置"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2020/08/31/css-02-firefox-handle-display-none/&amp;title=css-02-firefox-handle-display-none"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -576,14 +521,11 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                <a
-                    class="post-action-btn btn btn--default tooltip--top"
-                    href="/2018/11/09/0202-os-linux/"
-                    data-tooltip="Linux系统下 Python的安装配置"
-                    aria-label="上一篇: Linux系统下 Python的安装配置"
-                >
-                    
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
                     </a>
@@ -593,9 +535,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2018/10/08/0102-development-and-configuration/"
-                    data-tooltip="Python 开发环境与配置技巧"
-                    aria-label="下一篇: Python 开发环境与配置技巧"
+                    href="/2020/08/29/css-01-use-css-hide-content/"
+                    data-tooltip="CSS 如何运用CSS来隐藏页面文本"
+                    aria-label="下一篇: CSS 如何运用CSS来隐藏页面文本"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
@@ -620,7 +562,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2018/11/08/0201-os-windows/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2020/08/31/css-02-firefox-handle-display-none/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -633,7 +575,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2018/11/08/0201-os-windows/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2020/08/31/css-02-firefox-handle-display-none/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -646,7 +588,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2018/11/08/0201-os-windows/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2020/08/31/css-02-firefox-handle-display-none/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -659,7 +601,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2018/11/08/0201-os-windows/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2020/08/31/css-02-firefox-handle-display-none/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -672,7 +614,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2018/11/08/0201-os-windows/&amp;title=Windows系统下 Python的安装配置"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2020/08/31/css-02-firefox-handle-display-none/&amp;title=css-02-firefox-handle-display-none"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -706,7 +648,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2018/11/08/0201-os-windows/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2020/08/31/css-02-firefox-handle-display-none/"
                         aria-label="分享到 Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
@@ -719,7 +661,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2018/11/08/0201-os-windows/"
+                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2020/08/31/css-02-firefox-handle-display-none/"
                         aria-label="分享到 Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
@@ -732,7 +674,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://zicowarn.github.io/2018/11/08/0201-os-windows/"
+                        href="https://plus.google.com/share?url=https://zicowarn.github.io/2020/08/31/css-02-firefox-handle-display-none/"
                         aria-label="分享到 Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
@@ -745,7 +687,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2018/11/08/0201-os-windows/"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2020/08/31/css-02-firefox-handle-display-none/"
                         aria-label="分享到 Weibo"
                     >
                         <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
@@ -758,7 +700,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2018/11/08/0201-os-windows/&amp;title=Windows系统下 Python的安装配置"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2020/08/31/css-02-firefox-handle-display-none/&amp;title=css-02-firefox-handle-display-none"
                         aria-label="分享到 QQ"
                     >
                         <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>

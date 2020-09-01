@@ -1,3 +1,4 @@
+
 //切换左侧按钮事件处理函数
 function toggleLinks(evt, link_content_id) {
   // hide all links contents 
@@ -13,6 +14,7 @@ function toggleLinks(evt, link_content_id) {
   $(evt.currentTarget).addClass('is-active');
 };
 
+
 function initChartDemo(){
   $('.content-block').each(function(){
     let thisparent = $(this).parent();
@@ -25,11 +27,11 @@ function initChartDemo(){
       console.log(" #Hided#" + this.id + ' width: ' + $(this).width()+ ' height: ' + $(this).height());
       thisparent.css({ visibility: "", display: "none" });
     }
-   
+  
     
   })
-}
+  }
 
-$(document).ready(function() {
-  initChartDemo();
-});
+
+
+
