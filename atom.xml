@@ -17,9 +17,9 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Python 杂记之 如何使用pyenv管理python版本管理</title>
-    <link href="https://zicowarn.github.io/2020/09/22/0809-python-hwoto-install-pyevn/"/>
-    <id>https://zicowarn.github.io/2020/09/22/0809-python-hwoto-install-pyevn/</id>
+    <title>Python 杂记之 如何使用pyenv管理python版本管理与如何使用virtualenv创建python虚拟运行环境</title>
+    <link href="https://zicowarn.github.io/2020/09/22/0809-python-hwoto-install-pyevn-virtualenv/"/>
+    <id>https://zicowarn.github.io/2020/09/22/0809-python-hwoto-install-pyevn-virtualenv/</id>
     <published>2020-09-22T09:11:08.000Z</published>
     <updated>2020-09-22T09:11:08.000Z</updated>
     
@@ -28,8 +28,8 @@
     <summary type="html">
     
       &lt;p&gt;作者: Jim Wang 公众号:  &lt;a class=&quot;main-button-link&quot; href=&quot;#wechat&quot; rel=&quot;noopener&quot;&gt;巴博萨船长&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;摘要：为何需要使用pyenv来管理python的版本，pyenv与pipenv和virtualenv的关系是什么样的。在自己使用pyenv的时候遇见过什么样的问题，又是如何解决所遇问题的。如果遇见诸如“BUILD FAILED”的安装错误，出现该错误的原因可能是什么？&lt;/p&gt;
-&lt;p&gt;Abstract: Why do we need to manage the use pyenv python version, pyenv relationship with pipenv and virtualenv is what. What kind of problems have been encountered when using pyenv and how have they been solved. If you encounter an installation error such as “BUILD FAILED”, what could be the cause of the error?&lt;/p&gt;
+&lt;p&gt;摘要：为何需要使用pyenv来管理python的版本？为何需要使用virtualenv来创建python虚拟运行环境？pyenv与pipenv和virtualenv的关系是什么样的？在自己使用pyenv的时候遇见过什么样的问题，又是如何解决所遇问题的。如果遇见诸如“BUILD FAILED”的安装错误，出现该错误的原因可能是什么？&lt;/p&gt;
+&lt;p&gt;Abstract: Why do we need to manage the use pyenv python version？Why do I need to use virtualenv to create a python virtual runtime environment? What is the relationship with pyenv, pipenv, and virtualenv ?What kind of problems have been encountered when using pyenv and how have they been solved？ If you encounter an installation error such as “BUILD FAILED”, what could be the cause of the error?&lt;/p&gt;
     
     </summary>
     
