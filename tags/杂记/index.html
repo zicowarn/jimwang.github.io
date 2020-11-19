@@ -1,0 +1,926 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Jim Wang 的个人技术博客">
+    <title>标签: 杂记 - Jim Wang 的个人技术博客</title>
+    <meta name="author" content="Jim Wang">
+    
+        <meta name="keywords" content="个人博客,实践,技术,经验,分享,全栈,Technology,blog,Python,Inno Setup,TypeScript,SQLite,AWS,CAM,EDM,JavaScript,CSS,HTML,">
+    
+    
+        <link rel="icon" href="https://zicowarn.github.io/assets/images/favicon.png">
+    
+    
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
+    
+    <script type="application/ld+json">{}</script>
+    <meta name="description" content="记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Jim Wang 的个人技术博客">
+<meta property="og:url" content="https://zicowarn.github.io/tags/%E6%9D%82%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Jim Wang 的个人技术博客">
+<meta property="og:description" content="记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Jim Wang">
+<meta property="article:tag" content="个人博客">
+<meta property="article:tag" content="实践">
+<meta property="article:tag" content="技术">
+<meta property="article:tag" content="经验">
+<meta property="article:tag" content="分享">
+<meta property="article:tag" content="全栈">
+<meta property="article:tag" content="Technology">
+<meta property="article:tag" content="blog">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Inno Setup">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="SQLite">
+<meta property="article:tag" content="AWS">
+<meta property="article:tag" content="CAM">
+<meta property="article:tag" content="EDM">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="CSS">
+<meta property="article:tag" content="HTML">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zicowarn.github.io/assets/images/avater.png"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-9z9xrjz01z6qsciduyl8pltdbh3pjm1jals283egxplnsyk5x8vnwsafvnh8.min.css">
+
+    <!--STYLES END-->
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-172143513-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-172143513-1');
+    </script>
+
+
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="1">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/"
+            aria-label=""
+        >
+            Jim Wang 的个人技术博客
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="打开链接: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/avater.png" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="1">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="阅读有关作者的更多信息"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avater.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Jim Wang</h4>
+                <h5 class="sidebar-profile-subtitle"><p>个人技术博客</p>
+</h5>
+                
+                    <h5 class="sidebar-profile-bio"> <hr style='margin: 5px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 20%;'> <span>全栈探索之路<span> <hr style='margin: 8px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 60%;'> 记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多。 </h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
+                            
+                            rel="noopener"
+                            title="首页"
+                        >
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
+                            
+                            rel="noopener"
+                            title="分类"
+                        >
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
+                            
+                            rel="noopener"
+                            title="标签"
+                        >
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
+                            
+                            rel="noopener"
+                            title="归档"
+                        >
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
+                            
+                            rel="noopener"
+                            title="关于"
+                        >
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/zicowarn"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#wechat"
+                            
+                            rel="noopener"
+                            title="微信公众号"
+                        >
+                        <i class="sidebar-button-icon fab fa-weixin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">微信公众号</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://twitter.com/zuiwuxin?s=09"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="Twitter"
+                        >
+                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://www.linkedin.com/in/zhichao-wang-a16662109"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="领英"
+                        >
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">领英</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="mailto:zicowarn@hotmail.com"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="邮箱"
+                        >
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">邮箱</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/atom.xml"
+                            
+                            rel="noopener"
+                            title="RSS"
+                        >
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="1"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <section class="postShorten-group main-content-wrap">
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2020/09/22/0809-python-hwoto-install-pyevn-virtualenv/"
+                            aria-label=": Python 杂记之 如何使用pyenv管理python版本管理与如何使用virtualenv创建python虚拟运行环境"
+                        >
+                            Python 杂记之 如何使用pyenv管理python版本管理与如何使用virtualenv创建python虚拟运行环境
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-09-22T23:11:08+08:00">
+	
+		    9月 22, 2020
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-8-Python-%E6%9D%82%E8%AE%B0/">Python 相关 - 8. Python 杂记</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>作者: Jim Wang 公众号:  <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
+<p>摘要：为何需要使用pyenv来管理python的版本？为何需要使用virtualenv来创建python虚拟运行环境？pyenv与pipenv和virtualenv的关系是什么样的？在自己使用pyenv的时候遇见过什么样的问题，又是如何解决所遇问题的。如果遇见诸如“BUILD FAILED”的安装错误，出现该错误的原因可能是什么？</p>
+<p>Abstract: Why do we need to manage the use pyenv python version？Why do I need to use virtualenv to create a python virtual runtime environment? What is the relationship with pyenv, pipenv, and virtualenv ?What kind of problems have been encountered when using pyenv and how have they been solved？ If you encounter an installation error such as “BUILD FAILED”, what could be the cause of the error?</p>
+                    
+                        <a
+                            href="/2020/09/22/0809-python-hwoto-install-pyevn-virtualenv/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Python 杂记之 如何使用pyenv管理python版本管理与如何使用virtualenv创建python虚拟运行环境"
+                        >
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2020/07/17/0808-ma-run-vcvars-set-devenv-ci/"
+                            aria-label=": Python 杂记之 如何在实现子进程到父进程的环境变量更新"
+                        >
+                            Python 杂记之 如何在实现子进程到父进程的环境变量更新
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-07-17T17:11:08+08:00">
+	
+		    7月 17, 2020
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-8-Python-%E6%9D%82%E8%AE%B0/">Python 相关 - 8. Python 杂记</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>作者: Jim Wang 公众号:  <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
+<p>摘要：Python 是如何访问和控制系统的环境变量的，Python中的父进程与子进程间的环境变量关系是何？能不能在运行时修改环境变量？子进程中对环境变量修改能不能传递给对父进程？如果能，怎么样实现这样的变化？如何使用subprocess.Popen运行vcvars.bat，然后在持续集成时，完成devenv清理和创建的前期准备。</p>
+<p>Abstract: How does Python access and control the system‘s environment variables？ What is the relationship between the environment variables of the parent process and the child process in Python? Can environment variables be modified at runtime? Can the modification of environment variables in the child process be passed to the parent process? If so, how to achieve such a change? How to use subprocess.Popen to run vcvars.bat, and then complete the preliminary preparations for the <strong>Clean</strong> and <strong>Build</strong> of <strong>devenv</strong> during <strong>CI</strong>.</p>
+                    
+                        <a
+                            href="/2020/07/17/0808-ma-run-vcvars-set-devenv-ci/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Python 杂记之 如何在实现子进程到父进程的环境变量更新"
+                        >
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2019/04/25/0807-ma-auto-generic-function/"
+                            aria-label=": Python 杂记之 根据版本号自动调用泛函数"
+                        >
+                            Python 杂记之 根据版本号自动调用泛函数
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2019-04-25T08:11:08+08:00">
+	
+		    4月 25, 2019
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-8-Python-%E6%9D%82%E8%AE%B0/">Python 相关 - 8. Python 杂记</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
+<p>在未来使用中，窗口的表现形式可能根据版本的不同而不同，但又需要同时要保证代码的向下兼容，也就说可以不断地添加了新的窗口，那老用户的老版本也应该能够继续使用。所以要根据版本信息进行代码（至少是窗体生成部分的代码）的调度。</p>
+                    
+                        <a
+                            href="/2019/04/25/0807-ma-auto-generic-function/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Python 杂记之 根据版本号自动调用泛函数"
+                        >
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2018/12/25/0806-ma-string-similarity/"
+                            aria-label=": Python 杂记之 如何确定两个字符串的相似度"
+                        >
+                            Python 杂记之 如何确定两个字符串的相似度
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-12-25T08:11:08+08:00">
+	
+		    12月 25, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-8-Python-%E6%9D%82%E8%AE%B0/">Python 相关 - 8. Python 杂记</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <hr>
+<div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">
+          版权声明：<br>文章首发于 <a href="http://zhichaowang.online" target="_blank" rel="noopener"> Jim Wang's blog </a>，
+          转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。
+        </div>
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/2018/12/25/0806-ma-string-similarity/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                评论和共享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2018/12/20/0805-ma-compability-issue/"
+                            aria-label=": Python 杂记之 不同版本间剪切板代码兼容性问题"
+                        >
+                            Python 杂记之 不同版本间剪切板代码兼容性问题
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-12-20T08:11:08+08:00">
+	
+		    12月 20, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-8-Python-%E6%9D%82%E8%AE%B0/">Python 相关 - 8. Python 杂记</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
+<h2 id="剪切板的基本操作"><a href="#剪切板的基本操作" class="headerlink" title="剪切板的基本操作"></a>剪切板的基本操作</h2><p>在Python的实际应用中有时候会遇到对剪切板进行操作的问题。剪切板的基本操作需求如下：</p>
+<ul>
+<li>获取剪切板中的内容。</li>
+<li>向剪切板中注入内容。</li>
+<li>清除剪切板的内容。</li>
+</ul>
+                    
+                        <a
+                            href="/2018/12/20/0805-ma-compability-issue/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Python 杂记之 不同版本间剪切板代码兼容性问题"
+                        >
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2018/12/15/0804-ma-list-leftadd-selfadd-op/"
+                            aria-label=": Python 杂记之 实现列表的自加和左移等操作"
+                        >
+                            Python 杂记之 实现列表的自加和左移等操作
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-12-15T08:11:08+08:00">
+	
+		    12月 15, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-8-Python-%E6%9D%82%E8%AE%B0/">Python 相关 - 8. Python 杂记</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
+<h2 id="列表与操作方法"><a href="#列表与操作方法" class="headerlink" title="列表与操作方法"></a>列表与操作方法</h2><p>列表<strong>list</strong>是Python语言中的标准数据类型，进一步讲list是一种可变的序列类型，不可变的有tuple和range（注：Python 3.x中xrange已经不存在了）。<strong>可变序列类型</strong>，<strong>可变</strong>就是长度可以改变，所含元素数值可以改变，元素数据类型可以改变；<strong>序列</strong>意指成员有序排列，可以通过索引访问元素。既然是序列类型，就一定可以迭代（for 循环），所以列表是<strong>可迭代</strong>的对象，请注意<strong>可迭代</strong>和<strong>迭代器</strong>的差异。</p>
+                    
+                        <a
+                            href="/2018/12/15/0804-ma-list-leftadd-selfadd-op/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Python 杂记之 实现列表的自加和左移等操作"
+                        >
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2018/12/10/0803-ma-dynamic-classmethod-override/"
+                            aria-label=": Python 杂记之 如何动态重写类方法"
+                        >
+                            Python 杂记之 如何动态重写类方法
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-12-10T08:11:08+08:00">
+	
+		    12月 10, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-8-Python-%E6%9D%82%E8%AE%B0/">Python 相关 - 8. Python 杂记</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
+<h2 id="Python-是动态的编程语言"><a href="#Python-是动态的编程语言" class="headerlink" title="Python 是动态的编程语言"></a>Python 是动态的编程语言</h2><p> 在自己有关Python的第一篇文章中就介绍了Python的特性与优势，在文章中也介绍了其是一种动态的编程语言。在这里我再简单在当前文章中介绍一下，如下：</p>
+                    
+                        <a
+                            href="/2018/12/10/0803-ma-dynamic-classmethod-override/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Python 杂记之 如何动态重写类方法"
+                        >
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2018/12/05/0802-ma-file-extension/"
+                            aria-label=": Python 杂记之 文件扩展名的区别"
+                        >
+                            Python 杂记之 文件扩展名的区别
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-12-05T08:11:08+08:00">
+	
+		    12月 05, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-8-Python-%E6%9D%82%E8%AE%B0/">Python 相关 - 8. Python 杂记</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
+<p>虽然Python简单并且容易部署，平时开发时，除了常见的py和pyc文件后缀以外，其实python还有一些别的文件扩展名。我们这篇文章就归纳总结一下所有的与python相关的文件扩展名filename extension（又称后缀名）与各种文件扩展名的文件是如何产生，每种文件文件扩展名的作用。</p>
+                    
+                        <a
+                            href="/2018/12/05/0802-ma-file-extension/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Python 杂记之 文件扩展名的区别"
+                        >
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
+                            href="/2018/12/01/0801-ma-zeropointone/"
+                            aria-label=": Python 杂记之 Python不认识0.1"
+                        >
+                            Python 杂记之 Python不认识0.1
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2018-12-01T08:11:08+08:00">
+	
+		    12月 01, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-8-Python-%E6%9D%82%E8%AE%B0/">Python 相关 - 8. Python 杂记</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt">
+                    <p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
+<p>在计算机编程的过程中，常常会涉及到浮点数（小数）的算术运算。稍加留意就会发现，算术运算的结果时常是不正确的。如果程序中有条件语句if加逻辑判断来控制程序执行，由于判断结果也不符合预期，程序就会流向错误的节点。经典例子就是0.1的10次求和与1进行逻辑判断得出的结果为False，遇见相似的问题会把自己急出一身汗，却也弄不个所以然来。</p>
+                    
+                        <a
+                            href="/2018/12/01/0801-ma-zeropointone/"
+                            class="postShorten-excerpt_link link"
+                            aria-label=": Python 杂记之 Python不认识0.1"
+                        >
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    <div class="pagination-bar">
+    <ul class="pagination">
+        
+        
+        <li class="pagination-number">第 1 页 共 1 页</li>
+    </ul>
+</div>
+
+</section>
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2020 Jim Wang. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avater.png" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Jim Wang</h4>
+        
+            <div id="about-card-bio"> <hr style='margin: 5px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 20%;'> <span>全栈探索之路<span> <hr style='margin: 8px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 60%;'> 记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多。 </div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>软件工程师</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                河南，中国
+            </div>
+        
+    </div>
+</div>
+
+        
+
+
+
+
+    
+        
+    
+
+
+
+    
+        
+    
+
+<div id="wechat">
+    <div id="wechat-card">
+        <div id="wechat-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="wechat-qrcode-picture" src="/assets/images/wechat-qrcode.jpg" alt="global.wechat_public_qr_code_image"/>
+        
+        
+            <div id="wechat-qrcode-desc"><p>请扫描上方的二维码订阅我的个人微信公众号</p> <hr style='margin: 8px auto; border-top: 2px solid rgba(1, 1, 1, 0.14); width: 60%;'> <p>原创不易，多多点赞分享支持。</p></div>
+        
+        
+            <img id="wechat-searchbar-picture" src="/assets/images/wechat-search-white.png" alt="global.wechat_public_search_bar_image"/>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/background-cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-qcuqdwcmkx1md8jpcac5kcpp91c1lszaotvjdj7jlmtend4lwzuio3ymfhul.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+
+
+
+    </body>
+</html>
