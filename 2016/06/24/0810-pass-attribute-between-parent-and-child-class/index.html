@@ -21,7 +21,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n导语前几天做一个项目，遇见类似这样一个问题。父类是个公用类，很多子项目中都运用到了，而子类也要作为一个基本类在该项目中的很多地方都要用到，但是的原始父类里面有些类属性（注意这里是类属性，不是实例属性）。在程序运行时候要进行重新设置。\n背景Python中父类的类属性，类方法，实例属性都能够被子类继承，实力属性的再设置很简单，当然为了控制类属性的访问权限（Python中不能完全实现控制），也可以用@preproty装饰符优化和控制实力属性的设置，父类的类属性被子类继承，可以很容易的获得父类属性的内容，但是如果想设置父类的类属性，就要用 父类名.类属性名 称来实现，那么能不能用 子类名.类属性名 来实现类属性的同步设置呢。\n来看一个例子：\n123456789101112131415161718class Grandfather(object):    mylist = []    def __init__(self):        passclass Father(Grandfather):    def __init__(self):        passGrandfather.mylist = [1, 2, 3, 4]print Grandfather.mylistprint Father.mylistFather.mylist = ['a']print Grandfather.mylistprint Father.mylist\n\n打印结果：\n1234[1, 2, 3, 4][1, 2, 3, 4][1, 2, 3, 4]['a']\n\n发现，如果使用\n1Father.mylist = ['a']\n\n来实现类属性的设置，想象中，应该父类的类属性也能被重新设置，但是结果显示出，想象的和现实还是有差距的。\n我也尝试了用@preproty和@xxx.setter等修饰符，单独以及配合@classmethod修饰符来实现用Father.mylist的实现类属性的同步设置，但结果都失败了。其实可以继续使用Grandfather的类名加类属性及Grandfather来实现父类属性的设置但是，就感觉明明有了新父类，模块中交替使用这两个类名来设置类属性，确实有点不是太完美。\n后来经过尝试找到了一个新的方法，就是使用类元metaclass，至于metaclass的内容，大家可以在网上找到相应的文章，这里介绍两种使用方法。\n第一种方法1234567891011121314151617181920212223242526272829class MetaMyList(type):        def _get_dummy(self):        return Grandfather.mylist        def _set_dummy(self, value):        Grandfather.mylist = value    mylist = property(_get_dummy, _set_dummy)class Grandfather(object):    mylist = []    def __init__(self):        passclass Father(Grandfather):    __metaclass__ = MetaMyList    def __init__(self):        passGrandfather.mylist = [1, 2, 3, 4]print Grandfather.mylistprint Father.mylistFather.mylist = ['a']print Grandfather.mylistprint Father.mylist\n\n打印结果令人很满意：\n1234[1, 2, 3, 4][1, 2, 3, 4]['a']['a']\n\n因为我们创建类的时候使用了metaclass, 那么类被创建的时候就会添加mylist作为自己的类属性，但是当我们使用Father.mylist来设置类属性的时候，我们其实是在将这个值传递给了Grandfather。因为Grandfather该类已经被创建，所以override该类属性的property是不现实（也许可以，但是我读书少）。那么只有在创建Father的时候来override此类属性的property，而如果想实现，那就必须用到类元，及metaclass，这东西简单，但是确实是所有类的始祖。\n第二种方法第二中方法，当然，也是在理解第一种方法之后，后来在读别的文章的时候发现了第二种方法。这里写出来方便大家理解。\n123456789101112131415161718192021class Grandfather(object):    mylist = []    def __init__(self):        passclass Father(Grandfather):    class __metaclass__(type):        @property        def mylist(cls):            return Grandfather.mylist        @mylist.setter        def mylist(cls, value):  # @NoSelf            Grandfather.mylist = value    def __init__(self):        passGrandfather.mylist = [1, 2, 3, 4]print Grandfather.mylistprint Father.mylistFather.mylist = ['a']print Grandfather.mylistprint Father.mylist\n\n这里就很容易发现在python中类是可以动态在任意合法位置使用合法缩进创建的。其实两者方法的原理一样。但是我个人还是更喜欢第一种，代码更加简洁明快。\n才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2016-06-24T21:11:08+08:00","dateModified":"2016-06-24T21:11:08+08:00","datePublished":"2016-06-24T21:11:08+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：如果父类是个公用类，很多子项目中都运用到了，而子类也要作为一个基本类在该项目中的很多地方都要用到，但是的原始父类里面有些类属性，如何实现父类与子类间属性的设置与获取的传递呢？\nAbstract: If the parent class is a public class, it is used in many sub-projects, and the sub-class is also used as a basic class in many places in the project, but there are some class attributes in the original parent class, how to implement the parent class What about the transfer of property settings and acquisitions between subclasses?","headline":"Python 杂记之 父类和子类间类属性（非实例属性）的设置获取的传递","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2016/06/24/0810-pass-attribute-between-parent-and-child-class/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2016/06/24/0810-pass-attribute-between-parent-and-child-class/","keywords":"Python, 杂记"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n导语前几天做一个项目，遇见类似这样一个问题。父类是个公用类，很多子项目中都运用到了，而子类也要作为一个基本类在该项目中的很多地方都要用到，但是的原始父类里面有些类属性（注意这里是类属性，不是实例属性）。在程序运行时候要进行重新设置。\n背景Python中父类的类属性，类方法，实例属性都能够被子类继承，实力属性的再设置很简单，当然为了控制类属性的访问权限（Python中不能完全实现控制），也可以用@preproty装饰符优化和控制实力属性的设置，父类的类属性被子类继承，可以很容易的获得父类属性的内容，但是如果想设置父类的类属性，就要用 父类名.类属性名 称来实现，那么能不能用 子类名.类属性名 来实现类属性的同步设置呢。\n来看一个例子：\n123456789101112131415161718class Grandfather(object):    mylist = []    def __init__(self):        passclass Father(Grandfather):    def __init__(self):        passGrandfather.mylist = [1, 2, 3, 4]print Grandfather.mylistprint Father.mylistFather.mylist = ['a']print Grandfather.mylistprint Father.mylist\n\n打印结果：\n1234[1, 2, 3, 4][1, 2, 3, 4][1, 2, 3, 4]['a']\n\n发现，如果使用\n1Father.mylist = ['a']\n\n来实现类属性的设置，想象中，应该父类的类属性也能被重新设置，但是结果显示出，想象的和现实还是有差距的。\n我也尝试了用@preproty和@xxx.setter等修饰符，单独以及配合@classmethod修饰符来实现用Father.mylist的实现类属性的同步设置，但结果都失败了。其实可以继续使用Grandfather的类名加类属性及Grandfather来实现父类属性的设置但是，就感觉明明有了新父类，模块中交替使用这两个类名来设置类属性，确实有点不是太完美。\n后来经过尝试找到了一个新的方法，就是使用类元metaclass，至于metaclass的内容，大家可以在网上找到相应的文章，这里介绍两种使用方法。\n第一种方法1234567891011121314151617181920212223242526272829class MetaMyList(type):        def _get_dummy(self):        return Grandfather.mylist        def _set_dummy(self, value):        Grandfather.mylist = value    mylist = property(_get_dummy, _set_dummy)class Grandfather(object):    mylist = []    def __init__(self):        passclass Father(Grandfather):    __metaclass__ = MetaMyList    def __init__(self):        passGrandfather.mylist = [1, 2, 3, 4]print Grandfather.mylistprint Father.mylistFather.mylist = ['a']print Grandfather.mylistprint Father.mylist\n\n打印结果令人很满意：\n1234[1, 2, 3, 4][1, 2, 3, 4]['a']['a']\n\n因为我们创建类的时候使用了metaclass, 那么类被创建的时候就会添加mylist作为自己的类属性，但是当我们使用Father.mylist来设置类属性的时候，我们其实是在将这个值传递给了Grandfather。因为Grandfather该类已经被创建，所以override该类属性的property是不现实（也许可以，但是我读书少）。那么只有在创建Father的时候来override此类属性的property，而如果想实现，那就必须用到类元，及metaclass，这东西简单，但是确实是所有类的始祖。\n第二种方法第二中方法，当然，也是在理解第一种方法之后，后来在读别的文章的时候发现了第二种方法。这里写出来方便大家理解。\n123456789101112131415161718192021class Grandfather(object):    mylist = []    def __init__(self):        passclass Father(Grandfather):    class __metaclass__(type):        @property        def mylist(cls):            return Grandfather.mylist        @mylist.setter        def mylist(cls, value):  # @NoSelf            Grandfather.mylist = value    def __init__(self):        passGrandfather.mylist = [1, 2, 3, 4]print Grandfather.mylistprint Father.mylistFather.mylist = ['a']print Grandfather.mylistprint Father.mylist\n\n这里就很容易发现在python中类是可以动态在任意合法位置使用合法缩进创建的。其实两者方法的原理一样。但是我个人还是更喜欢第一种，代码更加简洁明快。\n才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2016-06-24T15:11:08+02:00","dateModified":"2016-06-24T15:11:08+02:00","datePublished":"2016-06-24T15:11:08+02:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：如果父类是个公用类，很多子项目中都运用到了，而子类也要作为一个基本类在该项目中的很多地方都要用到，但是的原始父类里面有些类属性，如何实现父类与子类间属性的设置与获取的传递呢？\nAbstract: If the parent class is a public class, it is used in many sub-projects, and the sub-class is also used as a basic class in many places in the project, but there are some class attributes in the original parent class, how to implement the parent class What about the transfer of property settings and acquisitions between subclasses?","headline":"Python 杂记之 父类和子类间类属性（非实例属性）的设置获取的传递","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2016/06/24/0810-pass-attribute-between-parent-and-child-class/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2016/06/24/0810-pass-attribute-between-parent-and-child-class/","keywords":"Python, 杂记"}</script>
     <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：如果父类是个公用类，很多子项目中都运用到了，而子类也要作为一个基本类在该项目中的很多地方都要用到，但是的原始父类里面有些类属性，如何实现父类与子类间属性的设置与获取的传递呢？ Abstract: If the parent class is a public class, it is used in many sub-projects, an">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Python 杂记之 父类和子类间类属性（非实例属性）的设置获取的传递">
@@ -335,7 +335,7 @@
     
     
         <div class="post-meta">
-    <time datetime="2016-06-24T21:11:08+08:00">
+    <time datetime="2016-06-24T15:11:08+02:00">
 	
 		    6月 24, 2016
     	
@@ -441,7 +441,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -517,7 +517,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -582,7 +582,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -658,7 +658,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
