@@ -9,37 +9,149 @@
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/2020/11/07/aws-cloudfront-01-create-cdn-network/</loc>
+    <loc>https://zicowarn.github.io/2018/12/25/0806-ma-string-similarity/</loc>
     
-    <lastmod>2020-11-07</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2020/10/13/angular-01-use-ngfor-a-json-object/</loc>
-    
-    <lastmod>2020-10-13</lastmod>
+    <lastmod>2020-11-22</lastmod>
     
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/2020/09/24/aws-common-02-awscli-configuration/</loc>
+    <loc>https://zicowarn.github.io/2011/05/08/labview-02-variables/</loc>
     
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-11-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/</loc>
+    
+    <lastmod>2020-11-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2011/05/05/labview-01-arrary/</loc>
+    
+    <lastmod>2020-11-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2013/03/03/java-JNI-C-language-and-java/</loc>
+    
+    <lastmod>2020-11-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/</loc>
+    
+    <lastmod>2020-11-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2015/02/15/perl-02-CRC-16-algorithm/</loc>
+    
+    <lastmod>2020-11-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2015/04/21/0704-issue-no-module-named-django-conf-urls-defaults/</loc>
+    
+    <lastmod>2020-11-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2015/10/08/0702-bubble-sort-and-assignment-operation/</loc>
+    
+    <lastmod>2020-11-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/</loc>
+    
+    <lastmod>2020-11-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2019/04/25/0807-ma-auto-generic-function/</loc>
+    
+    <lastmod>2020-11-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2015/10/30/perl-01-reopen-stdin-during-program-operation/</loc>
+    
+    <lastmod>2020-11-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2016/04/19/0811-wxpython-multiple-monitors-issue/</loc>
+    
+    <lastmod>2020-11-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2016/06/24/0810-pass-attribute-between-parent-and-child-class/</loc>
+    
+    <lastmod>2020-11-19</lastmod>
     
   </url>
   
   <url>
     <loc>https://zicowarn.github.io/2020/09/22/0809-python-hwoto-install-pyevn-virtualenv/</loc>
     
-    <lastmod>2020-09-22</lastmod>
+    <lastmod>2020-11-14</lastmod>
     
   </url>
   
   <url>
     <loc>https://zicowarn.github.io/2020/09/20/aws-lambda-02-use-pythonpackage-pymssql/</loc>
     
-    <lastmod>2020-09-20</lastmod>
+    <lastmod>2020-11-14</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2020/10/13/angular-01-use-ngfor-a-json-object/</loc>
+    
+    <lastmod>2020-11-14</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2020/11/07/aws-cloudfront-01-create-cdn-network/</loc>
+    
+    <lastmod>2020-11-08</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2020/07/13/inno-06-gacinstall/</loc>
+    
+    <lastmod>2020-09-29</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2020/09/24/aws-common-02-awscli-configuration/</loc>
+    
+    <lastmod>2020-09-27</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2020/09/02/hexo-02-embed-html-and-downloads-code/</loc>
+    
+    <lastmod>2020-09-03</lastmod>
     
   </url>
   
@@ -51,30 +163,184 @@
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/2020/09/02/hexo-02-embed-html-and-downloads-code/</loc>
+    <loc>https://zicowarn.github.io/2020/08/29/css-01-use-css-hide-content/</loc>
     
-    <lastmod>2020-09-02</lastmod>
+    <lastmod>2020-08-31</lastmod>
     
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/2020/08/29/css-01-use-css-hide-content/</loc>
+    <loc>https://zicowarn.github.io/2018/12/01/0801-ma-zeropointone/</loc>
     
     <lastmod>2020-08-29</lastmod>
     
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/2020/07/17/0808-ma-run-vcvars-set-devenv-ci/</loc>
+    <loc>https://zicowarn.github.io/2019/08/10/inno-05-beautify-wizard-laben/</loc>
     
-    <lastmod>2020-07-17</lastmod>
+    <lastmod>2020-08-25</lastmod>
     
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/2020/07/13/inno-06-gacinstall/</loc>
+    <loc>https://zicowarn.github.io/2020/02/25/hexo-01-code-raise-error/</loc>
     
-    <lastmod>2020-07-13</lastmod>
+    <lastmod>2020-08-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2019/06/25/inno-01-run-as-admin/</loc>
+    
+    <lastmod>2020-08-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2019/06/30/inno-02-installdotnet/</loc>
+    
+    <lastmod>2020-08-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2019/07/05/inno-03-check-network-state/</loc>
+    
+    <lastmod>2020-08-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2019/07/10/inno-04-registry-hcr/</loc>
+    
+    <lastmod>2020-08-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2018/11/21/030302-for/</loc>
+    
+    <lastmod>2020-08-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2018/11/12/030101-variable-string-tips/</loc>
+    
+    <lastmod>2020-08-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2018/11/18/030103-variable-tuple-tips/</loc>
+    
+    <lastmod>2020-08-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2018/11/20/030301-if-elsif-else/</loc>
+    
+    <lastmod>2020-08-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2018/11/20/030201-operator/</loc>
+    
+    <lastmod>2020-08-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2018/11/15/030102-variable-list-tips/</loc>
+    
+    <lastmod>2020-08-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2018/11/23/0701-issue-twosum/</loc>
+    
+    <lastmod>2020-08-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2018/11/19/030104-variable-dict-tips/</loc>
+    
+    <lastmod>2020-08-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2020/07/17/0808-ma-run-vcvars-set-devenv-ci/</loc>
+    
+    <lastmod>2020-08-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2018/12/20/0805-ma-compability-issue/</loc>
+    
+    <lastmod>2020-08-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2018/12/15/0804-ma-list-leftadd-selfadd-op/</loc>
+    
+    <lastmod>2020-08-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2018/12/10/0803-ma-dynamic-classmethod-override/</loc>
+    
+    <lastmod>2020-08-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2018/12/05/0802-ma-file-extension/</loc>
+    
+    <lastmod>2020-08-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2018/11/11/0203-os-mac/</loc>
+    
+    <lastmod>2020-08-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2018/11/09/0202-os-linux/</loc>
+    
+    <lastmod>2020-08-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2018/11/08/0201-os-windows/</loc>
+    
+    <lastmod>2020-08-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/</loc>
+    
+    <lastmod>2020-08-19</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/2018/10/07/0101-why-did-you-choose-it/</loc>
+    
+    <lastmod>2020-08-19</lastmod>
     
   </url>
   
@@ -96,272 +362,6 @@
     <loc>https://zicowarn.github.io/all-tags/index.html</loc>
     
     <lastmod>2020-07-08</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2020/02/25/hexo-01-code-raise-error/</loc>
-    
-    <lastmod>2020-02-25</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2019/08/10/inno-05-beautify-wizard-laben/</loc>
-    
-    <lastmod>2019-08-10</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2019/07/10/inno-04-registry-hcr/</loc>
-    
-    <lastmod>2019-07-10</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2019/07/05/inno-03-check-network-state/</loc>
-    
-    <lastmod>2019-07-05</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2019/06/30/inno-02-installdotnet/</loc>
-    
-    <lastmod>2019-06-30</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2019/06/25/inno-01-run-as-admin/</loc>
-    
-    <lastmod>2019-06-25</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2019/04/25/0807-ma-auto-generic-function/</loc>
-    
-    <lastmod>2019-04-25</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/12/25/0806-ma-string-similarity/</loc>
-    
-    <lastmod>2018-12-25</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/12/20/0805-ma-compability-issue/</loc>
-    
-    <lastmod>2018-12-20</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/12/15/0804-ma-list-leftadd-selfadd-op/</loc>
-    
-    <lastmod>2018-12-15</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/12/10/0803-ma-dynamic-classmethod-override/</loc>
-    
-    <lastmod>2018-12-10</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/12/05/0802-ma-file-extension/</loc>
-    
-    <lastmod>2018-12-05</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/12/01/0801-ma-zeropointone/</loc>
-    
-    <lastmod>2018-12-01</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/11/23/0701-issue-twosum/</loc>
-    
-    <lastmod>2018-11-23</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/11/21/030302-for/</loc>
-    
-    <lastmod>2018-11-21</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/11/20/030301-if-elsif-else/</loc>
-    
-    <lastmod>2018-11-20</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/11/20/030201-operator/</loc>
-    
-    <lastmod>2018-11-20</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/11/19/030104-variable-dict-tips/</loc>
-    
-    <lastmod>2018-11-19</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/11/18/030103-variable-tuple-tips/</loc>
-    
-    <lastmod>2018-11-18</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/11/15/030102-variable-list-tips/</loc>
-    
-    <lastmod>2018-11-15</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/11/12/030101-variable-string-tips/</loc>
-    
-    <lastmod>2018-11-12</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/11/11/0203-os-mac/</loc>
-    
-    <lastmod>2018-11-11</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/11/09/0202-os-linux/</loc>
-    
-    <lastmod>2018-11-09</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/11/08/0201-os-windows/</loc>
-    
-    <lastmod>2018-11-08</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/10/08/0102-development-and-configuration/</loc>
-    
-    <lastmod>2018-10-08</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2018/10/07/0101-why-did-you-choose-it/</loc>
-    
-    <lastmod>2018-10-07</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2016/06/24/0810-pass-attribute-between-parent-and-child-class/</loc>
-    
-    <lastmod>2016-06-24</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2016/04/19/0811-wxpython-multiple-monitors-issue/</loc>
-    
-    <lastmod>2016-04-19</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2015/10/30/perl-01-reopen-stdin-during-program-operation/</loc>
-    
-    <lastmod>2015-10-30</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2015/10/08/0702-bubble-sort-and-assignment-operation/</loc>
-    
-    <lastmod>2015-10-08</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/</loc>
-    
-    <lastmod>2015-05-20</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2015/04/21/0704-issue-no-module-named-django-conf-urls-defaults/</loc>
-    
-    <lastmod>2015-04-21</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/</loc>
-    
-    <lastmod>2015-04-21</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2015/02/15/perl-02-CRC-16-algorithm/</loc>
-    
-    <lastmod>2015-02-15</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/</loc>
-    
-    <lastmod>2015-02-14</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2013/03/03/java-JNI-C-language-and-java/</loc>
-    
-    <lastmod>2013-03-03</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2011/05/08/labview-02-variables/</loc>
-    
-    <lastmod>2011-05-08</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/2011/05/05/labview-01-arrary/</loc>
-    
-    <lastmod>2011-05-05</lastmod>
     
   </url>
   
@@ -431,14 +431,14 @@
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/tags/Mac/</loc>
+    <loc>https://zicowarn.github.io/tags/Linux/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/tags/Linux/</loc>
+    <loc>https://zicowarn.github.io/tags/Mac/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -466,6 +466,34 @@
   </url>
   
   <url>
+    <loc>https://zicowarn.github.io/tags/%E5%86%92%E6%B3%A1%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2020-11-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/tags/%E6%8C%87%E6%B4%BE%E8%BF%90%E7%AE%97/</loc>
+    <lastmod>2020-11-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/tags/ZeroMQ/</loc>
+    <lastmod>2020-11-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/tags/Django/</loc>
+    <lastmod>2020-11-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zicowarn.github.io/tags/%E6%9D%82%E8%AE%B0/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
@@ -487,14 +515,14 @@
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/tags/%E8%87%AA%E5%8A%A0/</loc>
+    <loc>https://zicowarn.github.io/tags/%E7%B1%BB%E6%96%B9%E6%B3%95/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/tags/%E7%B1%BB%E6%96%B9%E6%B3%95/</loc>
+    <loc>https://zicowarn.github.io/tags/%E8%87%AA%E5%8A%A0/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -522,20 +550,6 @@
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/tags/%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F/</loc>
-    <lastmod>2020-11-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/tags/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/</loc>
-    <lastmod>2020-11-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zicowarn.github.io/tags/%E8%87%AA%E5%8A%A8%E8%B0%83%E7%94%A8/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
@@ -550,21 +564,21 @@
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/tags/CloudFront/</loc>
+    <loc>https://zicowarn.github.io/tags/%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/tags/Pyenv/</loc>
+    <loc>https://zicowarn.github.io/tags/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/tags/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/</loc>
+    <loc>https://zicowarn.github.io/tags/wxPython/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -641,13 +655,6 @@
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/tags/NET/</loc>
-    <lastmod>2020-11-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zicowarn.github.io/tags/%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
@@ -669,6 +676,13 @@
   </url>
   
   <url>
+    <loc>https://zicowarn.github.io/tags/NET/</loc>
+    <lastmod>2020-11-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zicowarn.github.io/tags/GAC/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
@@ -677,27 +691,6 @@
   
   <url>
     <loc>https://zicowarn.github.io/tags/COM/</loc>
-    <lastmod>2020-11-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/tags/%E5%86%92%E6%B3%A1%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2020-11-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/tags/%E6%8C%87%E6%B4%BE%E8%BF%90%E7%AE%97/</loc>
-    <lastmod>2020-11-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/tags/Django/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -732,13 +725,6 @@
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/tags/wxPython/</loc>
-    <lastmod>2020-11-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://zicowarn.github.io/tags/Variables/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
@@ -746,7 +732,28 @@
   </url>
   
   <url>
+    <loc>https://zicowarn.github.io/tags/SSH/</loc>
+    <lastmod>2020-11-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://zicowarn.github.io/tags/Perl/</loc>
+    <lastmod>2020-11-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/tags/%E6%A0%87%E5%87%86%E8%BE%93%E5%85%A5/</loc>
+    <lastmod>2020-11-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://zicowarn.github.io/tags/CRC-16/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -767,28 +774,21 @@
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/tags/CRC-16/</loc>
+    <loc>https://zicowarn.github.io/tags/Pyenv/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/tags/SSH/</loc>
+    <loc>https://zicowarn.github.io/tags/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/tags/%E6%A0%87%E5%87%86%E8%BE%93%E5%85%A5/</loc>
-    <lastmod>2020-11-28</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://zicowarn.github.io/tags/ZeroMQ/</loc>
+    <loc>https://zicowarn.github.io/tags/CloudFront/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -902,14 +902,14 @@
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/categories/Perl-%E7%9B%B8%E5%85%B3-%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/</loc>
+    <loc>https://zicowarn.github.io/categories/Linux-%E7%9B%B8%E5%85%B3-%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://zicowarn.github.io/categories/Linux-%E7%9B%B8%E5%85%B3-%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/</loc>
+    <loc>https://zicowarn.github.io/categories/Perl-%E7%9B%B8%E5%85%B3-%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/</loc>
     <lastmod>2020-11-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
