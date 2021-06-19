@@ -8,7 +8,7 @@
     <meta name="generator" content="Jim Wang 的个人技术博客">
     <meta name="google-site-verification" content="Vv1-G7f0bcjlHq6prbeTvbDWFc4iN17bGUGM_KcE5xA" />
     <meta name="baidu-site-verification" content="A8086Y6q9Y" />
-    <title>Perl 如何创建包与UDP协议的再包装 - Jim Wang 的个人技术博客</title>
+    <title>Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题 - Jim Wang 的个人技术博客</title>
     <meta name="author" content="Jim Wang">
     
         <meta name="keywords" content="个人博客,实践,技术,经验,分享,全栈,Technology,blog,Python,Inno Setup,TypeScript,SQLite,AWS,CAM,EDM,JavaScript,CSS,HTML,">
@@ -21,20 +21,20 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n代码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283#!/usr/bin/perl # Filename: BuildSocketUDP.pmpackage BuildSocketUDP;require Exporter;@ISA = qw(Exporter);@EXPORT = qw(readfile checkfile);use IO::Socket::INET; # provides an object interface to creating and using Socketuse strict &#x27;vars&#x27;; # this generates a runtime error if you use symbolic referencesuse constant false =&gt; 0;use constant true  =&gt; 1;# flush after every write$| = 1;#Create a new instancesub new &#123;  my $self = &#123;&#125;; # Connect the hash to the package Cocoa.  shift;  my ($ip, $port, $proto, $isserver) = @_;  my $socket;  my $self-&gt;&#123;&#x27;ip&#x27;&#125; = $ip;  my $self-&gt;&#123;&#x27;port&#x27;&#125; = $port;  if ($isserver == true &amp;&amp; $proto == &#x27;udp&#x27;)  &#123;  \t#print &quot;Buldi socket for server\\n&quot;;  \t$socket = new IO::Socket::INET(\t  LocalPort =&gt; $port || &#x27;8765&#x27;,    Blocking =&gt; &#x27;0&#x27;,\t  Proto    =&gt; $proto) or die &quot;* Error Server in Socket Creation : $!\\n&quot;;    print &quot;UDP Server connected successful be created with port : $port\\n&quot;;    print &quot;---------------------\\n&quot;;  &#125;  else  &#123;    #print &quot;Buldi socket for client\\n&quot;;    $socket = new IO::Socket::INET(    PeerHost =&gt; $ip  || &#x27;127.0.0.1&#x27;,    PeerPort =&gt; $port || &#x27;8765&#x27;,    Blocking =&gt; &#x27;0&#x27;,    Proto    =&gt; $proto) or die &quot;* Error Client in Socket Creation : $!\\n&quot;;    print &quot;UDP Client connected successful be created with host : $ip\\n&quot;;    print &quot;UDP Client connected successful be created with port : $port\\n&quot;;    print &quot;---------------------\\n&quot;;  &#125;  #print &quot;$socket&quot;.&quot;\\n&quot;;  $self-&gt;&#123;&#x27;socket&#x27;&#125; = $socket;  #print $self-&gt;&#123;&#x27;socket&#x27;&#125;.&quot;AAAA\\n&quot;;  bless ($self);  return $self; # Return the reference to the hash.&#125;#Subroutine to close the socketsub closeSocket&#123;\tmy $self = shift;\t($self-&gt;&#123;&#x27;socket&#x27;&#125;)-&gt;close() or die &quot;* Error to close the socket&quot;&#125;#Subroutine to send the datasub sendViasocket&#123;\tmy $self = shift;\tmy ($data_out, $length , $description) = @_;\t($self-&gt;&#123;&#x27;socket&#x27;&#125;)-&gt;send($data_out);  #($self-&gt;&#123;&#x27;socket&#x27;&#125;)-&gt;flush;\t#print &quot;Send data successful via udp socket&gt;&gt; : $description &gt;&gt;: $data_out\\n&quot;;&#125;#Subroutine to recv the datasub recvViasocket&#123;\tmy $self = shift;\tmy ($length, $description) = @_;\tmy $data_in;\t($self-&gt;&#123;&#x27;socket&#x27;&#125;)-&gt;recv($data_in, $length);  #($self-&gt;&#123;&#x27;socket&#x27;&#125;)-&gt;flush;\t#print &quot;Recvied data successful via udp socket: $description &gt;&gt;: $data_in\\n&quot;;\treturn $data_in;&#125;1; # 当然不要忘了这个不知所以然的1\n\n这只是给大家提供一种思路，毕竟是第一次尝试写类似的东西，难免存在不足之处，希望大家谅解，这样类似与Python语言装饰器的效果，给一些基本的包里面的方法提供了更多扩展和美化的作用，也为后来使用提供了方便。\n先上代码，由于整理博客，代码分析以后整理添加。欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-02-14T21:54:20+01:00","dateModified":"2020-11-19T21:59:31+01:00","datePublished":"2015-02-14T21:54:20+01:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：本文主要介绍，如何尝试自己的创建Perl语言的包与UDP协议的再包装使其起到类似python语言装饰器的效果\nAbstract: This article mainly introduces how to try to create your own Perl language package and repackaging the UDP protocol to make it look like a python language decorator.","headline":"Perl 如何创建包与UDP协议的再包装","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/","keywords":"Perl, UDP协议, Socket"}</script>
-    <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：本文主要介绍，如何尝试自己的创建Perl语言的包与UDP协议的再包装使其起到类似python语言装饰器的效果 Abstract: This article mainly introduces how to try to create your own Perl language package and repackaging the UDP">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n在使用Zero MQ函数setsocket(zmq.IPV4ONLY,0) 的时候。模块运行的时候会发生 self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError: ‘module’ object has no attribute ‘IPV4ONLY’ 的错误。\n用pip freeze 查看当前安装的模块的信息的时候会得到以下输出：\n1234# pip freezeconfigobj==4.7.2pyzmq==2.2.0...\n\n可能原因一如果出现问题的原因就是模块的版本太低，解决办法就是升级此模块。\n如果在使用命令： pip install pyzmq==14.5.0 出现下列错误提示时。\nerror: command ‘gcc’ failed with exit status 1\n那么需要安装gcc : aptitude install gcc 可以解决问题\n可能原因二如果出现下列错误提示：\nfatal error: Python.h: No such file or directory\n则需要安装 python-dev: aptitude install python-dev 可以解决问题。\n可能原因三如果出现下列错误提示：\ngcc: error trying to exec ‘cc1plus’: execvp: No such file or directory\n则需要安装 g++ : sudo apt-get install g++ 可以解决问题。\n可能原因四如果还有问题，请检查 \nPaket: libzmq3\nVersion: 4.0.5+dfsg-2 的版本信息。\n小结如果发现新的安装错误信息，欢迎大家关注本人个人公众号评论。才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-04-22T04:31:06+08:00","dateModified":"2020-11-20T05:38:45+08:00","datePublished":"2015-04-22T04:31:06+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：在使用Zero MQ函数setsocket(zmq.IPV4ONLY,0) 的时候。模块运行的时候会发生 self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError: ‘module’ object has no attribute ‘IPV4ONLY’ 的错误。本文讨论如何解决这一问题。\nAbstract: When using the Zero MQ function setsocket(zmq.IPV4ONLY,0). Happens when the module is running self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError:’module’ object has no attribute’IPV4ONLY’ error. This article discusses how to solve this problem.","headline":"Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/","keywords":"Python, 实战经验, ZeroMQ"}</script>
+    <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：在使用Zero MQ函数setsocket(zmq.IPV4ONLY,0) 的时候。模块运行的时候会发生 self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError: ‘module’ object has no attribute ‘IPV4ONLY’ 的错误。本文讨论如何解决这一问">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Perl 如何创建包与UDP协议的再包装">
-<meta property="og:url" content="https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/index.html">
+<meta property="og:title" content="Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题">
+<meta property="og:url" content="https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/index.html">
 <meta property="og:site_name" content="Jim Wang 的个人技术博客">
-<meta property="og:description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：本文主要介绍，如何尝试自己的创建Perl语言的包与UDP协议的再包装使其起到类似python语言装饰器的效果 Abstract: This article mainly introduces how to try to create your own Perl language package and repackaging the UDP">
+<meta property="og:description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：在使用Zero MQ函数setsocket(zmq.IPV4ONLY,0) 的时候。模块运行的时候会发生 self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError: ‘module’ object has no attribute ‘IPV4ONLY’ 的错误。本文讨论如何解决这一问">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2015-02-14T20:54:20.000Z">
-<meta property="article:modified_time" content="2020-11-19T20:59:31.324Z">
+<meta property="article:published_time" content="2015-04-21T20:31:06.000Z">
+<meta property="article:modified_time" content="2020-11-19T21:38:45.273Z">
 <meta property="article:author" content="Jim Wang">
-<meta property="article:tag" content="Perl">
-<meta property="article:tag" content="UDP协议">
-<meta property="article:tag" content="Socket">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="实战经验">
+<meta property="article:tag" content="ZeroMQ">
 <meta name="twitter:card" content="summary">
     
     
@@ -448,20 +448,20 @@ mjx-container[display="true"] + br {
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Perl 如何创建包与UDP协议的再包装
+            Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2015-02-14T21:54:20+01:00">
+    <time datetime="2015-04-22T04:31:06+08:00">
 	
-		    2月 14, 2015
+		    4月 22, 2015
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/Perl-%E7%9B%B8%E5%85%B3-%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/">Perl 相关 - 实战经验</a>
+    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-7-Python-%E5%BA%94%E7%94%A8/">Python 相关 - 7. Python 应用</a>
 
 
     
@@ -476,10 +476,24 @@ mjx-container[display="true"] + br {
             <!-- excerpt -->
 
 <p>作者: Jim Wang 公众号:  <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl </span></span><br><span class="line"><span class="comment"># Filename: BuildSocketUDP.pm</span></span><br><span class="line"><span class="keyword">package</span> BuildSocketUDP;</span><br><span class="line"><span class="keyword">require</span> Exporter;</span><br><span class="line"></span><br><span class="line">@ISA = <span class="string">qw(Exporter)</span>;</span><br><span class="line">@EXPORT = <span class="string">qw(readfile checkfile)</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> IO::Socket::INET; <span class="comment"># provides an object interface to creating and using Socket</span></span><br><span class="line"><span class="keyword">use</span> strict <span class="string">&#x27;vars&#x27;</span>; <span class="comment"># this generates a runtime error if you use symbolic references</span></span><br><span class="line"><span class="keyword">use</span> constant <span class="string">false =&gt;</span> <span class="number">0</span>;</span><br><span class="line"><span class="keyword">use</span> constant <span class="string">true  =&gt;</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># flush after every write</span></span><br><span class="line">$| = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#Create a new instance</span></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">new</span> </span>&#123;</span><br><span class="line">  <span class="keyword">my</span> $self = &#123;&#125;; <span class="comment"># Connect the hash to the package Cocoa.</span></span><br><span class="line">  <span class="keyword">shift</span>;</span><br><span class="line">  <span class="keyword">my</span> ($ip, $port, $proto, $isserver) = @_;</span><br><span class="line">  <span class="keyword">my</span> $socket;</span><br><span class="line">  <span class="keyword">my</span> $self-&gt;&#123;<span class="string">&#x27;ip&#x27;</span>&#125; = $ip;</span><br><span class="line">  <span class="keyword">my</span> $self-&gt;&#123;<span class="string">&#x27;port&#x27;</span>&#125; = $port;</span><br><span class="line">  <span class="keyword">if</span> ($isserver == true &amp;&amp; $proto == <span class="string">&#x27;udp&#x27;</span>)</span><br><span class="line">  &#123;</span><br><span class="line">  	<span class="comment">#print &quot;Buldi socket for server\n&quot;;</span></span><br><span class="line">  	$socket = new IO::Socket::INET(</span><br><span class="line">	  <span class="string">LocalPort =&gt;</span> $port || <span class="string">&#x27;8765&#x27;</span>,</span><br><span class="line">    <span class="string">Blocking =&gt;</span> <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">	  <span class="string">Proto    =&gt;</span> $proto) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">&quot;* Error Server in Socket Creation : $!\n&quot;</span>;</span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;UDP Server connected successful be created with port : $port\n&quot;</span>;</span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;---------------------\n&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="comment">#print &quot;Buldi socket for client\n&quot;;</span></span><br><span class="line">    $socket = new IO::Socket::INET(</span><br><span class="line">    <span class="string">PeerHost =&gt;</span> $ip  || <span class="string">&#x27;127.0.0.1&#x27;</span>,</span><br><span class="line">    <span class="string">PeerPort =&gt;</span> $port || <span class="string">&#x27;8765&#x27;</span>,</span><br><span class="line">    <span class="string">Blocking =&gt;</span> <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">    <span class="string">Proto    =&gt;</span> $proto) <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">&quot;* Error Client in Socket Creation : $!\n&quot;</span>;</span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;UDP Client connected successful be created with host : $ip\n&quot;</span>;</span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;UDP Client connected successful be created with port : $port\n&quot;</span>;</span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;---------------------\n&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">#print &quot;$socket&quot;.&quot;\n&quot;;</span></span><br><span class="line">  $self-&gt;&#123;<span class="string">&#x27;socket&#x27;</span>&#125; = $socket;</span><br><span class="line">  <span class="comment">#print $self-&gt;&#123;&#x27;socket&#x27;&#125;.&quot;AAAA\n&quot;;</span></span><br><span class="line">  <span class="keyword">bless</span> ($self);</span><br><span class="line">  <span class="keyword">return</span> $self; <span class="comment"># Return the reference to the hash.</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#Subroutine to close the socket</span></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">closeSocket</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">my</span> $self = <span class="keyword">shift</span>;</span><br><span class="line">	($self-&gt;&#123;<span class="string">&#x27;socket&#x27;</span>&#125;)-&gt;<span class="keyword">close</span>() <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">&quot;* Error to close the socket&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#Subroutine to send the data</span></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">sendViasocket</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">my</span> $self = <span class="keyword">shift</span>;</span><br><span class="line">	<span class="keyword">my</span> ($data_out, $length , $description) = @_;</span><br><span class="line">	($self-&gt;&#123;<span class="string">&#x27;socket&#x27;</span>&#125;)-&gt;<span class="keyword">send</span>($data_out);</span><br><span class="line">  <span class="comment">#($self-&gt;&#123;&#x27;socket&#x27;&#125;)-&gt;flush;</span></span><br><span class="line">	<span class="comment">#print &quot;Send data successful via udp socket&gt;&gt; : $description &gt;&gt;: $data_out\n&quot;;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#Subroutine to recv the data</span></span><br><span class="line"><span class="function"><span class="keyword">sub</span> <span class="title">recvViasocket</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">my</span> $self = <span class="keyword">shift</span>;</span><br><span class="line">	<span class="keyword">my</span> ($length, $description) = @_;</span><br><span class="line">	<span class="keyword">my</span> $data_in;</span><br><span class="line">	($self-&gt;&#123;<span class="string">&#x27;socket&#x27;</span>&#125;)-&gt;<span class="keyword">recv</span>($data_in, $length);</span><br><span class="line">  <span class="comment">#($self-&gt;&#123;&#x27;socket&#x27;&#125;)-&gt;flush;</span></span><br><span class="line">	<span class="comment">#print &quot;Recvied data successful via udp socket: $description &gt;&gt;: $data_in\n&quot;;</span></span><br><span class="line">	<span class="keyword">return</span> $data_in;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>; <span class="comment"># 当然不要忘了这个不知所以然的1</span></span><br></pre></td></tr></table></figure>
+<p>在使用Zero MQ函数setsocket(zmq.IPV4ONLY,0) 的时候。模块运行的时候会发生 self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError: ‘module’ object has no attribute ‘IPV4ONLY’ 的错误。</p>
+<p>用pip freeze 查看当前安装的模块的信息的时候会得到以下输出：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># pip freeze</span></span><br><span class="line">configobj==4.7.2</span><br><span class="line">pyzmq==2.2.0</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 
-<p>这只是给大家提供一种思路，毕竟是第一次尝试写类似的东西，难免存在不足之处，希望大家谅解，这样类似与Python语言装饰器的效果，给一些基本的包里面的方法提供了更多扩展和美化的作用，也为后来使用提供了方便。</p>
-<p>先上代码，由于整理博客，代码分析以后整理添加。欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。</p>
+<h3 id="可能原因一"><a href="#可能原因一" class="headerlink" title="可能原因一"></a>可能原因一</h3><p>如果出现问题的原因就是模块的版本太低，解决办法就是升级此模块。</p>
+<p>如果在使用命令： pip install pyzmq==14.5.0 出现下列错误提示时。</p>
+<p>error: command ‘gcc’ failed with exit status 1</p>
+<p>那么需要安装gcc : aptitude install gcc 可以解决问题</p>
+<h3 id="可能原因二"><a href="#可能原因二" class="headerlink" title="可能原因二"></a>可能原因二</h3><p>如果出现下列错误提示：</p>
+<p>fatal error: Python.h: No such file or directory</p>
+<p>则需要安装 python-dev: aptitude install python-dev 可以解决问题。</p>
+<h3 id="可能原因三"><a href="#可能原因三" class="headerlink" title="可能原因三"></a>可能原因三</h3><p>如果出现下列错误提示：</p>
+<p>gcc: error trying to exec ‘cc1plus’: execvp: No such file or directory</p>
+<p>则需要安装 g++ : sudo apt-get install g++ 可以解决问题。</p>
+<h3 id="可能原因四"><a href="#可能原因四" class="headerlink" title="可能原因四"></a>可能原因四</h3><p>如果还有问题，请检查 </p>
+<p>Paket: libzmq3</p>
+<p>Version: 4.0.5+dfsg-2 的版本信息。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>如果发现新的安装错误信息，欢迎大家关注本人个人公众号评论。才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。</p>
 <hr>
 <div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">
     版权声明：<br>文章首发于 <a target="_blank" rel="noopener" href="http://zhichaowang.online"> Jim Wang's blog </a>，
@@ -495,7 +509,7 @@ mjx-container[display="true"] + br {
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-none-link" href="/tags/Perl/" rel="tag">Perl</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/Socket/" rel="tag">Socket</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/UDP%E5%8D%8F%E8%AE%AE/" rel="tag">UDP协议</a>
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/Python/" rel="tag">Python</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/ZeroMQ/" rel="tag">ZeroMQ</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/" rel="tag">实战经验</a>
 
             </div>
         
@@ -508,9 +522,9 @@ mjx-container[display="true"] + br {
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/02/15/perl-02-CRC-16-algorithm/"
-                    data-tooltip="Perl 实现CRC-16算法和应用"
-                    aria-label="上一篇: Perl 实现CRC-16算法和应用"
+                    href="/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
+                    data-tooltip="linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本"
+                    aria-label="上一篇: linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -522,9 +536,9 @@ mjx-container[display="true"] + br {
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2013/03/03/java-JNI-C-language-and-java/"
-                    data-tooltip="JAVA 通过JNI实现C语言设置Java二维字符串数组并返回该字符串数组"
-                    aria-label="下一篇: JAVA 通过JNI实现C语言设置Java二维字符串数组并返回该字符串数组"
+                    href="/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
+                    data-tooltip="Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
+                    aria-label="下一篇: Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
@@ -538,7 +552,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -549,7 +563,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -562,7 +576,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -575,7 +589,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -588,7 +602,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -601,7 +615,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/&amp;title=Perl 如何创建包与UDP协议的再包装"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/&amp;title=Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -614,7 +628,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -634,7 +648,7 @@ mjx-container[display="true"] + br {
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2020 Jim Wang. All Rights Reserved.
+        Copyrights &copy; 2021 Jim Wang. All Rights Reserved.
     </span>
 </footer>
 
@@ -649,9 +663,9 @@ mjx-container[display="true"] + br {
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/02/15/perl-02-CRC-16-algorithm/"
-                    data-tooltip="Perl 实现CRC-16算法和应用"
-                    aria-label="上一篇: Perl 实现CRC-16算法和应用"
+                    href="/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
+                    data-tooltip="linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本"
+                    aria-label="上一篇: linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -663,9 +677,9 @@ mjx-container[display="true"] + br {
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2013/03/03/java-JNI-C-language-and-java/"
-                    data-tooltip="JAVA 通过JNI实现C语言设置Java二维字符串数组并返回该字符串数组"
-                    aria-label="下一篇: JAVA 通过JNI实现C语言设置Java二维字符串数组并返回该字符串数组"
+                    href="/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
+                    data-tooltip="Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
+                    aria-label="下一篇: Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
@@ -679,7 +693,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -690,7 +704,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -703,7 +717,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -716,7 +730,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -729,7 +743,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -742,7 +756,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/&amp;title=Perl 如何创建包与UDP协议的再包装"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/&amp;title=Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -755,7 +769,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -776,7 +790,7 @@ mjx-container[display="true"] + br {
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
                         aria-label="分享到 Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
@@ -789,7 +803,7 @@ mjx-container[display="true"] + br {
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/"
+                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
                         aria-label="分享到 Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
@@ -802,7 +816,7 @@ mjx-container[display="true"] + br {
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/"
+                        href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
                         aria-label="分享到 Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
@@ -815,7 +829,7 @@ mjx-container[display="true"] + br {
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
                         aria-label="分享到 Weibo"
                     >
                         <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
@@ -828,7 +842,7 @@ mjx-container[display="true"] + br {
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/&amp;title=Perl 如何创建包与UDP协议的再包装"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/&amp;title=Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
                         aria-label="分享到 QQ"
                     >
                         <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>

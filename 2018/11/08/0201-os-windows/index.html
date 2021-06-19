@@ -21,7 +21,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Jim Wang 公众号: 巴博萨船长\nPython 解释器的安装是通过一个MSI安装（不是exe文件，exe可以作为安装文件，但更多的是作为可执行的程序，MSI才是标准的Windows安装引导文件）文件自动完成的。这个文件可以在Python的官方网站.https://www.python.org/downloads/下载，本文不在赘述。\n\n\n一般情况下，你下载的安装包是64bit的。在双击安装包之后，遇到安装程序的第一个界面时，如下图：\n\n建议选择第二个，一是节省磁盘空间，而是在多用户电脑上不影响其他用户。\n如果遇到选择安装路径界面的时候，如下图：\n\n如果最终需要同时在该电脑上安装32bit的Python的话，我建议你将路径改为C:\\Python27_X64\\，未来来安装32bitPython的时候安装路径为：C:\\Python27_X32 。\n遇见安装选项界面的时候，如下图：\n\n请勾选”pip”选项（pip 是Python的扩展包管理程序，就如同手机里的应用市场一样，用于管理Python模块：安装，升级或卸载）。\n至于”Add python.exe to Path “，如果打算只安装一个Python版本，可以勾选。但是如果要安装不同版本，比如Python 32bit和64bit 的混合安装，建议这一步最后手动完成。\n接下来的步骤就是”下一步”**了。 直到安装引导程序运行完毕。 如果是需要64bit和32bit的Python混合安装，建议在C:\\Python27_X64\\目录下找到python.exe 和 pythonw.exe 两个可执行文件，复制**黏贴并*重命名\\*在当前目录里，如下图：\n\n同样在32bit的Python安装完之后，建议在C:\\Python27_X32\\目录下找到python.exe 和 pythonw.exe 两个可执行文件，只需要重命名所选文件在当前目录里，如下图：\n\n如果是64bit和32bit同时安装在系统里面，那么就需要手动告知操作系统Python解释器的安装位置。在Windows 10 系统下:\n\n我的电脑-&gt;属性-&gt;高级-&gt;环境变量-&gt;系统变量\n\n中的找到名为PATH的系统环境变量: 将Python解释器的安装路径C:\\Python27_X64 (或C:\\Python27_X32\\）添加在系统环境变量的PATH下。\n\n技巧1： 通过PowerShell 可以完成，打开PowerShell输入下面的命令：\n\n64bit 的Python:\n1[Environment]::SetEnvironmentVariable(&quot;Path&quot;, &quot;$env:Path;C:\\Python27_X64\\;C:\\Python27_X64\\Scripts\\&quot;, &quot;User&quot;)\n\n32bit 的Python：\n1[Environment]::SetEnvironmentVariable(&quot;Path&quot;, &quot;$env:Path;C:\\Python27_X32\\;C:\\Python27_X32\\Scripts\\&quot;, &quot;User&quot;)\n\n\n技巧2， 或者通过CMD的命令来配置环境变量，如下：\n\n64bit 的Python:\n1PATH=PATH;c:\\python27_X64\n\n32bit 的Python:\n1PATH=PATH;c:\\python27_X32\n\n最后，检测Python是否成功安装。 打开命令提示符窗口，键入python (python指向默认的解释器即Python 64bit，或键入python64或python32)。 如果出现下面的情况：\n\n那么恭喜你安装成功。\n但是如果出现下面的情况：\n\n‘python’不是内部或外部命令，也不是可运行的程序或批处理文件。\n\n就需要检查是不是系统环境变量里Python的安装路径是否正确。\n如有问题，欢迎留言讨论.\n\n\n          版权声明：文章首发于  Jim Wang's blog ，\n          转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n        ","dateCreated":"2018-11-08T08:11:08+01:00","dateModified":"2020-08-19T07:26:05+02:00","datePublished":"2018-11-08T08:11:08+01:00","description":"作者: Jim Wang 公众号: 巴博萨船长\nPython 解释器的安装是通过一个MSI安装（不是exe文件，exe可以作为安装文件，但更多的是作为可执行的程序，MSI才是标准的Windows安装引导文件）文件自动完成的。这个文件可以在Python的官方网站.https://www.python.org/downloads/下载，本文不在赘述。","headline":"Windows系统下 Python的安装配置","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2018/11/08/0201-os-windows/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2018/11/08/0201-os-windows/","keywords":"Python, 配置"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Jim Wang 公众号: 巴博萨船长\nPython 解释器的安装是通过一个MSI安装（不是exe文件，exe可以作为安装文件，但更多的是作为可执行的程序，MSI才是标准的Windows安装引导文件）文件自动完成的。这个文件可以在Python的官方网站.https://www.python.org/downloads/下载，本文不在赘述。\n\n\n一般情况下，你下载的安装包是64bit的。在双击安装包之后，遇到安装程序的第一个界面时，如下图：\n\n建议选择第二个，一是节省磁盘空间，而是在多用户电脑上不影响其他用户。\n如果遇到选择安装路径界面的时候，如下图：\n\n如果最终需要同时在该电脑上安装32bit的Python的话，我建议你将路径改为C:\\Python27_X64\\，未来来安装32bitPython的时候安装路径为：C:\\Python27_X32 。\n遇见安装选项界面的时候，如下图：\n\n请勾选”pip”选项（pip 是Python的扩展包管理程序，就如同手机里的应用市场一样，用于管理Python模块：安装，升级或卸载）。\n至于”Add python.exe to Path “，如果打算只安装一个Python版本，可以勾选。但是如果要安装不同版本，比如Python 32bit和64bit 的混合安装，建议这一步最后手动完成。\n接下来的步骤就是”下一步”**了。 直到安装引导程序运行完毕。 如果是需要64bit和32bit的Python混合安装，建议在C:\\Python27_X64\\目录下找到python.exe 和 pythonw.exe 两个可执行文件，复制**黏贴并*重命名\\*在当前目录里，如下图：\n\n同样在32bit的Python安装完之后，建议在C:\\Python27_X32\\目录下找到python.exe 和 pythonw.exe 两个可执行文件，只需要重命名所选文件在当前目录里，如下图：\n\n如果是64bit和32bit同时安装在系统里面，那么就需要手动告知操作系统Python解释器的安装位置。在Windows 10 系统下:\n\n我的电脑-&gt;属性-&gt;高级-&gt;环境变量-&gt;系统变量\n\n中的找到名为PATH的系统环境变量: 将Python解释器的安装路径C:\\Python27_X64 (或C:\\Python27_X32\\）添加在系统环境变量的PATH下。\n\n技巧1： 通过PowerShell 可以完成，打开PowerShell输入下面的命令：\n\n64bit 的Python:\n1[Environment]::SetEnvironmentVariable(&quot;Path&quot;, &quot;$env:Path;C:\\Python27_X64\\;C:\\Python27_X64\\Scripts\\&quot;, &quot;User&quot;)\n\n32bit 的Python：\n1[Environment]::SetEnvironmentVariable(&quot;Path&quot;, &quot;$env:Path;C:\\Python27_X32\\;C:\\Python27_X32\\Scripts\\&quot;, &quot;User&quot;)\n\n\n技巧2， 或者通过CMD的命令来配置环境变量，如下：\n\n64bit 的Python:\n1PATH=PATH;c:\\python27_X64\n\n32bit 的Python:\n1PATH=PATH;c:\\python27_X32\n\n最后，检测Python是否成功安装。 打开命令提示符窗口，键入python (python指向默认的解释器即Python 64bit，或键入python64或python32)。 如果出现下面的情况：\n\n那么恭喜你安装成功。\n但是如果出现下面的情况：\n\n‘python’不是内部或外部命令，也不是可运行的程序或批处理文件。\n\n就需要检查是不是系统环境变量里Python的安装路径是否正确。\n如有问题，欢迎留言讨论.\n\n\n          版权声明：文章首发于  Jim Wang's blog ，\n          转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n        ","dateCreated":"2018-11-08T15:11:08+08:00","dateModified":"2020-08-19T13:26:05+08:00","datePublished":"2018-11-08T15:11:08+08:00","description":"作者: Jim Wang 公众号: 巴博萨船长\nPython 解释器的安装是通过一个MSI安装（不是exe文件，exe可以作为安装文件，但更多的是作为可执行的程序，MSI才是标准的Windows安装引导文件）文件自动完成的。这个文件可以在Python的官方网站.https://www.python.org/downloads/下载，本文不在赘述。","headline":"Windows系统下 Python的安装配置","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2018/11/08/0201-os-windows/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2018/11/08/0201-os-windows/","keywords":"Python, 配置"}</script>
     <meta name="description" content="作者: Jim Wang 公众号: 巴博萨船长 Python 解释器的安装是通过一个MSI安装（不是exe文件，exe可以作为安装文件，但更多的是作为可执行的程序，MSI才是标准的Windows安装引导文件）文件自动完成的。这个文件可以在Python的官方网站.https:&#x2F;&#x2F;www.python.org&#x2F;downloads&#x2F;下载，本文不在赘述。">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Windows系统下 Python的安装配置">
@@ -459,7 +459,7 @@ mjx-container[display="true"] + br {
     
     
         <div class="post-meta">
-    <time datetime="2018-11-08T08:11:08+01:00">
+    <time datetime="2018-11-08T15:11:08+08:00">
 	
 		    11月 08, 2018
     	
@@ -587,7 +587,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -663,7 +663,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -683,7 +683,7 @@ mjx-container[display="true"] + br {
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2020 Jim Wang. All Rights Reserved.
+        Copyrights &copy; 2021 Jim Wang. All Rights Reserved.
     </span>
 </footer>
 
@@ -728,7 +728,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -804,7 +804,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
