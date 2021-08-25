@@ -21,7 +21,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n冒泡排序算法\n比较相邻的元素。如果第一个比第二个大，就交换他们两个。\n\n对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数。\n\n针对所有的元素重复以上的步骤，除了最后一个。\n\n持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。\n\n\n正文三个函数，对比一下：\n12345678910111213141516171819202122232425262728293031def list_sort_new(list_in):    for j in range(len(list_in)-1, 0 ,-1):\tfor i in range(0, j):\t    if list_in[i]&gt;list_in[i+1]:\t        list_in[i],list_in[i+1] = list_in[i+1],list_in[i]    return list_indef list_sort_old(list_in):    for j in range(len(list_in)-1, 0 ,-1):        for i in range(0, j):\t    if list_in[i]&gt;list_in[i+1]:\t\tlist_temp = list_in[i]\t\tlist_in[i] = list_in[i+1]\t\tlist_in[i+1] = list_temp    return list_indef list_sort_test(list_in):    for j in range(len(list_in)-1, 0 ,-1):\tfor i in range(0, j):\t    if list_in[i]&gt;list_in[i+1]:\t\tprint &quot;before&gt;&gt; &quot; + str(list_in[i])\t\tlist_in[i] = list_in[i+1]\t\tprint &quot;after&gt;&gt; &quot; + str(list_in[i])\t\tlist_in[i+1] = list_in[i]\t\tprint &quot;and&gt; &quot; + str(list_in[i+1])    return list_in list_test = [2, 1, 3, 44, 22, 53, 25, 26]print list_testprint &quot;*&quot;*20print(list_sort_test(list_test))\n\n其中函数list_sort_new()和list_sort_old()都能实现你的目的，其中list_sort_new()中使用了指派运算， 就相当于c语言的i++。 list_sort_old()替代了list_sort_new()中的指派运算，其中j的for实现了全部比较，而倒序减少了不必要的比较，list_sort_test()表明了，为什么需要一个变量来充当缓存。\n欢迎大家关注本人个人公众号评论。才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-10-09T04:18:34+08:00","dateModified":"2020-11-20T04:43:16+08:00","datePublished":"2015-10-09T04:18:34+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：本文主要讨论在Python实际应用中如何实现冒泡排序算法探讨与指派运算替代方法\nAbstract: This article mainly discusses how to implement the bubble sorting algorithm in the actual application of Python and the alternative method of assignment operation","headline":"Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2015/10/09/0702-bubble-sort-and-assignment-operation/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2015/10/09/0702-bubble-sort-and-assignment-operation/","keywords":"Python, 实战经验, 冒泡算法, 指派运算"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n冒泡排序算法\n比较相邻的元素。如果第一个比第二个大，就交换他们两个。\n\n对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数。\n\n针对所有的元素重复以上的步骤，除了最后一个。\n\n持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。\n\n\n正文三个函数，对比一下：\n12345678910111213141516171819202122232425262728293031def list_sort_new(list_in):    for j in range(len(list_in)-1, 0 ,-1):\tfor i in range(0, j):\t    if list_in[i]&gt;list_in[i+1]:\t        list_in[i],list_in[i+1] = list_in[i+1],list_in[i]    return list_indef list_sort_old(list_in):    for j in range(len(list_in)-1, 0 ,-1):        for i in range(0, j):\t    if list_in[i]&gt;list_in[i+1]:\t\tlist_temp = list_in[i]\t\tlist_in[i] = list_in[i+1]\t\tlist_in[i+1] = list_temp    return list_indef list_sort_test(list_in):    for j in range(len(list_in)-1, 0 ,-1):\tfor i in range(0, j):\t    if list_in[i]&gt;list_in[i+1]:\t\tprint &quot;before&gt;&gt; &quot; + str(list_in[i])\t\tlist_in[i] = list_in[i+1]\t\tprint &quot;after&gt;&gt; &quot; + str(list_in[i])\t\tlist_in[i+1] = list_in[i]\t\tprint &quot;and&gt; &quot; + str(list_in[i+1])    return list_in list_test = [2, 1, 3, 44, 22, 53, 25, 26]print list_testprint &quot;*&quot;*20print(list_sort_test(list_test))\n\n其中函数list_sort_new()和list_sort_old()都能实现你的目的，其中list_sort_new()中使用了指派运算， 就相当于c语言的i++。 list_sort_old()替代了list_sort_new()中的指派运算，其中j的for实现了全部比较，而倒序减少了不必要的比较，list_sort_test()表明了，为什么需要一个变量来充当缓存。\n欢迎大家关注本人个人公众号评论。才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-10-09T04:18:34+08:00","dateModified":"2020-11-20T04:43:16+08:00","datePublished":"2015-10-09T04:18:34+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：本文主要讨论在Python实际应用中如何实现冒泡排序算法探讨与指派运算替代方法\nAbstract: This article mainly discusses how to implement the bubble sorting algorithm in the actual application of Python and the alternative method of assignment operation","headline":"Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2015/10/09/0702-bubble-sort-and-assignment-operation/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2015/10/09/0702-bubble-sort-and-assignment-operation/","keywords":"Python, 实战经验, 冒泡算法, 指派运算"}</script>
     <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：本文主要讨论在Python实际应用中如何实现冒泡排序算法探讨与指派运算替代方法 Abstract: This article mainly discusses how to implement the bubble sorting algorithm in the actual application of Python and the al">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法">
@@ -370,15 +370,15 @@ mjx-container[display="true"] + br {
                     
                         <a
                             class="sidebar-button-link "
-                            href="https://twitter.com/zuiwuxin?s=09"
+                            href="tencent://message/?uin=948509&Site=&Menu=yes"
                             
                                 target="_blank"
                             
                             rel="noopener"
-                            title="Twitter"
+                            title="QQ"
                         >
-                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Twitter</span>
+                        <i class="sidebar-button-icon fab fa-qq" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">QQ</span>
                     </a>
             </li>
             
@@ -550,7 +550,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -626,7 +626,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -691,7 +691,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -767,7 +767,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

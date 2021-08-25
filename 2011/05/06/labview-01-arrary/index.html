@@ -21,7 +21,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\nLabView难点之一 Array的处理，个人见解。\nArray也是数组，当需要处理一串的数据的时候需要这些。\n数组的种类：一维；二维；三维或者多维。\n数组的类型：数字类型；字符串类型；布尔型；混合类型。\n在LabvieW中，数组经常通过一个For-Schleife来创建。For-Schleife的特点决定了这些。而While-Schleife无法做到。LabVieW中For循环的内存提前给出，运算次数也预先知道。而While循环却无法知道循环次数。\nLabVIEW中，数组表现形式由三部分组成。数据类型，数据索引和数据。创建也相对简单，前后面板中都能找到相应的模板。数组创建一开始都是一维数组，简单转换成二维数组的方法就是拖动数组索引显示边框下边缘。或者右键中的Add  Dimension.\n数组的操作，也就是求数组长度，对数组排序，取出数组中的元素，替换数组中的元素或者初始化数组等各种运算。\n所要引用的模板\n\nArray Size ;  返回数组长度。\nIndex Array ; 返回输入索引指定的元素。\nReplace Array Subset ; 返回替换输入数组中一个元素。\nInsert Into Array ;   返回在数组中指定的位置插入元素。\nDelete From Array ;  返回从数组中删除指定数目的元素。\nInitialize Array ;  初始化数组。\nBuild Array ；创建一个新的数组。\nArray Subset ；从输入的数组中取出指定的元素。\nRotate ID Array； 移动一个数组中的最后n个元素到数组最前面。\nReverse ID Array；将数组前后顺序颠倒。\nSearch ID Array；搜指定元素在一维数组中位置，若不存在返回-1.\nSplit ID Array ；将数组在指定元素的位置处截断，分成两个数组。当输入大于长度，第二子数组为空。\nSort ID Array ;将输入数组安升序排序。\nArray Max&Min;  返回数组中最大值和最小值。\nTranspose 2D Array ；矩阵装置。\nInterpolate ID Array ；线性插值。\nThreshold ID Array ; 一维数组阈值，线性插值的逆过程。\nInterleave ID Arrays ; 将输入端口输入的一维数组插入到输出的一维数组中。\nDecimate ID Array； 将一个数组分成数个数组。\nReshape Array； 改变输入数组的维数。\n\nLabVIEW的数组。与其他编程语言，如C语言，相比不用事先规定数组的长度。如果内存允许，可达到2,147,483,647个。元素索引从哦开始 到n-1结束。\n 个人见解，要是有问题 请与我联系。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2011-05-06T04:24:37+08:00","dateModified":"2020-11-20T05:26:42+08:00","datePublished":"2011-05-06T04:24:37+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：本文主要分享一些在LabView时，有关数组处理的一些浅见。\nAbstract: This article mainly shares some insights about array processing in LabView.","headline":"LabView难点之一 Array的处理。","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2011/05/06/labview-01-arrary/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2011/05/06/labview-01-arrary/","keywords":"LabView, Array"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\nLabView难点之一 Array的处理，个人见解。\nArray也是数组，当需要处理一串的数据的时候需要这些。\n数组的种类：一维；二维；三维或者多维。\n数组的类型：数字类型；字符串类型；布尔型；混合类型。\n在LabvieW中，数组经常通过一个For-Schleife来创建。For-Schleife的特点决定了这些。而While-Schleife无法做到。LabVieW中For循环的内存提前给出，运算次数也预先知道。而While循环却无法知道循环次数。\nLabVIEW中，数组表现形式由三部分组成。数据类型，数据索引和数据。创建也相对简单，前后面板中都能找到相应的模板。数组创建一开始都是一维数组，简单转换成二维数组的方法就是拖动数组索引显示边框下边缘。或者右键中的Add  Dimension.\n数组的操作，也就是求数组长度，对数组排序，取出数组中的元素，替换数组中的元素或者初始化数组等各种运算。\n所要引用的模板\n\nArray Size ;  返回数组长度。\nIndex Array ; 返回输入索引指定的元素。\nReplace Array Subset ; 返回替换输入数组中一个元素。\nInsert Into Array ;   返回在数组中指定的位置插入元素。\nDelete From Array ;  返回从数组中删除指定数目的元素。\nInitialize Array ;  初始化数组。\nBuild Array ；创建一个新的数组。\nArray Subset ；从输入的数组中取出指定的元素。\nRotate ID Array； 移动一个数组中的最后n个元素到数组最前面。\nReverse ID Array；将数组前后顺序颠倒。\nSearch ID Array；搜指定元素在一维数组中位置，若不存在返回-1.\nSplit ID Array ；将数组在指定元素的位置处截断，分成两个数组。当输入大于长度，第二子数组为空。\nSort ID Array ;将输入数组安升序排序。\nArray Max&Min;  返回数组中最大值和最小值。\nTranspose 2D Array ；矩阵装置。\nInterpolate ID Array ；线性插值。\nThreshold ID Array ; 一维数组阈值，线性插值的逆过程。\nInterleave ID Arrays ; 将输入端口输入的一维数组插入到输出的一维数组中。\nDecimate ID Array； 将一个数组分成数个数组。\nReshape Array； 改变输入数组的维数。\n\nLabVIEW的数组。与其他编程语言，如C语言，相比不用事先规定数组的长度。如果内存允许，可达到2,147,483,647个。元素索引从哦开始 到n-1结束。\n 个人见解，要是有问题 请与我联系。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2011-05-06T04:24:37+08:00","dateModified":"2020-11-20T05:26:42+08:00","datePublished":"2011-05-06T04:24:37+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：本文主要分享一些在LabView时，有关数组处理的一些浅见。\nAbstract: This article mainly shares some insights about array processing in LabView.","headline":"LabView难点之一 Array的处理。","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2011/05/06/labview-01-arrary/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2011/05/06/labview-01-arrary/","keywords":"LabView, Array"}</script>
     <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：本文主要分享一些在LabView时，有关数组处理的一些浅见。 Abstract: This article mainly shares some insights about array processing in LabView.">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="LabView难点之一 Array的处理。">
@@ -368,15 +368,15 @@ mjx-container[display="true"] + br {
                     
                         <a
                             class="sidebar-button-link "
-                            href="https://twitter.com/zuiwuxin?s=09"
+                            href="tencent://message/?uin=948509&Site=&Menu=yes"
                             
                                 target="_blank"
                             
                             rel="noopener"
-                            title="Twitter"
+                            title="QQ"
                         >
-                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Twitter</span>
+                        <i class="sidebar-button-icon fab fa-qq" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">QQ</span>
                     </a>
             </li>
             
@@ -562,7 +562,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -638,7 +638,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -700,7 +700,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -776,7 +776,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

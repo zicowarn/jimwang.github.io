@@ -21,7 +21,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Jim Wang 公众号: 巴博萨船长\nInnoSetup 检查网络连接1. 循环检查网络连接直至连接成共，代码如下：\n\n1234567891011121314151617181920212223242526272829303132333435363738394041function IsNetWorkActivatedRepeated: boolean;var  WinHttpReq: Variant;  Connected: Boolean;begin  Connected := False;  repeat    Log(&#x27;Checking connection to the server&#x27;);    try      WinHttpReq := CreateOleObject(&#x27;WinHttp.WinHttpRequest.5.1&#x27;);      &#123; Use your real server host name &#125;      WinHttpReq.Open(&#x27;GET&#x27;, &#x27;https://www.camtek.de/&#x27;, False);      WinHttpReq.Send(&#x27;&#x27;);      Log(&#x27;Connected to the server; status: &#x27; + IntToStr(WinHttpReq.Status) + &#x27; &#x27; +          WinHttpReq.StatusText);      Connected := True;    except      Log(&#x27;Error connecting to the server: &#x27; + GetExceptionMessage);      if WizardSilent then      begin        Log(&#x27;Connection to the server is not available, aborting silent installation&#x27;);        Result := False;        Exit;      end        else      if MsgBox(&#x27;Cannot reach server. Please check your Internet connection.&#x27;,                mbError, MB_RETRYCANCEL) = IDRETRY then      begin        Log(&#x27;Retrying&#x27;);      end        else      begin        Log(&#x27;Aborting&#x27;);        Result := False;        Exit;      end;    end;  until Connected;  Result := True;end;\n\n2. 有限次数检测网络，代码如下：123456789101112131415161718192021222324252627function IsNetWorkActivatedTried: boolean;var  WinHttpReq: Variant;  Connected: Boolean;  iTriedTime: Integer;begin  Connected := False;  iTriedTime := 0;  repeat    iTriedTime := iTriedTime + 1;    Log(&#x27;Checking connection to the server, try &#x27; +  + IntToStr(iTriedTime) + &#x27; time.&#x27;);    try      WinHttpReq := CreateOleObject(&#x27;WinHttp.WinHttpRequest.5.1&#x27;);      WinHttpReq.SetTimeouts(&#x27;3000&#x27;, &#x27;3000&#x27;, &#x27;3000&#x27;, &#x27;3000&#x27;);      // Use your real server host name       WinHttpReq.Open(&#x27;GET&#x27;, &#x27;https://www.goolge.de/&#x27;, False);      WinHttpReq.Send(&#x27;&#x27;);      Log(&#x27;Connected to the server; status: &#x27; + IntToStr(WinHttpReq.Status) + &#x27; &#x27; +          WinHttpReq.StatusText);      Connected := True;    except      Log(&#x27;Error connecting to the server, msg: &#x27; + GetExceptionMessage + &#x27;try again! &#x27;);    end;  until (iTriedTime = 3) or (Connected = True) ;  Result := Connected;end;\n\n\n\n          版权声明：文章首发于  Jim Wang's blog ，\n          转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n        ","dateCreated":"2019-07-05T08:11:08+08:00","dateModified":"2020-08-25T11:13:10+08:00","datePublished":"2019-07-05T08:11:08+08:00","description":"作者: Jim Wang 公众号: 巴博萨船长\nInnoSetup 检查网络连接1. 循环检查网络连接直至连接成共，代码如下：","headline":"Inno Setup 检查网络连接的Pascal代码","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2019/07/05/inno-03-check-network-state/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2019/07/05/inno-03-check-network-state/","keywords":"Inno Setup, 网络连接, Pascal"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Jim Wang 公众号: 巴博萨船长\nInnoSetup 检查网络连接1. 循环检查网络连接直至连接成共，代码如下：\n\n1234567891011121314151617181920212223242526272829303132333435363738394041function IsNetWorkActivatedRepeated: boolean;var  WinHttpReq: Variant;  Connected: Boolean;begin  Connected := False;  repeat    Log(&#x27;Checking connection to the server&#x27;);    try      WinHttpReq := CreateOleObject(&#x27;WinHttp.WinHttpRequest.5.1&#x27;);      &#123; Use your real server host name &#125;      WinHttpReq.Open(&#x27;GET&#x27;, &#x27;https://www.camtek.de/&#x27;, False);      WinHttpReq.Send(&#x27;&#x27;);      Log(&#x27;Connected to the server; status: &#x27; + IntToStr(WinHttpReq.Status) + &#x27; &#x27; +          WinHttpReq.StatusText);      Connected := True;    except      Log(&#x27;Error connecting to the server: &#x27; + GetExceptionMessage);      if WizardSilent then      begin        Log(&#x27;Connection to the server is not available, aborting silent installation&#x27;);        Result := False;        Exit;      end        else      if MsgBox(&#x27;Cannot reach server. Please check your Internet connection.&#x27;,                mbError, MB_RETRYCANCEL) = IDRETRY then      begin        Log(&#x27;Retrying&#x27;);      end        else      begin        Log(&#x27;Aborting&#x27;);        Result := False;        Exit;      end;    end;  until Connected;  Result := True;end;\n\n2. 有限次数检测网络，代码如下：123456789101112131415161718192021222324252627function IsNetWorkActivatedTried: boolean;var  WinHttpReq: Variant;  Connected: Boolean;  iTriedTime: Integer;begin  Connected := False;  iTriedTime := 0;  repeat    iTriedTime := iTriedTime + 1;    Log(&#x27;Checking connection to the server, try &#x27; +  + IntToStr(iTriedTime) + &#x27; time.&#x27;);    try      WinHttpReq := CreateOleObject(&#x27;WinHttp.WinHttpRequest.5.1&#x27;);      WinHttpReq.SetTimeouts(&#x27;3000&#x27;, &#x27;3000&#x27;, &#x27;3000&#x27;, &#x27;3000&#x27;);      // Use your real server host name       WinHttpReq.Open(&#x27;GET&#x27;, &#x27;https://www.goolge.de/&#x27;, False);      WinHttpReq.Send(&#x27;&#x27;);      Log(&#x27;Connected to the server; status: &#x27; + IntToStr(WinHttpReq.Status) + &#x27; &#x27; +          WinHttpReq.StatusText);      Connected := True;    except      Log(&#x27;Error connecting to the server, msg: &#x27; + GetExceptionMessage + &#x27;try again! &#x27;);    end;  until (iTriedTime = 3) or (Connected = True) ;  Result := Connected;end;\n\n\n\n          版权声明：文章首发于  Jim Wang's blog ，\n          转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n        ","dateCreated":"2019-07-05T08:11:08+08:00","dateModified":"2020-08-25T11:13:10+08:00","datePublished":"2019-07-05T08:11:08+08:00","description":"作者: Jim Wang 公众号: 巴博萨船长\nInnoSetup 检查网络连接1. 循环检查网络连接直至连接成共，代码如下：","headline":"Inno Setup 检查网络连接的Pascal代码","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2019/07/05/inno-03-check-network-state/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2019/07/05/inno-03-check-network-state/","keywords":"Inno Setup, 网络连接, Pascal"}</script>
     <meta name="description" content="作者: Jim Wang 公众号: 巴博萨船长 InnoSetup 检查网络连接1. 循环检查网络连接直至连接成共，代码如下：">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Inno Setup 检查网络连接的Pascal代码">
@@ -369,15 +369,15 @@ mjx-container[display="true"] + br {
                     
                         <a
                             class="sidebar-button-link "
-                            href="https://twitter.com/zuiwuxin?s=09"
+                            href="tencent://message/?uin=948509&Site=&Menu=yes"
                             
                                 target="_blank"
                             
                             rel="noopener"
-                            title="Twitter"
+                            title="QQ"
                         >
-                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Twitter</span>
+                        <i class="sidebar-button-icon fab fa-qq" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">QQ</span>
                     </a>
             </li>
             
@@ -538,7 +538,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -614,7 +614,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -679,7 +679,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -755,7 +755,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

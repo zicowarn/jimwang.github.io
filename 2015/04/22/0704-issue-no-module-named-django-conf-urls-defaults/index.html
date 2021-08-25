@@ -21,7 +21,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n问题我们在尝试安装调试graphite webapp时，或者使用django制作网站时会遇见此问题。或者类似的问题.\n12File &quot;/opt/graphite/webapp/graphite/urls.py&quot;, line 15, in &lt;module&gt;    from django.conf.urls.defaults import *ImportError: No module named defaults\n\n解决方案原因在于：Django 1.6 时改变了模块结构，原先的defaults模块被去除了。为了解决这一问题你有两种方式。\n1：回滚到1.5.x版本上\n2：找到代码问题行，将此行改为\n1from django.conf.urls import patterns, url, include\n\n相信能解决你的问题。\n如果你是在调试暗转graphite webapp时遇见此问题，下列的Python脚本fixerrorNomodule.py能够一次性修复所有的有问题的模块。代码如下：\n123456789101112131415161718192021222324252627282930import refiles = [&quot;/opt/graphite/webapp/graphite/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/render/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/cli/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/composer/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/metrics/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/browser/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/account/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/dashboard/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/whitelist/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/graphlot/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/version/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/events/urls.py&quot;]files2= [&quot;/opt/graphite/webapp/graphite/urls.py&quot;]str = &#x27;from django.conf.urls.defaults import *\\n&#x27;for file in files:     print file    f = open(file, &quot;r+&quot;)    flists = f.readlines()    print len(flists),    for i in range(len(flists)):        if flists[i] == str:            print flists[i]            flists[i] = &quot;from django.conf.urls import patterns, url, include \\n&quot;        else:            pass    f = open(file, &quot;w+&quot;)    f.writelines(flists)    f.close()\n\n使用方法\n1python scirpte name: fixerrorNomodule.py\n\n欢迎大家关注本人个人公众号评论。才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-04-22T04:31:06+08:00","dateModified":"2020-11-20T04:43:31+08:00","datePublished":"2015-04-22T04:31:06+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：我们在尝试安装调试graphite webapp时，或者使用django制作网站时会遇见此问题：错误:no module named django.conf.urls.defaults，本文讨论如何解决该问题。\nAbstract: When we try to install and debug the graphite webapp, or use django to make a website, we will encounter this problem: error: no module named django.conf.urls.defaults, this article discusses how to solve this problem.","headline":"Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/","keywords":"Python, 实战经验, Django"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n问题我们在尝试安装调试graphite webapp时，或者使用django制作网站时会遇见此问题。或者类似的问题.\n12File &quot;/opt/graphite/webapp/graphite/urls.py&quot;, line 15, in &lt;module&gt;    from django.conf.urls.defaults import *ImportError: No module named defaults\n\n解决方案原因在于：Django 1.6 时改变了模块结构，原先的defaults模块被去除了。为了解决这一问题你有两种方式。\n1：回滚到1.5.x版本上\n2：找到代码问题行，将此行改为\n1from django.conf.urls import patterns, url, include\n\n相信能解决你的问题。\n如果你是在调试暗转graphite webapp时遇见此问题，下列的Python脚本fixerrorNomodule.py能够一次性修复所有的有问题的模块。代码如下：\n123456789101112131415161718192021222324252627282930import refiles = [&quot;/opt/graphite/webapp/graphite/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/render/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/cli/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/composer/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/metrics/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/browser/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/account/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/dashboard/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/whitelist/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/graphlot/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/version/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/events/urls.py&quot;]files2= [&quot;/opt/graphite/webapp/graphite/urls.py&quot;]str = &#x27;from django.conf.urls.defaults import *\\n&#x27;for file in files:     print file    f = open(file, &quot;r+&quot;)    flists = f.readlines()    print len(flists),    for i in range(len(flists)):        if flists[i] == str:            print flists[i]            flists[i] = &quot;from django.conf.urls import patterns, url, include \\n&quot;        else:            pass    f = open(file, &quot;w+&quot;)    f.writelines(flists)    f.close()\n\n使用方法\n1python scirpte name: fixerrorNomodule.py\n\n欢迎大家关注本人个人公众号评论。才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-04-22T04:31:06+08:00","dateModified":"2020-11-20T04:43:31+08:00","datePublished":"2015-04-22T04:31:06+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：我们在尝试安装调试graphite webapp时，或者使用django制作网站时会遇见此问题：错误:no module named django.conf.urls.defaults，本文讨论如何解决该问题。\nAbstract: When we try to install and debug the graphite webapp, or use django to make a website, we will encounter this problem: error: no module named django.conf.urls.defaults, this article discusses how to solve this problem.","headline":"Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/","keywords":"Python, 实战经验, Django"}</script>
     <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：我们在尝试安装调试graphite webapp时，或者使用django制作网站时会遇见此问题：错误:no module named django.conf.urls.defaults，本文讨论如何解决该问题。 Abstract: When we try to install and debug the graphite webapp, or">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults">
@@ -369,15 +369,15 @@ mjx-container[display="true"] + br {
                     
                         <a
                             class="sidebar-button-link "
-                            href="https://twitter.com/zuiwuxin?s=09"
+                            href="tencent://message/?uin=948509&Site=&Menu=yes"
                             
                                 target="_blank"
                             
                             rel="noopener"
-                            title="Twitter"
+                            title="QQ"
                         >
-                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Twitter</span>
+                        <i class="sidebar-button-icon fab fa-qq" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">QQ</span>
                     </a>
             </li>
             
@@ -550,7 +550,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -626,7 +626,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -691,7 +691,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -767,7 +767,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

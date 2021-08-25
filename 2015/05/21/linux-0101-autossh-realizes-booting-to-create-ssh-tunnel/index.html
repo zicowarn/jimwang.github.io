@@ -21,7 +21,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n背景有时候回需要到ssh tunnel，手动使用ssh 创建这些并没有太大的问题，可是如果尝试开机启动，写个shell脚本并在rc.local里面运行这个脚本并不成功，原因也不得而知。 后来发现了autossh这东东，不单单能够静默模式创建ssh tunnel还能设置自动检测，并自动尝试链接的选项。\n本文附件提供的脚本，需要放置在/etc/ini.d/目录下，并使用chmod +x 修改权限。然后也有必要使用update-rc.d service defaults添加入开机启动服务。当然不要忘记修改脚本中的配置信息。然后就能够在开机时候自动创建ssh tunnel了。 enjoy it.\n解决方法直接上结果：\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081#! /bin/bash# For each tunnel; make a uniquely named copy of this template.## SETTINGS## autossh monitoring port (unique)MPORT=54321# the ssh tunnel to setupTUNNEL=&quot;-L 2003:localhost:2003&quot;# remote userRUSER=&quot;socieer&quot;# remote serverRSERVER=&quot;socieer.axxeo.de&quot;# You must use the real autossh binary, not a wrapper.DAEMON=/usr/lib/autossh/autossh### END SETTINGSPATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/binNAME=`basename $0`PIDFILE=/var/run/$&#123;NAME&#125;.pidSCRIPTNAME=/etc/init.d/$&#123;NAME&#125;DESC=&quot;the tunnel&quot;test -x $DAEMON || exit 0export AUTOSSH_PORT=$&#123;MPORT&#125;export AUTOSSH_PIDFILE=$&#123;PIDFILE&#125;ASOPT=$&#123;TUNNEL&#125;&quot; -f -N &quot;$&#123;RUSER&#125;&quot;@&quot;$&#123;RSERVER&#125;#  Function that starts the daemon/service.d_start() &#123;   start-stop-daemon --start --quiet --pidfile $PIDFILE \\      --exec $DAEMON -- $ASOPT   if [ $? -gt 0 ]; then       echo -n &quot; not started (or already running)&quot;   else       sleep 1       start-stop-daemon --stop --quiet --pidfile $PIDFILE \\      --test --exec $DAEMON &gt; /dev/null || echo -n &quot; not started&quot;   fi&#125;#  Function that stops the daemon/service.d_stop() &#123;   start-stop-daemon --stop --quiet --pidfile $PIDFILE \\      --exec $DAEMON \\      || echo -n &quot; not running&quot;&#125;case &quot;$1&quot; in  start)   echo -n &quot;Starting $DESC: $NAME&quot;   d_start   echo &quot;.&quot;   ;;  stop)   echo -n &quot;Stopping $DESC: $NAME&quot;   d_stop   echo &quot;.&quot;   ;;  restart)   echo -n &quot;Restarting $DESC: $NAME&quot;   d_stop   sleep 1   d_start   echo &quot;.&quot;   ;;  *)   echo &quot;Usage: $SCRIPTNAME &#123;start|stop|restart&#125;&quot; &gt;&amp;2   exit 3   ;;esacexit 0\n\n才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-05-21T04:24:37+08:00","dateModified":"2020-11-20T04:29:25+08:00","datePublished":"2015-05-21T04:24:37+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：有时候回需要到ssh tunnel，手动使用ssh 创建这些并没有太大的问题，可是如果尝试开机启动，写个shell脚本并在rc.local里面运行这个脚本并不成功，原因也不得而知。 本文主要介绍如何解决这一问题。\nAbstract: Sometimes you need to go to ssh tunnel. Manually using ssh to create these is not a big problem, but if you try to boot up, write a shell script and run this script in rc.local, it is unsuccessful, and the reason is unknown. This article mainly introduces how to solve this problem.","headline":"linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","https://twitter.com/zuiwuxin?s=09","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/","keywords":"Linux, SSH"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n背景有时候回需要到ssh tunnel，手动使用ssh 创建这些并没有太大的问题，可是如果尝试开机启动，写个shell脚本并在rc.local里面运行这个脚本并不成功，原因也不得而知。 后来发现了autossh这东东，不单单能够静默模式创建ssh tunnel还能设置自动检测，并自动尝试链接的选项。\n本文附件提供的脚本，需要放置在/etc/ini.d/目录下，并使用chmod +x 修改权限。然后也有必要使用update-rc.d service defaults添加入开机启动服务。当然不要忘记修改脚本中的配置信息。然后就能够在开机时候自动创建ssh tunnel了。 enjoy it.\n解决方法直接上结果：\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081#! /bin/bash# For each tunnel; make a uniquely named copy of this template.## SETTINGS## autossh monitoring port (unique)MPORT=54321# the ssh tunnel to setupTUNNEL=&quot;-L 2003:localhost:2003&quot;# remote userRUSER=&quot;socieer&quot;# remote serverRSERVER=&quot;socieer.axxeo.de&quot;# You must use the real autossh binary, not a wrapper.DAEMON=/usr/lib/autossh/autossh### END SETTINGSPATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/binNAME=`basename $0`PIDFILE=/var/run/$&#123;NAME&#125;.pidSCRIPTNAME=/etc/init.d/$&#123;NAME&#125;DESC=&quot;the tunnel&quot;test -x $DAEMON || exit 0export AUTOSSH_PORT=$&#123;MPORT&#125;export AUTOSSH_PIDFILE=$&#123;PIDFILE&#125;ASOPT=$&#123;TUNNEL&#125;&quot; -f -N &quot;$&#123;RUSER&#125;&quot;@&quot;$&#123;RSERVER&#125;#  Function that starts the daemon/service.d_start() &#123;   start-stop-daemon --start --quiet --pidfile $PIDFILE \\      --exec $DAEMON -- $ASOPT   if [ $? -gt 0 ]; then       echo -n &quot; not started (or already running)&quot;   else       sleep 1       start-stop-daemon --stop --quiet --pidfile $PIDFILE \\      --test --exec $DAEMON &gt; /dev/null || echo -n &quot; not started&quot;   fi&#125;#  Function that stops the daemon/service.d_stop() &#123;   start-stop-daemon --stop --quiet --pidfile $PIDFILE \\      --exec $DAEMON \\      || echo -n &quot; not running&quot;&#125;case &quot;$1&quot; in  start)   echo -n &quot;Starting $DESC: $NAME&quot;   d_start   echo &quot;.&quot;   ;;  stop)   echo -n &quot;Stopping $DESC: $NAME&quot;   d_stop   echo &quot;.&quot;   ;;  restart)   echo -n &quot;Restarting $DESC: $NAME&quot;   d_stop   sleep 1   d_start   echo &quot;.&quot;   ;;  *)   echo &quot;Usage: $SCRIPTNAME &#123;start|stop|restart&#125;&quot; &gt;&amp;2   exit 3   ;;esacexit 0\n\n才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-05-21T04:24:37+08:00","dateModified":"2020-11-20T04:29:25+08:00","datePublished":"2015-05-21T04:24:37+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：有时候回需要到ssh tunnel，手动使用ssh 创建这些并没有太大的问题，可是如果尝试开机启动，写个shell脚本并在rc.local里面运行这个脚本并不成功，原因也不得而知。 本文主要介绍如何解决这一问题。\nAbstract: Sometimes you need to go to ssh tunnel. Manually using ssh to create these is not a big problem, but if you try to boot up, write a shell script and run this script in rc.local, it is unsuccessful, and the reason is unknown. This article mainly introduces how to solve this problem.","headline":"linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/","keywords":"Linux, SSH"}</script>
     <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：有时候回需要到ssh tunnel，手动使用ssh 创建这些并没有太大的问题，可是如果尝试开机启动，写个shell脚本并在rc.local里面运行这个脚本并不成功，原因也不得而知。 本文主要介绍如何解决这一问题。 Abstract: Sometimes you need to go to ssh tunnel. Manually using">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本">
@@ -368,15 +368,15 @@ mjx-container[display="true"] + br {
                     
                         <a
                             class="sidebar-button-link "
-                            href="https://twitter.com/zuiwuxin?s=09"
+                            href="tencent://message/?uin=948509&Site=&Menu=yes"
                             
                                 target="_blank"
                             
                             rel="noopener"
-                            title="Twitter"
+                            title="QQ"
                         >
-                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Twitter</span>
+                        <i class="sidebar-button-icon fab fa-qq" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">QQ</span>
                     </a>
             </li>
             
@@ -539,7 +539,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -615,7 +615,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -680,7 +680,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -756,7 +756,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
