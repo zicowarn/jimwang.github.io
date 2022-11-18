@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://zicowarn.github.io/"/>
-  <updated>2022-05-31T11:08:53.320Z</updated>
+  <updated>2022-11-18T18:44:51.085Z</updated>
   <id>https://zicowarn.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://zicowarn.github.io/2022/05/31/machining-04-wedm-common-t-code-list/"/>
     <id>https://zicowarn.github.io/2022/05/31/machining-04-wedm-common-t-code-list/</id>
     <published>2022-05-31T10:04:36.000Z</published>
-    <updated>2022-05-31T11:08:53.320Z</updated>
+    <updated>2022-11-18T18:44:51.085Z</updated>
     
-    <content type="html"><![CDATA[<!-- excerpt --><p>作者: Jim Wang 公众号:  <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p><h1 id="线切割数控加工T代码一览表"><a href="#线切割数控加工T代码一览表" class="headerlink" title="线切割数控加工T代码一览表"></a>线切割数控加工T代码一览表</h1><table><thead><tr><th>M代码</th><th>Sodick设备</th><th>备注</th></tr></thead><tbody><tr><td><a name="BACK80" href="#T80">T80</a></td><td>开启电极丝驱动</td><td></td></tr><tr><td><a name="BACK81" href="#T81">T81</a></td><td>关闭电极丝驱动</td><td></td></tr><tr><td><a name="BACK82" href="#T82">T82</a></td><td>工作槽排水管关闭</td><td></td></tr><tr><td><a name="BACK83" href="#T83">T83</a></td><td>工作槽排水管开启</td><td></td></tr><tr><td><a name="BACK84" href="#T84">T84</a></td><td>开启高压喷水模式</td><td></td></tr><tr><td><a name="BACK85" href="#T85">T85</a></td><td>关闭高压喷水模式</td><td></td></tr><tr><td><a name="BACK87" href="#T87">T87</a></td><td>开启喷水泵</td><td></td></tr><tr><td><a name="BACK88" href="#T88">T88</a></td><td>关闭喷水泵</td><td></td></tr><tr><td><a name="BACK89" href="#T89">T89</a></td><td>转换至非沉浸式加工模式</td><td></td></tr><tr><td><a name="BACK90" href="#T90">T90</a></td><td>通过自动穿线机的顺序一进行断丝</td><td></td></tr><tr><td><a name="BACK91" href="#T91">T91</a></td><td>通过自动穿线机的顺序二进行断丝</td><td></td></tr><tr><td><a name="BACK94" href="#T94">T94</a></td><td>转换至沉浸式加工模式</td><td></td></tr><tr><td><a name="BACK96" href="#T96">T96</a></td><td>工作槽加注泵开启</td><td></td></tr><tr><td><a name="BACK97" href="#T97">T97</a></td><td>工作槽加注泵关闭</td><td></td></tr></tbody></table><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">图例 -，通用功能描述相同</span><br><span class="line">图例 x，设备不支持该命令</span><br></pre></td></tr></table></figure><hr><div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">    版权声明：<br>文章首发于 <a href="http://zhichaowang.online"> Jim Wang's blog </a>，    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。</div>]]></content>
+    <content type="html"><![CDATA[<!-- excerpt --><p>作者: Jim Wang 公众号:  <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p><h1 id="线切割数控加工T代码一览表"><a href="#线切割数控加工T代码一览表" class="headerlink" title="线切割数控加工T代码一览表"></a>线切割数控加工T代码一览表</h1><table><thead><tr><th>M代码</th><th>Sodick设备</th><th>备注</th></tr></thead><tbody><tr><td><a name="BACK80" href="#T80">T80</a></td><td>开启电极丝驱动</td><td></td></tr><tr><td><a name="BACK81" href="#T81">T81</a></td><td>关闭电极丝驱动</td><td></td></tr><tr><td><a name="BACK82" href="#T82">T82</a></td><td>工作槽排水管关闭</td><td></td></tr><tr><td><a name="BACK83" href="#T83">T83</a></td><td>工作槽排水管开启</td><td></td></tr><tr><td><a name="BACK84" href="#T84">T84</a></td><td>开启高压喷水模式</td><td></td></tr><tr><td><a name="BACK85" href="#T85">T85</a></td><td>关闭高压喷水模式</td><td></td></tr><tr><td><a name="BACK87" href="#T87">T87</a></td><td>开启喷水泵</td><td></td></tr><tr><td><a name="BACK88" href="#T88">T88</a></td><td>关闭喷水泵</td><td></td></tr><tr><td><a name="BACK89" href="#T89">T89</a></td><td>转换至非沉浸式加工模式</td><td></td></tr><tr><td><a name="BACK90" href="#T90">T90</a></td><td>通过自动穿线机的顺序一进行断丝</td><td></td></tr><tr><td><a name="BACK91" href="#T91">T91</a></td><td>通过自动穿线机的顺序二进行穿丝</td><td></td></tr><tr><td><a name="BACK94" href="#T94">T94</a></td><td>转换至沉浸式加工模式</td><td></td></tr><tr><td><a name="BACK96" href="#T96">T96</a></td><td>工作槽加注泵开启</td><td></td></tr><tr><td><a name="BACK97" href="#T97">T97</a></td><td>工作槽加注泵关闭</td><td></td></tr></tbody></table><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">图例 -，通用功能描述相同</span><br><span class="line">图例 x，设备不支持该命令</span><br></pre></td></tr></table></figure><hr><div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">    版权声明：<br>文章首发于 <a href="http://zhichaowang.online"> Jim Wang's blog </a>，    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。</div>]]></content>
     
     <summary type="html">
     
@@ -99,8 +99,8 @@
   
   <entry>
     <title>Install Shield 如何使用ISCmdBld构建安装包</title>
-    <link href="https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/"/>
-    <id>https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/</id>
+    <link href="https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/"/>
+    <id>https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/</id>
     <published>2021-10-08T20:18:34.000Z</published>
     <updated>2021-09-10T05:13:48.618Z</updated>
     

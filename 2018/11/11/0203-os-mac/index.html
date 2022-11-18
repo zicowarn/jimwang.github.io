@@ -21,7 +21,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Jim Wang 公众号: 巴博萨船长\n由于Python日渐流行，已知的是，较新版本的Mac OS也已经预装了Python 2.7的版本。 比如OS X 10.8至10.10系统已经自带的Python版本是2.7。\n但是可能存在的问题是，系统自带的2.7.x的版本相对较老，如果需要安装最新的2.7和3.0版本，可以借助Homebrew 来解决问题。\n\n\n在Homebrew安装之前，需要检查系统里是否已经安装了Xcode，若没有可以在应用商店里查询Xcode并安装。\n然后就可以安装Homebrew，在终端里面输入：\n1$ /usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;\n\n来安装Homebrew，在安装结束之后需要将Homebrew的安装路径告知Mac OS系统。方法是：\n在当前用户根目录下找到个人配置文件即：**~/.profile** 文件末尾加入下列内容：\n1export PATH=/usr/local/bin:/usr/local/sbin:$PATH\n\n然后就可以使用Homebrew安装最新版本的Python了。\n安装Python3.x 在终端里键入：\n1$ brew install python3\n\n安装最新Python2.x 在终端里键入：\n1$ brew install python\n\n值得注意的是：Homebrew会将Python2.7的解释器命名为python2。而系统自带的Python还是用python来运行，即：\n12345$ python -V   # 系统Python解释器$ python2 -V  # Python 2解释器$ python3 -V  # Python 3解释器（如果安装了）\n\n在用Homebrew安装Python的同时，pip也会被安装，其中pip2 管理最新的Python2.7的第三方扩展库 （非系统自带）。其中pip3 管理最新的Python3.x的扩展库。\n因为最新的电脑里面还没安装Mac OS的虚拟机。所以上所写的是之前笔记中的内容，可能与目前情况有出入。如有问题，欢迎留言讨论。\n\n\n          版权声明：文章首发于  Jim Wang's blog ，\n          转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n        ","dateCreated":"2018-11-11T15:11:08+08:00","dateModified":"2020-08-19T13:26:12+08:00","datePublished":"2018-11-11T15:11:08+08:00","description":"作者: Jim Wang 公众号: 巴博萨船长\n由于Python日渐流行，已知的是，较新版本的Mac OS也已经预装了Python 2.7的版本。 比如OS X 10.8至10.10系统已经自带的Python版本是2.7。\n但是可能存在的问题是，系统自带的2.7.x的版本相对较老，如果需要安装最新的2.7和3.0版本，可以借助Homebrew 来解决问题。","headline":"Mac OS系统下 Python的安装配置","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2018/11/11/0203-os-mac/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2018/11/11/0203-os-mac/","keywords":"Python, 配置, Mac"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Jim Wang 公众号: 巴博萨船长\n由于Python日渐流行，已知的是，较新版本的Mac OS也已经预装了Python 2.7的版本。 比如OS X 10.8至10.10系统已经自带的Python版本是2.7。\n但是可能存在的问题是，系统自带的2.7.x的版本相对较老，如果需要安装最新的2.7和3.0版本，可以借助Homebrew 来解决问题。\n\n\n在Homebrew安装之前，需要检查系统里是否已经安装了Xcode，若没有可以在应用商店里查询Xcode并安装。\n然后就可以安装Homebrew，在终端里面输入：\n1$ /usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;\n\n来安装Homebrew，在安装结束之后需要将Homebrew的安装路径告知Mac OS系统。方法是：\n在当前用户根目录下找到个人配置文件即：**~/.profile** 文件末尾加入下列内容：\n1export PATH=/usr/local/bin:/usr/local/sbin:$PATH\n\n然后就可以使用Homebrew安装最新版本的Python了。\n安装Python3.x 在终端里键入：\n1$ brew install python3\n\n安装最新Python2.x 在终端里键入：\n1$ brew install python\n\n值得注意的是：Homebrew会将Python2.7的解释器命名为python2。而系统自带的Python还是用python来运行，即：\n12345$ python -V   # 系统Python解释器$ python2 -V  # Python 2解释器$ python3 -V  # Python 3解释器（如果安装了）\n\n在用Homebrew安装Python的同时，pip也会被安装，其中pip2 管理最新的Python2.7的第三方扩展库 （非系统自带）。其中pip3 管理最新的Python3.x的扩展库。\n因为最新的电脑里面还没安装Mac OS的虚拟机。所以上所写的是之前笔记中的内容，可能与目前情况有出入。如有问题，欢迎留言讨论。\n\n\n          版权声明：文章首发于  Jim Wang's blog ，\n          转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n        ","dateCreated":"2018-11-11T08:11:08+01:00","dateModified":"2020-08-19T07:26:12+02:00","datePublished":"2018-11-11T08:11:08+01:00","description":"作者: Jim Wang 公众号: 巴博萨船长\n由于Python日渐流行，已知的是，较新版本的Mac OS也已经预装了Python 2.7的版本。 比如OS X 10.8至10.10系统已经自带的Python版本是2.7。\n但是可能存在的问题是，系统自带的2.7.x的版本相对较老，如果需要安装最新的2.7和3.0版本，可以借助Homebrew 来解决问题。","headline":"Mac OS系统下 Python的安装配置","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2018/11/11/0203-os-mac/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2018/11/11/0203-os-mac/","keywords":"Python, 配置, Mac"}</script>
     <meta name="description" content="作者: Jim Wang 公众号: 巴博萨船长 由于Python日渐流行，已知的是，较新版本的Mac OS也已经预装了Python 2.7的版本。 比如OS X 10.8至10.10系统已经自带的Python版本是2.7。 但是可能存在的问题是，系统自带的2.7.x的版本相对较老，如果需要安装最新的2.7和3.0版本，可以借助Homebrew 来解决问题。">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Mac OS系统下 Python的安装配置">
@@ -453,7 +453,7 @@ mjx-container[display="true"] + br {
     
     
         <div class="post-meta">
-    <time datetime="2018-11-11T15:11:08+08:00">
+    <time datetime="2018-11-11T08:11:08+01:00">
 	
 		    11月 11, 2018
     	
@@ -556,7 +556,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -632,7 +632,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -697,7 +697,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -773,7 +773,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

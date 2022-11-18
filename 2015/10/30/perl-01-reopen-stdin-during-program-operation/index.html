@@ -21,7 +21,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n问题遇见问题是，如何程序运行的时候已经将标准输入使用”&lt;“符号或者”|“符合在命令行定向为一个文件。\n可是在程序的运行过程中希望从键盘得到输入内容。\n因为/dev/tty为当前进程的控制台，STDIN 为当前的标准输入. 如果重定向，例如：\n1perl script.pl &lt;myfile.txt\n\nSTDIN 被指向 myfile.txt, 但是 /dev/tty 仍然来自于控制终端。所有的Unix都是这样，不单单是指这个perl。\n解决方案12345678910111213141516#!/usr/bin/perl -wuse strict;$| = 1;my $stream;while (&lt;&gt;) &#123;  $stream .= $_;&#125;open STDIN, &quot;/dev/tty&quot; or die;print &quot;Do you want to process the stream? &quot;;my $ans = &lt;STDIN&gt;;chomp $ans;print &quot;Got &#x27;$ans&#x27;\\n&quot;;print &quot;stream = $stream&quot;;#...exit;__END__\n\n测试：\n1234$ echo foo | ./stdin Do you want to process the stream? yesGot &#x27;yes&#x27;stream = foo\n\n发现标准输入重新指向键盘。问题解决。祝君好运。\n才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-10-30T21:11:08+08:00","dateModified":"2020-11-20T04:06:19+08:00","datePublished":"2015-10-30T21:11:08+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：主要讨论问题：如何程序运行的时候已经将标准输入使用”&lt;“符号或者”|“符合在命令行定向为一个文件。\nAbstract: The main discussion problem: how to use the standard input “&lt;” symbol or “|” to be directed to a file on the command line when the program is running.","headline":"Perl 关于在程序运行过程中重新开启标准输入的问题","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2015/10/30/perl-01-reopen-stdin-during-program-operation/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2015/10/30/perl-01-reopen-stdin-during-program-operation/","keywords":"Perl, 标准输入"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n问题遇见问题是，如何程序运行的时候已经将标准输入使用”&lt;“符号或者”|“符合在命令行定向为一个文件。\n可是在程序的运行过程中希望从键盘得到输入内容。\n因为/dev/tty为当前进程的控制台，STDIN 为当前的标准输入. 如果重定向，例如：\n1perl script.pl &lt;myfile.txt\n\nSTDIN 被指向 myfile.txt, 但是 /dev/tty 仍然来自于控制终端。所有的Unix都是这样，不单单是指这个perl。\n解决方案12345678910111213141516#!/usr/bin/perl -wuse strict;$| = 1;my $stream;while (&lt;&gt;) &#123;  $stream .= $_;&#125;open STDIN, &quot;/dev/tty&quot; or die;print &quot;Do you want to process the stream? &quot;;my $ans = &lt;STDIN&gt;;chomp $ans;print &quot;Got &#x27;$ans&#x27;\\n&quot;;print &quot;stream = $stream&quot;;#...exit;__END__\n\n测试：\n1234$ echo foo | ./stdin Do you want to process the stream? yesGot &#x27;yes&#x27;stream = foo\n\n发现标准输入重新指向键盘。问题解决。祝君好运。\n才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-10-30T14:11:08+01:00","dateModified":"2020-11-19T21:06:19+01:00","datePublished":"2015-10-30T14:11:08+01:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：主要讨论问题：如何程序运行的时候已经将标准输入使用”&lt;“符号或者”|“符合在命令行定向为一个文件。\nAbstract: The main discussion problem: how to use the standard input “&lt;” symbol or “|” to be directed to a file on the command line when the program is running.","headline":"Perl 关于在程序运行过程中重新开启标准输入的问题","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2015/10/30/perl-01-reopen-stdin-during-program-operation/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2015/10/30/perl-01-reopen-stdin-during-program-operation/","keywords":"Perl, 标准输入"}</script>
     <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：主要讨论问题：如何程序运行的时候已经将标准输入使用”&lt;“符号或者”|“符合在命令行定向为一个文件。 Abstract: The main discussion problem: how to use the standard input “&lt;” symbol or “|” to be directed to a file on t">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Perl 关于在程序运行过程中重新开启标准输入的问题">
@@ -452,7 +452,7 @@ mjx-container[display="true"] + br {
     
     
         <div class="post-meta">
-    <time datetime="2015-10-30T21:11:08+08:00">
+    <time datetime="2015-10-30T14:11:08+01:00">
 	
 		    10月 30, 2015
     	
@@ -530,7 +530,7 @@ mjx-container[display="true"] + br {
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/10/09/0702-bubble-sort-and-assignment-operation/"
+                    href="/2015/10/08/0702-bubble-sort-and-assignment-operation/"
                     data-tooltip="Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法"
                     aria-label="下一篇: Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法"
                 >
@@ -546,7 +546,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -622,7 +622,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -671,7 +671,7 @@ mjx-container[display="true"] + br {
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/10/09/0702-bubble-sort-and-assignment-operation/"
+                    href="/2015/10/08/0702-bubble-sort-and-assignment-operation/"
                     data-tooltip="Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法"
                     aria-label="下一篇: Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法"
                 >
@@ -687,7 +687,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -763,7 +763,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

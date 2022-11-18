@@ -8,7 +8,7 @@
     <meta name="generator" content="Jim Wang 的个人技术博客">
     <meta name="google-site-verification" content="Vv1-G7f0bcjlHq6prbeTvbDWFc4iN17bGUGM_KcE5xA" />
     <meta name="baidu-site-verification" content="A8086Y6q9Y" />
-    <title>linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本 - Jim Wang 的个人技术博客</title>
+    <title>LabView难点之二 变量的处理 - Jim Wang 的个人技术博客</title>
     <meta name="author" content="Jim Wang">
     
         <meta name="keywords" content="个人博客,实践,技术,经验,分享,全栈,Technology,blog,Python,Inno Setup,TypeScript,SQLite,AWS,CAM,EDM,JavaScript,CSS,HTML,">
@@ -21,20 +21,25 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n背景有时候回需要到ssh tunnel，手动使用ssh 创建这些并没有太大的问题，可是如果尝试开机启动，写个shell脚本并在rc.local里面运行这个脚本并不成功，原因也不得而知。 后来发现了autossh这东东，不单单能够静默模式创建ssh tunnel还能设置自动检测，并自动尝试链接的选项。\n本文附件提供的脚本，需要放置在/etc/ini.d/目录下，并使用chmod +x 修改权限。然后也有必要使用update-rc.d service defaults添加入开机启动服务。当然不要忘记修改脚本中的配置信息。然后就能够在开机时候自动创建ssh tunnel了。 enjoy it.\n解决方法直接上结果：\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081#! /bin/bash# For each tunnel; make a uniquely named copy of this template.## SETTINGS## autossh monitoring port (unique)MPORT=54321# the ssh tunnel to setupTUNNEL=&quot;-L 2003:localhost:2003&quot;# remote userRUSER=&quot;socieer&quot;# remote serverRSERVER=&quot;socieer.axxeo.de&quot;# You must use the real autossh binary, not a wrapper.DAEMON=/usr/lib/autossh/autossh### END SETTINGSPATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/binNAME=`basename $0`PIDFILE=/var/run/$&#123;NAME&#125;.pidSCRIPTNAME=/etc/init.d/$&#123;NAME&#125;DESC=&quot;the tunnel&quot;test -x $DAEMON || exit 0export AUTOSSH_PORT=$&#123;MPORT&#125;export AUTOSSH_PIDFILE=$&#123;PIDFILE&#125;ASOPT=$&#123;TUNNEL&#125;&quot; -f -N &quot;$&#123;RUSER&#125;&quot;@&quot;$&#123;RSERVER&#125;#  Function that starts the daemon/service.d_start() &#123;   start-stop-daemon --start --quiet --pidfile $PIDFILE \\      --exec $DAEMON -- $ASOPT   if [ $? -gt 0 ]; then       echo -n &quot; not started (or already running)&quot;   else       sleep 1       start-stop-daemon --stop --quiet --pidfile $PIDFILE \\      --test --exec $DAEMON &gt; /dev/null || echo -n &quot; not started&quot;   fi&#125;#  Function that stops the daemon/service.d_stop() &#123;   start-stop-daemon --stop --quiet --pidfile $PIDFILE \\      --exec $DAEMON \\      || echo -n &quot; not running&quot;&#125;case &quot;$1&quot; in  start)   echo -n &quot;Starting $DESC: $NAME&quot;   d_start   echo &quot;.&quot;   ;;  stop)   echo -n &quot;Stopping $DESC: $NAME&quot;   d_stop   echo &quot;.&quot;   ;;  restart)   echo -n &quot;Restarting $DESC: $NAME&quot;   d_stop   sleep 1   d_start   echo &quot;.&quot;   ;;  *)   echo &quot;Usage: $SCRIPTNAME &#123;start|stop|restart&#125;&quot; &gt;&amp;2   exit 3   ;;esacexit 0\n\n才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-05-21T04:24:37+08:00","dateModified":"2020-11-20T04:29:25+08:00","datePublished":"2015-05-21T04:24:37+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：有时候回需要到ssh tunnel，手动使用ssh 创建这些并没有太大的问题，可是如果尝试开机启动，写个shell脚本并在rc.local里面运行这个脚本并不成功，原因也不得而知。 本文主要介绍如何解决这一问题。\nAbstract: Sometimes you need to go to ssh tunnel. Manually using ssh to create these is not a big problem, but if you try to boot up, write a shell script and run this script in rc.local, it is unsuccessful, and the reason is unknown. This article mainly introduces how to solve this problem.","headline":"linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/","keywords":"Linux, SSH"}</script>
-    <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：有时候回需要到ssh tunnel，手动使用ssh 创建这些并没有太大的问题，可是如果尝试开机启动，写个shell脚本并在rc.local里面运行这个脚本并不成功，原因也不得而知。 本文主要介绍如何解决这一问题。 Abstract: Sometimes you need to go to ssh tunnel. Manually using">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n正文本地变量（Local Variable）和全局变量（Global Variable）是LabViEW 为改善图形化编程灵活性局限面专门设计的两个特殊节点，主要解决数据和对象在同意VI程序中的重用和在不同WI程序中的共享问题。LabViEW中的本地变量与全局变量与C语言中的局部变量与全局变量在有效作用范围上意义相同，但是LabViEW中的本地变量与全局变量的定义与使用更加复杂，稍有不慎，便容易引起程序隐性逻辑错误。\n数组，簇和波形数据是LabViEW中三类比较复杂的数据类型。其中的簇相当于C语言中的结构数据类型，波形数据则是LabViEW中专有的。\n本地变量相当于传统编程语言中的局部变量，可以在同一程序内部使用。但是又有所不同。\n在LabVieW中，前面板的每个控制或指示在狂徒程序上都有一个对应的端口，控制通过这个端口将数据传送给框图程序的其他节点，框图程序也可以通过这个端口为指示赋值。端口是唯一的，一个控制或一个指示只有一个端口。有时候，编程的时候，经常需要在同一个VI的款图程序中的不同位置多次为指示赋值，或者多吃从控制中取出数据，或者是为控制赋值，从指示中取出数据。 显然，仅用一个端口是无法实现这些操作的。这就不同于传统的编程语言，在程序的任何地方需要这个变量的时，写个变量符号就能解决问题。\n创建本地变量的方法：\n\n从后面板中子模板中选择LocalVariable。\n\n创建本地变量的第二种方法是在前面板对象，以及框图程序中对应端口右键中的列表选着创建一个Local Variable。\n\n\n本地变量的使用：\n例一用一个布尔开关同时控制两个While-Schleife.如图，前面板结构欠奉。\n\n有时候需要为一个控制赋值或者从一个指示中读出数据，但是通过前面板独享的端口不能为控制赋值，也不能从指示中读出数据。如图所示： 前面板结构欠奉。\n\n利用本地变量就可以解决这个问题。本地变量有Read和 Write两种属性。当属性为Read时，可以从本地变量中读出数据；当属性为Write时，可以给这个本地变量赋值。利用这种方法，就可以给控制赋值或从指示中读出数据。\n例二利用本地变量给一个控制赋值，并从一个指示中读出数据。\n如图： 前面板结构欠奉。\n\n在本地变量的右键弹出选单中选择Change to Read或 Change to Write，可以改变本地变量的属性，当本地变量的属性为Read时，本地变量图标的边框用粗线来强调；当本地变量的属性为Write时，本地变量的边框则用细线强调。\n本地变量的特点：\n一个本地变量就是器相应前面板对象的一个数据拷贝，要占用一定的内存。所以，应该在程序中控制本地变量的数量。否则会占用大量的内存，从而降低程序运行的效率。同时，当程序中有多个本地变量时，因为LabViEW的并行执行性，可能会造成意想不到的错误。比如有这么一种情况。程序的某一处，用户从一个控制的本地变量中读出数据，在另一处，根据需要又为这个控制的另一个本地变量赋值。如果这两个过程刚好并行发生的，就有可能是读出的数据不是前面板对象原来的数据，而是赋值后的数据。这种不是明显的逻辑错误，很难发现，因此，在编程过程中要特别注意，避免发生。\n另外：布尔控件的Mechanical Action（机械动作）属性处于 Latch When Pressed（按下时锁存）、Latch When Released（释放时锁存）和Latch Until Released （锁存至按下）状态时，不能使用该布尔控件的本地变量，否则，LabViEW会报错。\n全局变量全局变量是LabViEW中的一个对象，通过全局变量，可以在不同的VI之间进行数据的传递。LabViEW中的全局变量有自己的独特之处。\n全局变量的创建：\n\n在Function模板中添加Global Variable。\n\n双击全局变量，打开其前面板。\n\n在前面板中添加数据类型。\n\n保存，创建完成。\n\n使用选择Item。选择在特定节点中的对象。\n\n\n全局变量的应用实例：\n在VI之间传递数据，如图。\n\n其中全局变量Global 3.vi在两个Schleifen之间起传输数据的作用。\n全局变量的特点：\nLabViEW中全局变量比起普通的编程语言要灵活的多，可以同时有几种数据类型。而全局变量虽然也是vi，但是比起SubVI，它不能进行编程，只能用于简单数据储存与传递。全局变量的优点是分别访问。\n但是也要注意，用全局变量传递数据，容易出现读写延迟造成数据丢失。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2011-05-08T22:24:37+02:00","dateModified":"2021-08-19T09:17:01+02:00","datePublished":"2011-05-08T22:24:37+02:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：本文主要分享一些在LabView时，有变量组处理的一些浅见。\nAbstract: This article mainly shares some insights on the processing of variable groups in LabView.","headline":"LabView难点之二 变量的处理","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2011/05/08/labview-02-variables/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2011/05/08/labview-02-variables/","keywords":"LabView, Variables"}</script>
+    <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：本文主要分享一些在LabView时，有变量组处理的一些浅见。 Abstract: This article mainly shares some insights on the processing of variable groups in LabView.">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本">
-<meta property="og:url" content="https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/index.html">
+<meta property="og:title" content="LabView难点之二 变量的处理">
+<meta property="og:url" content="https://zicowarn.github.io/2011/05/08/labview-02-variables/index.html">
 <meta property="og:site_name" content="Jim Wang 的个人技术博客">
-<meta property="og:description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：有时候回需要到ssh tunnel，手动使用ssh 创建这些并没有太大的问题，可是如果尝试开机启动，写个shell脚本并在rc.local里面运行这个脚本并不成功，原因也不得而知。 本文主要介绍如何解决这一问题。 Abstract: Sometimes you need to go to ssh tunnel. Manually using">
+<meta property="og:description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：本文主要分享一些在LabView时，有变量组处理的一些浅见。 Abstract: This article mainly shares some insights on the processing of variable groups in LabView.">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2015-05-20T20:24:37.000Z">
-<meta property="article:modified_time" content="2020-11-19T20:29:25.006Z">
+<meta property="og:image" content="https://zicowarn.github.io/2011/05/09/labview-02-variables/image-20201120053030027.png">
+<meta property="og:image" content="https://zicowarn.github.io/2011/05/09/labview-02-variables/image-20201120053059145.png">
+<meta property="og:image" content="https://zicowarn.github.io/2011/05/09/labview-02-variables/image-20201120053300255.png">
+<meta property="og:image" content="https://zicowarn.github.io/2011/05/09/labview-02-variables/image-20201120053407102.png">
+<meta property="article:published_time" content="2011-05-08T20:24:37.000Z">
+<meta property="article:modified_time" content="2021-08-19T07:17:01.513Z">
 <meta property="article:author" content="Jim Wang">
-<meta property="article:tag" content="Linux">
-<meta property="article:tag" content="SSH">
+<meta property="article:tag" content="LabView">
+<meta property="article:tag" content="Variables">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zicowarn.github.io/2011/05/09/labview-02-variables/image-20201120053030027.png">
     
     
         
@@ -447,20 +452,20 @@ mjx-container[display="true"] + br {
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本
+            LabView难点之二 变量的处理
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2015-05-21T04:24:37+08:00">
+    <time datetime="2011-05-08T22:24:37+02:00">
 	
-		    5月 21, 2015
+		    5月 08, 2011
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/Linux-%E7%9B%B8%E5%85%B3-%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/">Linux 相关 - 实战经验</a>
+    <a class="category-link" href="/categories/LabView-%E7%9B%B8%E5%85%B3-%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/">LabView 相关 - 实战经验</a>
 
 
     
@@ -475,12 +480,51 @@ mjx-container[display="true"] + br {
             <!-- excerpt -->
 
 <p>作者: Jim Wang 公众号:  <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
-<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>有时候回需要到ssh tunnel，手动使用ssh 创建这些并没有太大的问题，可是如果尝试开机启动，写个shell脚本并在rc.local里面运行这个脚本并不成功，原因也不得而知。 后来发现了autossh这东东，不单单能够静默模式创建ssh tunnel还能设置自动检测，并自动尝试链接的选项。</p>
-<p>本文附件提供的脚本，需要放置在/etc/ini.d/目录下，并使用chmod +x 修改权限。然后也有必要使用update-rc.d service defaults添加入开机启动服务。当然不要忘记修改脚本中的配置信息。然后就能够在开机时候自动创建ssh tunnel了。 enjoy it.</p>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>直接上结果：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># For each tunnel; make a uniquely named copy of this template.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## SETTINGS</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># autossh monitoring port (unique)</span></span><br><span class="line">MPORT=54321</span><br><span class="line"><span class="comment"># the ssh tunnel to setup</span></span><br><span class="line">TUNNEL=<span class="string">&quot;-L 2003:localhost:2003&quot;</span></span><br><span class="line"><span class="comment"># remote user</span></span><br><span class="line">RUSER=<span class="string">&quot;socieer&quot;</span></span><br><span class="line"><span class="comment"># remote server</span></span><br><span class="line">RSERVER=<span class="string">&quot;socieer.axxeo.de&quot;</span></span><br><span class="line"><span class="comment"># You must use the real autossh binary, not a wrapper.</span></span><br><span class="line">DAEMON=/usr/lib/autossh/autossh</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">## END SETTINGS</span></span><br><span class="line"></span><br><span class="line">PATH=/usr/<span class="built_in">local</span>/sbin:/usr/<span class="built_in">local</span>/bin:/sbin:/bin:/usr/sbin:/usr/bin</span><br><span class="line"></span><br><span class="line">NAME=`basename <span class="variable">$0</span>`</span><br><span class="line">PIDFILE=/var/run/<span class="variable">$&#123;NAME&#125;</span>.pid</span><br><span class="line">SCRIPTNAME=/etc/init.d/<span class="variable">$&#123;NAME&#125;</span></span><br><span class="line">DESC=<span class="string">&quot;the tunnel&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">test</span> -x <span class="variable">$DAEMON</span> || <span class="built_in">exit</span> 0</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> AUTOSSH_PORT=<span class="variable">$&#123;MPORT&#125;</span></span><br><span class="line"><span class="built_in">export</span> AUTOSSH_PIDFILE=<span class="variable">$&#123;PIDFILE&#125;</span></span><br><span class="line">ASOPT=<span class="variable">$&#123;TUNNEL&#125;</span><span class="string">&quot; -f -N &quot;</span><span class="variable">$&#123;RUSER&#125;</span><span class="string">&quot;@&quot;</span><span class="variable">$&#123;RSERVER&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#  Function that starts the daemon/service.</span></span><br><span class="line"><span class="function"><span class="title">d_start</span></span>() &#123;</span><br><span class="line">   start-stop-daemon --start --quiet --pidfile <span class="variable">$PIDFILE</span> \</span><br><span class="line">      --<span class="built_in">exec</span> <span class="variable">$DAEMON</span> -- <span class="variable">$ASOPT</span></span><br><span class="line">   <span class="keyword">if</span> [ $? -gt 0 ]; <span class="keyword">then</span></span><br><span class="line">       <span class="built_in">echo</span> -n <span class="string">&quot; not started (or already running)&quot;</span></span><br><span class="line">   <span class="keyword">else</span></span><br><span class="line">       sleep 1</span><br><span class="line">       start-stop-daemon --stop --quiet --pidfile <span class="variable">$PIDFILE</span> \</span><br><span class="line">      --<span class="built_in">test</span> --<span class="built_in">exec</span> <span class="variable">$DAEMON</span> &gt; /dev/null || <span class="built_in">echo</span> -n <span class="string">&quot; not started&quot;</span></span><br><span class="line">   <span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#  Function that stops the daemon/service.</span></span><br><span class="line"><span class="function"><span class="title">d_stop</span></span>() &#123;</span><br><span class="line">   start-stop-daemon --stop --quiet --pidfile <span class="variable">$PIDFILE</span> \</span><br><span class="line">      --<span class="built_in">exec</span> <span class="variable">$DAEMON</span> \</span><br><span class="line">      || <span class="built_in">echo</span> -n <span class="string">&quot; not running&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;<span class="variable">$1</span>&quot;</span> <span class="keyword">in</span></span><br><span class="line">  start)</span><br><span class="line">   <span class="built_in">echo</span> -n <span class="string">&quot;Starting <span class="variable">$DESC</span>: <span class="variable">$NAME</span>&quot;</span></span><br><span class="line">   d_start</span><br><span class="line">   <span class="built_in">echo</span> <span class="string">&quot;.&quot;</span></span><br><span class="line">   ;;</span><br><span class="line">  stop)</span><br><span class="line">   <span class="built_in">echo</span> -n <span class="string">&quot;Stopping <span class="variable">$DESC</span>: <span class="variable">$NAME</span>&quot;</span></span><br><span class="line">   d_stop</span><br><span class="line">   <span class="built_in">echo</span> <span class="string">&quot;.&quot;</span></span><br><span class="line">   ;;</span><br><span class="line"></span><br><span class="line">  restart)</span><br><span class="line">   <span class="built_in">echo</span> -n <span class="string">&quot;Restarting <span class="variable">$DESC</span>: <span class="variable">$NAME</span>&quot;</span></span><br><span class="line">   d_stop</span><br><span class="line">   sleep 1</span><br><span class="line">   d_start</span><br><span class="line">   <span class="built_in">echo</span> <span class="string">&quot;.&quot;</span></span><br><span class="line">   ;;</span><br><span class="line">  *)</span><br><span class="line">   <span class="built_in">echo</span> <span class="string">&quot;Usage: <span class="variable">$SCRIPTNAME</span> &#123;start|stop|restart&#125;&quot;</span> &gt;&amp;2</span><br><span class="line">   <span class="built_in">exit</span> 3</span><br><span class="line">   ;;</span><br><span class="line"><span class="keyword">esac</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
-
-<p>才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。</p>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>本地变量（Local Variable）和全局变量（Global Variable）是LabViEW 为改善图形化编程灵活性局限面专门设计的两个特殊节点，主要解决数据和对象在同意VI程序中的重用和在不同WI程序中的共享问题。LabViEW中的本地变量与全局变量与C语言中的局部变量与全局变量在有效作用范围上意义相同，但是LabViEW中的本地变量与全局变量的定义与使用更加复杂，稍有不慎，便容易引起程序隐性逻辑错误。</p>
+<p>数组，簇和波形数据是LabViEW中三类比较复杂的数据类型。其中的簇相当于C语言中的结构数据类型，波形数据则是LabViEW中专有的。</p>
+<h3 id="本地变量"><a href="#本地变量" class="headerlink" title="本地变量"></a>本地变量</h3><p>相当于传统编程语言中的局部变量，可以在同一程序内部使用。但是又有所不同。</p>
+<p>在LabVieW中，前面板的每个控制或指示在狂徒程序上都有一个对应的端口，控制通过这个端口将数据传送给框图程序的其他节点，框图程序也可以通过这个端口为指示赋值。端口是唯一的，一个控制或一个指示只有一个端口。有时候，编程的时候，经常需要在同一个VI的款图程序中的不同位置多次为指示赋值，或者多吃从控制中取出数据，或者是为控制赋值，从指示中取出数据。 显然，仅用一个端口是无法实现这些操作的。这就不同于传统的编程语言，在程序的任何地方需要这个变量的时，写个变量符号就能解决问题。</p>
+<p>创建本地变量的方法：</p>
+<ol>
+<li><p>从后面板中子模板中选择LocalVariable。</p>
+</li>
+<li><p>创建本地变量的第二种方法是在前面板对象，以及框图程序中对应端口右键中的列表选着创建一个Local Variable。</p>
+</li>
+</ol>
+<p>本地变量的使用：</p>
+<h3 id="例一"><a href="#例一" class="headerlink" title="例一"></a>例一</h3><p>用一个布尔开关同时控制两个While-Schleife.如图，前面板结构欠奉。</p>
+<p><img src="/2011/05/09/labview-02-variables/image-20201120053030027.png" alt="image-20201120053030027"></p>
+<p>有时候需要为一个控制赋值或者从一个指示中读出数据，但是通过前面板独享的端口不能为控制赋值，也不能从指示中读出数据。如图所示： 前面板结构欠奉。</p>
+<p><img src="/2011/05/09/labview-02-variables/image-20201120053059145.png" alt="image-20201120053059145"></p>
+<p>利用本地变量就可以解决这个问题。本地变量有Read和 Write两种属性。当属性为Read时，可以从本地变量中读出数据；当属性为Write时，可以给这个本地变量赋值。利用这种方法，就可以给控制赋值或从指示中读出数据。</p>
+<h3 id="例二"><a href="#例二" class="headerlink" title="例二"></a>例二</h3><p>利用本地变量给一个控制赋值，并从一个指示中读出数据。</p>
+<p>如图： 前面板结构欠奉。</p>
+<p><img src="/2011/05/09/labview-02-variables/image-20201120053300255.png" alt="image-20201120053300255"></p>
+<p>在本地变量的右键弹出选单中选择Change to Read或 Change to Write，可以改变本地变量的属性，当本地变量的属性为Read时，本地变量图标的边框用粗线来强调；当本地变量的属性为Write时，本地变量的边框则用细线强调。</p>
+<p>本地变量的特点：</p>
+<p>一个本地变量就是器相应前面板对象的一个数据拷贝，要占用一定的内存。所以，应该在程序中控制本地变量的数量。否则会占用大量的内存，从而降低程序运行的效率。同时，当程序中有多个本地变量时，因为LabViEW的并行执行性，可能会造成意想不到的错误。比如有这么一种情况。程序的某一处，用户从一个控制的本地变量中读出数据，在另一处，根据需要又为这个控制的另一个本地变量赋值。如果这两个过程刚好并行发生的，就有可能是读出的数据不是前面板对象原来的数据，而是赋值后的数据。这种不是明显的逻辑错误，很难发现，因此，在编程过程中要特别注意，避免发生。</p>
+<p>另外：布尔控件的Mechanical Action（机械动作）属性处于 Latch When Pressed（按下时锁存）、Latch When Released（释放时锁存）和Latch Until Released （锁存至按下）状态时，不能使用该布尔控件的本地变量，否则，LabViEW会报错。</p>
+<h3 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h3><p>全局变量是LabViEW中的一个对象，通过全局变量，可以在不同的VI之间进行数据的传递。LabViEW中的全局变量有自己的独特之处。</p>
+<p>全局变量的创建：</p>
+<ol>
+<li><p>在Function模板中添加Global Variable。</p>
+</li>
+<li><p>双击全局变量，打开其前面板。</p>
+</li>
+<li><p>在前面板中添加数据类型。</p>
+</li>
+<li><p>保存，创建完成。</p>
+</li>
+<li><p>使用选择Item。选择在特定节点中的对象。</p>
+</li>
+</ol>
+<p>全局变量的应用实例：</p>
+<p>在VI之间传递数据，如图。</p>
+<p><img src="/2011/05/09/labview-02-variables/image-20201120053407102.png" alt="image-20201120053407102"></p>
+<p>其中全局变量Global 3.vi在两个Schleifen之间起传输数据的作用。</p>
+<p>全局变量的特点：</p>
+<p>LabViEW中全局变量比起普通的编程语言要灵活的多，可以同时有几种数据类型。而全局变量虽然也是vi，但是比起SubVI，它不能进行编程，只能用于简单数据储存与传递。全局变量的优点是分别访问。</p>
+<p>但是也要注意，用全局变量传递数据，容易出现读写延迟造成数据丢失。</p>
 <hr>
 <div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">
     版权声明：<br>文章首发于 <a target="_blank" rel="noopener" href="http://zhichaowang.online"> Jim Wang's blog </a>，
@@ -496,7 +540,7 @@ mjx-container[display="true"] + br {
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-none-link" href="/tags/Linux/" rel="tag">Linux</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/SSH/" rel="tag">SSH</a>
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/LabView/" rel="tag">LabView</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/Variables/" rel="tag">Variables</a>
 
             </div>
         
@@ -509,9 +553,9 @@ mjx-container[display="true"] + br {
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/10/09/0702-bubble-sort-and-assignment-operation/"
-                    data-tooltip="Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法"
-                    aria-label="上一篇: Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法"
+                    href="/2013/03/03/java-JNI-C-language-and-java/"
+                    data-tooltip="JAVA 通过JNI实现C语言设置Java二维字符串数组并返回该字符串数组"
+                    aria-label="上一篇: JAVA 通过JNI实现C语言设置Java二维字符串数组并返回该字符串数组"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -523,9 +567,9 @@ mjx-container[display="true"] + br {
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/04/22/0703-issue-zeromq-ipv4only/"
-                    data-tooltip="Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
-                    aria-label="下一篇: Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
+                    href="/2011/05/05/labview-01-arrary/"
+                    data-tooltip="LabView难点之一 Array的处理。"
+                    aria-label="下一篇: LabView难点之一 Array的处理。"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
@@ -539,7 +583,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -550,7 +594,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2011/05/08/labview-02-variables/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -563,7 +607,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2011/05/08/labview-02-variables/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -576,7 +620,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2011/05/08/labview-02-variables/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -589,7 +633,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2011/05/08/labview-02-variables/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -602,7 +646,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/&amp;title=linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2011/05/08/labview-02-variables/&amp;title=LabView难点之二 变量的处理"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -615,7 +659,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -650,9 +694,9 @@ mjx-container[display="true"] + br {
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/10/09/0702-bubble-sort-and-assignment-operation/"
-                    data-tooltip="Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法"
-                    aria-label="上一篇: Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法"
+                    href="/2013/03/03/java-JNI-C-language-and-java/"
+                    data-tooltip="JAVA 通过JNI实现C语言设置Java二维字符串数组并返回该字符串数组"
+                    aria-label="上一篇: JAVA 通过JNI实现C语言设置Java二维字符串数组并返回该字符串数组"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -664,9 +708,9 @@ mjx-container[display="true"] + br {
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/04/22/0703-issue-zeromq-ipv4only/"
-                    data-tooltip="Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
-                    aria-label="下一篇: Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
+                    href="/2011/05/05/labview-01-arrary/"
+                    data-tooltip="LabView难点之一 Array的处理。"
+                    aria-label="下一篇: LabView难点之一 Array的处理。"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
@@ -680,7 +724,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -691,7 +735,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2011/05/08/labview-02-variables/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -704,7 +748,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2011/05/08/labview-02-variables/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -717,7 +761,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2011/05/08/labview-02-variables/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -730,7 +774,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2011/05/08/labview-02-variables/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -743,7 +787,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/&amp;title=linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2011/05/08/labview-02-variables/&amp;title=LabView难点之二 变量的处理"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -756,7 +800,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -777,7 +821,7 @@ mjx-container[display="true"] + br {
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2011/05/08/labview-02-variables/"
                         aria-label="分享到 Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
@@ -790,7 +834,7 @@ mjx-container[display="true"] + br {
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
+                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2011/05/08/labview-02-variables/"
                         aria-label="分享到 Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
@@ -803,7 +847,7 @@ mjx-container[display="true"] + br {
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
+                        href="https://plus.google.com/share?url=https://zicowarn.github.io/2011/05/08/labview-02-variables/"
                         aria-label="分享到 Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
@@ -816,7 +860,7 @@ mjx-container[display="true"] + br {
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2011/05/08/labview-02-variables/"
                         aria-label="分享到 Weibo"
                     >
                         <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
@@ -829,7 +873,7 @@ mjx-container[display="true"] + br {
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/&amp;title=linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2011/05/08/labview-02-variables/&amp;title=LabView难点之二 变量的处理"
                         aria-label="分享到 QQ"
                     >
                         <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>

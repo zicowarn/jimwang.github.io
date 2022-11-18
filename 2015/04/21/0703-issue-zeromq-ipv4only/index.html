@@ -21,11 +21,11 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n在使用Zero MQ函数setsocket(zmq.IPV4ONLY,0) 的时候。模块运行的时候会发生 self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError: ‘module’ object has no attribute ‘IPV4ONLY’ 的错误。\n用pip freeze 查看当前安装的模块的信息的时候会得到以下输出：\n1234# pip freezeconfigobj==4.7.2pyzmq==2.2.0...\n\n可能原因一如果出现问题的原因就是模块的版本太低，解决办法就是升级此模块。\n如果在使用命令： pip install pyzmq==14.5.0 出现下列错误提示时。\nerror: command ‘gcc’ failed with exit status 1\n那么需要安装gcc : aptitude install gcc 可以解决问题\n可能原因二如果出现下列错误提示：\nfatal error: Python.h: No such file or directory\n则需要安装 python-dev: aptitude install python-dev 可以解决问题。\n可能原因三如果出现下列错误提示：\ngcc: error trying to exec ‘cc1plus’: execvp: No such file or directory\n则需要安装 g++ : sudo apt-get install g++ 可以解决问题。\n可能原因四如果还有问题，请检查 \nPaket: libzmq3\nVersion: 4.0.5+dfsg-2 的版本信息。\n小结如果发现新的安装错误信息，欢迎大家关注本人个人公众号评论。才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-04-22T04:31:06+08:00","dateModified":"2020-11-20T05:38:45+08:00","datePublished":"2015-04-22T04:31:06+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：在使用Zero MQ函数setsocket(zmq.IPV4ONLY,0) 的时候。模块运行的时候会发生 self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError: ‘module’ object has no attribute ‘IPV4ONLY’ 的错误。本文讨论如何解决这一问题。\nAbstract: When using the Zero MQ function setsocket(zmq.IPV4ONLY,0). Happens when the module is running self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError:’module’ object has no attribute’IPV4ONLY’ error. This article discusses how to solve this problem.","headline":"Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/","keywords":"Python, 实战经验, ZeroMQ"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n在使用Zero MQ函数setsocket(zmq.IPV4ONLY,0) 的时候。模块运行的时候会发生 self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError: ‘module’ object has no attribute ‘IPV4ONLY’ 的错误。\n用pip freeze 查看当前安装的模块的信息的时候会得到以下输出：\n1234# pip freezeconfigobj==4.7.2pyzmq==2.2.0...\n\n可能原因一如果出现问题的原因就是模块的版本太低，解决办法就是升级此模块。\n如果在使用命令： pip install pyzmq==14.5.0 出现下列错误提示时。\nerror: command ‘gcc’ failed with exit status 1\n那么需要安装gcc : aptitude install gcc 可以解决问题\n可能原因二如果出现下列错误提示：\nfatal error: Python.h: No such file or directory\n则需要安装 python-dev: aptitude install python-dev 可以解决问题。\n可能原因三如果出现下列错误提示：\ngcc: error trying to exec ‘cc1plus’: execvp: No such file or directory\n则需要安装 g++ : sudo apt-get install g++ 可以解决问题。\n可能原因四如果还有问题，请检查 \nPaket: libzmq3\nVersion: 4.0.5+dfsg-2 的版本信息。\n小结如果发现新的安装错误信息，欢迎大家关注本人个人公众号评论。才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-04-21T22:31:06+02:00","dateModified":"2020-11-19T22:38:45+01:00","datePublished":"2015-04-21T22:31:06+02:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：在使用Zero MQ函数setsocket(zmq.IPV4ONLY,0) 的时候。模块运行的时候会发生 self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError: ‘module’ object has no attribute ‘IPV4ONLY’ 的错误。本文讨论如何解决这一问题。\nAbstract: When using the Zero MQ function setsocket(zmq.IPV4ONLY,0). Happens when the module is running self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError:’module’ object has no attribute’IPV4ONLY’ error. This article discusses how to solve this problem.","headline":"Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/","keywords":"Python, 实战经验, ZeroMQ"}</script>
     <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：在使用Zero MQ函数setsocket(zmq.IPV4ONLY,0) 的时候。模块运行的时候会发生 self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError: ‘module’ object has no attribute ‘IPV4ONLY’ 的错误。本文讨论如何解决这一问">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题">
-<meta property="og:url" content="https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/index.html">
+<meta property="og:url" content="https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/index.html">
 <meta property="og:site_name" content="Jim Wang 的个人技术博客">
 <meta property="og:description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：在使用Zero MQ函数setsocket(zmq.IPV4ONLY,0) 的时候。模块运行的时候会发生 self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError: ‘module’ object has no attribute ‘IPV4ONLY’ 的错误。本文讨论如何解决这一问">
 <meta property="og:locale" content="zh_CN">
@@ -453,9 +453,9 @@ mjx-container[display="true"] + br {
     
     
         <div class="post-meta">
-    <time datetime="2015-04-22T04:31:06+08:00">
+    <time datetime="2015-04-21T22:31:06+02:00">
 	
-		    4月 22, 2015
+		    4月 21, 2015
     	
     </time>
     
@@ -522,7 +522,7 @@ mjx-container[display="true"] + br {
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
+                    href="/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
                     data-tooltip="linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本"
                     aria-label="上一篇: linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本"
                 >
@@ -536,7 +536,7 @@ mjx-container[display="true"] + br {
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
+                    href="/2015/04/21/0704-issue-no-module-named-django-conf-urls-defaults/"
                     data-tooltip="Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
                     aria-label="下一篇: Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
                 >
@@ -552,7 +552,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -563,7 +563,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -576,7 +576,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -589,7 +589,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -602,7 +602,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -615,7 +615,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/&amp;title=Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/&amp;title=Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -628,7 +628,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -663,7 +663,7 @@ mjx-container[display="true"] + br {
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
+                    href="/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
                     data-tooltip="linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本"
                     aria-label="上一篇: linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本"
                 >
@@ -677,7 +677,7 @@ mjx-container[display="true"] + br {
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
+                    href="/2015/04/21/0704-issue-no-module-named-django-conf-urls-defaults/"
                     data-tooltip="Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
                     aria-label="下一篇: Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
                 >
@@ -693,7 +693,7 @@ mjx-container[display="true"] + br {
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -704,7 +704,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -717,7 +717,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -730,7 +730,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -743,7 +743,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -756,7 +756,7 @@ mjx-container[display="true"] + br {
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/&amp;title=Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/&amp;title=Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -769,7 +769,7 @@ mjx-container[display="true"] + br {
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -790,7 +790,7 @@ mjx-container[display="true"] + br {
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/"
                         aria-label="分享到 Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
@@ -803,7 +803,7 @@ mjx-container[display="true"] + br {
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/"
                         aria-label="分享到 Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
@@ -816,7 +816,7 @@ mjx-container[display="true"] + br {
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                        href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/"
                         aria-label="分享到 Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
@@ -829,7 +829,7 @@ mjx-container[display="true"] + br {
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/"
                         aria-label="分享到 Weibo"
                     >
                         <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
@@ -842,7 +842,7 @@ mjx-container[display="true"] + br {
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/&amp;title=Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/04/21/0703-issue-zeromq-ipv4only/&amp;title=Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
                         aria-label="分享到 QQ"
                     >
                         <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
