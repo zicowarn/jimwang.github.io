@@ -21,7 +21,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n代码123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127#!/usr/bin/eperl -w#   Filename: crc-16.pl my @table;sub generateCRC16()&#123;    # globle @table;    # if (len(@table) == 256) &amp; ($table[1] == 49354))    # &#123;    #     return;    # &#125;    my $i = 0;    my @lst;    my $data;    my $crc;    while ($i &lt; 256) &#123;         # body...         $data = ($i&lt;&lt;1);         $crc = 0;         my $j = 8;         while($j &gt; 0)         &#123;            $data &gt;&gt;=1;            if (($data ^ $crc) &amp; 0x0001)            &#123;                $crc = ($crc &gt;&gt; 1) ^ 0xA001;            &#125;            else            &#123;                 $crc &gt;&gt;= 1;               &#125;            $j -= 1;         &#125;         $lst[$i] = $crc;         $i +=1;     &#125;     return @lst;&#125;@table = generateCRC16();print &quot;-----------------------------------------------\\n&quot;;print &quot;The following is the crc-16 table:\\n&quot;;my $c = 1;for $a (@table)&#123;    printf (&quot;0x%X&quot;,$a);    print &quot;\\t&quot;;    if (($c % 8 == 0) &amp; ($c != 0))    &#123;        print &quot;\\n&quot;;    &#125;    $c += 1;&#125;print &quot;-----------------------------------------------\\n&quot;;sub calculaterCRC()&#123;    my $string = shift(@_);    my $crc = 0xFFFF;    #foreach $chr (unpack(&quot;(a)*&quot;, $string))    foreach $chr (unpack(&quot;C*&quot;, $string))    &#123;        $crc = ($crc &gt;&gt; 8) ^ $table[($crc  ^ $chr) &amp; 0xFF ];    &#125;    my $crcL = sprintf(&quot;\\\\x%X&quot;, &amp;_Lo($crc));    my $crcH = sprintf(&quot;\\\\x%X&quot;, &amp;_Hi($crc));    return $crcH.$crcL;&#125;#printf (&quot;%X\\n&quot;,&amp;calculaterCRC(&quot;Hallo World&quot;));sub convertchrtoacsii()&#123;    my $string = shift(@_);    foreach $chr (unpack(&quot;C0U4&quot;, $string))    &#123;        print $chr.&quot; the acsii code is: &quot;.ord($chr).&quot;  in hex format: &quot;;        printf &quot;%X\\n&quot;, (ord($chr));    &#125;    return;&#125;sub _Lo()&#123;    my $myhex = shift(@_);    return ($myhex &amp; 0x00FF);&#125;sub _Hi()&#123;    my $myhex = shift(@_);    return (($myhex &amp; 0xFF00) &gt;&gt; 8);&#125;sub checkCrc()　＃用于检查ＣＲＣ码时候匹配&#123;    my ($payload, $crcsum) = @_;    print $payload.&quot;---\\n&quot;;    print $crcsum.&quot;+++\\n&quot;;    if ($crcsum eq &amp;calculaterCRC($payload))    &#123;        print &quot;check CRC summe&gt;&gt;: not match!!\\n&quot;;        return 1;    &#125;    else    &#123;        print &quot;check CRC summe&gt;&gt;: match!!\\n&quot;;        return 0;    &#125;&#125;sub embedPayload　＃　此方法主要实现将字符串中的字符转换为十六进制，并加入：作为分隔符&#123;    my $string = shift(@_);    my @chrs = (unpack(&quot;(a)*&quot;, $string));    my @newchrs = map &#123; sprintf(&quot;%X&quot;, (ord($_)))&#125; @chrs;    my $iterms =join (&quot;:&quot;, @newchrs);    return $iterms;&#125;sub extraPayload　＃　上述方法的逆操作&#123;    my $iterms = shift(@_);    my @chrs = split(&quot;:&quot;,$iterms);    my @newchrs = map &#123; chr(hex($_))&#125; @chrs;    my $string =join (&quot;&quot;, @newchrs);    return $string;&#125;print &quot;-----------------------------------------------\\n&quot;;print &amp;embedPayload(&quot;ABCD&quot;).&quot;\\n&quot;;print &quot;---------\\n&quot;;print &amp;extraPayload(&amp;embedPayload(&quot;ABCD&quot;));#print chr(&quot;\\x4F\\x4B&quot;);# usage:# for example # payload of message is &quot;Hallo World&quot;# payload+crc(Hi)+crc(Lo)\n\n先上代码，由于整理博客，代码分析以后整理添加。欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-02-15T14:11:08+01:00","dateModified":"2020-11-19T21:52:32+01:00","datePublished":"2015-02-15T14:11:08+01:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：本文讨论如何使用Perl语言实现CRC-16算法和应用\nAbstract: This article discusses how to use Perl language to implement CRC-16 algorithm and application","headline":"Perl 实现CRC-16算法和应用","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2015/02/15/perl-02-CRC-16-algorithm/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2015/02/15/perl-02-CRC-16-algorithm/","keywords":"Perl, CRC-16"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n代码123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127#!/usr/bin/eperl -w#   Filename: crc-16.pl my @table;sub generateCRC16()&#123;    # globle @table;    # if (len(@table) == 256) &amp; ($table[1] == 49354))    # &#123;    #     return;    # &#125;    my $i = 0;    my @lst;    my $data;    my $crc;    while ($i &lt; 256) &#123;         # body...         $data = ($i&lt;&lt;1);         $crc = 0;         my $j = 8;         while($j &gt; 0)         &#123;            $data &gt;&gt;=1;            if (($data ^ $crc) &amp; 0x0001)            &#123;                $crc = ($crc &gt;&gt; 1) ^ 0xA001;            &#125;            else            &#123;                 $crc &gt;&gt;= 1;               &#125;            $j -= 1;         &#125;         $lst[$i] = $crc;         $i +=1;     &#125;     return @lst;&#125;@table = generateCRC16();print &quot;-----------------------------------------------\\n&quot;;print &quot;The following is the crc-16 table:\\n&quot;;my $c = 1;for $a (@table)&#123;    printf (&quot;0x%X&quot;,$a);    print &quot;\\t&quot;;    if (($c % 8 == 0) &amp; ($c != 0))    &#123;        print &quot;\\n&quot;;    &#125;    $c += 1;&#125;print &quot;-----------------------------------------------\\n&quot;;sub calculaterCRC()&#123;    my $string = shift(@_);    my $crc = 0xFFFF;    #foreach $chr (unpack(&quot;(a)*&quot;, $string))    foreach $chr (unpack(&quot;C*&quot;, $string))    &#123;        $crc = ($crc &gt;&gt; 8) ^ $table[($crc  ^ $chr) &amp; 0xFF ];    &#125;    my $crcL = sprintf(&quot;\\\\x%X&quot;, &amp;_Lo($crc));    my $crcH = sprintf(&quot;\\\\x%X&quot;, &amp;_Hi($crc));    return $crcH.$crcL;&#125;#printf (&quot;%X\\n&quot;,&amp;calculaterCRC(&quot;Hallo World&quot;));sub convertchrtoacsii()&#123;    my $string = shift(@_);    foreach $chr (unpack(&quot;C0U4&quot;, $string))    &#123;        print $chr.&quot; the acsii code is: &quot;.ord($chr).&quot;  in hex format: &quot;;        printf &quot;%X\\n&quot;, (ord($chr));    &#125;    return;&#125;sub _Lo()&#123;    my $myhex = shift(@_);    return ($myhex &amp; 0x00FF);&#125;sub _Hi()&#123;    my $myhex = shift(@_);    return (($myhex &amp; 0xFF00) &gt;&gt; 8);&#125;sub checkCrc()　＃用于检查ＣＲＣ码时候匹配&#123;    my ($payload, $crcsum) = @_;    print $payload.&quot;---\\n&quot;;    print $crcsum.&quot;+++\\n&quot;;    if ($crcsum eq &amp;calculaterCRC($payload))    &#123;        print &quot;check CRC summe&gt;&gt;: not match!!\\n&quot;;        return 1;    &#125;    else    &#123;        print &quot;check CRC summe&gt;&gt;: match!!\\n&quot;;        return 0;    &#125;&#125;sub embedPayload　＃　此方法主要实现将字符串中的字符转换为十六进制，并加入：作为分隔符&#123;    my $string = shift(@_);    my @chrs = (unpack(&quot;(a)*&quot;, $string));    my @newchrs = map &#123; sprintf(&quot;%X&quot;, (ord($_)))&#125; @chrs;    my $iterms =join (&quot;:&quot;, @newchrs);    return $iterms;&#125;sub extraPayload　＃　上述方法的逆操作&#123;    my $iterms = shift(@_);    my @chrs = split(&quot;:&quot;,$iterms);    my @newchrs = map &#123; chr(hex($_))&#125; @chrs;    my $string =join (&quot;&quot;, @newchrs);    return $string;&#125;print &quot;-----------------------------------------------\\n&quot;;print &amp;embedPayload(&quot;ABCD&quot;).&quot;\\n&quot;;print &quot;---------\\n&quot;;print &amp;extraPayload(&amp;embedPayload(&quot;ABCD&quot;));#print chr(&quot;\\x4F\\x4B&quot;);# usage:# for example # payload of message is &quot;Hallo World&quot;# payload+crc(Hi)+crc(Lo)\n\n先上代码，由于整理博客，代码分析以后整理添加。欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-02-15T21:11:08+08:00","dateModified":"2020-11-20T04:52:32+08:00","datePublished":"2015-02-15T21:11:08+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：本文讨论如何使用Perl语言实现CRC-16算法和应用\nAbstract: This article discusses how to use Perl language to implement CRC-16 algorithm and application","headline":"Perl 实现CRC-16算法和应用","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2015/02/15/perl-02-CRC-16-algorithm/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2015/02/15/perl-02-CRC-16-algorithm/","keywords":"Perl, CRC-16"}</script>
     <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：本文讨论如何使用Perl语言实现CRC-16算法和应用 Abstract: This article discusses how to use Perl language to implement CRC-16 algorithm and application">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Perl 实现CRC-16算法和应用">
@@ -335,7 +335,7 @@
     
     
         <div class="post-meta">
-    <time datetime="2015-02-15T14:11:08+01:00">
+    <time datetime="2015-02-15T21:11:08+08:00">
 	
 		    2月 15, 2015
     	
@@ -389,7 +389,7 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/04/21/0704-issue-no-module-named-django-conf-urls-defaults/"
+                    href="/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
                     data-tooltip="Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
                     aria-label="上一篇: Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
                 >
@@ -403,7 +403,7 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/"
+                    href="/2015/02/15/perl-03-language-package-UDP-protocol-repackaging/"
                     data-tooltip="Perl 如何创建包与UDP协议的再包装"
                     aria-label="下一篇: Perl 如何创建包与UDP协议的再包装"
                 >
@@ -419,7 +419,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -495,7 +495,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -515,7 +515,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2022 Jim Wang. All Rights Reserved.
+        Copyrights &copy; 2023 Jim Wang. All Rights Reserved.
     </span>
 </footer>
 
@@ -530,7 +530,7 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/04/21/0704-issue-no-module-named-django-conf-urls-defaults/"
+                    href="/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
                     data-tooltip="Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
                     aria-label="上一篇: Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
                 >
@@ -544,7 +544,7 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/02/14/perl-03-language-package-UDP-protocol-repackaging/"
+                    href="/2015/02/15/perl-03-language-package-UDP-protocol-repackaging/"
                     data-tooltip="Perl 如何创建包与UDP协议的再包装"
                     aria-label="下一篇: Perl 如何创建包与UDP协议的再包装"
                 >
@@ -560,7 +560,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -636,7 +636,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

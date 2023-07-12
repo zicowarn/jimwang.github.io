@@ -8,7 +8,7 @@
     <meta name="generator" content="Jim Wang 的个人技术博客">
     <meta name="google-site-verification" content="Vv1-G7f0bcjlHq6prbeTvbDWFc4iN17bGUGM_KcE5xA" />
     <meta name="baidu-site-verification" content="A8086Y6q9Y" />
-    <title>LabView难点之一 Array的处理。 - Jim Wang 的个人技术博客</title>
+    <title>Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults - Jim Wang 的个人技术博客</title>
     <meta name="author" content="Jim Wang">
     
         <meta name="keywords" content="个人博客,实践,技术,经验,分享,全栈,Technology,blog,Python,Inno Setup,TypeScript,SQLite,AWS,CAM,EDM,JavaScript,CSS,HTML,">
@@ -21,19 +21,20 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\nLabView难点之一 Array的处理，个人见解。\nArray也是数组，当需要处理一串的数据的时候需要这些。\n数组的种类：一维；二维；三维或者多维。\n数组的类型：数字类型；字符串类型；布尔型；混合类型。\n在LabvieW中，数组经常通过一个For-Schleife来创建。For-Schleife的特点决定了这些。而While-Schleife无法做到。LabVieW中For循环的内存提前给出，运算次数也预先知道。而While循环却无法知道循环次数。\nLabVIEW中，数组表现形式由三部分组成。数据类型，数据索引和数据。创建也相对简单，前后面板中都能找到相应的模板。数组创建一开始都是一维数组，简单转换成二维数组的方法就是拖动数组索引显示边框下边缘。或者右键中的Add  Dimension.\n数组的操作，也就是求数组长度，对数组排序，取出数组中的元素，替换数组中的元素或者初始化数组等各种运算。\n所要引用的模板\n\nArray Size ;  返回数组长度。\nIndex Array ; 返回输入索引指定的元素。\nReplace Array Subset ; 返回替换输入数组中一个元素。\nInsert Into Array ;   返回在数组中指定的位置插入元素。\nDelete From Array ;  返回从数组中删除指定数目的元素。\nInitialize Array ;  初始化数组。\nBuild Array ；创建一个新的数组。\nArray Subset ；从输入的数组中取出指定的元素。\nRotate ID Array； 移动一个数组中的最后n个元素到数组最前面。\nReverse ID Array；将数组前后顺序颠倒。\nSearch ID Array；搜指定元素在一维数组中位置，若不存在返回-1.\nSplit ID Array ；将数组在指定元素的位置处截断，分成两个数组。当输入大于长度，第二子数组为空。\nSort ID Array ;将输入数组安升序排序。\nArray Max&Min;  返回数组中最大值和最小值。\nTranspose 2D Array ；矩阵装置。\nInterpolate ID Array ；线性插值。\nThreshold ID Array ; 一维数组阈值，线性插值的逆过程。\nInterleave ID Arrays ; 将输入端口输入的一维数组插入到输出的一维数组中。\nDecimate ID Array； 将一个数组分成数个数组。\nReshape Array； 改变输入数组的维数。\n\nLabVIEW的数组。与其他编程语言，如C语言，相比不用事先规定数组的长度。如果内存允许，可达到2,147,483,647个。元素索引从哦开始 到n-1结束。\n 个人见解，要是有问题 请与我联系。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2011-05-05T22:24:37+02:00","dateModified":"2020-11-19T22:26:42+01:00","datePublished":"2011-05-05T22:24:37+02:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：本文主要分享一些在LabView时，有关数组处理的一些浅见。\nAbstract: This article mainly shares some insights about array processing in LabView.","headline":"LabView难点之一 Array的处理。","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2011/05/05/labview-01-arrary/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2011/05/05/labview-01-arrary/","keywords":"LabView, Array"}</script>
-    <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：本文主要分享一些在LabView时，有关数组处理的一些浅见。 Abstract: This article mainly shares some insights about array processing in LabView.">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n问题我们在尝试安装调试graphite webapp时，或者使用django制作网站时会遇见此问题。或者类似的问题.\n12File &quot;/opt/graphite/webapp/graphite/urls.py&quot;, line 15, in &lt;module&gt;    from django.conf.urls.defaults import *ImportError: No module named defaults\n\n解决方案原因在于：Django 1.6 时改变了模块结构，原先的defaults模块被去除了。为了解决这一问题你有两种方式。\n1：回滚到1.5.x版本上\n2：找到代码问题行，将此行改为\n1from django.conf.urls import patterns, url, include\n\n相信能解决你的问题。\n如果你是在调试暗转graphite webapp时遇见此问题，下列的Python脚本fixerrorNomodule.py能够一次性修复所有的有问题的模块。代码如下：\n123456789101112131415161718192021222324252627282930import refiles = [&quot;/opt/graphite/webapp/graphite/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/render/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/cli/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/composer/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/metrics/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/browser/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/account/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/dashboard/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/whitelist/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/graphlot/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/version/urls.py&quot;,&quot;/opt/graphite/webapp/graphite/events/urls.py&quot;]files2= [&quot;/opt/graphite/webapp/graphite/urls.py&quot;]str = &#x27;from django.conf.urls.defaults import *\\n&#x27;for file in files:     print file    f = open(file, &quot;r+&quot;)    flists = f.readlines()    print len(flists),    for i in range(len(flists)):        if flists[i] == str:            print flists[i]            flists[i] = &quot;from django.conf.urls import patterns, url, include \\n&quot;        else:            pass    f = open(file, &quot;w+&quot;)    f.writelines(flists)    f.close()\n\n使用方法\n1python scirpte name: fixerrorNomodule.py\n\n欢迎大家关注本人个人公众号评论。才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-04-22T04:31:06+08:00","dateModified":"2020-11-20T04:43:31+08:00","datePublished":"2015-04-22T04:31:06+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：我们在尝试安装调试graphite webapp时，或者使用django制作网站时会遇见此问题：错误:no module named django.conf.urls.defaults，本文讨论如何解决该问题。\nAbstract: When we try to install and debug the graphite webapp, or use django to make a website, we will encounter this problem: error: no module named django.conf.urls.defaults, this article discusses how to solve this problem.","headline":"Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/","keywords":"Python, 实战经验, Django"}</script>
+    <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：我们在尝试安装调试graphite webapp时，或者使用django制作网站时会遇见此问题：错误:no module named django.conf.urls.defaults，本文讨论如何解决该问题。 Abstract: When we try to install and debug the graphite webapp, or">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="LabView难点之一 Array的处理。">
-<meta property="og:url" content="https://zicowarn.github.io/2011/05/05/labview-01-arrary/index.html">
+<meta property="og:title" content="Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults">
+<meta property="og:url" content="https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/index.html">
 <meta property="og:site_name" content="Jim Wang 的个人技术博客">
-<meta property="og:description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：本文主要分享一些在LabView时，有关数组处理的一些浅见。 Abstract: This article mainly shares some insights about array processing in LabView.">
+<meta property="og:description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：我们在尝试安装调试graphite webapp时，或者使用django制作网站时会遇见此问题：错误:no module named django.conf.urls.defaults，本文讨论如何解决该问题。 Abstract: When we try to install and debug the graphite webapp, or">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2011-05-05T20:24:37.000Z">
-<meta property="article:modified_time" content="2020-11-19T21:26:42.634Z">
+<meta property="article:published_time" content="2015-04-21T20:31:06.000Z">
+<meta property="article:modified_time" content="2020-11-19T20:43:31.467Z">
 <meta property="article:author" content="Jim Wang">
-<meta property="article:tag" content="LabView">
-<meta property="article:tag" content="Array">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="实战经验">
+<meta property="article:tag" content="Django">
 <meta name="twitter:card" content="summary">
     
     
@@ -330,20 +331,20 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            LabView难点之一 Array的处理。
+            Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2011-05-05T22:24:37+02:00">
+    <time datetime="2015-04-22T04:31:06+08:00">
 	
-		    5月 05, 2011
+		    4月 22, 2015
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/LabView-%E7%9B%B8%E5%85%B3-%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/">LabView 相关 - 实战经验</a>
+    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-7-Python-%E5%BA%94%E7%94%A8/">Python 相关 - 7. Python 应用</a>
 
 
     
@@ -358,38 +359,22 @@
             <!-- excerpt -->
 
 <p>作者: Jim Wang 公众号:  <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
-<p>LabView难点之一 Array的处理，个人见解。</p>
-<p>Array也是数组，当需要处理一串的数据的时候需要这些。</p>
-<p>数组的种类：一维；二维；三维或者多维。</p>
-<p>数组的类型：数字类型；字符串类型；布尔型；混合类型。</p>
-<p>在LabvieW中，数组经常通过一个For-Schleife来创建。For-Schleife的特点决定了这些。而While-Schleife无法做到。LabVieW中For循环的内存提前给出，运算次数也预先知道。而While循环却无法知道循环次数。</p>
-<p>LabVIEW中，数组表现形式由三部分组成。数据类型，数据索引和数据。创建也相对简单，前后面板中都能找到相应的模板。数组创建一开始都是一维数组，简单转换成二维数组的方法就是拖动数组索引显示边框下边缘。或者右键中的Add  Dimension.</p>
-<p>数组的操作，也就是求数组长度，对数组排序，取出数组中的元素，替换数组中的元素或者初始化数组等各种运算。</p>
-<p>所要引用的模板</p>
-<ul>
-<li>Array Size ;  返回数组长度。</li>
-<li>Index Array ; 返回输入索引指定的元素。</li>
-<li>Replace Array Subset ; 返回替换输入数组中一个元素。</li>
-<li>Insert Into Array ;   返回在数组中指定的位置插入元素。</li>
-<li>Delete From Array ;  返回从数组中删除指定数目的元素。</li>
-<li>Initialize Array ;  初始化数组。</li>
-<li>Build Array ；创建一个新的数组。</li>
-<li>Array Subset ；从输入的数组中取出指定的元素。</li>
-<li>Rotate ID Array； 移动一个数组中的最后n个元素到数组最前面。</li>
-<li>Reverse ID Array；将数组前后顺序颠倒。</li>
-<li>Search ID Array；搜指定元素在一维数组中位置，若不存在返回-1.</li>
-<li>Split ID Array ；将数组在指定元素的位置处截断，分成两个数组。当输入大于长度，第二子数组为空。</li>
-<li>Sort ID Array ;将输入数组安升序排序。</li>
-<li>Array Max&Min;  返回数组中最大值和最小值。</li>
-<li>Transpose 2D Array ；矩阵装置。</li>
-<li>Interpolate ID Array ；线性插值。</li>
-<li>Threshold ID Array ; 一维数组阈值，线性插值的逆过程。</li>
-<li>Interleave ID Arrays ; 将输入端口输入的一维数组插入到输出的一维数组中。</li>
-<li>Decimate ID Array； 将一个数组分成数个数组。</li>
-<li>Reshape Array； 改变输入数组的维数。</li>
-</ul>
-<p>LabVIEW的数组。与其他编程语言，如C语言，相比不用事先规定数组的长度。如果内存允许，可达到2,147,483,647个。元素索引从哦开始 到n-1结束。</p>
-<p> 个人见解，要是有问题 请与我联系。</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>我们在尝试安装调试graphite webapp时，或者使用django制作网站时会遇见此问题。或者类似的问题.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">File <span class="string">&quot;/opt/graphite/webapp/graphite/urls.py&quot;</span>, line 15, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    from django.conf.urls.defaults import *ImportError: No module named defaults</span><br></pre></td></tr></table></figure>
+
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>原因在于：Django 1.6 时改变了模块结构，原先的defaults模块被去除了。为了解决这一问题你有两种方式。</p>
+<p>1：回滚到1.5.x版本上</p>
+<p>2：找到代码问题行，将此行改为</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> patterns, url, include</span><br></pre></td></tr></table></figure>
+
+<p>相信能解决你的问题。</p>
+<p>如果你是在调试暗转graphite webapp时遇见此问题，下列的Python脚本fixerrorNomodule.py能够一次性修复所有的有问题的模块。代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">files = [<span class="string">&quot;/opt/graphite/webapp/graphite/urls.py&quot;</span>,</span><br><span class="line"><span class="string">&quot;/opt/graphite/webapp/graphite/urls.py&quot;</span>,</span><br><span class="line"><span class="string">&quot;/opt/graphite/webapp/graphite/render/urls.py&quot;</span>,</span><br><span class="line"><span class="string">&quot;/opt/graphite/webapp/graphite/cli/urls.py&quot;</span>,</span><br><span class="line"><span class="string">&quot;/opt/graphite/webapp/graphite/composer/urls.py&quot;</span>,</span><br><span class="line"><span class="string">&quot;/opt/graphite/webapp/graphite/metrics/urls.py&quot;</span>,</span><br><span class="line"><span class="string">&quot;/opt/graphite/webapp/graphite/browser/urls.py&quot;</span>,</span><br><span class="line"><span class="string">&quot;/opt/graphite/webapp/graphite/account/urls.py&quot;</span>,</span><br><span class="line"><span class="string">&quot;/opt/graphite/webapp/graphite/dashboard/urls.py&quot;</span>,</span><br><span class="line"><span class="string">&quot;/opt/graphite/webapp/graphite/whitelist/urls.py&quot;</span>,</span><br><span class="line"><span class="string">&quot;/opt/graphite/webapp/graphite/graphlot/urls.py&quot;</span>,</span><br><span class="line"><span class="string">&quot;/opt/graphite/webapp/graphite/version/urls.py&quot;</span>,</span><br><span class="line"><span class="string">&quot;/opt/graphite/webapp/graphite/events/urls.py&quot;</span>]</span><br><span class="line">files2= [<span class="string">&quot;/opt/graphite/webapp/graphite/urls.py&quot;</span>]</span><br><span class="line"><span class="built_in">str</span> = <span class="string">&#x27;from django.conf.urls.defaults import *\n&#x27;</span></span><br><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> files: </span><br><span class="line">    <span class="built_in">print</span> file</span><br><span class="line">    f = <span class="built_in">open</span>(file, <span class="string">&quot;r+&quot;</span>)</span><br><span class="line">    flists = f.readlines()</span><br><span class="line">    <span class="built_in">print</span> <span class="built_in">len</span>(flists),</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(flists)):</span><br><span class="line">        <span class="keyword">if</span> flists[i] == <span class="built_in">str</span>:</span><br><span class="line">            <span class="built_in">print</span> flists[i]</span><br><span class="line">            flists[i] = <span class="string">&quot;from django.conf.urls import patterns, url, include \n&quot;</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">    f = <span class="built_in">open</span>(file, <span class="string">&quot;w+&quot;</span>)</span><br><span class="line">    f.writelines(flists)</span><br><span class="line">    f.close()</span><br></pre></td></tr></table></figure>
+
+<p>使用方法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python scirpte name: fixerrorNomodule.py</span><br></pre></td></tr></table></figure>
+
+<p>欢迎大家关注本人个人公众号评论。才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。</p>
 <hr>
 <div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">
     版权声明：<br>文章首发于 <a target="_blank" rel="noopener" href="http://zhichaowang.online"> Jim Wang's blog </a>，
@@ -405,7 +390,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-none-link" href="/tags/Array/" rel="tag">Array</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/LabView/" rel="tag">LabView</a>
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/Django/" rel="tag">Django</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/Python/" rel="tag">Python</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/" rel="tag">实战经验</a>
 
             </div>
         
@@ -418,9 +403,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2011/05/08/labview-02-variables/"
-                    data-tooltip="LabView难点之二 变量的处理"
-                    aria-label="上一篇: LabView难点之二 变量的处理"
+                    href="/2015/04/22/0703-issue-zeromq-ipv4only/"
+                    data-tooltip="Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
+                    aria-label="上一篇: Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -429,11 +414,14 @@
             </li>
             <li class="post-action">
                 
-                    <a
-                        class="post-action-btn btn btn--disabled"
-                        aria-hidden="true"
-                    >
-                        
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2015/02/15/perl-02-CRC-16-algorithm/"
+                    data-tooltip="Perl 实现CRC-16算法和应用"
+                    aria-label="下一篇: Perl 实现CRC-16算法和应用"
+                >
+                    
                         <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
@@ -445,7 +433,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -456,7 +444,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2011/05/05/labview-01-arrary/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -469,7 +457,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2011/05/05/labview-01-arrary/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -482,7 +470,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2011/05/05/labview-01-arrary/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -495,7 +483,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2011/05/05/labview-01-arrary/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -508,7 +496,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2011/05/05/labview-01-arrary/&amp;title=LabView难点之一 Array的处理。"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/&amp;title=Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -521,7 +509,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -541,7 +529,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2022 Jim Wang. All Rights Reserved.
+        Copyrights &copy; 2023 Jim Wang. All Rights Reserved.
     </span>
 </footer>
 
@@ -556,9 +544,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2011/05/08/labview-02-variables/"
-                    data-tooltip="LabView难点之二 变量的处理"
-                    aria-label="上一篇: LabView难点之二 变量的处理"
+                    href="/2015/04/22/0703-issue-zeromq-ipv4only/"
+                    data-tooltip="Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
+                    aria-label="上一篇: Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -567,11 +555,14 @@
             </li>
             <li class="post-action">
                 
-                    <a
-                        class="post-action-btn btn btn--disabled"
-                        aria-hidden="true"
-                    >
-                        
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2015/02/15/perl-02-CRC-16-algorithm/"
+                    data-tooltip="Perl 实现CRC-16算法和应用"
+                    aria-label="下一篇: Perl 实现CRC-16算法和应用"
+                >
+                    
                         <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
@@ -583,7 +574,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -594,7 +585,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2011/05/05/labview-01-arrary/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -607,7 +598,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2011/05/05/labview-01-arrary/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -620,7 +611,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2011/05/05/labview-01-arrary/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -633,7 +624,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2011/05/05/labview-01-arrary/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -646,7 +637,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2011/05/05/labview-01-arrary/&amp;title=LabView难点之一 Array的处理。"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/&amp;title=Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -659,7 +650,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -680,7 +671,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2011/05/05/labview-01-arrary/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
                         aria-label="分享到 Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
@@ -693,7 +684,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2011/05/05/labview-01-arrary/"
+                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
                         aria-label="分享到 Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
@@ -706,7 +697,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://zicowarn.github.io/2011/05/05/labview-01-arrary/"
+                        href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
                         aria-label="分享到 Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
@@ -719,7 +710,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2011/05/05/labview-01-arrary/"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
                         aria-label="分享到 Weibo"
                     >
                         <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
@@ -732,7 +723,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2011/05/05/labview-01-arrary/&amp;title=LabView难点之一 Array的处理。"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/&amp;title=Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
                         aria-label="分享到 QQ"
                     >
                         <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>

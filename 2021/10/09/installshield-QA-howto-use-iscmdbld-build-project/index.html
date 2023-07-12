@@ -21,11 +21,11 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n最近软件打包工具和流程要升级，从Inno Setup转换为Install Shield，被告知的原因，因为更专业，更好看。本文算做开发记录，以后也会陆续整理相关知识，希望能帮助到更多朋友。\n工具路径该工具位于如下路径，**** 为版本号码，例如2019。\n1C:\\Program Files (x86)\\InstallShield\\&lt;YYYY&gt;\\System\\IsCmdBld.exe\n\n使用方法基本使用方法如下：\n1&quot;C:\\Program Files (x86)\\InstallShield\\2020\\System\\IsCmdBld.exe&quot; -p &quot;C:\\Users\\&lt;nobody&gt;\\workspaces\\InstallShield\\My IS Project\\My IS Project.ism&quot; -r &quot;MY_RELEASE_1&quot; \n\n改变版本号Installscript MSI， Basic MSI，Advanced UI等类型的项目将-y &quot;1.2021.9999.2&quot;，加入上述命令行。\nInstallscript类型的项目在项目Installaltion Designer中找到Path Variables子项，定义一个VERSION_NUMBER新的路径变量，如下图所示：\n\n然后在General Information中引入此新的路径变量，如下图所示：\n\n最后将如下内容，加入原有的IsCmdBld命令行，如下，注意参数标识为小写的字母的L：\n-l VERSION_NUMBER=&quot;1.2021.9999.2&quot;，加入上述命令行。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2021-10-08T22:18:34+02:00","dateModified":"2021-09-10T07:13:48+02:00","datePublished":"2021-10-08T22:18:34+02:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：如何使用ISCmdBld构建Installshield项目，在构建项目过程中，不同的项目类型，如何动态将版本号码传递给当前构造项目。\nAbstract：How to use ISCmdBld to build the Installshield project, in the process of building the project, how to dynamically transfer the version number to the current building project for different project types.","headline":"Install Shield 如何使用ISCmdBld构建安装包","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/","keywords":"Install Shield, ISCmdBld, 应用技巧"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n最近软件打包工具和流程要升级，从Inno Setup转换为Install Shield，被告知的原因，因为更专业，更好看。本文算做开发记录，以后也会陆续整理相关知识，希望能帮助到更多朋友。\n工具路径该工具位于如下路径，**** 为版本号码，例如2019。\n1C:\\Program Files (x86)\\InstallShield\\&lt;YYYY&gt;\\System\\IsCmdBld.exe\n\n使用方法基本使用方法如下：\n1&quot;C:\\Program Files (x86)\\InstallShield\\2020\\System\\IsCmdBld.exe&quot; -p &quot;C:\\Users\\&lt;nobody&gt;\\workspaces\\InstallShield\\My IS Project\\My IS Project.ism&quot; -r &quot;MY_RELEASE_1&quot; \n\n改变版本号Installscript MSI， Basic MSI，Advanced UI等类型的项目将-y &quot;1.2021.9999.2&quot;，加入上述命令行。\nInstallscript类型的项目在项目Installaltion Designer中找到Path Variables子项，定义一个VERSION_NUMBER新的路径变量，如下图所示：\n\n然后在General Information中引入此新的路径变量，如下图所示：\n\n最后将如下内容，加入原有的IsCmdBld命令行，如下，注意参数标识为小写的字母的L：\n-l VERSION_NUMBER=&quot;1.2021.9999.2&quot;，加入上述命令行。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2021-10-09T04:18:34+08:00","dateModified":"2021-09-10T13:13:48+08:00","datePublished":"2021-10-09T04:18:34+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：如何使用ISCmdBld构建Installshield项目，在构建项目过程中，不同的项目类型，如何动态将版本号码传递给当前构造项目。\nAbstract：How to use ISCmdBld to build the Installshield project, in the process of building the project, how to dynamically transfer the version number to the current building project for different project types.","headline":"Install Shield 如何使用ISCmdBld构建安装包","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/","keywords":"Install Shield, ISCmdBld, 应用技巧"}</script>
     <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：如何使用ISCmdBld构建Installshield项目，在构建项目过程中，不同的项目类型，如何动态将版本号码传递给当前构造项目。 Abstract：How to use ISCmdBld to build the Installshield project, in the process of building the project,">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Install Shield 如何使用ISCmdBld构建安装包">
-<meta property="og:url" content="https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/index.html">
+<meta property="og:url" content="https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/index.html">
 <meta property="og:site_name" content="Jim Wang 的个人技术博客">
 <meta property="og:description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：如何使用ISCmdBld构建Installshield项目，在构建项目过程中，不同的项目类型，如何动态将版本号码传递给当前构造项目。 Abstract：How to use ISCmdBld to build the Installshield project, in the process of building the project,">
 <meta property="og:locale" content="zh_CN">
@@ -339,9 +339,9 @@
     
     
         <div class="post-meta">
-    <time datetime="2021-10-08T22:18:34+02:00">
+    <time datetime="2021-10-09T04:18:34+08:00">
 	
-		    10月 08, 2021
+		    10月 09, 2021
     	
     </time>
     
@@ -434,7 +434,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -445,7 +445,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -458,7 +458,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -471,7 +471,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -484,7 +484,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -497,7 +497,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/&amp;title=Install Shield 如何使用ISCmdBld构建安装包"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/&amp;title=Install Shield 如何使用ISCmdBld构建安装包"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -510,7 +510,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -530,7 +530,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2022 Jim Wang. All Rights Reserved.
+        Copyrights &copy; 2023 Jim Wang. All Rights Reserved.
     </span>
 </footer>
 
@@ -575,7 +575,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -586,7 +586,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -599,7 +599,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -612,7 +612,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -625,7 +625,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -638,7 +638,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/&amp;title=Install Shield 如何使用ISCmdBld构建安装包"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/&amp;title=Install Shield 如何使用ISCmdBld构建安装包"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -651,7 +651,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -672,7 +672,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/"
                         aria-label="分享到 Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
@@ -685,7 +685,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/"
+                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/"
                         aria-label="分享到 Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
@@ -698,7 +698,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/"
+                        href="https://plus.google.com/share?url=https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/"
                         aria-label="分享到 Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
@@ -711,7 +711,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/"
                         aria-label="分享到 Weibo"
                     >
                         <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
@@ -724,7 +724,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2021/10/08/installshield-QA-howto-use-iscmdbld-build-project/&amp;title=Install Shield 如何使用ISCmdBld构建安装包"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2021/10/09/installshield-QA-howto-use-iscmdbld-build-project/&amp;title=Install Shield 如何使用ISCmdBld构建安装包"
                         aria-label="分享到 QQ"
                     >
                         <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>

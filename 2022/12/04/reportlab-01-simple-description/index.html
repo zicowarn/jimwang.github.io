@@ -21,7 +21,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\nReportLab 项目内容基本简介新项目，使用Python编程语言，借助Reportlab开发模块。实现纯Python环境下PDF报告文件生产。\n简介这是一个软件库，可以让你使用Python编程语言直接创建Adobe的便携式文档格式（PDF）的文件。它还可以创建各种位图和矢量格式的图表和数据图形，以及PDF。\nPDF是电子文档的全球标准。它支持高质量的打印，但由于免费提供的Acrobat Reader，它完全可以跨平台携带。任何以前生成硬拷贝报告或驱动打印机的应用程序都可以从制作PDF文件中受益；这些文件可以存档、通过电子邮件发送、放在网络上或以老式的方式打印出来。然而，PDF文件格式是一种复杂的索引二进制格式，不可能直接输入。PDF格式规范有600多页，而且PDF文件必须提供精确的字节偏移量–在一个有效的PDF文件中的任何地方多放一个字符都会使其无效。这使得它比HTML更难生成。\nReportLab库直接根据你的图形命令创建PDF。没有任何中间的步骤。你的应用程序可以极快地生成报告–有时比传统的报告编写工具快几个数量级。这种方法被其他几个库所共享–C语言的PDFlib，Java语言的iText，.NET语言的iTextSharp等。然而，ReportLab库的不同之处在于，它可以在更高的层次上工作，有一个功能齐全的引擎来布置文档，并配有表格和图表。\n此外，由于你是在用一种强大的通用语言编写程序，所以对于你从哪里获得数据，如何转换数据，以及你可以创建什么样的输出都没有任何限制。而且，你可以在整个报告系列中重复使用代码。\n预计ReportLab库至少在以下情况下是有用的。\n\n在网络上生成动态PDF\n大批量的企业报告和数据库发布\n为其他应用程序提供可嵌入的打印引擎，包括一种 “报告语言”，以便用户可以定制自己的报告。这与跨平台的应用特别相关，因为这些应用不能依赖每个操作系统上一致的打印或预览API。\n一个’构建系统’，用于带有图表、表格和文本的复杂文件，如管理账目、统计报告和科学论文。\n一步到位地从XML到PDF项目依赖\n\n项目应用Python编程语言，借助Reportlab开发模块。实现纯Python环境下PDF报告文件生产。\nReportLab的商业软件ReportLab 库构成了我们生成 PDF 的商业解决方案的基础，即报告标记语言（RML）。这在我们的网站上有完整的文档可供评估。我们相信，RML是开发丰富的PDF工作流程的最快和最简单的方法。你在一个与HTML类似的标记语言中工作，使用你最喜欢的模板系统来填充一个RML文档；然后调用我们的rml2pdf API函数来生成一个PDF。这就是ReportLab的员工用来建立你在reportlab.com上可以看到的所有解决方案。关键区别。\n\n有两本手册、一个正式的规范（DTD）和广泛的自我文档化测试的完全文档化。(相比之下，我们试图确保开放源码的文档不会出错，但我们并不总是能跟上代码的步伐)\n在高级别的标记中工作，而不是构造Python对象的图形\n不需要Python专业知识–你的同事可能会在你离开后感谢你！’\n支持矢量图和包含其他的PDF文件\n用一个标签表达许多更有用的功能，这需要在开源包中进行大量的编码\n包括商业支持\n\n我们要求开源开发者考虑在合适的地方尝试使用RML。你可以在我们的网站上注册，并在购买前试用一份副本。费用是合理的，并与项目的数量挂钩，收入有助于我们花更多的时间开发这个软件。\n以上内容来自ReportLab官网，由DeepL完成主要翻译，自己手动修改部分内容，记录下来，方便自己日后查看。\n项目依赖\npython 版本3.8.5\nreportlab 版本3.6.12\nreportlab-preppy 版本4.1.0\nreportlab-pyrxp 版本 3.0.1\ntrml2pdf 版本 0.6\n\n注意事项官方文档中得知：reportlab依赖于“preppy”、“pyrxp”、“rml2pdf”，而在新版本中reportlab已经将“preppy”、“pyrxp”、“rml2pdf”分拆出来，所以Demo中原来封装在“rlextra”中的包已经被分拆了。相关功能由rml2pdf 完成，因为“relextra”是ReportLab Plus商业发行版的组件。使用下面的链接进行下载：\n\nreportlab-preppy : BSD开源协议\n\npreppy - a Preprocessor for Python。 用于处理rml文件。即替换rml中的值。\n资源地址：https://pypi.org/project/preppy/\n文档地址：https://docs.reportlab.com/preppy/\n安装命令：pip install preppy\n\nreportlab-pyrxp: BSD开源协议 \n\nPython RXP interface - fast validating XML parser。用于处理rml文件。\n资源地址：https://pypi.org/project/pyRXP/\n文档地址：https://pyrxp.readthedocs.io/en/latest/usage.html\n安装命令：pip install pyRXP\n\ntrml2pdf: GNU /LGPL 协议\n\nTiny RML2PDF is open source implementation of RML (Report Markup Language) from ReportLab。用于将rml文件转换成pdf文件。\n资源地址：https://github.com/romanlv/trml2pdf\n文档地址：http://www.reportlab.com/docs/rml-for-idiots.pdf\n安装命令：pip install trml2pdf\n\nreportlab: 商用与开源\n\n基本开发框架\n文档地址：http://download.csdn.net/detail/yima1006/6433077\n在线Demo：http://www.reportlab.com/static/cms/files/RLtutorial.zip \n本文小结这些背景知识是自己在完成任务的一开始具有的疑问，进而中查阅资料再收集整理成文的，这利于自己，也方便你我。如果你有问题或者不同的见解，欢迎关注我的微信公众号，然后留言讨论。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2022-12-04T11:51:48+01:00","dateModified":"2022-12-04T22:05:04+01:00","datePublished":"2022-12-04T11:51:48+01:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：本文主要介绍了项目中如何使用ReportLab的Python模块实现纯Python环境下生成PDF报告文件。本文也包括项目依赖和组件介绍。\nAbstract: This article describes how the project uses ReportLab’s Python module to generate PDF report files in a pure Python environment. This article also includes an introduction to project dependencies and components.","headline":"ReportLab 项目基本内容简介","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2022/12/04/reportlab-01-simple-description/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2022/12/04/reportlab-01-simple-description/","keywords":"ReportLab, 基本内容, 简介"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\nReportLab 项目内容基本简介新项目，使用Python编程语言，借助Reportlab开发模块。实现纯Python环境下PDF报告文件生产。\n简介这是一个软件库，可以让你使用Python编程语言直接创建Adobe的便携式文档格式（PDF）的文件。它还可以创建各种位图和矢量格式的图表和数据图形，以及PDF。\nPDF是电子文档的全球标准。它支持高质量的打印，但由于免费提供的Acrobat Reader，它完全可以跨平台携带。任何以前生成硬拷贝报告或驱动打印机的应用程序都可以从制作PDF文件中受益；这些文件可以存档、通过电子邮件发送、放在网络上或以老式的方式打印出来。然而，PDF文件格式是一种复杂的索引二进制格式，不可能直接输入。PDF格式规范有600多页，而且PDF文件必须提供精确的字节偏移量–在一个有效的PDF文件中的任何地方多放一个字符都会使其无效。这使得它比HTML更难生成。\nReportLab库直接根据你的图形命令创建PDF。没有任何中间的步骤。你的应用程序可以极快地生成报告–有时比传统的报告编写工具快几个数量级。这种方法被其他几个库所共享–C语言的PDFlib，Java语言的iText，.NET语言的iTextSharp等。然而，ReportLab库的不同之处在于，它可以在更高的层次上工作，有一个功能齐全的引擎来布置文档，并配有表格和图表。\n此外，由于你是在用一种强大的通用语言编写程序，所以对于你从哪里获得数据，如何转换数据，以及你可以创建什么样的输出都没有任何限制。而且，你可以在整个报告系列中重复使用代码。\n预计ReportLab库至少在以下情况下是有用的。\n\n在网络上生成动态PDF\n大批量的企业报告和数据库发布\n为其他应用程序提供可嵌入的打印引擎，包括一种 “报告语言”，以便用户可以定制自己的报告。这与跨平台的应用特别相关，因为这些应用不能依赖每个操作系统上一致的打印或预览API。\n一个’构建系统’，用于带有图表、表格和文本的复杂文件，如管理账目、统计报告和科学论文。\n一步到位地从XML到PDF项目依赖\n\n项目应用Python编程语言，借助Reportlab开发模块。实现纯Python环境下PDF报告文件生产。\nReportLab的商业软件ReportLab 库构成了我们生成 PDF 的商业解决方案的基础，即报告标记语言（RML）。这在我们的网站上有完整的文档可供评估。我们相信，RML是开发丰富的PDF工作流程的最快和最简单的方法。你在一个与HTML类似的标记语言中工作，使用你最喜欢的模板系统来填充一个RML文档；然后调用我们的rml2pdf API函数来生成一个PDF。这就是ReportLab的员工用来建立你在reportlab.com上可以看到的所有解决方案。关键区别。\n\n有两本手册、一个正式的规范（DTD）和广泛的自我文档化测试的完全文档化。(相比之下，我们试图确保开放源码的文档不会出错，但我们并不总是能跟上代码的步伐)\n在高级别的标记中工作，而不是构造Python对象的图形\n不需要Python专业知识–你的同事可能会在你离开后感谢你！’\n支持矢量图和包含其他的PDF文件\n用一个标签表达许多更有用的功能，这需要在开源包中进行大量的编码\n包括商业支持\n\n我们要求开源开发者考虑在合适的地方尝试使用RML。你可以在我们的网站上注册，并在购买前试用一份副本。费用是合理的，并与项目的数量挂钩，收入有助于我们花更多的时间开发这个软件。\n以上内容来自ReportLab官网，由DeepL完成主要翻译，自己手动修改部分内容，记录下来，方便自己日后查看。\n项目依赖\npython 版本3.8.5\nreportlab 版本3.6.12\nreportlab-preppy 版本4.1.0\nreportlab-pyrxp 版本 3.0.1\ntrml2pdf 版本 0.6\n\n注意事项官方文档中得知：reportlab依赖于“preppy”、“pyrxp”、“rml2pdf”，而在新版本中reportlab已经将“preppy”、“pyrxp”、“rml2pdf”分拆出来，所以Demo中原来封装在“rlextra”中的包已经被分拆了。相关功能由rml2pdf 完成，因为“relextra”是ReportLab Plus商业发行版的组件。使用下面的链接进行下载：\n\nreportlab-preppy : BSD开源协议\n\npreppy - a Preprocessor for Python。 用于处理rml文件。即替换rml中的值。\n资源地址：https://pypi.org/project/preppy/\n文档地址：https://docs.reportlab.com/preppy/\n安装命令：pip install preppy\n\nreportlab-pyrxp: BSD开源协议 \n\nPython RXP interface - fast validating XML parser。用于处理rml文件。\n资源地址：https://pypi.org/project/pyRXP/\n文档地址：https://pyrxp.readthedocs.io/en/latest/usage.html\n安装命令：pip install pyRXP\n\ntrml2pdf: GNU /LGPL 协议\n\nTiny RML2PDF is open source implementation of RML (Report Markup Language) from ReportLab。用于将rml文件转换成pdf文件。\n资源地址：https://github.com/romanlv/trml2pdf\n文档地址：http://www.reportlab.com/docs/rml-for-idiots.pdf\n安装命令：pip install trml2pdf\n\nreportlab: 商用与开源\n\n基本开发框架\n文档地址：http://download.csdn.net/detail/yima1006/6433077\n在线Demo：http://www.reportlab.com/static/cms/files/RLtutorial.zip \n本文小结这些背景知识是自己在完成任务的一开始具有的疑问，进而中查阅资料再收集整理成文的，这利于自己，也方便你我。如果你有问题或者不同的见解，欢迎关注我的微信公众号，然后留言讨论。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2022-12-04T18:51:48+08:00","dateModified":"2022-12-05T05:05:04+08:00","datePublished":"2022-12-04T18:51:48+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：本文主要介绍了项目中如何使用ReportLab的Python模块实现纯Python环境下生成PDF报告文件。本文也包括项目依赖和组件介绍。\nAbstract: This article describes how the project uses ReportLab’s Python module to generate PDF report files in a pure Python environment. This article also includes an introduction to project dependencies and components.","headline":"ReportLab 项目基本内容简介","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2022/12/04/reportlab-01-simple-description/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2022/12/04/reportlab-01-simple-description/","keywords":"ReportLab, 基本内容, 简介"}</script>
     <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：本文主要介绍了项目中如何使用ReportLab的Python模块实现纯Python环境下生成PDF报告文件。本文也包括项目依赖和组件介绍。 Abstract: This article describes how the project uses ReportLab’s Python module to generate PDF report">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="ReportLab 项目基本内容简介">
@@ -336,7 +336,7 @@
     
     
         <div class="post-meta">
-    <time datetime="2022-12-04T11:51:48+01:00">
+    <time datetime="2022-12-04T18:51:48+08:00">
 	
 		    12月 04, 2022
     	
@@ -478,7 +478,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -554,7 +554,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -574,7 +574,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2022 Jim Wang. All Rights Reserved.
+        Copyrights &copy; 2023 Jim Wang. All Rights Reserved.
     </span>
 </footer>
 
@@ -619,7 +619,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -695,7 +695,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

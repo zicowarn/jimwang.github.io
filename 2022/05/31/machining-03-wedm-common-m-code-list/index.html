@@ -21,7 +21,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n线切割数控加工常用M代码一览表\n\n\nM代码\n代码功能(通用)\nAC CUT HMI 2\nSodick设备\n\n\n\nM00\n程序停止\n-\n-\n\n\nM01\n可选停止\n-\n-\n\n\nM02\n程序结束\n-\n-\n\n\nM03\n\nx\nAWT 跳过\n\n\nM04\n\n打开侧门\nx\n\n\nM05\n\n关闭侧门\n无视接触感知\n\n\nM06\n\n启用穿丝射流\n移动过程不放电\n\n\nM07\n\n导电块回退\nx\n\n\nM08\n\n打开舱门\nx\n\n\nM09\n\n打开侧门\nx\n\n\nM12\n\n关闭侧门 + 填充\nx\n\n\nM13\n\n等待门关闭 + 填充\nx\n\n\nM14\n\n重新穿丝块初始化\nx\n\n\nM18\n\n打开液槽门\nx\n\n\nM19\n\n关闭液槽门\nx\n\n\nM23\n\n取消激活几何策略\nx\n\n\nM24\n\n激活几何策略\nx\n\n\nM27\n\n取消激活保护策略\nx\n\n\nM28\n\n激活保护策略，等级1\nx\n\n\nM29\n\n激活保护策略，等级2\nx\n\n\nM33\n\nx\n电极丝处理臂向前旋转\n\n\nM34\n\n加注工作水槽\nx\n\n\nM35\n\n排空工作水槽\nx\n\n\nM36\n\nx\n半水箱门限制设置\n\n\nM38\n\n加注工作水槽和浸入模式\nx\n\n\nM39\n\n加注工作水槽和喷水模式\nx\n\n\nM43\n\nx\n电极丝处理臂向后旋转\n\n\nM44\n\n循环泵关闭\nx\n\n\nM45\n\n循环泵打开\nx\n\n\nM46\n\nx\n半水箱门限制取消\n\n\nM50\n自动剪丝\n\n\n\n\nM60\n自动穿丝\n\n\n\n\nM62\n\n完成工作水槽排空\n\n\n\nM67\n\n排空液槽\n\n\n\nM98\n\nx\n从主程序跳转到子程序\n\n\nM99\n\nx\n从子程序跳转到主程序\n\n\nM199\n\nx\n半水箱门限制取消\n\n\n12图例 -，通用功能描述相同图例 x，设备不支持该命令\n\nM00：程序停止    [返回]代码格式：M00\n解释：程序停止功能。停止后点击M00会从头开始。M00指令实际上是一个暂停指令。功效是履行此指令后，机床结束一切操作。即进丝等动作结束。但模态信息全数被保存，在按下把持面板上的启动指令后，机床重新启动，持续履行后面的程序。\n用处：M00该指令重要用于工件在加工过程中需停机检查、测量零件、手工换刀或交接班等。\nM01：程序停止    [返回]代码格式：M01\n解释：可选的停止功能，停止后点击M01就会继续。M01指令的功效与M00类似，不同的是，M01只有在预先按下把持面板上“可选停止开关”按钮的情形下，程序才会结束。倘若未按下“可选停止开关”按钮，程序履行到M01时不会停止，而是持续履行下面的程序。M01结束之后，按启动按钮可以持续履行后面的程序。\n用处：M01该指令重要用于加工工件抽样检查，清理切屑等\nM02：程序结束    [返回]代码格式：M02\n解释：程序结束\n用处：作为线切割NC代码的最后一行。\nM03：AWT 跳过    [返回]代码格式：M03\n解释：代码搜索\n用处：AWT为自动穿丝装置. 实现自动熔断及自动穿丝作业\nM04：打开侧门   [返回]代码格式：M04\n解释：打开侧门\n用处：\nM05：无视接触感知   [返回]代码格式：M05\n解释：无视接触感知；关闭侧门（ AC CUT HMI 2 ）\n用处：用于空跑（Dry Run）。为无视接触感知（No sensor touch）模式下，如果电极丝触碰到其它物体时，电极丝会断开。用于当你想通过现有的切口进行空跑时。所有轴的电机运行，所有限位开关被检查。\nM06：移动过程不放电   [返回]代码格式：M06\n解释：移动过程不放电\n用处：\nAC CUT HMI 2 设备：启用穿丝射流\nM07：导电块回退   [返回]代码格式：M07\n解释：启用穿丝射流（AC CUT HMI 2 ）\n用处：\nM08：打开舱门   [返回]代码格式：M08\n解释：打开舱门\n用处：不常用此M命令\nM09：打开侧门   [返回]代码格式：M09\n解释：打开侧门\n用处：不常用此M命令\nM12：关闭侧门 + 填充   [返回]代码格式：M12\n解释：关闭侧门 + 填充\n用处：不常用此M命令\nM13：等待门关闭 + 填充   [返回]代码格式：M13\n解释：等待门关闭 + 填充\n用处：不常用此M命令\nM14：重新穿丝块初始化   [返回]代码格式：M14\n解释：重新穿丝块初始化\n用处：\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2022-05-31T11:04:36+02:00","dateModified":"2022-05-31T13:09:00+02:00","datePublished":"2022-05-31T11:04:36+02:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：线切割数控机加工M代码一览表，全部代码语法格式都有详细的解释性描述。部分代码采用图文形式进行详细介绍描述。\nAbstract: List of M codes commonly used in WEDM, all code syntax format with detailed explanatory descriptions. Some codes are described in detail in graphic form.","headline":"机械加工 线切割数控加工常用M代码一览表","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2022/05/31/machining-03-wedm-common-m-code-list/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2022/05/31/machining-03-wedm-common-m-code-list/","keywords":"数控代码, M代码"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n线切割数控加工常用M代码一览表\n\n\nM代码\n代码功能(通用)\nAC CUT HMI 2\nSodick设备\n\n\n\nM00\n程序停止\n-\n-\n\n\nM01\n可选停止\n-\n-\n\n\nM02\n程序结束\n-\n-\n\n\nM03\n\nx\nAWT 跳过\n\n\nM04\n\n打开侧门\nx\n\n\nM05\n\n关闭侧门\n无视接触感知\n\n\nM06\n\n启用穿丝射流\n移动过程不放电\n\n\nM07\n\n导电块回退\nx\n\n\nM08\n\n打开舱门\nx\n\n\nM09\n\n打开侧门\nx\n\n\nM12\n\n关闭侧门 + 填充\nx\n\n\nM13\n\n等待门关闭 + 填充\nx\n\n\nM14\n\n重新穿丝块初始化\nx\n\n\nM18\n\n打开液槽门\nx\n\n\nM19\n\n关闭液槽门\nx\n\n\nM23\n\n取消激活几何策略\nx\n\n\nM24\n\n激活几何策略\nx\n\n\nM27\n\n取消激活保护策略\nx\n\n\nM28\n\n激活保护策略，等级1\nx\n\n\nM29\n\n激活保护策略，等级2\nx\n\n\nM33\n\nx\n电极丝处理臂向前旋转\n\n\nM34\n\n加注工作水槽\nx\n\n\nM35\n\n排空工作水槽\nx\n\n\nM36\n\nx\n半水箱门限制设置\n\n\nM38\n\n加注工作水槽和浸入模式\nx\n\n\nM39\n\n加注工作水槽和喷水模式\nx\n\n\nM43\n\nx\n电极丝处理臂向后旋转\n\n\nM44\n\n循环泵关闭\nx\n\n\nM45\n\n循环泵打开\nx\n\n\nM46\n\nx\n半水箱门限制取消\n\n\nM50\n自动剪丝\n\n\n\n\nM60\n自动穿丝\n\n\n\n\nM62\n\n完成工作水槽排空\n\n\n\nM67\n\n排空液槽\n\n\n\nM98\n\nx\n从主程序跳转到子程序\n\n\nM99\n\nx\n从子程序跳转到主程序\n\n\nM199\n\nx\n半水箱门限制取消\n\n\n12图例 -，通用功能描述相同图例 x，设备不支持该命令\n\nM00：程序停止    [返回]代码格式：M00\n解释：程序停止功能。停止后点击M00会从头开始。M00指令实际上是一个暂停指令。功效是履行此指令后，机床结束一切操作。即进丝等动作结束。但模态信息全数被保存，在按下把持面板上的启动指令后，机床重新启动，持续履行后面的程序。\n用处：M00该指令重要用于工件在加工过程中需停机检查、测量零件、手工换刀或交接班等。\nM01：程序停止    [返回]代码格式：M01\n解释：可选的停止功能，停止后点击M01就会继续。M01指令的功效与M00类似，不同的是，M01只有在预先按下把持面板上“可选停止开关”按钮的情形下，程序才会结束。倘若未按下“可选停止开关”按钮，程序履行到M01时不会停止，而是持续履行下面的程序。M01结束之后，按启动按钮可以持续履行后面的程序。\n用处：M01该指令重要用于加工工件抽样检查，清理切屑等\nM02：程序结束    [返回]代码格式：M02\n解释：程序结束\n用处：作为线切割NC代码的最后一行。\nM03：AWT 跳过    [返回]代码格式：M03\n解释：代码搜索\n用处：AWT为自动穿丝装置. 实现自动熔断及自动穿丝作业\nM04：打开侧门   [返回]代码格式：M04\n解释：打开侧门\n用处：\nM05：无视接触感知   [返回]代码格式：M05\n解释：无视接触感知；关闭侧门（ AC CUT HMI 2 ）\n用处：用于空跑（Dry Run）。为无视接触感知（No sensor touch）模式下，如果电极丝触碰到其它物体时，电极丝会断开。用于当你想通过现有的切口进行空跑时。所有轴的电机运行，所有限位开关被检查。\nM06：移动过程不放电   [返回]代码格式：M06\n解释：移动过程不放电\n用处：\nAC CUT HMI 2 设备：启用穿丝射流\nM07：导电块回退   [返回]代码格式：M07\n解释：启用穿丝射流（AC CUT HMI 2 ）\n用处：\nM08：打开舱门   [返回]代码格式：M08\n解释：打开舱门\n用处：不常用此M命令\nM09：打开侧门   [返回]代码格式：M09\n解释：打开侧门\n用处：不常用此M命令\nM12：关闭侧门 + 填充   [返回]代码格式：M12\n解释：关闭侧门 + 填充\n用处：不常用此M命令\nM13：等待门关闭 + 填充   [返回]代码格式：M13\n解释：等待门关闭 + 填充\n用处：不常用此M命令\nM14：重新穿丝块初始化   [返回]代码格式：M14\n解释：重新穿丝块初始化\n用处：\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2022-05-31T17:04:36+08:00","dateModified":"2022-05-31T19:09:00+08:00","datePublished":"2022-05-31T17:04:36+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：线切割数控机加工M代码一览表，全部代码语法格式都有详细的解释性描述。部分代码采用图文形式进行详细介绍描述。\nAbstract: List of M codes commonly used in WEDM, all code syntax format with detailed explanatory descriptions. Some codes are described in detail in graphic form.","headline":"机械加工 线切割数控加工常用M代码一览表","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2022/05/31/machining-03-wedm-common-m-code-list/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2022/05/31/machining-03-wedm-common-m-code-list/","keywords":"数控代码, M代码"}</script>
     <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：线切割数控机加工M代码一览表，全部代码语法格式都有详细的解释性描述。部分代码采用图文形式进行详细介绍描述。 Abstract: List of M codes commonly used in WEDM, all code syntax format with detailed explanatory descriptions. Some c">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="机械加工 线切割数控加工常用M代码一览表">
@@ -335,7 +335,7 @@
     
     
         <div class="post-meta">
-    <time datetime="2022-05-31T11:04:36+02:00">
+    <time datetime="2022-05-31T17:04:36+08:00">
 	
 		    5月 31, 2022
     	
@@ -690,7 +690,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -766,7 +766,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -786,7 +786,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2022 Jim Wang. All Rights Reserved.
+        Copyrights &copy; 2023 Jim Wang. All Rights Reserved.
     </span>
 </footer>
 
@@ -831,7 +831,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -907,7 +907,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
