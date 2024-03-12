@@ -8,7 +8,7 @@
     <meta name="generator" content="Jim Wang 的个人技术博客">
     <meta name="google-site-verification" content="Vv1-G7f0bcjlHq6prbeTvbDWFc4iN17bGUGM_KcE5xA" />
     <meta name="baidu-site-verification" content="A8086Y6q9Y" />
-    <title>Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题 - Jim Wang 的个人技术博客</title>
+    <title>linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本 - Jim Wang 的个人技术博客</title>
     <meta name="author" content="Jim Wang">
     
         <meta name="keywords" content="个人博客,实践,技术,经验,分享,全栈,Technology,blog,Python,Inno Setup,TypeScript,SQLite,AWS,CAM,EDM,JavaScript,CSS,HTML,">
@@ -21,20 +21,19 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n在使用Zero MQ函数setsocket(zmq.IPV4ONLY,0) 的时候。模块运行的时候会发生 self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError: ‘module’ object has no attribute ‘IPV4ONLY’ 的错误。\n用pip freeze 查看当前安装的模块的信息的时候会得到以下输出：\n1234# pip freezeconfigobj==4.7.2pyzmq==2.2.0...\n\n可能原因一如果出现问题的原因就是模块的版本太低，解决办法就是升级此模块。\n如果在使用命令： pip install pyzmq==14.5.0 出现下列错误提示时。\nerror: command ‘gcc’ failed with exit status 1\n那么需要安装gcc : aptitude install gcc 可以解决问题\n可能原因二如果出现下列错误提示：\nfatal error: Python.h: No such file or directory\n则需要安装 python-dev: aptitude install python-dev 可以解决问题。\n可能原因三如果出现下列错误提示：\ngcc: error trying to exec ‘cc1plus’: execvp: No such file or directory\n则需要安装 g++ : sudo apt-get install g++ 可以解决问题。\n可能原因四如果还有问题，请检查 \nPaket: libzmq3\nVersion: 4.0.5+dfsg-2 的版本信息。\n小结如果发现新的安装错误信息，欢迎大家关注本人个人公众号评论。才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-04-22T04:31:06+08:00","dateModified":"2020-11-20T05:38:45+08:00","datePublished":"2015-04-22T04:31:06+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：在使用Zero MQ函数setsocket(zmq.IPV4ONLY,0) 的时候。模块运行的时候会发生 self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError: ‘module’ object has no attribute ‘IPV4ONLY’ 的错误。本文讨论如何解决这一问题。\nAbstract: When using the Zero MQ function setsocket(zmq.IPV4ONLY,0). Happens when the module is running self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError:’module’ object has no attribute’IPV4ONLY’ error. This article discusses how to solve this problem.","headline":"Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/","keywords":"Python, 实战经验, ZeroMQ"}</script>
-    <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：在使用Zero MQ函数setsocket(zmq.IPV4ONLY,0) 的时候。模块运行的时候会发生 self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError: ‘module’ object has no attribute ‘IPV4ONLY’ 的错误。本文讨论如何解决这一问">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n背景有时候回需要到ssh tunnel，手动使用ssh 创建这些并没有太大的问题，可是如果尝试开机启动，写个shell脚本并在rc.local里面运行这个脚本并不成功，原因也不得而知。 后来发现了autossh这东东，不单单能够静默模式创建ssh tunnel还能设置自动检测，并自动尝试链接的选项。\n本文附件提供的脚本，需要放置在/etc/ini.d/目录下，并使用chmod +x 修改权限。然后也有必要使用update-rc.d service defaults添加入开机启动服务。当然不要忘记修改脚本中的配置信息。然后就能够在开机时候自动创建ssh tunnel了。 enjoy it.\n解决方法直接上结果：\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081#! /bin/bash# For each tunnel; make a uniquely named copy of this template.## SETTINGS## autossh monitoring port (unique)MPORT=54321# the ssh tunnel to setupTUNNEL=&quot;-L 2003:localhost:2003&quot;# remote userRUSER=&quot;socieer&quot;# remote serverRSERVER=&quot;socieer.axxeo.de&quot;# You must use the real autossh binary, not a wrapper.DAEMON=/usr/lib/autossh/autossh### END SETTINGSPATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/binNAME=`basename $0`PIDFILE=/var/run/$&#123;NAME&#125;.pidSCRIPTNAME=/etc/init.d/$&#123;NAME&#125;DESC=&quot;the tunnel&quot;test -x $DAEMON || exit 0export AUTOSSH_PORT=$&#123;MPORT&#125;export AUTOSSH_PIDFILE=$&#123;PIDFILE&#125;ASOPT=$&#123;TUNNEL&#125;&quot; -f -N &quot;$&#123;RUSER&#125;&quot;@&quot;$&#123;RSERVER&#125;#  Function that starts the daemon/service.d_start() &#123;   start-stop-daemon --start --quiet --pidfile $PIDFILE \\      --exec $DAEMON -- $ASOPT   if [ $? -gt 0 ]; then       echo -n &quot; not started (or already running)&quot;   else       sleep 1       start-stop-daemon --stop --quiet --pidfile $PIDFILE \\      --test --exec $DAEMON &gt; /dev/null || echo -n &quot; not started&quot;   fi&#125;#  Function that stops the daemon/service.d_stop() &#123;   start-stop-daemon --stop --quiet --pidfile $PIDFILE \\      --exec $DAEMON \\      || echo -n &quot; not running&quot;&#125;case &quot;$1&quot; in  start)   echo -n &quot;Starting $DESC: $NAME&quot;   d_start   echo &quot;.&quot;   ;;  stop)   echo -n &quot;Stopping $DESC: $NAME&quot;   d_stop   echo &quot;.&quot;   ;;  restart)   echo -n &quot;Restarting $DESC: $NAME&quot;   d_stop   sleep 1   d_start   echo &quot;.&quot;   ;;  *)   echo &quot;Usage: $SCRIPTNAME &#123;start|stop|restart&#125;&quot; &gt;&amp;2   exit 3   ;;esacexit 0\n\n才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-05-20T22:24:37+02:00","dateModified":"2020-11-19T21:29:25+01:00","datePublished":"2015-05-20T22:24:37+02:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：有时候回需要到ssh tunnel，手动使用ssh 创建这些并没有太大的问题，可是如果尝试开机启动，写个shell脚本并在rc.local里面运行这个脚本并不成功，原因也不得而知。 本文主要介绍如何解决这一问题。\nAbstract: Sometimes you need to go to ssh tunnel. Manually using ssh to create these is not a big problem, but if you try to boot up, write a shell script and run this script in rc.local, it is unsuccessful, and the reason is unknown. This article mainly introduces how to solve this problem.","headline":"linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/","keywords":"Linux, SSH"}</script>
+    <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：有时候回需要到ssh tunnel，手动使用ssh 创建这些并没有太大的问题，可是如果尝试开机启动，写个shell脚本并在rc.local里面运行这个脚本并不成功，原因也不得而知。 本文主要介绍如何解决这一问题。 Abstract: Sometimes you need to go to ssh tunnel. Manually using">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题">
-<meta property="og:url" content="https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/index.html">
+<meta property="og:title" content="linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本">
+<meta property="og:url" content="https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/index.html">
 <meta property="og:site_name" content="Jim Wang 的个人技术博客">
-<meta property="og:description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：在使用Zero MQ函数setsocket(zmq.IPV4ONLY,0) 的时候。模块运行的时候会发生 self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError: ‘module’ object has no attribute ‘IPV4ONLY’ 的错误。本文讨论如何解决这一问">
+<meta property="og:description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：有时候回需要到ssh tunnel，手动使用ssh 创建这些并没有太大的问题，可是如果尝试开机启动，写个shell脚本并在rc.local里面运行这个脚本并不成功，原因也不得而知。 本文主要介绍如何解决这一问题。 Abstract: Sometimes you need to go to ssh tunnel. Manually using">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2015-04-21T20:31:06.000Z">
-<meta property="article:modified_time" content="2020-11-19T21:38:45.273Z">
+<meta property="article:published_time" content="2015-05-20T20:24:37.000Z">
+<meta property="article:modified_time" content="2020-11-19T20:29:25.006Z">
 <meta property="article:author" content="Jim Wang">
-<meta property="article:tag" content="Python">
-<meta property="article:tag" content="实战经验">
-<meta property="article:tag" content="ZeroMQ">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="SSH">
 <meta name="twitter:card" content="summary">
     
     
@@ -48,7 +47,7 @@
     
     <!--STYLES-->
     
-<link rel="stylesheet" href="/assets/css/style-9z9xrjz01z6qsciduyl8pltdbh3pjm1jals283egxplnsyk5x8vnwsafvnh8.min.css">
+<link rel="stylesheet" href="/assets/css/style-7ulzjxcrtp0jzzwq3xq4z1rbhntci7sceu9zsdvhher7de8ece6tuwr6f2oa.min.css">
 
     <!--STYLES END-->
     
@@ -331,20 +330,20 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题
+            linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2015-04-22T04:31:06+08:00">
+    <time datetime="2015-05-20T22:24:37+02:00">
 	
-		    4月 22, 2015
+		    5月 20, 2015
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-7-Python-%E5%BA%94%E7%94%A8/">Python 相关 - 7. Python 应用</a>
+    <a class="category-link" href="/categories/Linux-%E7%9B%B8%E5%85%B3-%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/">Linux 相关 - 实战经验</a>
 
 
     
@@ -359,24 +358,12 @@
             <!-- excerpt -->
 
 <p>作者: Jim Wang 公众号:  <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
-<p>在使用Zero MQ函数setsocket(zmq.IPV4ONLY,0) 的时候。模块运行的时候会发生 self.socket_sub.setsockopt(zmq.IPV4ONLY, 0) AttributeError: ‘module’ object has no attribute ‘IPV4ONLY’ 的错误。</p>
-<p>用pip freeze 查看当前安装的模块的信息的时候会得到以下输出：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># pip freeze</span></span><br><span class="line">configobj==4.7.2</span><br><span class="line">pyzmq==2.2.0</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>有时候回需要到ssh tunnel，手动使用ssh 创建这些并没有太大的问题，可是如果尝试开机启动，写个shell脚本并在rc.local里面运行这个脚本并不成功，原因也不得而知。 后来发现了autossh这东东，不单单能够静默模式创建ssh tunnel还能设置自动检测，并自动尝试链接的选项。</p>
+<p>本文附件提供的脚本，需要放置在/etc/ini.d/目录下，并使用chmod +x 修改权限。然后也有必要使用update-rc.d service defaults添加入开机启动服务。当然不要忘记修改脚本中的配置信息。然后就能够在开机时候自动创建ssh tunnel了。 enjoy it.</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>直接上结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># For each tunnel; make a uniquely named copy of this template.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## SETTINGS</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># autossh monitoring port (unique)</span></span><br><span class="line">MPORT=54321</span><br><span class="line"><span class="comment"># the ssh tunnel to setup</span></span><br><span class="line">TUNNEL=<span class="string">&quot;-L 2003:localhost:2003&quot;</span></span><br><span class="line"><span class="comment"># remote user</span></span><br><span class="line">RUSER=<span class="string">&quot;socieer&quot;</span></span><br><span class="line"><span class="comment"># remote server</span></span><br><span class="line">RSERVER=<span class="string">&quot;socieer.axxeo.de&quot;</span></span><br><span class="line"><span class="comment"># You must use the real autossh binary, not a wrapper.</span></span><br><span class="line">DAEMON=/usr/lib/autossh/autossh</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">## END SETTINGS</span></span><br><span class="line"></span><br><span class="line">PATH=/usr/<span class="built_in">local</span>/sbin:/usr/<span class="built_in">local</span>/bin:/sbin:/bin:/usr/sbin:/usr/bin</span><br><span class="line"></span><br><span class="line">NAME=`basename <span class="variable">$0</span>`</span><br><span class="line">PIDFILE=/var/run/<span class="variable">$&#123;NAME&#125;</span>.pid</span><br><span class="line">SCRIPTNAME=/etc/init.d/<span class="variable">$&#123;NAME&#125;</span></span><br><span class="line">DESC=<span class="string">&quot;the tunnel&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">test</span> -x <span class="variable">$DAEMON</span> || <span class="built_in">exit</span> 0</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> AUTOSSH_PORT=<span class="variable">$&#123;MPORT&#125;</span></span><br><span class="line"><span class="built_in">export</span> AUTOSSH_PIDFILE=<span class="variable">$&#123;PIDFILE&#125;</span></span><br><span class="line">ASOPT=<span class="variable">$&#123;TUNNEL&#125;</span><span class="string">&quot; -f -N &quot;</span><span class="variable">$&#123;RUSER&#125;</span><span class="string">&quot;@&quot;</span><span class="variable">$&#123;RSERVER&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#  Function that starts the daemon/service.</span></span><br><span class="line"><span class="function"><span class="title">d_start</span></span>() &#123;</span><br><span class="line">   start-stop-daemon --start --quiet --pidfile <span class="variable">$PIDFILE</span> \</span><br><span class="line">      --<span class="built_in">exec</span> <span class="variable">$DAEMON</span> -- <span class="variable">$ASOPT</span></span><br><span class="line">   <span class="keyword">if</span> [ $? -gt 0 ]; <span class="keyword">then</span></span><br><span class="line">       <span class="built_in">echo</span> -n <span class="string">&quot; not started (or already running)&quot;</span></span><br><span class="line">   <span class="keyword">else</span></span><br><span class="line">       sleep 1</span><br><span class="line">       start-stop-daemon --stop --quiet --pidfile <span class="variable">$PIDFILE</span> \</span><br><span class="line">      --<span class="built_in">test</span> --<span class="built_in">exec</span> <span class="variable">$DAEMON</span> &gt; /dev/null || <span class="built_in">echo</span> -n <span class="string">&quot; not started&quot;</span></span><br><span class="line">   <span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#  Function that stops the daemon/service.</span></span><br><span class="line"><span class="function"><span class="title">d_stop</span></span>() &#123;</span><br><span class="line">   start-stop-daemon --stop --quiet --pidfile <span class="variable">$PIDFILE</span> \</span><br><span class="line">      --<span class="built_in">exec</span> <span class="variable">$DAEMON</span> \</span><br><span class="line">      || <span class="built_in">echo</span> -n <span class="string">&quot; not running&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;<span class="variable">$1</span>&quot;</span> <span class="keyword">in</span></span><br><span class="line">  start)</span><br><span class="line">   <span class="built_in">echo</span> -n <span class="string">&quot;Starting <span class="variable">$DESC</span>: <span class="variable">$NAME</span>&quot;</span></span><br><span class="line">   d_start</span><br><span class="line">   <span class="built_in">echo</span> <span class="string">&quot;.&quot;</span></span><br><span class="line">   ;;</span><br><span class="line">  stop)</span><br><span class="line">   <span class="built_in">echo</span> -n <span class="string">&quot;Stopping <span class="variable">$DESC</span>: <span class="variable">$NAME</span>&quot;</span></span><br><span class="line">   d_stop</span><br><span class="line">   <span class="built_in">echo</span> <span class="string">&quot;.&quot;</span></span><br><span class="line">   ;;</span><br><span class="line"></span><br><span class="line">  restart)</span><br><span class="line">   <span class="built_in">echo</span> -n <span class="string">&quot;Restarting <span class="variable">$DESC</span>: <span class="variable">$NAME</span>&quot;</span></span><br><span class="line">   d_stop</span><br><span class="line">   sleep 1</span><br><span class="line">   d_start</span><br><span class="line">   <span class="built_in">echo</span> <span class="string">&quot;.&quot;</span></span><br><span class="line">   ;;</span><br><span class="line">  *)</span><br><span class="line">   <span class="built_in">echo</span> <span class="string">&quot;Usage: <span class="variable">$SCRIPTNAME</span> &#123;start|stop|restart&#125;&quot;</span> &gt;&amp;2</span><br><span class="line">   <span class="built_in">exit</span> 3</span><br><span class="line">   ;;</span><br><span class="line"><span class="keyword">esac</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
 
-<h3 id="可能原因一"><a href="#可能原因一" class="headerlink" title="可能原因一"></a>可能原因一</h3><p>如果出现问题的原因就是模块的版本太低，解决办法就是升级此模块。</p>
-<p>如果在使用命令： pip install pyzmq==14.5.0 出现下列错误提示时。</p>
-<p>error: command ‘gcc’ failed with exit status 1</p>
-<p>那么需要安装gcc : aptitude install gcc 可以解决问题</p>
-<h3 id="可能原因二"><a href="#可能原因二" class="headerlink" title="可能原因二"></a>可能原因二</h3><p>如果出现下列错误提示：</p>
-<p>fatal error: Python.h: No such file or directory</p>
-<p>则需要安装 python-dev: aptitude install python-dev 可以解决问题。</p>
-<h3 id="可能原因三"><a href="#可能原因三" class="headerlink" title="可能原因三"></a>可能原因三</h3><p>如果出现下列错误提示：</p>
-<p>gcc: error trying to exec ‘cc1plus’: execvp: No such file or directory</p>
-<p>则需要安装 g++ : sudo apt-get install g++ 可以解决问题。</p>
-<h3 id="可能原因四"><a href="#可能原因四" class="headerlink" title="可能原因四"></a>可能原因四</h3><p>如果还有问题，请检查 </p>
-<p>Paket: libzmq3</p>
-<p>Version: 4.0.5+dfsg-2 的版本信息。</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>如果发现新的安装错误信息，欢迎大家关注本人个人公众号评论。才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。</p>
+<p>才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。</p>
 <hr>
 <div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">
     版权声明：<br>文章首发于 <a target="_blank" rel="noopener" href="http://zhichaowang.online"> Jim Wang's blog </a>，
@@ -392,7 +379,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-none-link" href="/tags/Python/" rel="tag">Python</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/ZeroMQ/" rel="tag">ZeroMQ</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/" rel="tag">实战经验</a>
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/Linux/" rel="tag">Linux</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/SSH/" rel="tag">SSH</a>
 
             </div>
         
@@ -405,9 +392,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
-                    data-tooltip="linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本"
-                    aria-label="上一篇: linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本"
+                    href="/2015/10/08/0702-bubble-sort-and-assignment-operation/"
+                    data-tooltip="Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法"
+                    aria-label="上一篇: Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -419,9 +406,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
-                    data-tooltip="Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
-                    aria-label="下一篇: Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
+                    href="/2015/04/21/0703-issue-zeromq-ipv4only/"
+                    data-tooltip="Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
+                    aria-label="下一篇: Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
@@ -435,7 +422,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -446,7 +433,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -459,7 +446,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -472,7 +459,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -485,7 +472,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -498,7 +485,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/&amp;title=Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/&amp;title=linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -511,7 +498,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -531,7 +518,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2023 Jim Wang. All Rights Reserved.
+        Copyrights &copy; 2024 Jim Wang. All Rights Reserved.
     </span>
 </footer>
 
@@ -546,9 +533,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/05/21/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
-                    data-tooltip="linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本"
-                    aria-label="上一篇: linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本"
+                    href="/2015/10/08/0702-bubble-sort-and-assignment-operation/"
+                    data-tooltip="Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法"
+                    aria-label="上一篇: Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法"
                 >
                     
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -560,9 +547,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2015/04/22/0704-issue-no-module-named-django-conf-urls-defaults/"
-                    data-tooltip="Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
-                    aria-label="下一篇: Python 应用之如何解决加载django模块时的错误:no module named django.conf.urls.defaults"
+                    href="/2015/04/21/0703-issue-zeromq-ipv4only/"
+                    data-tooltip="Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
+                    aria-label="下一篇: Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
@@ -576,7 +563,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -587,7 +574,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
                     title="分享到 Facebook"
                     aria-label="分享到 Facebook"
                 >
@@ -600,7 +587,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
                     title="分享到 Twitter"
                     aria-label="分享到 Twitter"
                 >
@@ -613,7 +600,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
                     title="分享到 Google+"
                     aria-label="分享到 Google+"
                 >
@@ -626,7 +613,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
                     title="分享到 Weibo"
                     aria-label="分享到 Weibo"
                 >
@@ -639,7 +626,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/&amp;title=Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/&amp;title=linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本"
                     title="分享到 QQ"
                     aria-label="分享到 QQ"
                 >
@@ -652,7 +639,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -673,7 +660,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
                         aria-label="分享到 Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
@@ -686,7 +673,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
                         aria-label="分享到 Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
@@ -699,7 +686,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                        href="https://plus.google.com/share?url=https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
                         aria-label="分享到 Google+"
                     >
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
@@ -712,7 +699,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/"
                         aria-label="分享到 Weibo"
                     >
                         <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
@@ -725,7 +712,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/04/22/0703-issue-zeromq-ipv4only/&amp;title=Python 应用之如何解决 AttributeError module object has no attribute [IPV4ONLY] 的问题"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/2015/05/20/linux-0101-autossh-realizes-booting-to-create-ssh-tunnel/&amp;title=linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本"
                         aria-label="分享到 QQ"
                     >
                         <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
@@ -812,7 +799,7 @@
 <div id="cover" style="background-image:url('/assets/images/background-cover.jpg');"></div>
         <!--SCRIPTS-->
 
-<script src="/assets/js/script-qcuqdwcmkx1md8jpcac5kcpp91c1lszaotvjdj7jlmtend4lwzuio3ymfhul.min.js"></script>
+<script src="/assets/js/script-yr0rxkfqqfabvej0of0ojdpodxqsg48lvmzu80bi0afmmu0rq3zbxc2oqkst.min.js"></script>
 
 <!--SCRIPTS END-->
 

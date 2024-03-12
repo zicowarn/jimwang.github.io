@@ -21,7 +21,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n背景在使用wxpython的时候也许会遇见这样的问题。软件用户或者潜在用户可能使用多个显示器，而且显示器设置并不是简单的投影而是扩展设置，这样的话，显示器的尺寸就超过了单一显示器的尺寸，而是两个现实器的综合。\n正文在需要调整窗口位置的时候，当使用SetPosition(Point, Flag)的时候就应该考虑到偏移量Offset。因为用户打开软件的可能并不是在主显示器上面，也许主窗口在第二个显示器上面。如果单纯的使用SetPostion()的话，可能窗口会在主显示器上面。\n那么首先如何简单准确地获得显示器的数量和每一个显示器的尺寸呢？ 下列两行代码可以帮你解决问题。displays 可以理解为wx.Display实力的列表。第二行代码返回一个尺寸，也就是分辨率的列表。\n该列表保存了所有现实的分辨率信息，如下：\n12displays = (wx.Display(i) for i in range(wx.Display.GetCount()))sizes = [display.GetGeometry().GetSize() for display in displays]\n\n因为用户显示器的分辨率可能会发生变化。用户显示器的设置也有可能不同，有可能第二显示器在主显示器的左边，也有可能在右边。那么单单或者显示器的分辨率，手动设置位置偏移量显得有点不够高效。\n首先我们要确定，主窗口或者Frame (toplevel Windows)的位置，是在主显示器上还是在第二个显示器上面。 \n使用此函数来得到主窗口的位置：\n1rts = wx.Display.GetFromWindow(parent)\n\n参数parent, 是需要确定位置的窗口，返回值rts有三种可能（假设有两个显示器）：\n\n-1， 窗口位于连个显示器之间\n0， 主显示器上\n1， 第二个显示器上。\n\n当主窗口位于第二个现实上面的时候我们在调整窗口就要考虑偏移量。在忽略用户显示器设置的情况下，我们可以通过，\n1wx.Display(indexOfMonitor).GetGeometry()\n\n此方法获得任一显示器的与主显示器的相对位置。 该方法返回Rect实例。为一个tuple。 \n1Rect(x, y, width, height)\n\nx为该显示器与主显示器的(0,0)点x轴偏移量，\ny为该显示器与主显示器的(0,0)点y轴偏移量。\n可以通过：\n12offset_x_pos = wx.Display(indexOfMonitor).GetGeometry().GetX()offset_y_pos = wx.Display(indexOfMonitor).GetGeometry().GetY()\n\n获得单一轴的偏移量或者通过：\n1wx.Display(indexOfMonitor).GetGeometry().GetPosition()\n\n一次获得两个轴的偏移量。\n才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2016-04-19T21:11:08+08:00","dateModified":"2020-11-20T03:59:56+08:00","datePublished":"2016-04-19T21:11:08+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：在使用wxpython的时候也许会遇见这样的问题。软件用户或者潜在用户可能使用多个显示器，而且显示器设置并不是简单的投影而是扩展设置，这样的话，显示器的尺寸就超过了单一显示器的尺寸，而是两个现实器的综合。\nAbstract: When using the wxpython may encounter this problem. Software users or potential users may use multiple displays, and the display settings are not simple projections but extended settings. In this case, the size of the display exceeds the size of a single display, but a combination of two realities.","headline":"Python 杂记之 wxPython 图形界面程序中多个显示器问题","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2016/04/19/0811-wxpython-multiple-monitors-issue/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2016/04/19/0811-wxpython-multiple-monitors-issue/","keywords":"Python, 杂记, wxPython"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n背景在使用wxpython的时候也许会遇见这样的问题。软件用户或者潜在用户可能使用多个显示器，而且显示器设置并不是简单的投影而是扩展设置，这样的话，显示器的尺寸就超过了单一显示器的尺寸，而是两个现实器的综合。\n正文在需要调整窗口位置的时候，当使用SetPosition(Point, Flag)的时候就应该考虑到偏移量Offset。因为用户打开软件的可能并不是在主显示器上面，也许主窗口在第二个显示器上面。如果单纯的使用SetPostion()的话，可能窗口会在主显示器上面。\n那么首先如何简单准确地获得显示器的数量和每一个显示器的尺寸呢？ 下列两行代码可以帮你解决问题。displays 可以理解为wx.Display实力的列表。第二行代码返回一个尺寸，也就是分辨率的列表。\n该列表保存了所有现实的分辨率信息，如下：\n12displays = (wx.Display(i) for i in range(wx.Display.GetCount()))sizes = [display.GetGeometry().GetSize() for display in displays]\n\n因为用户显示器的分辨率可能会发生变化。用户显示器的设置也有可能不同，有可能第二显示器在主显示器的左边，也有可能在右边。那么单单或者显示器的分辨率，手动设置位置偏移量显得有点不够高效。\n首先我们要确定，主窗口或者Frame (toplevel Windows)的位置，是在主显示器上还是在第二个显示器上面。 \n使用此函数来得到主窗口的位置：\n1rts = wx.Display.GetFromWindow(parent)\n\n参数parent, 是需要确定位置的窗口，返回值rts有三种可能（假设有两个显示器）：\n\n-1， 窗口位于连个显示器之间\n0， 主显示器上\n1， 第二个显示器上。\n\n当主窗口位于第二个现实上面的时候我们在调整窗口就要考虑偏移量。在忽略用户显示器设置的情况下，我们可以通过，\n1wx.Display(indexOfMonitor).GetGeometry()\n\n此方法获得任一显示器的与主显示器的相对位置。 该方法返回Rect实例。为一个tuple。 \n1Rect(x, y, width, height)\n\nx为该显示器与主显示器的(0,0)点x轴偏移量，\ny为该显示器与主显示器的(0,0)点y轴偏移量。\n可以通过：\n12offset_x_pos = wx.Display(indexOfMonitor).GetGeometry().GetX()offset_y_pos = wx.Display(indexOfMonitor).GetGeometry().GetY()\n\n获得单一轴的偏移量或者通过：\n1wx.Display(indexOfMonitor).GetGeometry().GetPosition()\n\n一次获得两个轴的偏移量。\n才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2016-04-19T15:11:08+02:00","dateModified":"2020-11-19T20:59:56+01:00","datePublished":"2016-04-19T15:11:08+02:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：在使用wxpython的时候也许会遇见这样的问题。软件用户或者潜在用户可能使用多个显示器，而且显示器设置并不是简单的投影而是扩展设置，这样的话，显示器的尺寸就超过了单一显示器的尺寸，而是两个现实器的综合。\nAbstract: When using the wxpython may encounter this problem. Software users or potential users may use multiple displays, and the display settings are not simple projections but extended settings. In this case, the size of the display exceeds the size of a single display, but a combination of two realities.","headline":"Python 杂记之 wxPython 图形界面程序中多个显示器问题","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/2016/04/19/0811-wxpython-multiple-monitors-issue/"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/2016/04/19/0811-wxpython-multiple-monitors-issue/","keywords":"Python, 杂记, wxPython"}</script>
     <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：在使用wxpython的时候也许会遇见这样的问题。软件用户或者潜在用户可能使用多个显示器，而且显示器设置并不是简单的投影而是扩展设置，这样的话，显示器的尺寸就超过了单一显示器的尺寸，而是两个现实器的综合。 Abstract: When using the wxpython may encounter this problem. Softwar">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Python 杂记之 wxPython 图形界面程序中多个显示器问题">
@@ -48,7 +48,7 @@
     
     <!--STYLES-->
     
-<link rel="stylesheet" href="/assets/css/style-9z9xrjz01z6qsciduyl8pltdbh3pjm1jals283egxplnsyk5x8vnwsafvnh8.min.css">
+<link rel="stylesheet" href="/assets/css/style-7ulzjxcrtp0jzzwq3xq4z1rbhntci7sceu9zsdvhher7de8ece6tuwr6f2oa.min.css">
 
     <!--STYLES END-->
     
@@ -336,7 +336,7 @@
     
     
         <div class="post-meta">
-    <time datetime="2016-04-19T21:11:08+08:00">
+    <time datetime="2016-04-19T15:11:08+02:00">
 	
 		    4月 19, 2016
     	
@@ -450,7 +450,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -526,7 +526,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -546,7 +546,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2023 Jim Wang. All Rights Reserved.
+        Copyrights &copy; 2024 Jim Wang. All Rights Reserved.
     </span>
 </footer>
 
@@ -591,7 +591,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Share this post"
+                aria-label="Diesen Beitrag teilen"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -667,7 +667,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -827,7 +827,7 @@
 <div id="cover" style="background-image:url('/assets/images/background-cover.jpg');"></div>
         <!--SCRIPTS-->
 
-<script src="/assets/js/script-qcuqdwcmkx1md8jpcac5kcpp91c1lszaotvjdj7jlmtend4lwzuio3ymfhul.min.js"></script>
+<script src="/assets/js/script-yr0rxkfqqfabvej0of0ojdpodxqsg48lvmzu80bi0afmmu0rq3zbxc2oqkst.min.js"></script>
 
 <!--SCRIPTS END-->
 
