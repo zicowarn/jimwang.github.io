@@ -29,10 +29,10 @@
 <meta property="og:site_name" content="Jim Wang 的个人技术博客">
 <meta property="og:description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：如何解决pyenv的Windows版本pyenv-win在Windows 7中安装配置pyenv-win时，遇到的:: [ERROR] :: An error occurred in the support of the secure channel，为什么会存在secure protocol 安全协议的问题？如何在Window 7系统中开启">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zicowarn.github.io/posts/image-20210619142132677.png">
-<meta property="og:image" content="https://zicowarn.github.io/posts/image-20210619142014086.png">
-<meta property="og:image" content="https://zicowarn.github.io/posts/image-20210619150914631.png">
-<meta property="og:image" content="https://zicowarn.github.io/posts/image-20210619141719216.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/36800/image-20210619142132677.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/36800/image-20210619142014086.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/36800/image-20210619150914631.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/36800/image-20210619141719216.png">
 <meta property="article:published_time" content="2021-06-19T06:11:08.000Z">
 <meta property="article:modified_time" content="2024-03-13T21:29:45.709Z">
 <meta property="article:author" content="Jim Wang">
@@ -40,7 +40,7 @@
 <meta property="article:tag" content="杂记">
 <meta property="article:tag" content="pyenv">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zicowarn.github.io/posts/image-20210619142132677.png">
+<meta name="twitter:image" content="https://zicowarn.github.io/posts/36800/image-20210619142132677.png">
     
     
         
@@ -408,12 +408,12 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\WinHttp</span><br></pre></td></tr></table></figure>
 
 <p>如下图所示。</p>
-<p><img src="/posts/image-20210619142132677.png" alt="image-20210619142132677"></p>
+<p><img src="/posts/36800/image-20210619142132677.png" alt="image-20210619142132677"></p>
 <p>在64位的Windows系统位于，</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Internet Settings\WinHttp</span><br></pre></td></tr></table></figure>
 
 <p>64位系统</p>
-<p><img src="/posts/image-20210619142014086.png" alt="image-20210619142014086"></p>
+<p><img src="/posts/36800/image-20210619142014086.png" alt="image-20210619142014086"></p>
 <p>需要注意的是，如果注册表默认没有<code>DefaultSecureProtocol</code> 这个键，在64位Window系统中，要在以上两处添加这个键，并设置相应的合法值，值的类型为DWORD。</p>
 <p>也可以使用Windows官方提供的快速工具Easy Fix 来实现上述键值的自动添加。下载链接：<a target="_blank" rel="noopener" href="https://download.microsoft.com/download/0/6/5/0658B1A7-6D2E-474F-BC2C-D69E5B9E9A68/MicrosoftEasyFix51044.msi%E3%80%82">https://download.microsoft.com/download/0/6/5/0658B1A7-6D2E-474F-BC2C-D69E5B9E9A68/MicrosoftEasyFix51044.msi。</a></p>
 <p>该工具除了在WinHttp这个键下（在64位系统中，注册表的上述两处位置），添加<code>DefaultSecureProtocol</code> 这个键和默认值0x00000a00。还会将在下列两处位置添加一个名为<code>SecureProtocol</code>的新键和默认值0x00000a00，以开启IE浏览器对TLS 1.1 和 TLS 1.2两个协议的支持。两处位置如下：</p>
@@ -422,7 +422,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings</span><br></pre></td></tr></table></figure>
 
 <p>添加后的结果如下图所示：</p>
-<p><img src="/posts/image-20210619150914631.png" alt="image-20210619150914631"></p>
+<p><img src="/posts/36800/image-20210619150914631.png" alt="image-20210619150914631"></p>
 <h3 id="第二步，在Windows-7上开启SChannel组件级别的TLS-1-0和TLS-1-2两个协议的支持"><a href="#第二步，在Windows-7上开启SChannel组件级别的TLS-1-0和TLS-1-2两个协议的支持" class="headerlink" title="第二步，在Windows 7上开启SChannel组件级别的TLS 1.0和TLS 1.2两个协议的支持"></a>第二步，在Windows 7上开启SChannel组件级别的TLS 1.0和TLS 1.2两个协议的支持</h3><p><strong>SChannel</strong>也被称为Secure Channel 23，是一个windows子系统，当windows应用程序想要做任何与TLS相关的事情时，比如与远程服务器建立一个加密会话，或接受来自客户端的TLS连接，就会使用Schannel，从体系来看，SChannel实现了Security Support Provider Interface (SSPI)接口，是微软提供的SSP包之一。SSP包还包括CredSSP、Negotiate、NTLM、Kerberos和Digest24等等。</p>
 <p>SChannel使用示例：</p>
 <p><strong>HTTPS连接</strong></p>
@@ -441,7 +441,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client</span><br></pre></td></tr></table></figure>
 
 <p>添加之后结果应如下图所示。</p>
-<p><img src="/posts/image-20210619141719216.png" alt="image-20210619141719216"></p>
+<p><img src="/posts/36800/image-20210619141719216.png" alt="image-20210619141719216"></p>
 <h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>当完成上述注册表的添加与修改后就可以尝试重新打开cmd，并使用命令<code>pyenv install xxx</code> 安装新的版本，我测试的结果如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\nobody&gt;pyenv install 3.7.9</span><br><span class="line">:: [Info] ::  Mirror: https://www.python.org/ftp/python</span><br><span class="line">:: [Downloading] ::  3.7.9 ...</span><br><span class="line">:: [Downloading] ::  From https://www.python.org/ftp/python/3.7.9/python-3.7.9-amd64-webinstall.exe</span><br><span class="line">:: [Downloading] ::  To   C:\Users\nobody\.pyenv\pyenv-win\install_cache\python-3.7.9-amd64-webinstall.exe</span><br><span class="line">:: [Installing] ::  3.7.9 ...</span><br><span class="line">:: [Info] :: completed! 3.7.9</span><br></pre></td></tr></table></figure>
 

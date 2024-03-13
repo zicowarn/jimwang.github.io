@@ -29,16 +29,16 @@
 <meta property="og:site_name" content="Jim Wang 的个人技术博客">
 <meta property="og:description" content="CSS来隐藏页面文本 CSS to hide text">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zicowarn.github.io/posts/css-01-03.png">
-<meta property="og:image" content="https://zicowarn.github.io/posts/css-01-02.png">
-<meta property="og:image" content="https://zicowarn.github.io/posts/css-01-04.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/22486/css-01-03.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/22486/css-01-02.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/22486/css-01-04.png">
 <meta property="article:published_time" content="2020-08-29T09:13:51.000Z">
 <meta property="article:modified_time" content="2024-03-13T21:29:45.713Z">
 <meta property="article:author" content="Jim Wang">
 <meta property="article:tag" content="前端">
 <meta property="article:tag" content="CSS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zicowarn.github.io/posts/css-01-03.png">
+<meta name="twitter:image" content="https://zicowarn.github.io/posts/22486/css-01-03.png">
     
     
         
@@ -369,12 +369,12 @@
 <p>其中material.min.css文件，是自己在<a target="_blank" rel="noopener" href="https://getmdl.io/customize">https://getmdl.io/customize</a> 官方页面下，按照说明文档，自定义生成的，其使用的默认主色为indigo和强调色为pink。相关的使用方法与规范，请参见官方文档，本文不再做说明。</p>
 <h3 id="所遇问题"><a href="#所遇问题" class="headerlink" title="所遇问题"></a>所遇问题</h3><p>有关Material Design Lite使用方法的内容中关于字体图标Material+Icons的链接的部分，由于大家熟知的原因，使用这个地址的CDN是不被推荐的，另一方面，因为该小型管理项目最终也是在内部网络使用的，再者初始版本中使用的是w3 css开源主题，Roboto免费字体与Font Awesome开源图表库，这些内容也希望能新的样式中继续使用。所以类似这样的外部链接就有悖项目现实情况。当然网络中也有此类资源本地使用方法的介绍，相关内容因与本文无关，不在赘述。</p>
 <p>自己项目页面基本布局如下图所示，左侧为导航navibar部分，底部为页脚footer部分，右上为页眉header部分与右侧中部为主要内容显示部分。navibar会根据页面宽度自动显示与隐藏，这是Material Design Lite的组件特性。</p>
-<p><img src="/posts/css-01-03.png" alt="图例2"></p>
+<p><img src="/posts/22486/css-01-03.png" alt="图例2"></p>
 <p>项目中header部分的代码如下，注意，这里使用的是jade模版。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// header part</span><br><span class="line">header(class=&quot;mdl-layout__header&quot;)</span><br><span class="line">  div(class=&quot;mdl-layout__header-row&quot;)</span><br><span class="line">    span(class=&quot;mdl-layout-title&quot;). </span><br><span class="line">      #&#123;t(&#x27;index.title&#x27;, &#x27;My header title&#x27;)&#125;</span><br><span class="line">    div(class=&quot;mdl-layout-spacer&quot;)</span><br></pre></td></tr></table></figure>
 
 <p>由于是响应式的UI布局，当页面尺寸低于一个值时，左侧导航菜单就会被隐藏，同时按钮图标会显示在Header部分，估计很多朋友都见过类似的响应式布局，如此一来，就遇到了本文所述的关键问题。前文说道项目中没有引入Material+Icons的链接。也就无法显示正确显示这个按钮，具体情况如图所示：</p>
-<p><img src="/posts/css-01-02.png" alt="图例3"></p>
+<p><img src="/posts/22486/css-01-02.png" alt="图例3"></p>
 <p>该按钮是由material.min.js自动生成的，当页面宽度缩小到一定值时，页眉header部分的代码变为如下所示，对比之间的代码可见在div(class=”mdl-layout__header-row”)上面出现了一个新的div块，内部为一个图标元素，该图标即为上图中的菜单按钮，由于定义图标的资源未被引入，所以图标未正确显示。</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">header</span> <span class="attr">class</span>=<span class="string">&quot;mdl-layout__header is-casting-shadow&quot;</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">aria-expanded</span>=<span class="string">&quot;false&quot;</span> <span class="attr">role</span>=<span class="string">&quot;button&quot;</span> <span class="attr">tabindex</span>=<span class="string">&quot;0&quot;</span> <span class="attr">class</span>=<span class="string">&quot;mdl-layout__drawer-button&quot;</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">i</span> <span class="attr">class</span>=<span class="string">&quot;material-icons&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;mdl-layout__header-row&quot;</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;mdl-layout-title&quot;</span>&gt;</span>My header title<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">   ...</span><br></pre></td></tr></table></figure>
 
@@ -398,7 +398,7 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">&quot;text/css&quot;</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css"><span class="selector-tag">button</span></span></span><br><span class="line"><span class="language-css">&#123;</span></span><br><span class="line"><span class="language-css">	<span class="attribute">width</span>: <span class="number">120px</span>;</span></span><br><span class="line"><span class="language-css">  <span class="attribute">height</span>: <span class="number">32px</span>;</span></span><br><span class="line"><span class="language-css">  <span class="attribute">text-indent</span>: <span class="number">100%</span>; </span></span><br><span class="line"><span class="language-css">  <span class="attribute">white-space</span>: nowrap;</span></span><br><span class="line"><span class="language-css">  <span class="attribute">overflow</span>: hidden</span></span><br><span class="line"><span class="language-css">&#125;</span></span><br><span class="line"><span class="language-css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span>&gt;</span>Button<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>上述代码的结果如下，可以看出文本左侧边界被“<strong>击穿</strong>”了。</p>
-<p><img src="/posts/css-01-04.png" alt="图例1"></p>
+<p><img src="/posts/22486/css-01-04.png" alt="图例1"></p>
 <p>为什么遇到&lt;button&gt;元素时，即便结合使用了overflow: hidden还是会出现页面被击穿的现象呢？这是因为一些类似于&lt;button&gt;的html元素本身自带内部填充intrinsic padding。重置button的padding属性就可以解决这一问题，当然将text-indent的值设置为大于100%，或使用前文中所说的9999px也能达到相似的结果。将下面的代码添加至上面的html代码中就能解决这个问题：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* &#123;</span><br><span class="line">    <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span>; <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 

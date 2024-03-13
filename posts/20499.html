@@ -29,17 +29,17 @@
 <meta property="og:site_name" content="Jim Wang 的个人技术博客">
 <meta property="og:description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：本文主要分享一些在LabView时，有变量组处理的一些浅见。 Abstract: This article mainly shares some insights on the processing of variable groups in LabView.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zicowarn.github.io/posts/image-20201120053030027.png">
-<meta property="og:image" content="https://zicowarn.github.io/posts/image-20201120053059145.png">
-<meta property="og:image" content="https://zicowarn.github.io/posts/image-20201120053300255.png">
-<meta property="og:image" content="https://zicowarn.github.io/posts/image-20201120053407102.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/20499/image-20201120053030027.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/20499/image-20201120053059145.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/20499/image-20201120053300255.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/20499/image-20201120053407102.png">
 <meta property="article:published_time" content="2011-05-08T20:24:37.000Z">
 <meta property="article:modified_time" content="2024-03-13T21:29:45.728Z">
 <meta property="article:author" content="Jim Wang">
 <meta property="article:tag" content="LabView">
 <meta property="article:tag" content="Variables">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zicowarn.github.io/posts/image-20201120053030027.png">
+<meta name="twitter:image" content="https://zicowarn.github.io/posts/20499/image-20201120053030027.png">
     
     
         
@@ -376,13 +376,13 @@
 </ol>
 <p>本地变量的使用：</p>
 <h3 id="例一"><a href="#例一" class="headerlink" title="例一"></a>例一</h3><p>用一个布尔开关同时控制两个While-Schleife.如图，前面板结构欠奉。</p>
-<p><img src="/posts/image-20201120053030027.png" alt="image-20201120053030027"></p>
+<p><img src="/posts/20499/image-20201120053030027.png" alt="image-20201120053030027"></p>
 <p>有时候需要为一个控制赋值或者从一个指示中读出数据，但是通过前面板独享的端口不能为控制赋值，也不能从指示中读出数据。如图所示： 前面板结构欠奉。</p>
-<p><img src="/posts/image-20201120053059145.png" alt="image-20201120053059145"></p>
+<p><img src="/posts/20499/image-20201120053059145.png" alt="image-20201120053059145"></p>
 <p>利用本地变量就可以解决这个问题。本地变量有Read和 Write两种属性。当属性为Read时，可以从本地变量中读出数据；当属性为Write时，可以给这个本地变量赋值。利用这种方法，就可以给控制赋值或从指示中读出数据。</p>
 <h3 id="例二"><a href="#例二" class="headerlink" title="例二"></a>例二</h3><p>利用本地变量给一个控制赋值，并从一个指示中读出数据。</p>
 <p>如图： 前面板结构欠奉。</p>
-<p><img src="/posts/image-20201120053300255.png" alt="image-20201120053300255"></p>
+<p><img src="/posts/20499/image-20201120053300255.png" alt="image-20201120053300255"></p>
 <p>在本地变量的右键弹出选单中选择Change to Read或 Change to Write，可以改变本地变量的属性，当本地变量的属性为Read时，本地变量图标的边框用粗线来强调；当本地变量的属性为Write时，本地变量的边框则用细线强调。</p>
 <p>本地变量的特点：</p>
 <p>一个本地变量就是器相应前面板对象的一个数据拷贝，要占用一定的内存。所以，应该在程序中控制本地变量的数量。否则会占用大量的内存，从而降低程序运行的效率。同时，当程序中有多个本地变量时，因为LabViEW的并行执行性，可能会造成意想不到的错误。比如有这么一种情况。程序的某一处，用户从一个控制的本地变量中读出数据，在另一处，根据需要又为这个控制的另一个本地变量赋值。如果这两个过程刚好并行发生的，就有可能是读出的数据不是前面板对象原来的数据，而是赋值后的数据。这种不是明显的逻辑错误，很难发现，因此，在编程过程中要特别注意，避免发生。</p>
@@ -403,7 +403,7 @@
 </ol>
 <p>全局变量的应用实例：</p>
 <p>在VI之间传递数据，如图。</p>
-<p><img src="/posts/image-20201120053407102.png" alt="image-20201120053407102"></p>
+<p><img src="/posts/20499/image-20201120053407102.png" alt="image-20201120053407102"></p>
 <p>其中全局变量Global 3.vi在两个Schleifen之间起传输数据的作用。</p>
 <p>全局变量的特点：</p>
 <p>LabViEW中全局变量比起普通的编程语言要灵活的多，可以同时有几种数据类型。而全局变量虽然也是vi，但是比起SubVI，它不能进行编程，只能用于简单数据储存与传递。全局变量的优点是分别访问。</p>

@@ -29,17 +29,17 @@
 <meta property="og:site_name" content="Jim Wang 的个人技术博客">
 <meta property="og:description" content="Python实现aws lambda函数时使用Python依赖库pymssql solve the problem of code dependency when using Python to implement aws lambda">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zicowarn.github.io/posts/aws-lambda-02-creatlayer.png">
-<meta property="og:image" content="https://zicowarn.github.io/posts/aws-lambda-0203.png">
-<meta property="og:image" content="https://zicowarn.github.io/posts/aws-lambda-0204.png">
-<meta property="og:image" content="https://zicowarn.github.io/posts/aws-lambda-0204-1195705.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/58946/aws-lambda-02-creatlayer.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/58946/aws-lambda-0203.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/58946/aws-lambda-0204.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/58946/aws-lambda-0204-1195705.png">
 <meta property="article:published_time" content="2020-09-20T01:39:50.000Z">
 <meta property="article:modified_time" content="2024-03-13T21:29:45.712Z">
 <meta property="article:author" content="Jim Wang">
 <meta property="article:tag" content="AWS">
 <meta property="article:tag" content="lambda">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zicowarn.github.io/posts/aws-lambda-02-creatlayer.png">
+<meta name="twitter:image" content="https://zicowarn.github.io/posts/58946/aws-lambda-02-creatlayer.png">
     
     
         
@@ -430,11 +430,11 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(env3612) username@mac:~/pymssql-dependencies/python<span class="comment"># cd ..</span></span><br><span class="line">(env3612) username@mac:~/pymssql-dependencies<span class="comment"># mkdir ~/tmp</span></span><br><span class="line">(env3612) username@mac:~/pymssql-dependencies<span class="comment"># zip -r ~/tmp/pymssql-dependencies.zip .</span></span><br><span class="line">  adding: python/ (stored 0%)</span><br><span class="line">  adding: python/_mssql.cpython-36m-x86_64-linux-gnu.so (deflated 73%)</span><br><span class="line">	...</span><br><span class="line">  adding: python/pymssql.libs/libsybdb-98ddd287.so.5.1.0 (deflated 64%)</span><br></pre></td></tr></table></figure>
 
 <h4 id="一、通过-lambda-层解决依赖问题"><a href="#一、通过-lambda-层解决依赖问题" class="headerlink" title="一、通过 lambda 层解决依赖问题"></a>一、通过 lambda 层解决依赖问题</h4><p>该方法解决问题是，首先要创建一个lambda 函数的层，配置信息请参考下方图片。在这里层的名称可以自定义，因为其只做为索引，在lambda函数引入层时，被用于索引。与之后要上传至层的zip文件名，和zip文件内的文件都无关系。</p>
-<h5 id="创建lambda层"><a href="#创建lambda层" class="headerlink" title="创建lambda层"></a>创建lambda层</h5><p><img src="/posts/aws-lambda-02-creatlayer.png" alt="Lambda Create Layer"></p>
+<h5 id="创建lambda层"><a href="#创建lambda层" class="headerlink" title="创建lambda层"></a>创建lambda层</h5><p><img src="/posts/58946/aws-lambda-02-creatlayer.png" alt="Lambda Create Layer"></p>
 <p>然后选择之前创建的zip文件，上传后点击<code>创建</code>，就可以完成相关lambda层的创建。再在lambda函数的配置页面点击<code>Layers</code>，然后选择<code>添加层</code>，为test这个lambda函数的指定一个layer。</p>
-<p><img src="/posts/aws-lambda-0203.png" alt="aws-lambda-0203"></p>
+<p><img src="/posts/58946/aws-lambda-0203.png" alt="aws-lambda-0203"></p>
 <p>然后在如下页面选择<code>自定义层</code>，选择层的名称，点击<code>添加</code>即可完成配置。</p>
-<p><img src="/posts/aws-lambda-0204.png" alt="aws-lambda-0204"></p>
+<p><img src="/posts/58946/aws-lambda-0204.png" alt="aws-lambda-0204"></p>
 <p>然后就可以再次测试该lambda函数。这时候lambda的执行结果为：<strong>成功</strong>，详细信息为：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;statusCode&quot;: 200,</span><br><span class="line">  &quot;body&quot;: &quot;\&quot;Hello from Lambda!\&quot;&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -449,7 +449,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(env3612) username@mac:~/pymssql-dependencies/python<span class="comment">#  zip -r ~/Downloads/test.zip . </span></span><br><span class="line">updating: _mssql.cpython-36m-x86_64-linux-gnu.so (deflated 73%)</span><br><span class="line">updating: pymssql.cpython-36m-x86_64-linux-gnu.so (deflated 72%)</span><br><span class="line">updating: lambda_function.py (deflated 24%)</span><br><span class="line">  adding: pymssql-2.1.5.dist-info/ (stored 0%)</span><br><span class="line">  adding: pymssql-2.1.5.dist-info/RECORD (deflated 39%)</span><br><span class="line">...</span><br><span class="line">  adding: pymssql.libs/lambda_function.py (deflated 24%)</span><br></pre></td></tr></table></figure>
 
 <p>在这里，zip的文件名最好与lambda函数保持一致，文件名称字母大小写不敏感。然后点击lambda函数中<code>函数代码</code>部分的<code>操作</code>按钮，然后选择<code>上传.zip文件</code>项，接着选择test.zip压缩文件，点击<code>保存</code>即可。</p>
-<p><img src="/posts/aws-lambda-0204-1195705.png" alt="aws-lambda-0204"></p>
+<p><img src="/posts/58946/aws-lambda-0204-1195705.png" alt="aws-lambda-0204"></p>
 <p>完成上述内容，然后点击测试，就可以得到与方法一一样的成功执行结果。</p>
 <h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>上述两个方法中，程序包的部署，可以通过网页端完成，也可以通过aws-cli来实现。zip的文件包也可以先上传至Amazone S3存储内，然后在页面端选择使用。在尝试两个方法的时候，要注意打包zip程序包时，命令行的当前目录，方法一需要在python上一级目录。方法二需要确保在python目录内。上述两个方案仅为一家之言，并非最优，若读者有别的思路也欢迎关注我的个人微信公众号，一起讨论学习。</p>
 <hr>

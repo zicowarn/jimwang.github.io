@@ -29,8 +29,8 @@
 <meta property="og:site_name" content="Jim Wang 的个人技术博客">
 <meta property="og:description" content="作者: Jim Wang 公众号: 巴博萨船长  摘要：如何配置aws-cli？如何使用aws-cli来部署lamdba函数的程序包？配置aws-cli时，用户访问权限的策略应该是什么样的？如何创建一个最小访问权限的用户，在保证安全的同时实现lambda程序包的部署？这样的用户的访问策略是什么样的？ Abstract: How to configure aws-cli? How to use aw">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zicowarn.github.io/posts/aws-common-02-01.png">
-<meta property="og:image" content="https://zicowarn.github.io/posts/aws-common-02-02.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/56089/aws-common-02-01.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/56089/aws-common-02-02.png">
 <meta property="article:published_time" content="2020-09-24T12:39:50.000Z">
 <meta property="article:modified_time" content="2024-03-13T21:29:45.711Z">
 <meta property="article:author" content="Jim Wang">
@@ -39,7 +39,7 @@
 <meta property="article:tag" content="aws-cli">
 <meta property="article:tag" content="IAM">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zicowarn.github.io/posts/aws-common-02-01.png">
+<meta name="twitter:image" content="https://zicowarn.github.io/posts/56089/aws-common-02-01.png">
     
     
         
@@ -370,7 +370,7 @@
 <li>AWS 管理控制台访问： 启用密码 、使得用户可以登录到 AWS 管理控制台。</li>
 </ul>
 <h3 id="访问策略"><a href="#访问策略" class="headerlink" title="访问策略"></a>访问策略</h3><p>AWS IAM提供两种访问策略，托管策略（AWS托管和用户托管）和内联策略。<em>AWS托管策略</em> 是由 AWS 创建和管理的独立策略。这里的<em>独立策略</em> 意味着策略有自己的 Amazon 资源名称 (ARN)，其中包含策略名称。自己不能更改 AWS 托管策略中定义的权限。内联策略 是用户自己创建与管理的独立策略，内联策略应该算得上是<em>用户托管策略</em>的一种特殊使用方式，内联策略是嵌入在 IAM 身份（用户、组或角色）中的策略。也就是说，策略是身份的固有组成部分。内联策略与应用它的身份之间维持严格的一对一关系，如果要确保策略中的权限不会无意中分配给预期身份之外的身份，则可使用内联策略。请参看下方三种策略的对比示意图，</p>
-<p><img src="/posts/aws-common-02-01.png"></p>
+<p><img src="/posts/56089/aws-common-02-01.png"></p>
 <p>我们先看一下AWS托管策略，试着分析一下策略运行的服务是否符合我们对最小用户访问策略的预期。</p>
 <h5 id="AWSLambdaFullAccess"><a href="#AWSLambdaFullAccess" class="headerlink" title="AWSLambdaFullAccess"></a>AWSLambdaFullAccess</h5><p>为AWS托管策略，该托管策略允许访问18个服务（AWS的服务共计239）。其中包括了，其中针对lambda服务的策略有50个，提供了lambda相关的所有权限，该策略能够最终能够实现使用github的actions来自动持续部署代码的任务需求，但是并不是所要求的最小访问策略。</p>
 <h5 id="AWSCodeDeployRoleForLambda"><a href="#AWSCodeDeployRoleForLambda" class="headerlink" title="AWSCodeDeployRoleForLambda"></a>AWSCodeDeployRoleForLambda</h5><p>为AWS托管策略，该托管策略允许访问4个服务（AWS的服务共计239）。</p>
@@ -420,7 +420,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">username@mac aws-cli-test % aws lambda update-function-code --function-name <span class="built_in">test</span> --zip-file fileb://test.zip    </span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;FunctionName&quot;</span>: <span class="string">&quot;test&quot;</span>,</span><br><span class="line">    <span class="string">&quot;FunctionArn&quot;</span>: <span class="string">&quot;arn:aws:lambda:ap-northeast-1:XXXXXXXXXX:function:test&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Runtime&quot;</span>: <span class="string">&quot;python3.6&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Role&quot;</span>: <span class="string">&quot;arn:aws:iam::XXXXXXXXXX:role/service-role/test-role-mu5rmz0t&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Handler&quot;</span>: <span class="string">&quot;lambda_function.lambda_handler&quot;</span>,</span><br><span class="line">    <span class="string">&quot;CodeSize&quot;</span>: 321,</span><br><span class="line">    <span class="string">&quot;Description&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Timeout&quot;</span>: 3,</span><br><span class="line">    <span class="string">&quot;MemorySize&quot;</span>: 128,</span><br><span class="line">    <span class="string">&quot;LastModified&quot;</span>: <span class="string">&quot;2020-09-22T06:02:26.878+0000&quot;</span>,</span><br><span class="line">    <span class="string">&quot;CodeSha256&quot;</span>: <span class="string">&quot;XXXXXXXXXXCCCCCCCCCCCCCCCCCCC/zBBvIU4+1oAzeo=&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Version&quot;</span>: <span class="string">&quot;<span class="variable">$LATEST</span>&quot;</span>,</span><br><span class="line">    <span class="string">&quot;TracingConfig&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;Mode&quot;</span>: <span class="string">&quot;PassThrough&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;RevisionId&quot;</span>: <span class="string">&quot;87a0f614-401d-420f-a338-78a54bd8ba40&quot;</span>,</span><br><span class="line">    <span class="string">&quot;State&quot;</span>: <span class="string">&quot;Active&quot;</span>,</span><br><span class="line">    <span class="string">&quot;LastUpdateStatus&quot;</span>: <span class="string">&quot;Successful&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>返回的更新结果为”Successful”，说明更新成功，然后可以在aws lambda网页版的页面上看到更新的lambda函数内容，如下图，</p>
-<p><img src="/posts/aws-common-02-02.png"></p>
+<p><img src="/posts/56089/aws-common-02-02.png"></p>
 <h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>至此，创建一个用户托管策略，来实现一个最小用户访问权限，并使用这样一个用户终端里借助aws-cli实现lambda函数的程序包的部署内容也就结束了。aws lambda也是刚刚开始接触，文中定有不足之处，也希望经验丰富的朋友多多指教，感兴趣的朋友可以关注我的个人公众号一起来讨论学习。</p>
 <hr>
 <div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">
