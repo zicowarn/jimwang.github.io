@@ -21,7 +21,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n作者: Jim Wang 公众号:  巴博萨船长\nLabView难点之一 Array的处理，个人见解。\nArray也是数组，当需要处理一串的数据的时候需要这些。\n数组的种类：一维；二维；三维或者多维。\n数组的类型：数字类型；字符串类型；布尔型；混合类型。\n在LabvieW中，数组经常通过一个For-Schleife来创建。For-Schleife的特点决定了这些。而While-Schleife无法做到。LabVieW中For循环的内存提前给出，运算次数也预先知道。而While循环却无法知道循环次数。\nLabVIEW中，数组表现形式由三部分组成。数据类型，数据索引和数据。创建也相对简单，前后面板中都能找到相应的模板。数组创建一开始都是一维数组，简单转换成二维数组的方法就是拖动数组索引显示边框下边缘。或者右键中的Add  Dimension.\n数组的操作，也就是求数组长度，对数组排序，取出数组中的元素，替换数组中的元素或者初始化数组等各种运算。\n所要引用的模板\n\nArray Size ;  返回数组长度。\nIndex Array ; 返回输入索引指定的元素。\nReplace Array Subset ; 返回替换输入数组中一个元素。\nInsert Into Array ;   返回在数组中指定的位置插入元素。\nDelete From Array ;  返回从数组中删除指定数目的元素。\nInitialize Array ;  初始化数组。\nBuild Array ；创建一个新的数组。\nArray Subset ；从输入的数组中取出指定的元素。\nRotate ID Array； 移动一个数组中的最后n个元素到数组最前面。\nReverse ID Array；将数组前后顺序颠倒。\nSearch ID Array；搜指定元素在一维数组中位置，若不存在返回-1.\nSplit ID Array ；将数组在指定元素的位置处截断，分成两个数组。当输入大于长度，第二子数组为空。\nSort ID Array ;将输入数组安升序排序。\nArray Max&amp;Min;  返回数组中最大值和最小值。\nTranspose 2D Array ；矩阵装置。\nInterpolate ID Array ；线性插值。\nThreshold ID Array ; 一维数组阈值，线性插值的逆过程。\nInterleave ID Arrays ; 将输入端口输入的一维数组插入到输出的一维数组中。\nDecimate ID Array； 将一个数组分成数个数组。\nReshape Array； 改变输入数组的维数。\n\nLabVIEW的数组。与其他编程语言，如C语言，相比不用事先规定数组的长度。如果内存允许，可达到2,147,483,647个。元素索引从哦开始 到n-1结束。\n个人见解，要是有问题 请与我联系。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2011-05-05T22:24:37+02:00","dateModified":"2024-03-13T22:29:45+01:00","datePublished":"2011-05-05T22:24:37+02:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：本文主要分享一些在LabView时，有关数组处理的一些浅见。\nAbstract: This article mainly shares some insights about array processing in LabView.","headline":"LabView难点之一 Array的处理。","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/posts/42416.html"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/posts/42416.html","keywords":"LabView, Array"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\nLabView难点之一 Array的处理，个人见解。\nArray也是数组，当需要处理一串的数据的时候需要这些。\n数组的种类：一维；二维；三维或者多维。\n数组的类型：数字类型；字符串类型；布尔型；混合类型。\n在LabvieW中，数组经常通过一个For-Schleife来创建。For-Schleife的特点决定了这些。而While-Schleife无法做到。LabVieW中For循环的内存提前给出，运算次数也预先知道。而While循环却无法知道循环次数。\nLabVIEW中，数组表现形式由三部分组成。数据类型，数据索引和数据。创建也相对简单，前后面板中都能找到相应的模板。数组创建一开始都是一维数组，简单转换成二维数组的方法就是拖动数组索引显示边框下边缘。或者右键中的Add  Dimension.\n数组的操作，也就是求数组长度，对数组排序，取出数组中的元素，替换数组中的元素或者初始化数组等各种运算。\n所要引用的模板\n\nArray Size ;  返回数组长度。\nIndex Array ; 返回输入索引指定的元素。\nReplace Array Subset ; 返回替换输入数组中一个元素。\nInsert Into Array ;   返回在数组中指定的位置插入元素。\nDelete From Array ;  返回从数组中删除指定数目的元素。\nInitialize Array ;  初始化数组。\nBuild Array ；创建一个新的数组。\nArray Subset ；从输入的数组中取出指定的元素。\nRotate ID Array； 移动一个数组中的最后n个元素到数组最前面。\nReverse ID Array；将数组前后顺序颠倒。\nSearch ID Array；搜指定元素在一维数组中位置，若不存在返回-1.\nSplit ID Array ；将数组在指定元素的位置处截断，分成两个数组。当输入大于长度，第二子数组为空。\nSort ID Array ;将输入数组安升序排序。\nArray Max&Min;  返回数组中最大值和最小值。\nTranspose 2D Array ；矩阵装置。\nInterpolate ID Array ；线性插值。\nThreshold ID Array ; 一维数组阈值，线性插值的逆过程。\nInterleave ID Arrays ; 将输入端口输入的一维数组插入到输出的一维数组中。\nDecimate ID Array； 将一个数组分成数个数组。\nReshape Array； 改变输入数组的维数。\n\nLabVIEW的数组。与其他编程语言，如C语言，相比不用事先规定数组的长度。如果内存允许，可达到2,147,483,647个。元素索引从哦开始 到n-1结束。\n 个人见解，要是有问题 请与我联系。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2011-05-05T22:24:37+02:00","dateModified":"2024-03-13T22:29:45+01:00","datePublished":"2011-05-05T22:24:37+02:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：本文主要分享一些在LabView时，有关数组处理的一些浅见。\nAbstract: This article mainly shares some insights about array processing in LabView.","headline":"LabView难点之一 Array的处理。","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/posts/42416.html"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/posts/42416.html","keywords":"LabView, Array"}</script>
     <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：本文主要分享一些在LabView时，有关数组处理的一些浅见。 Abstract: This article mainly shares some insights about array processing in LabView.">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="LabView难点之一 Array的处理。">
@@ -47,7 +47,7 @@
     
     <!--STYLES-->
     
-<link rel="stylesheet" href="/assets/css/style-42xpg06hf3eat8hqir6qntstgejt6fy7cwy9mv3uwtllud0iwhwg1ndvzy6v.min.css">
+<link rel="stylesheet" href="/assets/css/style-m2dgitnm2byuj37caoszle9u1auenk6va6bk89y4xo0d0wyorkftmkofzpn1.min.css">
 
     <!--STYLES END-->
     
@@ -356,6 +356,7 @@
     <div class="post-content markdown">
         <div class="main-content-wrap">
             <!-- excerpt -->
+
 <p>作者: Jim Wang 公众号:  <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
 <p>LabView难点之一 Array的处理，个人见解。</p>
 <p>Array也是数组，当需要处理一串的数据的时候需要这些。</p>
@@ -379,7 +380,7 @@
 <li>Search ID Array；搜指定元素在一维数组中位置，若不存在返回-1.</li>
 <li>Split ID Array ；将数组在指定元素的位置处截断，分成两个数组。当输入大于长度，第二子数组为空。</li>
 <li>Sort ID Array ;将输入数组安升序排序。</li>
-<li>Array Max&amp;Min;  返回数组中最大值和最小值。</li>
+<li>Array Max&Min;  返回数组中最大值和最小值。</li>
 <li>Transpose 2D Array ；矩阵装置。</li>
 <li>Interpolate ID Array ；线性插值。</li>
 <li>Threshold ID Array ; 一维数组阈值，线性插值的逆过程。</li>
@@ -388,7 +389,7 @@
 <li>Reshape Array； 改变输入数组的维数。</li>
 </ul>
 <p>LabVIEW的数组。与其他编程语言，如C语言，相比不用事先规定数组的长度。如果内存允许，可达到2,147,483,647个。元素索引从哦开始 到n-1结束。</p>
-<p>个人见解，要是有问题 请与我联系。</p>
+<p> 个人见解，要是有问题 请与我联系。</p>
 <hr>
 <div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">
     版权声明：<br>文章首发于 <a target="_blank" rel="noopener" href="http://zhichaowang.online"> Jim Wang's blog </a>，
@@ -818,7 +819,7 @@
 <div id="cover" style="background-image:url('/assets/images/background-cover.jpg');"></div>
         <!--SCRIPTS-->
 
-<script src="/assets/js/script-rojvd4kq9xude6jdnbyyofoptfwbabrze1qdhbo7ypk4yflf1gy2wleqeeio.min.js"></script>
+<script src="/assets/js/script-2t8c01k1fthzrgprhbm5clfune3ygdtd8ajsnhdxko5pl9jnhax3fioo6uev.min.js"></script>
 
 <!--SCRIPTS END-->
 
