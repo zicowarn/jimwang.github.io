@@ -21,7 +21,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n代码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283#!/usr/bin/perl # Filename: BuildSocketUDP.pmpackage BuildSocketUDP;require Exporter;@ISA = qw(Exporter);@EXPORT = qw(readfile checkfile);use IO::Socket::INET; # provides an object interface to creating and using Socketuse strict &#x27;vars&#x27;; # this generates a runtime error if you use symbolic referencesuse constant false =&gt; 0;use constant true  =&gt; 1;# flush after every write$| = 1;#Create a new instancesub new &#123;  my $self = &#123;&#125;; # Connect the hash to the package Cocoa.  shift;  my ($ip, $port, $proto, $isserver) = @_;  my $socket;  my $self-&gt;&#123;&#x27;ip&#x27;&#125; = $ip;  my $self-&gt;&#123;&#x27;port&#x27;&#125; = $port;  if ($isserver == true &amp;&amp; $proto == &#x27;udp&#x27;)  &#123;  \t#print &quot;Buldi socket for server\\n&quot;;  \t$socket = new IO::Socket::INET(\t  LocalPort =&gt; $port || &#x27;8765&#x27;,    Blocking =&gt; &#x27;0&#x27;,\t  Proto    =&gt; $proto) or die &quot;* Error Server in Socket Creation : $!\\n&quot;;    print &quot;UDP Server connected successful be created with port : $port\\n&quot;;    print &quot;---------------------\\n&quot;;  &#125;  else  &#123;    #print &quot;Buldi socket for client\\n&quot;;    $socket = new IO::Socket::INET(    PeerHost =&gt; $ip  || &#x27;127.0.0.1&#x27;,    PeerPort =&gt; $port || &#x27;8765&#x27;,    Blocking =&gt; &#x27;0&#x27;,    Proto    =&gt; $proto) or die &quot;* Error Client in Socket Creation : $!\\n&quot;;    print &quot;UDP Client connected successful be created with host : $ip\\n&quot;;    print &quot;UDP Client connected successful be created with port : $port\\n&quot;;    print &quot;---------------------\\n&quot;;  &#125;  #print &quot;$socket&quot;.&quot;\\n&quot;;  $self-&gt;&#123;&#x27;socket&#x27;&#125; = $socket;  #print $self-&gt;&#123;&#x27;socket&#x27;&#125;.&quot;AAAA\\n&quot;;  bless ($self);  return $self; # Return the reference to the hash.&#125;#Subroutine to close the socketsub closeSocket&#123;\tmy $self = shift;\t($self-&gt;&#123;&#x27;socket&#x27;&#125;)-&gt;close() or die &quot;* Error to close the socket&quot;&#125;#Subroutine to send the datasub sendViasocket&#123;\tmy $self = shift;\tmy ($data_out, $length , $description) = @_;\t($self-&gt;&#123;&#x27;socket&#x27;&#125;)-&gt;send($data_out);  #($self-&gt;&#123;&#x27;socket&#x27;&#125;)-&gt;flush;\t#print &quot;Send data successful via udp socket&gt;&gt; : $description &gt;&gt;: $data_out\\n&quot;;&#125;#Subroutine to recv the datasub recvViasocket&#123;\tmy $self = shift;\tmy ($length, $description) = @_;\tmy $data_in;\t($self-&gt;&#123;&#x27;socket&#x27;&#125;)-&gt;recv($data_in, $length);  #($self-&gt;&#123;&#x27;socket&#x27;&#125;)-&gt;flush;\t#print &quot;Recvied data successful via udp socket: $description &gt;&gt;: $data_in\\n&quot;;\treturn $data_in;&#125;1; # 当然不要忘了这个不知所以然的1\n\n这只是给大家提供一种思路，毕竟是第一次尝试写类似的东西，难免存在不足之处，希望大家谅解，这样类似与Python语言装饰器的效果，给一些基本的包里面的方法提供了更多扩展和美化的作用，也为后来使用提供了方便。\n先上代码，由于整理博客，代码分析以后整理添加。欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-02-14T21:54:20+01:00","dateModified":"2024-03-13T22:29:45+01:00","datePublished":"2015-02-14T21:54:20+01:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：本文主要介绍，如何尝试自己的创建Perl语言的包与UDP协议的再包装使其起到类似python语言装饰器的效果\nAbstract: This article mainly introduces how to try to create your own Perl language package and repackaging the UDP protocol to make it look like a python language decorator.","headline":"Perl 如何创建包与UDP协议的再包装","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/posts/21421.html"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/posts/21421.html","keywords":"Perl, UDP协议, Socket"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n代码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283#!/usr/bin/perl # Filename: BuildSocketUDP.pmpackage BuildSocketUDP;require Exporter;@ISA = qw(Exporter);@EXPORT = qw(readfile checkfile);use IO::Socket::INET; # provides an object interface to creating and using Socketuse strict &#x27;vars&#x27;; # this generates a runtime error if you use symbolic referencesuse constant false =&gt; 0;use constant true  =&gt; 1;# flush after every write$| = 1;#Create a new instancesub new &#123;  my $self = &#123;&#125;; # Connect the hash to the package Cocoa.  shift;  my ($ip, $port, $proto, $isserver) = @_;  my $socket;  my $self-&gt;&#123;&#x27;ip&#x27;&#125; = $ip;  my $self-&gt;&#123;&#x27;port&#x27;&#125; = $port;  if ($isserver == true &amp;&amp; $proto == &#x27;udp&#x27;)  &#123;  \t#print &quot;Buldi socket for server\\n&quot;;  \t$socket = new IO::Socket::INET(\t  LocalPort =&gt; $port || &#x27;8765&#x27;,    Blocking =&gt; &#x27;0&#x27;,\t  Proto    =&gt; $proto) or die &quot;* Error Server in Socket Creation : $!\\n&quot;;    print &quot;UDP Server connected successful be created with port : $port\\n&quot;;    print &quot;---------------------\\n&quot;;  &#125;  else  &#123;    #print &quot;Buldi socket for client\\n&quot;;    $socket = new IO::Socket::INET(    PeerHost =&gt; $ip  || &#x27;127.0.0.1&#x27;,    PeerPort =&gt; $port || &#x27;8765&#x27;,    Blocking =&gt; &#x27;0&#x27;,    Proto    =&gt; $proto) or die &quot;* Error Client in Socket Creation : $!\\n&quot;;    print &quot;UDP Client connected successful be created with host : $ip\\n&quot;;    print &quot;UDP Client connected successful be created with port : $port\\n&quot;;    print &quot;---------------------\\n&quot;;  &#125;  #print &quot;$socket&quot;.&quot;\\n&quot;;  $self-&gt;&#123;&#x27;socket&#x27;&#125; = $socket;  #print $self-&gt;&#123;&#x27;socket&#x27;&#125;.&quot;AAAA\\n&quot;;  bless ($self);  return $self; # Return the reference to the hash.&#125;#Subroutine to close the socketsub closeSocket&#123;\tmy $self = shift;\t($self-&gt;&#123;&#x27;socket&#x27;&#125;)-&gt;close() or die &quot;* Error to close the socket&quot;&#125;#Subroutine to send the datasub sendViasocket&#123;\tmy $self = shift;\tmy ($data_out, $length , $description) = @_;\t($self-&gt;&#123;&#x27;socket&#x27;&#125;)-&gt;send($data_out);  #($self-&gt;&#123;&#x27;socket&#x27;&#125;)-&gt;flush;\t#print &quot;Send data successful via udp socket&gt;&gt; : $description &gt;&gt;: $data_out\\n&quot;;&#125;#Subroutine to recv the datasub recvViasocket&#123;\tmy $self = shift;\tmy ($length, $description) = @_;\tmy $data_in;\t($self-&gt;&#123;&#x27;socket&#x27;&#125;)-&gt;recv($data_in, $length);  #($self-&gt;&#123;&#x27;socket&#x27;&#125;)-&gt;flush;\t#print &quot;Recvied data successful via udp socket: $description &gt;&gt;: $data_in\\n&quot;;\treturn $data_in;&#125;1; # 当然不要忘了这个不知所以然的1\n\n这只是给大家提供一种思路，毕竟是第一次尝试写类似的东西，难免存在不足之处，希望大家谅解，这样类似与Python语言装饰器的效果，给一些基本的包里面的方法提供了更多扩展和美化的作用，也为后来使用提供了方便。\n先上代码，由于整理博客，代码分析以后整理添加。欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2015-02-14T21:54:20+01:00","dateModified":"2024-04-08T22:29:44+02:00","datePublished":"2015-02-14T21:54:20+01:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：本文主要介绍，如何尝试自己的创建Perl语言的包与UDP协议的再包装使其起到类似python语言装饰器的效果\nAbstract: This article mainly introduces how to try to create your own Perl language package and repackaging the UDP protocol to make it look like a python language decorator.","headline":"Perl 如何创建包与UDP协议的再包装","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/posts/21421.html"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/posts/21421.html","keywords":"Perl, UDP协议, Socket"}</script>
     <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：本文主要介绍，如何尝试自己的创建Perl语言的包与UDP协议的再包装使其起到类似python语言装饰器的效果 Abstract: This article mainly introduces how to try to create your own Perl language package and repackaging the UDP">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Perl 如何创建包与UDP协议的再包装">
@@ -30,7 +30,7 @@
 <meta property="og:description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：本文主要介绍，如何尝试自己的创建Perl语言的包与UDP协议的再包装使其起到类似python语言装饰器的效果 Abstract: This article mainly introduces how to try to create your own Perl language package and repackaging the UDP">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2015-02-14T20:54:20.000Z">
-<meta property="article:modified_time" content="2024-03-13T21:29:45.736Z">
+<meta property="article:modified_time" content="2024-04-08T20:29:44.462Z">
 <meta property="article:author" content="Jim Wang">
 <meta property="article:tag" content="Perl">
 <meta property="article:tag" content="UDP协议">
@@ -365,7 +365,7 @@
 <p>先上代码，由于整理博客，代码分析以后整理添加。欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。</p>
 <hr>
 <div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">
-    版权声明：<br>文章首发于 <a target="_blank" rel="noopener" href="http://zhichaowang.online"> Jim Wang's blog </a>，
+    版权声明：<br>文章首发于 <a href="https://zicowarn.github.io"> Jim Wang's blog </a>，
     转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。
 </div>
             
@@ -421,7 +421,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -497,7 +497,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -562,7 +562,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -638,7 +638,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

@@ -21,7 +21,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n最近软件打包工具和流程要升级，从Inno Setup转换为Install Shield，被告知的原因，因为更专业，更好看。本文算做开发记录，以后也会陆续整理相关知识，希望能帮助到更多朋友。\n工具路径该工具位于如下路径，**** 为版本号码，例如2019。\n1C:\\Program Files (x86)\\InstallShield\\&lt;YYYY&gt;\\System\\IsCmdBld.exe\n\n使用方法基本使用方法如下：\n1&quot;C:\\Program Files (x86)\\InstallShield\\2020\\System\\IsCmdBld.exe&quot; -p &quot;C:\\Users\\&lt;nobody&gt;\\workspaces\\InstallShield\\My IS Project\\My IS Project.ism&quot; -r &quot;MY_RELEASE_1&quot; \n\n改变版本号Installscript MSI， Basic MSI，Advanced UI等类型的项目将-y &quot;1.2021.9999.2&quot;，加入上述命令行。\nInstallscript类型的项目在项目Installaltion Designer中找到Path Variables子项，定义一个VERSION_NUMBER新的路径变量，如下图所示：\n\n然后在General Information中引入此新的路径变量，如下图所示：\n\n最后将如下内容，加入原有的IsCmdBld命令行，如下，注意参数标识为小写的字母的L：\n-l VERSION_NUMBER=&quot;1.2021.9999.2&quot;，加入上述命令行。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2021-10-08T22:18:34+02:00","dateModified":"2024-03-13T22:29:45+01:00","datePublished":"2021-10-08T22:18:34+02:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：如何使用ISCmdBld构建Installshield项目，在构建项目过程中，不同的项目类型，如何动态将版本号码传递给当前构造项目。\nAbstract：How to use ISCmdBld to build the Installshield project, in the process of building the project, how to dynamically transfer the version number to the current building project for different project types.","headline":"Install Shield 如何使用ISCmdBld构建安装包","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/posts/42513.html"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/posts/42513.html","keywords":"Install Shield, ISCmdBld, 应用技巧"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"\n\n作者: Jim Wang 公众号:  巴博萨船长\n最近软件打包工具和流程要升级，从Inno Setup转换为Install Shield，被告知的原因，因为更专业，更好看。本文算做开发记录，以后也会陆续整理相关知识，希望能帮助到更多朋友。\n工具路径该工具位于如下路径，**** 为版本号码，例如2019。\n1C:\\Program Files (x86)\\InstallShield\\&lt;YYYY&gt;\\System\\IsCmdBld.exe\n\n使用方法基本使用方法如下：\n1&quot;C:\\Program Files (x86)\\InstallShield\\2020\\System\\IsCmdBld.exe&quot; -p &quot;C:\\Users\\&lt;nobody&gt;\\workspaces\\InstallShield\\My IS Project\\My IS Project.ism&quot; -r &quot;MY_RELEASE_1&quot; \n\n改变版本号Installscript MSI， Basic MSI，Advanced UI等类型的项目将-y &quot;1.2021.9999.2&quot;，加入上述命令行。\nInstallscript类型的项目在项目Installaltion Designer中找到Path Variables子项，定义一个VERSION_NUMBER新的路径变量，如下图所示：\n\n然后在General Information中引入此新的路径变量，如下图所示：\n\n最后将如下内容，加入原有的IsCmdBld命令行，如下，注意参数标识为小写的字母的L：\n-l VERSION_NUMBER=&quot;1.2021.9999.2&quot;，加入上述命令行。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2021-10-08T22:18:34+02:00","dateModified":"2024-04-08T22:29:44+02:00","datePublished":"2021-10-08T22:18:34+02:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：如何使用ISCmdBld构建Installshield项目，在构建项目过程中，不同的项目类型，如何动态将版本号码传递给当前构造项目。\nAbstract：How to use ISCmdBld to build the Installshield project, in the process of building the project, how to dynamically transfer the version number to the current building project for different project types.","headline":"Install Shield 如何使用ISCmdBld构建安装包","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/posts/42513.html"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/posts/42513.html","keywords":"Install Shield, ISCmdBld, 应用技巧"}</script>
     <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：如何使用ISCmdBld构建Installshield项目，在构建项目过程中，不同的项目类型，如何动态将版本号码传递给当前构造项目。 Abstract：How to use ISCmdBld to build the Installshield project, in the process of building the project,">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Install Shield 如何使用ISCmdBld构建安装包">
@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://zicowarn.github.io/posts/42513/image-20210910130809304.png">
 <meta property="og:image" content="https://zicowarn.github.io/posts/42513/image-20210910130928688.png">
 <meta property="article:published_time" content="2021-10-08T20:18:34.000Z">
-<meta property="article:modified_time" content="2024-03-13T21:29:45.725Z">
+<meta property="article:modified_time" content="2024-04-08T20:29:44.456Z">
 <meta property="article:author" content="Jim Wang">
 <meta property="article:tag" content="Install Shield">
 <meta property="article:tag" content="ISCmdBld">
@@ -378,7 +378,7 @@
 <p><code>-l VERSION_NUMBER=&quot;1.2021.9999.2&quot;</code>，加入上述命令行。</p>
 <hr>
 <div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">
-    版权声明：<br>文章首发于 <a target="_blank" rel="noopener" href="http://zhichaowang.online"> Jim Wang's blog </a>，
+    版权声明：<br>文章首发于 <a href="https://zicowarn.github.io"> Jim Wang's blog </a>，
     转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。
 </div>
             
@@ -434,7 +434,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -510,7 +510,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -575,7 +575,7 @@
             <a
                 class="post-action-btn btn btn--default btn-open-shareoptions"
                 href="#btn-open-shareoptions"
-                aria-label="Diesen Beitrag teilen"
+                aria-label="Share this post"
             >
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
@@ -651,7 +651,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
