@@ -1,34 +1,36 @@
+
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-cn">
+    
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.0.0">
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
-
-<script class="next-config" data-name="main" type="application/json">{"hostname":"zicowarn.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":"auto","version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12,"onmobile":false},"hljswrap":true,"copycode":{"enable":false,"style":null,"show_result":false},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Jim Wang 个人技术博客">
+    <meta name="google-site-verification" content="Vv1-G7f0bcjlHq6prbeTvbDWFc4iN17bGUGM_KcE5xA" />
+    <meta name="baidu-site-verification" content="A8086Y6q9Y" />
+    <title>AWS 如何使用IAM创建一个最小访问权限的用户并使用aws-cli来部署lambda函数程序包 - Jim Wang 个人技术博客</title>
+    <meta name="author" content="Jim Wang">
+    
+        <meta name="keywords" content="个人博客,实践,技术,经验,分享,全栈,Technology,blog,Python,Inno Setup,TypeScript,SQLite,AWS,CAM,EDM,JavaScript,CSS,HTML,">
+    
+    
+        <link rel="icon" href="https://zicowarn.github.io/assets/images/favicon.png">
+    
+    
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Jim Wang 公众号: 巴博萨船长 \n摘要：如何配置aws-cli？如何使用aws-cli来部署lamdba函数的程序包？配置aws-cli时，用户访问权限的策略应该是什么样的？如何创建一个最小访问权限的用户，在保证安全的同时实现lambda程序包的部署？这样的用户的访问策略是什么样的？\nAbstract: How to configure aws-cli? How to use aws-cli to deploy lamdba function package? When configuring aws-cli, what should be the user access policy? How to create a user with minimal access rights to complete the lambda package deployment task while ensuring security? What is the access strategy for such users?\n\n\n作者: Jim Wang 公众号: 巴博萨船长 \n任务背景AWS的用户和用户权限可以通过AWS IAM来创建和实现，本文主要尝试的是在IAM中，在为aws cli创建编程访问类型用户时，如果仅用于部署aws lambda函数，那么用户的访问权限应该如何限制。如何在保证安全的下，完成一个最小权限的用户用于部署aws lamdba函数。之所以需要设计一个最小访问权限的用户，是为了以后使用github中的actions实现函数代码的自动持续部署。\n准备用户AWS IAM 提供两种用户访问类型，编程访问类型与AWS 管理控制台访问，基本的差别如下，在本文中需要的是编程访问类型，以此类型，我们先创建一个用户，用户名暂定test，在创建用户时，我们先不为其设置访问权限。\n\n编程访问：为 AWS API、CLI、SDK 和其他开发工具启用 访问密钥 ID 和 私有访问密钥 。\nAWS 管理控制台访问： 启用密码 、使得用户可以登录到 AWS 管理控制台。\n\n访问策略AWS IAM提供两种访问策略，托管策略（AWS托管和用户托管）和内联策略。AWS托管策略 是由 AWS 创建和管理的独立策略。这里的独立策略 意味着策略有自己的 Amazon 资源名称 (ARN)，其中包含策略名称。自己不能更改 AWS 托管策略中定义的权限。内联策略 是用户自己创建与管理的独立策略，内联策略应该算得上是用户托管策略的一种特殊使用方式，内联策略是嵌入在 IAM 身份（用户、组或角色）中的策略。也就是说，策略是身份的固有组成部分。内联策略与应用它的身份之间维持严格的一对一关系，如果要确保策略中的权限不会无意中分配给预期身份之外的身份，则可使用内联策略。请参看下方三种策略的对比示意图，\n\n我们先看一下AWS托管策略，试着分析一下策略运行的服务是否符合我们对最小用户访问策略的预期。\nAWSLambdaFullAccess为AWS托管策略，该托管策略允许访问18个服务（AWS的服务共计239）。其中包括了，其中针对lambda服务的策略有50个，提供了lambda相关的所有权限，该策略能够最终能够实现使用github的actions来自动持续部署代码的任务需求，但是并不是所要求的最小访问策略。\nAWSCodeDeployRoleForLambda为AWS托管策略，该托管策略允许访问4个服务（AWS的服务共计239）。\n\nCloudWatch 仅读\nLambda 读写\nGetAlias    仅读\nGetProvisionedConcurrencyConfig   仅读\nUpdateAlias  仅写\n\n\nS3 仅读\nSNS 仅写\n\nAWSLambdaExecute为AWS托管策略，主要对S3资源的读写和运行日志CloudWatch Logs的读写访问。\nAWSLambdaRole为AWS托管策略，赋予的是调用invoke函数的权限\nAWSLambdaReadOnlyAccess为AWS托管策略，顾名思义，该策略主要提供的是仅读资源访问权限。\n当然涉及lambda函数的权限还有很多，分析相关权限后发现AWS的托管权限，都没有与任务完全匹配的。因为部署lambda函数这个操作，对aws lambda服务这部的权限，至少应该有CreateFunction这个操作的写入权限，和UpdateFunctionCode这个操作的写入权限。另外对于IAM这项服务，也应该至少有ListRoles这个列表读取权限，以这些信息为基础，我们创建一个用户托管策略，该策略名称定为UserCustomDeployLambdaFunctionCode，策略具体内容如下，\nUserCustomDeployLambdaFunctionCode\nIAM 列表\nListRoles 所有资源\n\n\nLambda 仅写\nCreateFunction 所有资源\nUpdateFunctionCode 所有资源\n\n\n\n该用户策略权限的JSON文件如下，可以直接使用JSON文件来创建该用户托管策略。\n123456789101112131415&#123;    &quot;Version&quot;: &quot;2020-10-17&quot;,    &quot;Statement&quot;: [        &#123;            &quot;Sid&quot;: &quot;VisualEditor0&quot;,            &quot;Effect&quot;: &quot;Allow&quot;,            &quot;Action&quot;: [                &quot;lambda:CreateFunction&quot;,                &quot;lambda:UpdateFunctionCode&quot;,                &quot;iam:ListRoles&quot;            ],            &quot;Resource&quot;: &quot;*&quot;        &#125;    ]&#125;\n\n\n\n创建这个用户托管策略时，我们没有对资源进行限制。在后期，可以限定访问资源，实现基于资源的用户托管策略。\n用户策略限定好之后，就需要给之前创建的test用户添加这个托管策略。添加完策略之后就可以尝试使用aws cli来部署lambda 函数代码了，这也是为了以后使用github actions时需要做的前期准备工作。\n配置AWS CLI使用aws cli之前需要对其进行配置。AWS 的CLI配置官方教程也有介绍，基本上按照官方教程即可完成配置，\n12345username@mac ~ % aws configureAWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLEAWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEYDefault region name [None]: us-west-2Default output format [None]: json\n\n完成配置后我们就可以准备部署代码了，这里假设，已经使用aws lambda 网页端创建了一个名为test的lambda函数，函数的runtime为Python 3.6。函数的处理程序为lambda_function.lambda_handler，即我们需要创建的py文件为lambda_function.py, 文件内容如下，\n123456789import jsondef lambda_handler(event, context):    # TODO implement    return &#123;        &#x27;statusCode&#x27;: 200,        &#x27;body&#x27;: json.dumps(&#x27;Hello from Lambda!&#x27;)    &#125;\n\npython文件创建完之后就需要对其进行打包，生成名为test.zip的压缩文档，这个zip压缩文档现在就可以理解为一个程序包。创建程序包相关命令如下，\n12345678username@mac aws-cli-test % nano lambda_function.pyusername@mac aws-cli-test % lslambda_function.pyusername@mac aws-cli-test % zip test.zip lambda_function.py  adding: lambda_function.py (deflated 19%)username@mac aws-cli-test % lslambda_function.py test.zipusername@mac aws-cli-test % \n\n程序包创建结束后，就可以尝试使用aws-cli来部署这个lambda函数的程序包了，相关命令和输出结果如下，\n123456789101112131415161718192021username@mac aws-cli-test % aws lambda update-function-code --function-name test --zip-file fileb://test.zip    &#123;    &quot;FunctionName&quot;: &quot;test&quot;,    &quot;FunctionArn&quot;: &quot;arn:aws:lambda:ap-northeast-1:XXXXXXXXXX:function:test&quot;,    &quot;Runtime&quot;: &quot;python3.6&quot;,    &quot;Role&quot;: &quot;arn:aws:iam::XXXXXXXXXX:role/service-role/test-role-mu5rmz0t&quot;,    &quot;Handler&quot;: &quot;lambda_function.lambda_handler&quot;,    &quot;CodeSize&quot;: 321,    &quot;Description&quot;: &quot;&quot;,    &quot;Timeout&quot;: 3,    &quot;MemorySize&quot;: 128,    &quot;LastModified&quot;: &quot;2020-09-22T06:02:26.878+0000&quot;,    &quot;CodeSha256&quot;: &quot;XXXXXXXXXXCCCCCCCCCCCCCCCCCCC/zBBvIU4+1oAzeo=&quot;,    &quot;Version&quot;: &quot;$LATEST&quot;,    &quot;TracingConfig&quot;: &#123;        &quot;Mode&quot;: &quot;PassThrough&quot;    &#125;,    &quot;RevisionId&quot;: &quot;87a0f614-401d-420f-a338-78a54bd8ba40&quot;,    &quot;State&quot;: &quot;Active&quot;,    &quot;LastUpdateStatus&quot;: &quot;Successful&quot;&#125;\n\n返回的更新结果为”Successful”，说明更新成功，然后可以在aws lambda网页版的页面上看到更新的lambda函数内容，如下图，\n\n小结至此，创建一个用户托管策略，来实现一个最小用户访问权限，并使用这样一个用户终端里借助aws-cli实现lambda函数的程序包的部署内容也就结束了。aws lambda也是刚刚开始接触，文中定有不足之处，也希望经验丰富的朋友多多指教，感兴趣的朋友可以关注我的个人公众号一起来讨论学习。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2020-09-24T20:39:50+08:00","dateModified":"2024-08-01T16:41:08+08:00","datePublished":"2020-09-24T20:39:50+08:00","description":"作者: Jim Wang 公众号: 巴博萨船长 \n摘要：如何配置aws-cli？如何使用aws-cli来部署lamdba函数的程序包？配置aws-cli时，用户访问权限的策略应该是什么样的？如何创建一个最小访问权限的用户，在保证安全的同时实现lambda程序包的部署？这样的用户的访问策略是什么样的？\nAbstract: How to configure aws-cli? How to use aws-cli to deploy lamdba function package? When configuring aws-cli, what should be the user access policy? How to create a user with minimal access rights to complete the lambda package deployment task while ensuring security? What is the access strategy for such users?","headline":"AWS 如何使用IAM创建一个最小访问权限的用户并使用aws-cli来部署lambda函数程序包","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html","keywords":"AWS, lambda, aws-cli, IAM"}</script>
     <meta name="description" content="作者: Jim Wang 公众号: 巴博萨船长  摘要：如何配置aws-cli？如何使用aws-cli来部署lamdba函数的程序包？配置aws-cli时，用户访问权限的策略应该是什么样的？如何创建一个最小访问权限的用户，在保证安全的同时实现lambda程序包的部署？这样的用户的访问策略是什么样的？ Abstract: How to configure aws-cli? How to use aw">
-<meta property="og:type" content="article">
+<meta property="og:type" content="blog">
 <meta property="og:title" content="AWS 如何使用IAM创建一个最小访问权限的用户并使用aws-cli来部署lambda函数程序包">
 <meta property="og:url" content="https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html">
-<meta property="og:site_name" content="Jim Wang 技术博客">
+<meta property="og:site_name" content="Jim Wang 个人技术博客">
 <meta property="og:description" content="作者: Jim Wang 公众号: 巴博萨船长  摘要：如何配置aws-cli？如何使用aws-cli来部署lamdba函数的程序包？配置aws-cli时，用户访问权限的策略应该是什么样的？如何创建一个最小访问权限的用户，在保证安全的同时实现lambda程序包的部署？这样的用户的访问策略是什么样的？ Abstract: How to configure aws-cli? How to use aw">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration/aws-common-02-01.png">
-<meta property="og:image" content="https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration/aws-common-02-02.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/aws-common-02-01.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/aws-common-02-02.png">
 <meta property="article:published_time" content="2020-09-24T12:39:50.000Z">
 <meta property="article:modified_time" content="2024-08-01T08:41:08.307Z">
 <meta property="article:author" content="Jim Wang">
@@ -37,220 +39,328 @@
 <meta property="article:tag" content="aws-cli">
 <meta property="article:tag" content="IAM">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration/aws-common-02-01.png">
+<meta name="twitter:image" content="https://zicowarn.github.io/posts/aws-common-02-01.png">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zicowarn.github.io/assets/images/avater.png"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-m2dgitnm2byuj37caoszle9u1auenk6va6bk89y4xo0d0wyorkftmkofzpn1.min.css">
 
-
-<link rel="canonical" href="https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html">
-
-
-
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html","path":"posts/2020-09-24-aws-common-02-awscli-configuration.html","title":"AWS 如何使用IAM创建一个最小访问权限的用户并使用aws-cli来部署lambda函数程序包"}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>AWS 如何使用IAM创建一个最小访问权限的用户并使用aws-cli来部署lambda函数程序包 | Jim Wang 技术博客</title>
-  
+    <!--STYLES END-->
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0411EY69W7"></script>
-  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-0411EY69W7","only_pageview":false,"measure_protocol_api_secret":null}</script>
-  <script src="/js/third-party/analytics/google-analytics.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
-  <script async src="https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d"></script>
-
-
-
-
+        gtag('config', 'G-0411EY69W7');
+    </script>
 
 
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
 
-  <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
-<link rel="alternate" href="/atom.xml" title="Jim Wang 技术博客" type="application/atom+xml">
+
+    
+        
+    
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
 
-  <main class="main">
-    <div class="column">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/"
+            aria-label=""
+        >
+            Jim Wang 个人技术博客
+        </a>
     </div>
-  </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="打开链接: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/avater.png" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
 
-  <div class="site-meta">
+            <!-- Define author's picture -->
 
-    <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <p class="site-title">Jim Wang 技术博客</p>
-      <i class="logo-line"></i>
-    </a>
-      <p class="site-subtitle" itemprop="description">全栈探索之路</p>
-  </div>
 
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="阅读有关作者的更多信息"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avater.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Jim Wang</h4>
+                <h5 class="sidebar-profile-subtitle"><p>个人技术博客</p>
+</h5>
+                
+                    <h5 class="sidebar-profile-bio"> <hr style='margin: 5px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 20%;'> <span>全栈探索之路<span> <hr style='margin: 8px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 60%;'> 记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多。 </h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
+                            
+                            rel="noopener"
+                            title="首页"
+                        >
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
+                            
+                            rel="noopener"
+                            title="分类"
+                        >
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
+                            
+                            rel="noopener"
+                            title="标签"
+                        >
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
+                            
+                            rel="noopener"
+                            title="归档"
+                        >
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
+                            
+                            rel="noopener"
+                            title="关于"
+                        >
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/zicowarn"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#wechat"
+                            
+                            rel="noopener"
+                            title="微信公众号"
+                        >
+                        <i class="sidebar-button-icon fab fa-weixin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">微信公众号</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="tencent://message/?uin=948509&Site=&Menu=yes"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="QQ"
+                        >
+                        <i class="sidebar-button-icon fab fa-qq" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">QQ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://www.linkedin.com/in/zhichao-wang-a16662109"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="领英"
+                        >
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">领英</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="mailto:zicowarn@hotmail.com"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="邮箱"
+                        >
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">邮箱</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/atom.xml"
+                            
+                            rel="noopener"
+                            title="RSS"
+                        >
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
     </div>
-  </div>
-</div>
-
-
-
-<nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
-  </ul>
 </nav>
 
-
-
-
-</header>
-        
-  
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">任务背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E7%94%A8%E6%88%B7"><span class="nav-number">2.</span> <span class="nav-text">准备用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E7%AD%96%E7%95%A5"><span class="nav-number">3.</span> <span class="nav-text">访问策略</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#AWSLambdaFullAccess"><span class="nav-number">3.0.1.</span> <span class="nav-text">AWSLambdaFullAccess</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AWSCodeDeployRoleForLambda"><span class="nav-number">3.0.2.</span> <span class="nav-text">AWSCodeDeployRoleForLambda</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AWSLambdaExecute"><span class="nav-number">3.0.3.</span> <span class="nav-text">AWSLambdaExecute</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AWSLambdaRole"><span class="nav-number">3.0.4.</span> <span class="nav-text">AWSLambdaRole</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AWSLambdaReadOnlyAccess"><span class="nav-number">3.0.5.</span> <span class="nav-text">AWSLambdaReadOnlyAccess</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#UserCustomDeployLambdaFunctionCode"><span class="nav-number">3.0.6.</span> <span class="nav-text">UserCustomDeployLambdaFunctionCode</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEAWS-CLI"><span class="nav-number">4.</span> <span class="nav-text">配置AWS CLI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li></ol></div>
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Jim Wang"
-      src="/images/avater.png">
-  <p class="site-author-name" itemprop="name">Jim Wang</p>
-  <div class="site-description" itemprop="description">记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多</div>
-</div>
-<div class="site-state-wrap animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">64</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-          <a href="/categories/">
-        <span class="site-state-item-count">21</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-          <a href="/tags/">
-        <span class="site-state-item-count">85</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author animated">
-      <span class="links-of-author-item">
-        <a href="https://github.com/zicowarn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zicowarn" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="tencent://message/?uin=948509&Site=&Menu=yes" title="QQ → tencent:&#x2F;&#x2F;message&#x2F;?uin&#x3D;948509&amp;Site&#x3D;&amp;Menu&#x3D;yes" rel="noopener me" target="_blank"><i class="fab fa-qq fa-fw"></i>QQ</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://www.linkedin.com/in/zhichao-wang-a16662109" title="Linked_in → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;zhichao-wang-a16662109" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>Linked_in</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:zicowarn@hotmail.com" title="E-Mail → mailto:zicowarn@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
-      </span>
-  </div>
-
-        </div>
-      </div>
-    </div>
-
+            
+            <div id="main" data-behavior="4"
+                class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
     
-  </aside>
-
-
-    </div>
-
-    <div class="main-inner post posts-expand">
-
-
-  
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="Jim Wang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jim Wang 技术博客">
-      <meta itemprop="description" content="记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="AWS 如何使用IAM创建一个最小访问权限的用户并使用aws-cli来部署lambda函数程序包 | Jim Wang 技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          AWS 如何使用IAM创建一个最小访问权限的用户并使用aws-cli来部署lambda函数程序包
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            AWS 如何使用IAM创建一个最小访问权限的用户并使用aws-cli来部署lambda函数程序包
         </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2020-09-24T20:39:50+08:00">
+	
+		    9月 24, 2020
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/AWS-%E7%9B%B8%E5%85%B3-%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/">AWS 相关 - 基本知识</a>
 
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2020-09-24 20:39:50" itemprop="dateCreated datePublished" datetime="2020-09-24T20:39:50+08:00">2020-09-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-01 16:41:08" itemprop="dateModified" datetime="2024-08-01T16:41:08+08:00">2024-08-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/AWS-%E7%9B%B8%E5%85%B3-%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/" itemprop="url" rel="index"><span itemprop="name">AWS 相关 - 基本知识</span></a>
-        </span>
-    </span>
-
-  
+    
 </div>
 
-        </div>
-      </header>
+    
+</div>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody"><p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a> </p>
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a> </p>
 <p>摘要：如何配置aws-cli？如何使用aws-cli来部署lamdba函数的程序包？配置aws-cli时，用户访问权限的策略应该是什么样的？如何创建一个最小访问权限的用户，在保证安全的同时实现lambda程序包的部署？这样的用户的访问策略是什么样的？</p>
 <p>Abstract: How to configure aws-cli? How to use aws-cli to deploy lamdba function package? When configuring aws-cli, what should be the user access policy? How to create a user with minimal access rights to complete the lambda package deployment task while ensuring security? What is the access strategy for such users?</p>
 <span id="more"></span>
@@ -263,7 +373,7 @@
 <li>AWS 管理控制台访问： 启用密码 、使得用户可以登录到 AWS 管理控制台。</li>
 </ul>
 <h3 id="访问策略"><a href="#访问策略" class="headerlink" title="访问策略"></a>访问策略</h3><p>AWS IAM提供两种访问策略，托管策略（AWS托管和用户托管）和内联策略。<em>AWS托管策略</em> 是由 AWS 创建和管理的独立策略。这里的<em>独立策略</em> 意味着策略有自己的 Amazon 资源名称 (ARN)，其中包含策略名称。自己不能更改 AWS 托管策略中定义的权限。内联策略 是用户自己创建与管理的独立策略，内联策略应该算得上是<em>用户托管策略</em>的一种特殊使用方式，内联策略是嵌入在 IAM 身份（用户、组或角色）中的策略。也就是说，策略是身份的固有组成部分。内联策略与应用它的身份之间维持严格的一对一关系，如果要确保策略中的权限不会无意中分配给预期身份之外的身份，则可使用内联策略。请参看下方三种策略的对比示意图，</p>
-<p><img src="/posts/2020-09-24-aws-common-02-awscli-configuration/aws-common-02-01.png"></p>
+<p><img src="/posts/aws-common-02-01.png"></p>
 <p>我们先看一下AWS托管策略，试着分析一下策略运行的服务是否符合我们对最小用户访问策略的预期。</p>
 <h5 id="AWSLambdaFullAccess"><a href="#AWSLambdaFullAccess" class="headerlink" title="AWSLambdaFullAccess"></a>AWSLambdaFullAccess</h5><p>为AWS托管策略，该托管策略允许访问18个服务（AWS的服务共计239）。其中包括了，其中针对lambda服务的策略有50个，提供了lambda相关的所有权限，该策略能够最终能够实现使用github的actions来自动持续部署代码的任务需求，但是并不是所要求的最小访问策略。</p>
 <h5 id="AWSCodeDeployRoleForLambda"><a href="#AWSCodeDeployRoleForLambda" class="headerlink" title="AWSCodeDeployRoleForLambda"></a>AWSCodeDeployRoleForLambda</h5><p>为AWS托管策略，该托管策略允许访问4个服务（AWS的服务共计239）。</p>
@@ -313,120 +423,469 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">username@mac aws-cli-test % aws lambda update-function-code --function-name <span class="built_in">test</span> --zip-file fileb://test.zip    </span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;FunctionName&quot;</span>: <span class="string">&quot;test&quot;</span>,</span><br><span class="line">    <span class="string">&quot;FunctionArn&quot;</span>: <span class="string">&quot;arn:aws:lambda:ap-northeast-1:XXXXXXXXXX:function:test&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Runtime&quot;</span>: <span class="string">&quot;python3.6&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Role&quot;</span>: <span class="string">&quot;arn:aws:iam::XXXXXXXXXX:role/service-role/test-role-mu5rmz0t&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Handler&quot;</span>: <span class="string">&quot;lambda_function.lambda_handler&quot;</span>,</span><br><span class="line">    <span class="string">&quot;CodeSize&quot;</span>: 321,</span><br><span class="line">    <span class="string">&quot;Description&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Timeout&quot;</span>: 3,</span><br><span class="line">    <span class="string">&quot;MemorySize&quot;</span>: 128,</span><br><span class="line">    <span class="string">&quot;LastModified&quot;</span>: <span class="string">&quot;2020-09-22T06:02:26.878+0000&quot;</span>,</span><br><span class="line">    <span class="string">&quot;CodeSha256&quot;</span>: <span class="string">&quot;XXXXXXXXXXCCCCCCCCCCCCCCCCCCC/zBBvIU4+1oAzeo=&quot;</span>,</span><br><span class="line">    <span class="string">&quot;Version&quot;</span>: <span class="string">&quot;<span class="variable">$LATEST</span>&quot;</span>,</span><br><span class="line">    <span class="string">&quot;TracingConfig&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;Mode&quot;</span>: <span class="string">&quot;PassThrough&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;RevisionId&quot;</span>: <span class="string">&quot;87a0f614-401d-420f-a338-78a54bd8ba40&quot;</span>,</span><br><span class="line">    <span class="string">&quot;State&quot;</span>: <span class="string">&quot;Active&quot;</span>,</span><br><span class="line">    <span class="string">&quot;LastUpdateStatus&quot;</span>: <span class="string">&quot;Successful&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>返回的更新结果为”Successful”，说明更新成功，然后可以在aws lambda网页版的页面上看到更新的lambda函数内容，如下图，</p>
-<p><img src="/posts/2020-09-24-aws-common-02-awscli-configuration/aws-common-02-02.png"></p>
+<p><img src="/posts/aws-common-02-02.png"></p>
 <h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>至此，创建一个用户托管策略，来实现一个最小用户访问权限，并使用这样一个用户终端里借助aws-cli实现lambda函数的程序包的部署内容也就结束了。aws lambda也是刚刚开始接触，文中定有不足之处，也希望经验丰富的朋友多多指教，感兴趣的朋友可以关注我的个人公众号一起来讨论学习。</p>
 <hr>
 <div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">
     版权声明：<br>文章首发于 <a href="https://zicowarn.github.io"> Jim Wang's blog </a>，
     转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。
 </div>
+            
+
+
+        </div>
     </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/AWS/" rel="tag">AWS</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/IAM/" rel="tag">IAM</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/aws-cli/" rel="tag">aws-cli</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/lambda/" rel="tag">lambda</a>
 
-    
-    
-    
-
-    <footer class="post-footer">
-          <div class="followme">
-  <span>欢迎关注我的其它发布渠道</span>
-
-  <div class="social-list">
-
-      <div class="social-item">
-          <a target="_blank" class="social-link" href="/atom.xml">
-            <span class="icon">
-              <i class="fa fa-rss"></i>
-            </span>
-
-            <span class="label">RSS</span>
-          </a>
-      </div>
-  </div>
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2020-10-13-angular-01-use-ngfor-a-json-object.html"
+                    data-tooltip="Angular 如何使用结构型指令*ngFor历遍json对象"
+                    aria-label="上一篇: Angular 如何使用结构型指令*ngFor历遍json对象"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2020-09-22-0809-python-hwoto-install-pyevn-virtualenv.html"
+                    data-tooltip="Python 杂记之 如何使用pyenv管理python版本管理与如何使用virtualenv创建python虚拟运行环境"
+                    aria-label="下一篇: Python 杂记之 如何使用pyenv管理python版本管理与如何使用virtualenv创建python虚拟运行环境"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html"
+                    title="分享到 Google+"
+                    aria-label="分享到 Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html"
+                    title="分享到 Weibo"
+                    aria-label="分享到 Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html&amp;title=AWS 如何使用IAM创建一个最小访问权限的用户并使用aws-cli来部署lambda函数程序包"
+                    title="分享到 QQ"
+                    aria-label="分享到 QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
 </div>
 
-          <div class="post-tags">
-              <a href="/tags/AWS/" rel="tag"><i class="fa fa-tag"></i> AWS</a>
-              <a href="/tags/lambda/" rel="tag"><i class="fa fa-tag"></i> lambda</a>
-              <a href="/tags/aws-cli/" rel="tag"><i class="fa fa-tag"></i> aws-cli</a>
-              <a href="/tags/IAM/" rel="tag"><i class="fa fa-tag"></i> IAM</a>
-          </div>
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2024 Jim Wang. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2020-10-13-angular-01-use-ngfor-a-json-object.html"
+                    data-tooltip="Angular 如何使用结构型指令*ngFor历遍json对象"
+                    aria-label="上一篇: Angular 如何使用结构型指令*ngFor历遍json对象"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2020-09-22-0809-python-hwoto-install-pyevn-virtualenv.html"
+                    data-tooltip="Python 杂记之 如何使用pyenv管理python版本管理与如何使用virtualenv创建python虚拟运行环境"
+                    aria-label="下一篇: Python 杂记之 如何使用pyenv管理python版本管理与如何使用virtualenv创建python虚拟运行环境"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html"
+                    title="分享到 Google+"
+                    aria-label="分享到 Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html"
+                    title="分享到 Weibo"
+                    aria-label="分享到 Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html&amp;title=AWS 如何使用IAM创建一个最小访问权限的用户并使用aws-cli来部署lambda函数程序包"
+                    title="分享到 QQ"
+                    aria-label="分享到 QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html"
+                        aria-label="分享到 Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html"
+                        aria-label="分享到 Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html"
+                        aria-label="分享到 Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html"
+                        aria-label="分享到 Weibo"
+                    >
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/posts/2020-09-24-aws-common-02-awscli-configuration.html&amp;title=AWS 如何使用IAM创建一个最小访问权限的用户并使用aws-cli来部署lambda函数程序包"
+                        aria-label="分享到 QQ"
+                    >
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avater.png" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Jim Wang</h4>
+        
+            <div id="about-card-bio"> <hr style='margin: 5px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 20%;'> <span>全栈探索之路<span> <hr style='margin: 8px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 60%;'> 记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多。 </div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>软件工程师</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                河南，中国
+            </div>
+        
+    </div>
+</div>
 
         
 
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/posts/2020-09-22-0809-python-hwoto-install-pyevn-virtualenv.html" rel="prev" title="Python 杂记之 如何使用pyenv管理python版本管理与如何使用virtualenv创建python虚拟运行环境">
-                  <i class="fa fa-angle-left"></i> Python 杂记之 如何使用pyenv管理python版本管理与如何使用virtualenv创建python虚拟运行环境
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/posts/2020-10-13-angular-01-use-ngfor-a-json-object.html" rel="next" title="Angular 如何使用结构型指令*ngFor历遍json对象">
-                  Angular 如何使用结构型指令*ngFor历遍json对象 <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
-  </article>
-</div>
 
 
 
+    
+        
+    
 
 
 
-</div>
-  </main>
+    
+        
+    
 
-  <footer class="footer">
-    <div class="footer-inner">
-
-  <div class="copyright">
-    &copy; 2015 – 
-    <span itemprop="copyrightYear">2024</span>
-    <span class="with-love">
-      <i class="fa fa-heart"></i>
-    </span>
-    <span class="author" itemprop="copyrightHolder">Jim Wang</span>
-  </div>
-
+<div id="wechat">
+    <div id="wechat-card">
+        <div id="wechat-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="wechat-qrcode-picture" src="/assets/images/wechat-qrcode.jpg" alt="global.wechat_public_qr_code_image"/>
+        
+        
+            <div id="wechat-qrcode-desc"><p>请扫描上方的二维码订阅我的个人微信公众号</p> <hr style='margin: 8px auto; border-top: 2px solid rgba(1, 1, 1, 0.14); width: 60%;'> <p>原创不易，多多点赞分享支持。</p></div>
+        
+        
+            <img id="wechat-searchbar-picture" src="/assets/images/wechat-search-white.png" alt="global.wechat_public_search_bar_image"/>
+        
     </div>
-  </footer>
+</div>
 
-  
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-  <div class="sidebar-dimmer"></div>
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up fa-lg"></i>
-    <span>0%</span>
-  </div>
+        
+        
+<div id="cover" style="background-image:url('/assets/images/background-cover.jpg');"></div>
+        <!--SCRIPTS-->
 
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
+<script src="/assets/js/script-2t8c01k1fthzrgprhbm5clfune3ygdtd8ajsnhdxko5pl9jnhax3fioo6uev.min.js"></script>
+
+<!--SCRIPTS END-->
 
 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+    
+      
+<script src="/assets/js/mermaid.min.js"></script>
 
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-
-
-
-  
+      <script>
+          $(document).ready(function() {
+              var mermaid_config = {
+                  startOnLoad: true,
+                  theme: 'default',
+                  flowchart:{
+                      useMaxWidth: false,
+                      htmlLabels: true
+                  }                
+              }
+              mermaid.initialize(mermaid_config);
+          });
+      </script>
+    
 
 
 
 
-
-</body>
+    </body>
 </html>

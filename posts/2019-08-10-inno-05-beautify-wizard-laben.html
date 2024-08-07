@@ -1,260 +1,370 @@
+
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-cn">
+    
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.0.0">
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
-
-<script class="next-config" data-name="main" type="application/json">{"hostname":"zicowarn.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":"auto","version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12,"onmobile":false},"hljswrap":true,"copycode":{"enable":false,"style":null,"show_result":false},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Jim Wang 个人技术博客">
+    <meta name="google-site-verification" content="Vv1-G7f0bcjlHq6prbeTvbDWFc4iN17bGUGM_KcE5xA" />
+    <meta name="baidu-site-verification" content="A8086Y6q9Y" />
+    <title>Inno Setup 如何更换向导页面标题部分的背景 - Jim Wang 个人技术博客</title>
+    <meta name="author" content="Jim Wang">
+    
+        <meta name="keywords" content="个人博客,实践,技术,经验,分享,全栈,Technology,blog,Python,Inno Setup,TypeScript,SQLite,AWS,CAM,EDM,JavaScript,CSS,HTML,">
+    
+    
+        <link rel="icon" href="https://zicowarn.github.io/assets/images/favicon.png">
+    
+    
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Jim Wang 公众号: 巴博萨船长\n开发部领导新的要求，希望在产品安装包的向导页面做些美化。比如，显示公司的logo在向导页面的标题部分。\n\n\n\n所谓标题即Label部分就是上图中红色方格标注的部分。 标注部分右侧是logo图标。\n1. 初探，如何更换logo部分Inno Setup开发文档里里有介绍如何更换Label中右侧的logo的方法。可以通过在**[Setup]**可以定义WizardSmallImageFile=”logo文件路径”来实现。但其要求的logo图片都是长宽相等的。长款不等的图片在显示会被拉伸，其效果惨不忍睹。该选项支持多重文件，即:你可以一次定义多个分辨率的logo文件，Inno Setup在安装的时候会根据系统当前的DPI设置，来自动选择合适分辨率的图片。多重定义的方法如下：\n12Example:WizardSmallImageFile=mysmallimage.bmp,mysmallimage2.bmp\n\nLogo文件分辨率要求如下：\n1234567100%\t55x55125%\t64x68150%\t83x80175%\t92x97200%\t110x106225%\t119x123250%\t138x140\n\n图片被拉伸通常发生在以下两种情况，一、显示器的设置发生了变化。二、Inno Setup向导页面被设定未可缩放。向导页面的缩放可以通过WizardSizePercen和WizardResizable。WizardSizePercent的合法值为从100值150。该参数的目的是允许你在不改变文字大小的前提下等比例缩放所以的安装和卸载向导页面。150意思是缩放为默认大小的150%，即增到50%。这里WizardResizable的合法值为yes和no，而当WizardStyle（其合法值为classic和modern）被设置为modern的时候，就默认为WizardResizable的值为yes，也同时默认为WizardSizePercen为120%。具体解释可以查看Inno Setup的官方文档。\n2. 深入，如何得到当前的显示器的DPI上文说到，图片的拉伸除了与向导页面有关，与系统的显示设置也相关，那如何得到当前显示的DPI呢？在Win7之前的系统中，要得到当前显示器的DPI，在Inno Setup的**[Code]**部分可以使用TGraphicsObject.PixelsPerInch 这个属性得到当前系统显示器设定的DPI。TGraphicsObject 这里有个小例子，代码如下：\n12345678910111213141516171819202122232425procedure CheckDPI;var  CurrentDPI, StandardDPI, MediumDPI, LargeDPI: Integer;begin  &#123; Get the current DPI, 从向导页面的字体中得到当前的DPI &#125;   CurrentDPI  := WizardForm.Font.PixelsPerInch;    &#123; Store defaults determined from Windows DPI settings &#125;  StandardDPI := 96;  &#123; 100% &#125;  MediumDPI   := 120; &#123; 125% &#125;  LargeDPI    := 144; &#123; 150% &#125;  if (CurrentDPI &gt;= StandardDPI) and (CurrentDPI &lt; MediumDPI) then   begin    &#123; Execute some custom code for small to medium DPI &#125;  end  else if (CurrentDPI &gt;= MediumDPI) and (CurrentDPI &lt; LargeDPI) then  begin    &#123; Execute some custom code for medium to large DPI &#125;  end  else if (CurrentDPI &gt;= LargeDPI) then  begin    &#123; Execute some custom code for large DPI or above &#125;  end;end;\n\n从Inno Setup 的5.6的版本开始，在多重定义的时候，Inno Setup就会根据当前DPI自动选择图片大小。这个自动选择是如何实现的呢。 下面的代码就使用了PixelsPerInch这个属性，并尝试模拟了自动选择这部分功能。\n12345678910111213141516171819202122232425262728293031323334353637383940414243[Setup]; Use 100% images by defaultWizardImageFile=WizardImage 100.bmpWizardSmallImageFile=WizardSmallImage 100.bmp[Files]; Embed all other sizes to the installerSource: &quot;WizardImage *.bmp&quot;; Excludes: &quot;* 100.bmp&quot;; Flags: dontcopySource: &quot;WizardSmallImage *.bmp&quot;; Excludes: &quot;* 100.bmp&quot;; Flags: dontcopy[Code]function GetScalingFactor: Integer;begin  if WizardForm.Font.PixelsPerInch &gt;= 192 then Result := 200    else  if WizardForm.Font.PixelsPerInch &gt;= 144 then Result := 150    else  if WizardForm.Font.PixelsPerInch &gt;= 120 then Result := 125    else Result := 100;end;procedure LoadEmbededScaledBitmap(Image: TBitmapImage; NameBase: string);var  Name: String;  FileName: String;begin  Name := Format(&#x27;%s %d.bmp&#x27;, [NameBase, GetScalingFactor]);  ExtractTemporaryFile(Name);  FileName := ExpandConstant(&#x27;&#123;tmp&#125;\\&#x27; + Name);  Image.Bitmap.LoadFromFile(FileName);  DeleteFile(FileName);end;procedure InitializeWizard;begin  &#123; If using larger scaling, load the correct size of images &#125;  if GetScalingFactor &gt; 100 then   begin    LoadEmbededScaledBitmap(WizardForm.WizardBitmapImage, &#x27;WizardImage&#x27;);    LoadEmbededScaledBitmap(WizardForm.WizardBitmapImage2, &#x27;WizardImage&#x27;);    LoadEmbededScaledBitmap(WizardForm.WizardSmallBitmapImage, &#x27;WizardSmallImage&#x27;);  end;end;\n\n那么有没有在不用重复定义，仅用一张图片然后根据当前的DPI来进行人为的缩放，也能达到良好的显示效果呢，当然有，方法如下：\n12345678910111213141516171819202122232425var  CustomPage: TWizardPage;  BtnImage: TBitmapImage;procedure InitializeWizard;begin  CustomPage := CreateCustomPage(wpLicense, &#x27;Heading&#x27;, &#x27;Sub heading.&#x27;);  ExtractTemporaryFile(&#x27;image.bmp&#x27;);  BtnImage := TBitmapImage.Create(WizardForm); //在当前页面即wpLicense页面创建一个Image按钮。  with BtnImage do    begin      Parent := CustomPage.Surface;      Bitmap.LoadFromFile(ExpandConstant(&#x27;&#123;tmp&#125;&#x27;)+&#x27;\\image.bmp&#x27;);      AutoSize := True;      AutoSize := False;  // 缩放之前 关系BtnImage的自由大小属性      Height := ScaleX(Height); // 然后根据当前BtnImage的大小进行缩放      Width := ScaleY(Width);      Stretch := True;      Left := ScaleX(90);      Top := WizardForm.SelectTasksPage.Top + WizardForm.SelectTasksPage.Height -             Height - ScaleY(8);      Cursor := crHand;      OnClick := @ImageOnClick;    end;end;\n\n3. 进阶，Win8之后新系统得到当前的显示器的DPI由于Windows 8.1之后的系统中，用户可以调整每个监视器的DPI缩放比例，并且Font.PixelsPerInch始终为主监视器返回DPI值，因此第2节中的方法就不在适用新的系统了。如果在多显示多DPI的复杂环境中，第2节中的方法表现的也不尽如人意。某些时候，可以监听WM_DPICHANGED事件，然后手动并使窗口适应变化的DPI（但此更改可以只是将窗口移动到具有不同DPI设置的监视器）。而 要获取某个窗口的DPI，就需要考虑别的解决方案了。我在网上找到了相关的介绍，但是我当前的项目中不需要这些，也就没对代码进行测试。感兴趣的朋友可以自己尝试一下，代码如下：\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778[Code]const  S_OK = $00000000;  LOGPIXELSY = 90;  MONITOR_DEFAULTTONULL = $00000000;  MONITOR_DEFAULTTOPRIMARY = $00000001;  MONITOR_DEFAULTTONEAREST = $00000002;type  HDC = THandle;  HMONITOR = THandle;  MONITOR_DPI_TYPE = (    MDT_EFFECTIVE_DPI,    MDT_ANGULAR_DPI,    MDT_RAW_DPI  );const  MDT_DEFAULT = MDT_EFFECTIVE_DPI;function GetDC(hWnd: HWND): HDC;  external &#x27;GetDC@user32.dll stdcall&#x27;;function ReleaseDC(hWnd: HWND; hDC: HDC): Integer;  external &#x27;ReleaseDC@user32.dll stdcall&#x27;;function GetDeviceCaps(hdc: HDC; index: Integer): Integer;  external &#x27;GetDeviceCaps@gdi32.dll stdcall&#x27;;function MonitorFromWindow(hwnd: HWND; dwFlags: DWORD): HMONITOR;  external &#x27;MonitorFromWindow@user32.dll stdcall&#x27;;function GetDpiForMonitor(hmonitor: HMONITOR; dpiType: MONITOR_DPI_TYPE;  out dpiX: UINT; out dpiY: UINT): HRESULT;  external &#x27;GetDpiForMonitor@shcore.dll stdcall delayload&#x27;;function IsWindows81OrLater: Boolean;begin  Result := GetWindowsVersion &gt;= $06030000;end;function GetPrimaryMonitorDPI: Integer;var  DC: HDC;begin  // no need for try..finally block here; just get the desktop DC handle,  // get the DPI and release the obtained handle  DC := GetDC(0);  Result := GetDeviceCaps(DC, LOGPIXELSY);  ReleaseDC(0, DC);end;function GetWindowMonitorDPI(Handle: HWND): Integer;var  HorzDPI: UINT;  VertDPI: UINT;  Monitor: HMONITOR;begin  // if we&#x27;re not on at least Windows 8.1, then return the primary monitor  // DPI since earlier systems did not allow per monitor DPI settings  if not IsWindows81OrLater then    Result := GetPrimaryMonitorDPI  else  // otherwise determine which monitor the given window intersects and try  // to get DPI settings of the found monitor (if any; check MSDN docs for  // the explanation and other options how to find the nearest monitor)  begin    // try to get the monitor which the window intersects    Monitor := MonitorFromWindow(Handle, MONITOR_DEFAULTTONULL);    // if there&#x27;s any, then...    if Monitor &lt;&gt; 0 then    begin      // try to get DPI for that monitor; if it succeeds, return the value,      // raise an exception otherwise (for details check the MSDN docs)      if GetDpiForMonitor(Monitor, MDT_DEFAULT, HorzDPI, VertDPI) = S_OK then        Result := VertDPI      else        RaiseException(&#x27;GetDpiForMonitor function call failed!&#x27;);    end    else      RaiseException(&#x27;The given window does not intersect any monitor!&#x27;);  end;end;\n\n这是Windows SDK中介绍的方法，整个设计相对来说比较复杂。简单来说，将上述代码加入你的项目中，当你需要显示器的DPI的时候就调用GetWindowMonitorDPI函数，然后根据DPI结合第2节中的方法来缩放或者选择你要显示的图片。\n4. 回到项目，更换向导页面标题部分的背景上述的内容，也是我再寻找解决新需求的过程中，搜集和整理的部分内容，记录下来也是为了以后需要的时候知道应该向那个方向努力。我告诉开发主管的是，我个人不建议将我们安装应用程序的向导页面设置为可缩放，因为这样需要做出的改变特别多，而且当前的大小也能满足使用需求。但美化工作不能少，第一步的任务核心就是页面简介背景部分，代码如下：\n1234567891011121314151617181920212223242526272829303132[Files]Source: &quot;Logo-header.bmp&quot;; Flags: dontcopy[Code]procedure InitializeWizard();var  BitmapImage: TBitmapImage;begin  //   ExtractTemporaryFile(&#x27;Logo-header.bmp&#x27;);  BitmapImage := TBitmapImage.Create(WizardForm);  BitmapImage.Parent := WizardForm.MainPanel;  BitmapImage.Width := WizardForm.MainPanel.Width;  BitmapImage.Height := WizardForm.MainPanel.Height;  BitmapImage.Stretch := True;  BitmapImage.AutoSize := False;  BitmapImage.Bitmap.LoadFromFile(ExpandConstant(&#x27;&#123;tmp&#125;\\Logo-header.bmp&#x27;));\t  // 禁用 原始页面的小图标  WizardForm.WizardSmallBitmapImage.Visible := False;  // 启用 页面简介标题  WizardForm.PageDescriptionLabel.Visible := True;  // 启用 页面名称标题  WizardForm.PageNameLabel.Visible := True;  // 限定页面简介标题宽度  WizardForm.PageDescriptionLabel.Width :=    WizardForm.PageDescriptionLabel.Width - ScaleX(120);  // 限定页面名称标题宽度  WizardForm.PageNameLabel.Width :=    WizardForm.PageNameLabel.Width - ScaleX(120) end;\n\n上述代码的核心思想就是，准备一张图片，该图片并不会被拷贝在目标文件夹中，在页面初始的时候，设定页面标题简述部分的背景，由于原始页面小logo被禁用，就需要缩进标题名称和简介文本的宽度，防止其覆盖图片的部分内容。\n\n任务第二部分内容，就是更改欢迎页面的背景图片，即上图中红色部分框选的地方。首先在**[Setup]中定义属性为DisableWelcomePage=no，意指启用欢迎页面。 然后在[Setup]部分定义WizardBitmapImage属性即可。结束页面（下图）与开始页面相似，只需在[Setup]**部分定义WizardBitmapImage2 属性即可。\n\n需要说明的是，如果属性WizardBitmapImage2为被定义，而属性WizardBitmapImage被定义，则结束页面会选择WizardBitmapImage中定义的图片作为上图中红色部分圈选的背景图片。\n5. 扩展，欢迎页面和结束页面整页照片我们在第4节部分，了解了如何在使用Inno Setup的属性设定，更改欢迎和结束页面的左侧背景图片，那么有没有一种可能，即省去这两个页面的文字（通常需要考虑翻译的问题），直接使用一张图片作为整个页面的背景呢？有，本节我们就探索一下。中心思想为四部：\n\n在各自的父页面上拉伸“ WizardBitmapImage”（欢迎）和“ WizardBitmapImage2”（完成），因为这两个页面都有图片部分，就不需要再初始化TBitmapImage了。\n隐藏其它内容，例如 标题和段落.\n确保安装程序永远不需要重新启动计算机，否则会在结束图片上会显示上重新启动提示。\n请确保在**[Run]**部分中没有任何postinstall条目。否则结束页面上也会显示提示信息。\n\n\n实现这部分的代码如下：\n12345678910111213141516171819202122[Setup]DisableWelcomePage=noWizardImageFile=Demo.bmp  // 如果WizardImageFile2 没定义则结束页面也使用该图片[Code]procedure InitializeWizard();begin  // 欢迎页面  // 隐藏 部分内容  WizardForm.WelcomeLabel1.Visible := False;  WizardForm.WelcomeLabel2.Visible := False;  // 拉伸页面宽度  WizardForm.WizardBitmapImage.Width := WizardForm.WizardBitmapImage.Parent.Width;  // 结束页面  // 隐藏 部分内容  WizardForm.FinishedLabel.Visible := False;  WizardForm.FinishedHeadingLabel.Visible := False;  // 拉伸页面宽度  WizardForm.WizardBitmapImage2.Width := WizardForm.WizardBitmapImage2.Parent.Width;end;\n\n\n\n6. 扩展2，在向导页脚左侧显示版本号需要的显示结果如下图所示：\n\n代码如下：\n1234567891011121314151617181920[Code]procedure InitializeWizard();var  VersionLabel: TNewStaticText;begin  // 定义一个静态文本实例  VersionLabel := TNewStaticText.Create(WizardForm);  // 从Setup部分的设定中获取版本号  VersionLabel.Caption := Format(&#x27;Version: %s&#x27;, [&#x27;&#123;#SetupSetting(&quot;AppVersion&quot;)&#125;&#x27;]);  // 所有页面有效  VersionLabel.Parent := WizardForm;  // 左侧位置  VersionLabel.Left := ScaleX(16);  // 保证 文本与按钮的 在水平方向 中心对齐  VersionLabel.Top :=    WizardForm.BackButton.Top +    (WizardForm.BackButton.Height div 2) -    (VersionLabel.Height div 2)end;\n\n对齐的方式，以按钮的左上位置为基点，加上按钮高度与文本高度之差即可。\n\n\n          版权声明：文章首发于  Jim Wang's blog ，\n          转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n        ","dateCreated":"2019-08-10T08:11:08+08:00","dateModified":"2024-04-09T04:29:44+08:00","datePublished":"2019-08-10T08:11:08+08:00","description":"作者: Jim Wang 公众号: 巴博萨船长\n开发部领导新的要求，希望在产品安装包的向导页面做些美化。比如，显示公司的logo在向导页面的标题部分。","headline":"Inno Setup 如何更换向导页面标题部分的背景","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html","keywords":"Inno Setup"}</script>
     <meta name="description" content="作者: Jim Wang 公众号: 巴博萨船长 开发部领导新的要求，希望在产品安装包的向导页面做些美化。比如，显示公司的logo在向导页面的标题部分。">
-<meta property="og:type" content="article">
+<meta property="og:type" content="blog">
 <meta property="og:title" content="Inno Setup 如何更换向导页面标题部分的背景">
 <meta property="og:url" content="https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html">
-<meta property="og:site_name" content="Jim Wang 技术博客">
+<meta property="og:site_name" content="Jim Wang 个人技术博客">
 <meta property="og:description" content="作者: Jim Wang 公众号: 巴博萨船长 开发部领导新的要求，希望在产品安装包的向导页面做些美化。比如，显示公司的logo在向导页面的标题部分。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben/inno-label-part.png">
-<meta property="og:image" content="https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben/inno-welcome-part.png">
-<meta property="og:image" content="https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben/inno-finish-part.png">
-<meta property="og:image" content="https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben/inno-finish-part-full.png">
-<meta property="og:image" content="https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben/inno-bottom-left-part.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/inno-label-part.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/inno-welcome-part.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/inno-finish-part.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/inno-finish-part-full.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/inno-bottom-left-part.png">
 <meta property="article:published_time" content="2019-08-10T00:11:08.000Z">
 <meta property="article:modified_time" content="2024-04-08T20:29:44.454Z">
 <meta property="article:author" content="Jim Wang">
 <meta property="article:tag" content="Inno Setup">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben/inno-label-part.png">
+<meta name="twitter:image" content="https://zicowarn.github.io/posts/inno-label-part.png">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zicowarn.github.io/assets/images/avater.png"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-m2dgitnm2byuj37caoszle9u1auenk6va6bk89y4xo0d0wyorkftmkofzpn1.min.css">
 
-
-<link rel="canonical" href="https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html">
-
-
-
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html","path":"posts/2019-08-10-inno-05-beautify-wizard-laben.html","title":"Inno Setup 如何更换向导页面标题部分的背景"}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Inno Setup 如何更换向导页面标题部分的背景 | Jim Wang 技术博客</title>
-  
+    <!--STYLES END-->
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0411EY69W7"></script>
-  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-0411EY69W7","only_pageview":false,"measure_protocol_api_secret":null}</script>
-  <script src="/js/third-party/analytics/google-analytics.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
-  <script async src="https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d"></script>
-
-
-
-
+        gtag('config', 'G-0411EY69W7');
+    </script>
 
 
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
 
-  <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
-<link rel="alternate" href="/atom.xml" title="Jim Wang 技术博客" type="application/atom+xml">
+
+    
+        
+    
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
 
-  <main class="main">
-    <div class="column">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/"
+            aria-label=""
+        >
+            Jim Wang 个人技术博客
+        </a>
     </div>
-  </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="打开链接: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/avater.png" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
 
-  <div class="site-meta">
+            <!-- Define author's picture -->
 
-    <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <p class="site-title">Jim Wang 技术博客</p>
-      <i class="logo-line"></i>
-    </a>
-      <p class="site-subtitle" itemprop="description">全栈探索之路</p>
-  </div>
 
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="阅读有关作者的更多信息"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avater.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Jim Wang</h4>
+                <h5 class="sidebar-profile-subtitle"><p>个人技术博客</p>
+</h5>
+                
+                    <h5 class="sidebar-profile-bio"> <hr style='margin: 5px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 20%;'> <span>全栈探索之路<span> <hr style='margin: 8px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 60%;'> 记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多。 </h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
+                            
+                            rel="noopener"
+                            title="首页"
+                        >
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
+                            
+                            rel="noopener"
+                            title="分类"
+                        >
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
+                            
+                            rel="noopener"
+                            title="标签"
+                        >
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
+                            
+                            rel="noopener"
+                            title="归档"
+                        >
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
+                            
+                            rel="noopener"
+                            title="关于"
+                        >
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/zicowarn"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#wechat"
+                            
+                            rel="noopener"
+                            title="微信公众号"
+                        >
+                        <i class="sidebar-button-icon fab fa-weixin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">微信公众号</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="tencent://message/?uin=948509&Site=&Menu=yes"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="QQ"
+                        >
+                        <i class="sidebar-button-icon fab fa-qq" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">QQ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://www.linkedin.com/in/zhichao-wang-a16662109"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="领英"
+                        >
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">领英</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="mailto:zicowarn@hotmail.com"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="邮箱"
+                        >
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">邮箱</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/atom.xml"
+                            
+                            rel="noopener"
+                            title="RSS"
+                        >
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
     </div>
-  </div>
-</div>
-
-
-
-<nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
-  </ul>
 </nav>
 
-
-
-
-</header>
-        
-  
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%88%9D%E6%8E%A2%EF%BC%8C%E5%A6%82%E4%BD%95%E6%9B%B4%E6%8D%A2logo%E9%83%A8%E5%88%86"><span class="nav-number">1.</span> <span class="nav-text">1. 初探，如何更换logo部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%B7%B1%E5%85%A5%EF%BC%8C%E5%A6%82%E4%BD%95%E5%BE%97%E5%88%B0%E5%BD%93%E5%89%8D%E7%9A%84%E6%98%BE%E7%A4%BA%E5%99%A8%E7%9A%84DPI"><span class="nav-number">2.</span> <span class="nav-text">2. 深入，如何得到当前的显示器的DPI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%BF%9B%E9%98%B6%EF%BC%8CWin8%E4%B9%8B%E5%90%8E%E6%96%B0%E7%B3%BB%E7%BB%9F%E5%BE%97%E5%88%B0%E5%BD%93%E5%89%8D%E7%9A%84%E6%98%BE%E7%A4%BA%E5%99%A8%E7%9A%84DPI"><span class="nav-number">3.</span> <span class="nav-text">3. 进阶，Win8之后新系统得到当前的显示器的DPI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%9B%9E%E5%88%B0%E9%A1%B9%E7%9B%AE%EF%BC%8C%E6%9B%B4%E6%8D%A2%E5%90%91%E5%AF%BC%E9%A1%B5%E9%9D%A2%E6%A0%87%E9%A2%98%E9%83%A8%E5%88%86%E7%9A%84%E8%83%8C%E6%99%AF"><span class="nav-number">4.</span> <span class="nav-text">4. 回到项目，更换向导页面标题部分的背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%89%A9%E5%B1%95%EF%BC%8C%E6%AC%A2%E8%BF%8E%E9%A1%B5%E9%9D%A2%E5%92%8C%E7%BB%93%E6%9D%9F%E9%A1%B5%E9%9D%A2%E6%95%B4%E9%A1%B5%E7%85%A7%E7%89%87"><span class="nav-number">5.</span> <span class="nav-text">5. 扩展，欢迎页面和结束页面整页照片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E6%89%A9%E5%B1%952%EF%BC%8C%E5%9C%A8%E5%90%91%E5%AF%BC%E9%A1%B5%E8%84%9A%E5%B7%A6%E4%BE%A7%E6%98%BE%E7%A4%BA%E7%89%88%E6%9C%AC%E5%8F%B7"><span class="nav-number">6.</span> <span class="nav-text">6. 扩展2，在向导页脚左侧显示版本号</span></a></li></ol></div>
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Jim Wang"
-      src="/images/avater.png">
-  <p class="site-author-name" itemprop="name">Jim Wang</p>
-  <div class="site-description" itemprop="description">记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多</div>
-</div>
-<div class="site-state-wrap animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">64</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-          <a href="/categories/">
-        <span class="site-state-item-count">21</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-          <a href="/tags/">
-        <span class="site-state-item-count">85</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author animated">
-      <span class="links-of-author-item">
-        <a href="https://github.com/zicowarn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zicowarn" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="tencent://message/?uin=948509&Site=&Menu=yes" title="QQ → tencent:&#x2F;&#x2F;message&#x2F;?uin&#x3D;948509&amp;Site&#x3D;&amp;Menu&#x3D;yes" rel="noopener me" target="_blank"><i class="fab fa-qq fa-fw"></i>QQ</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://www.linkedin.com/in/zhichao-wang-a16662109" title="Linked_in → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;zhichao-wang-a16662109" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>Linked_in</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:zicowarn@hotmail.com" title="E-Mail → mailto:zicowarn@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
-      </span>
-  </div>
-
-        </div>
-      </div>
-    </div>
-
+            
+            <div id="main" data-behavior="4"
+                class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
     
-  </aside>
-
-
-    </div>
-
-    <div class="main-inner post posts-expand">
-
-
-  
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="Jim Wang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jim Wang 技术博客">
-      <meta itemprop="description" content="记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Inno Setup 如何更换向导页面标题部分的背景 | Jim Wang 技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Inno Setup 如何更换向导页面标题部分的背景
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Inno Setup 如何更换向导页面标题部分的背景
         </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2019-08-10T08:11:08+08:00">
+	
+		    8月 10, 2019
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/Inno-Setup-%E7%9B%B8%E5%85%B3-%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/">Inno Setup 相关 - 实战经验</a>
 
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2019-08-10 08:11:08" itemprop="dateCreated datePublished" datetime="2019-08-10T08:11:08+08:00">2019-08-10</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-04-09 04:29:44" itemprop="dateModified" datetime="2024-04-09T04:29:44+08:00">2024-04-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Inno-Setup-%E7%9B%B8%E5%85%B3-%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">Inno Setup 相关 - 实战经验</span></a>
-        </span>
-    </span>
-
-  
+    
 </div>
 
-        </div>
-      </header>
+    
+</div>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody"><p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
 <p>开发部领导新的要求，希望在产品安装包的向导页面做些美化。比如，显示公司的logo在向导页面的标题部分。</p>
 <span id="more"></span>
 
-<p><img src="/posts/2019-08-10-inno-05-beautify-wizard-laben/inno-label-part.png"></p>
+<p><img src="/posts/inno-label-part.png"></p>
 <p>所谓标题即Label部分就是上图中红色方格标注的部分。 标注部分右侧是logo图标。</p>
 <h3 id="1-初探，如何更换logo部分"><a href="#1-初探，如何更换logo部分" class="headerlink" title="1. 初探，如何更换logo部分"></a>1. 初探，如何更换logo部分</h3><p>Inno Setup开发文档里里有介绍如何更换Label中右侧的logo的方法。可以通过在**[Setup]**可以定义<code>WizardSmallImageFile</code>=”logo文件路径”来实现。但其要求的logo图片都是长宽相等的。长款不等的图片在显示会被拉伸，其效果惨不忍睹。该选项支持多重文件，即:你可以一次定义多个分辨率的logo文件，Inno Setup在安装的时候会根据系统当前的DPI设置，来自动选择合适分辨率的图片。多重定义的方法如下：</p>
 <figure class="highlight pascal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Example:</span><br><span class="line">WizardSmallImageFile=mysmallimage.bmp,mysmallimage2.bmp</span><br></pre></td></tr></table></figure>
@@ -280,9 +390,9 @@
 <figure class="highlight pascal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">[Files]</span><br><span class="line">Source: &quot;Logo-header.bmp&quot;; Flags: dontcopy</span><br><span class="line"></span><br><span class="line">[Code]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">procedure</span> <span class="title">InitializeWizard</span><span class="params">()</span>;</span></span><br><span class="line"><span class="keyword">var</span></span><br><span class="line">  BitmapImage: TBitmapImage;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  <span class="comment">// </span></span><br><span class="line">  ExtractTemporaryFile(<span class="string">&#x27;Logo-header.bmp&#x27;</span>);</span><br><span class="line">  BitmapImage := TBitmapImage.Create(WizardForm);</span><br><span class="line">  BitmapImage.Parent := WizardForm.MainPanel;</span><br><span class="line">  BitmapImage.Width := WizardForm.MainPanel.Width;</span><br><span class="line">  BitmapImage.Height := WizardForm.MainPanel.Height;</span><br><span class="line">  BitmapImage.Stretch := True;</span><br><span class="line">  BitmapImage.AutoSize := False;</span><br><span class="line">  BitmapImage.Bitmap.LoadFromFile(ExpandConstant(<span class="string">&#x27;&#123;tmp&#125;\Logo-header.bmp&#x27;</span>));</span><br><span class="line">	</span><br><span class="line">  <span class="comment">// 禁用 原始页面的小图标</span></span><br><span class="line">  WizardForm.WizardSmallBitmapImage.Visible := False;</span><br><span class="line">  <span class="comment">// 启用 页面简介标题</span></span><br><span class="line">  WizardForm.PageDescriptionLabel.Visible := True;</span><br><span class="line">  <span class="comment">// 启用 页面名称标题</span></span><br><span class="line">  WizardForm.PageNameLabel.Visible := True;</span><br><span class="line">  <span class="comment">// 限定页面简介标题宽度</span></span><br><span class="line">  WizardForm.PageDescriptionLabel.Width :=</span><br><span class="line">    WizardForm.PageDescriptionLabel.Width - ScaleX(<span class="number">120</span>);</span><br><span class="line">  <span class="comment">// 限定页面名称标题宽度</span></span><br><span class="line">  WizardForm.PageNameLabel.Width :=</span><br><span class="line">    WizardForm.PageNameLabel.Width - ScaleX(<span class="number">120</span>)</span><br><span class="line"> <span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
 
 <p>上述代码的核心思想就是，准备一张图片，该图片并不会被拷贝在目标文件夹中，在页面初始的时候，设定页面标题简述部分的背景，由于原始页面小logo被禁用，就需要缩进标题名称和简介文本的宽度，防止其覆盖图片的部分内容。</p>
-<p><img src="/posts/2019-08-10-inno-05-beautify-wizard-laben/inno-welcome-part.png" alt="image-20200220170839898"></p>
+<p><img src="/posts/inno-welcome-part.png" alt="image-20200220170839898"></p>
 <p>任务第二部分内容，就是更改欢迎页面的背景图片，即上图中红色部分框选的地方。首先在**[Setup]<strong>中定义属性为<a target="_blank" rel="noopener" href="http://www.jrsoftware.org/ishelp/index.php?topic=setup_disablewelcomepage"><code>DisableWelcomePage=no</code></a>，意指启用欢迎页面。 然后在</strong>[Setup]<strong>部分定义<code>WizardBitmapImage</code>属性即可。结束页面（下图）与开始页面相似，只需在</strong>[Setup]**部分定义<code>WizardBitmapImage2</code> 属性即可。</p>
-<p><img src="/posts/2019-08-10-inno-05-beautify-wizard-laben/inno-finish-part.png" alt="image-20200220170935862"></p>
+<p><img src="/posts/inno-finish-part.png" alt="image-20200220170935862"></p>
 <p>需要说明的是，如果属性<code>WizardBitmapImage2</code>为被定义，而属性<code>WizardBitmapImage</code>被定义，则结束页面会选择<code>WizardBitmapImage</code>中定义的图片作为上图中红色部分圈选的背景图片。</p>
 <h3 id="5-扩展，欢迎页面和结束页面整页照片"><a href="#5-扩展，欢迎页面和结束页面整页照片" class="headerlink" title="5. 扩展，欢迎页面和结束页面整页照片"></a>5. 扩展，欢迎页面和结束页面整页照片</h3><p>我们在<strong>第4节</strong>部分，了解了如何在使用Inno Setup的属性设定，更改欢迎和结束页面的左侧背景图片，那么有没有一种可能，即省去这两个页面的文字（通常需要考虑翻译的问题），直接使用一张图片作为整个页面的背景呢？有，本节我们就探索一下。中心思想为四部：</p>
 <ul>
@@ -291,14 +401,14 @@
 <li>确保安装程序永远不需要重新启动计算机，否则会在结束图片上会显示上重新启动提示。</li>
 <li>请确保在**[Run]**部分中没有任何<code>postinstall</code>条目。否则结束页面上也会显示提示信息。</li>
 </ul>
-<p><img src="/posts/2019-08-10-inno-05-beautify-wizard-laben/inno-finish-part-full.png" alt="image-20200220171021313"></p>
+<p><img src="/posts/inno-finish-part-full.png" alt="image-20200220171021313"></p>
 <p>实现这部分的代码如下：</p>
 <figure class="highlight pascal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[Setup]</span><br><span class="line">DisableWelcomePage=no</span><br><span class="line">WizardImageFile=Demo.bmp  <span class="comment">// 如果WizardImageFile2 没定义则结束页面也使用该图片</span></span><br><span class="line"></span><br><span class="line">[Code]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">procedure</span> <span class="title">InitializeWizard</span><span class="params">()</span>;</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  <span class="comment">// 欢迎页面</span></span><br><span class="line">  <span class="comment">// 隐藏 部分内容</span></span><br><span class="line">  WizardForm.WelcomeLabel1.Visible := False;</span><br><span class="line">  WizardForm.WelcomeLabel2.Visible := False;</span><br><span class="line">  <span class="comment">// 拉伸页面宽度</span></span><br><span class="line">  WizardForm.WizardBitmapImage.Width := WizardForm.WizardBitmapImage.Parent.Width;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 结束页面</span></span><br><span class="line">  <span class="comment">// 隐藏 部分内容</span></span><br><span class="line">  WizardForm.FinishedLabel.Visible := False;</span><br><span class="line">  WizardForm.FinishedHeadingLabel.Visible := False;</span><br><span class="line">  <span class="comment">// 拉伸页面宽度</span></span><br><span class="line">  WizardForm.WizardBitmapImage2.Width := WizardForm.WizardBitmapImage2.Parent.Width;</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
 
 
 
 <h3 id="6-扩展2，在向导页脚左侧显示版本号"><a href="#6-扩展2，在向导页脚左侧显示版本号" class="headerlink" title="6. 扩展2，在向导页脚左侧显示版本号"></a>6. 扩展2，在向导页脚左侧显示版本号</h3><p>需要的显示结果如下图所示：</p>
-<p><img src="/posts/2019-08-10-inno-05-beautify-wizard-laben/inno-bottom-left-part.png" alt="image-20200221093833941"></p>
+<p><img src="/posts/inno-bottom-left-part.png" alt="image-20200221093833941"></p>
 <p>代码如下：</p>
 <figure class="highlight pascal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[Code]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">procedure</span> <span class="title">InitializeWizard</span><span class="params">()</span>;</span></span><br><span class="line"><span class="keyword">var</span></span><br><span class="line">  VersionLabel: TNewStaticText;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  <span class="comment">// 定义一个静态文本实例</span></span><br><span class="line">  VersionLabel := TNewStaticText.Create(WizardForm);</span><br><span class="line">  <span class="comment">// 从Setup部分的设定中获取版本号</span></span><br><span class="line">  VersionLabel.Caption := Format(<span class="string">&#x27;Version: %s&#x27;</span>, [<span class="string">&#x27;&#123;#SetupSetting(&quot;AppVersion&quot;)&#125;&#x27;</span>]);</span><br><span class="line">  <span class="comment">// 所有页面有效</span></span><br><span class="line">  VersionLabel.Parent := WizardForm;</span><br><span class="line">  <span class="comment">// 左侧位置</span></span><br><span class="line">  VersionLabel.Left := ScaleX(<span class="number">16</span>);</span><br><span class="line">  <span class="comment">// 保证 文本与按钮的 在水平方向 中心对齐</span></span><br><span class="line">  VersionLabel.Top :=</span><br><span class="line">    WizardForm.BackButton.Top +</span><br><span class="line">    (WizardForm.BackButton.Height <span class="keyword">div</span> <span class="number">2</span>) -</span><br><span class="line">    (VersionLabel.Height <span class="keyword">div</span> <span class="number">2</span>)</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure>
 
@@ -308,110 +418,462 @@
           版权声明：<br>文章首发于 <a href="https://zicowarn.github.io"> Jim Wang's blog </a>，
           转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。
         </div>
+            
+
+
+        </div>
     </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/Inno-Setup/" rel="tag">Inno Setup</a>
 
-    
-    
-    
-
-    <footer class="post-footer">
-          <div class="followme">
-  <span>欢迎关注我的其它发布渠道</span>
-
-  <div class="social-list">
-
-      <div class="social-item">
-          <a target="_blank" class="social-link" href="/atom.xml">
-            <span class="icon">
-              <i class="fa fa-rss"></i>
-            </span>
-
-            <span class="label">RSS</span>
-          </a>
-      </div>
-  </div>
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2020-02-25-hexo-01-code-raise-error.html"
+                    data-tooltip="Hexo 中特殊纯文本字符串引起异常"
+                    aria-label="上一篇: Hexo 中特殊纯文本字符串引起异常"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2019-07-10-inno-04-registry-hcr.html"
+                    data-tooltip="Inno Setup Windows 注册表关键字HKEY\_CLASSES\_ROOT相关内容"
+                    aria-label="下一篇: Inno Setup Windows 注册表关键字HKEY\_CLASSES\_ROOT相关内容"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html"
+                    title="分享到 Google+"
+                    aria-label="分享到 Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html"
+                    title="分享到 Weibo"
+                    aria-label="分享到 Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html&amp;title=Inno Setup 如何更换向导页面标题部分的背景"
+                    title="分享到 QQ"
+                    aria-label="分享到 QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
 </div>
 
-          <div class="post-tags">
-              <a href="/tags/Inno-Setup/" rel="tag"><i class="fa fa-tag"></i> Inno Setup</a>
-          </div>
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2024 Jim Wang. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2020-02-25-hexo-01-code-raise-error.html"
+                    data-tooltip="Hexo 中特殊纯文本字符串引起异常"
+                    aria-label="上一篇: Hexo 中特殊纯文本字符串引起异常"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2019-07-10-inno-04-registry-hcr.html"
+                    data-tooltip="Inno Setup Windows 注册表关键字HKEY\_CLASSES\_ROOT相关内容"
+                    aria-label="下一篇: Inno Setup Windows 注册表关键字HKEY\_CLASSES\_ROOT相关内容"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html"
+                    title="分享到 Google+"
+                    aria-label="分享到 Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html"
+                    title="分享到 Weibo"
+                    aria-label="分享到 Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html&amp;title=Inno Setup 如何更换向导页面标题部分的背景"
+                    title="分享到 QQ"
+                    aria-label="分享到 QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html"
+                        aria-label="分享到 Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html"
+                        aria-label="分享到 Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html"
+                        aria-label="分享到 Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html"
+                        aria-label="分享到 Weibo"
+                    >
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/posts/2019-08-10-inno-05-beautify-wizard-laben.html&amp;title=Inno Setup 如何更换向导页面标题部分的背景"
+                        aria-label="分享到 QQ"
+                    >
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avater.png" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Jim Wang</h4>
+        
+            <div id="about-card-bio"> <hr style='margin: 5px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 20%;'> <span>全栈探索之路<span> <hr style='margin: 8px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 60%;'> 记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多。 </div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>软件工程师</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                河南，中国
+            </div>
+        
+    </div>
+</div>
 
         
 
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/posts/2019-07-10-inno-04-registry-hcr.html" rel="prev" title="Inno Setup Windows 注册表关键字HKEY\_CLASSES\_ROOT相关内容">
-                  <i class="fa fa-angle-left"></i> Inno Setup Windows 注册表关键字HKEY\_CLASSES\_ROOT相关内容
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/posts/2020-02-25-hexo-01-code-raise-error.html" rel="next" title="Hexo 中特殊纯文本字符串引起异常">
-                  Hexo 中特殊纯文本字符串引起异常 <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
-  </article>
-</div>
 
 
 
+    
+        
+    
 
 
 
-</div>
-  </main>
+    
+        
+    
 
-  <footer class="footer">
-    <div class="footer-inner">
-
-  <div class="copyright">
-    &copy; 2015 – 
-    <span itemprop="copyrightYear">2024</span>
-    <span class="with-love">
-      <i class="fa fa-heart"></i>
-    </span>
-    <span class="author" itemprop="copyrightHolder">Jim Wang</span>
-  </div>
-
+<div id="wechat">
+    <div id="wechat-card">
+        <div id="wechat-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="wechat-qrcode-picture" src="/assets/images/wechat-qrcode.jpg" alt="global.wechat_public_qr_code_image"/>
+        
+        
+            <div id="wechat-qrcode-desc"><p>请扫描上方的二维码订阅我的个人微信公众号</p> <hr style='margin: 8px auto; border-top: 2px solid rgba(1, 1, 1, 0.14); width: 60%;'> <p>原创不易，多多点赞分享支持。</p></div>
+        
+        
+            <img id="wechat-searchbar-picture" src="/assets/images/wechat-search-white.png" alt="global.wechat_public_search_bar_image"/>
+        
     </div>
-  </footer>
+</div>
 
-  
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-  <div class="sidebar-dimmer"></div>
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up fa-lg"></i>
-    <span>0%</span>
-  </div>
+        
+        
+<div id="cover" style="background-image:url('/assets/images/background-cover.jpg');"></div>
+        <!--SCRIPTS-->
 
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
+<script src="/assets/js/script-2t8c01k1fthzrgprhbm5clfune3ygdtd8ajsnhdxko5pl9jnhax3fioo6uev.min.js"></script>
+
+<!--SCRIPTS END-->
 
 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+    
+      
+<script src="/assets/js/mermaid.min.js"></script>
 
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-
-
-
-  
+      <script>
+          $(document).ready(function() {
+              var mermaid_config = {
+                  startOnLoad: true,
+                  theme: 'default',
+                  flowchart:{
+                      useMaxWidth: false,
+                      htmlLabels: true
+                  }                
+              }
+              mermaid.initialize(mermaid_config);
+          });
+      </script>
+    
 
 
 
 
-
-</body>
+    </body>
 </html>

@@ -1,30 +1,32 @@
+
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-cn">
+    
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.0.0">
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
-
-<script class="next-config" data-name="main" type="application/json">{"hostname":"zicowarn.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":"auto","version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12,"onmobile":false},"hljswrap":true,"copycode":{"enable":false,"style":null,"show_result":false},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Jim Wang 个人技术博客">
+    <meta name="google-site-verification" content="Vv1-G7f0bcjlHq6prbeTvbDWFc4iN17bGUGM_KcE5xA" />
+    <meta name="baidu-site-verification" content="A8086Y6q9Y" />
+    <title>ReportLab 如何注册使用其他语言字体 - Jim Wang 个人技术博客</title>
+    <meta name="author" content="Jim Wang">
+    
+        <meta name="keywords" content="个人博客,实践,技术,经验,分享,全栈,Technology,blog,Python,Inno Setup,TypeScript,SQLite,AWS,CAM,EDM,JavaScript,CSS,HTML,">
+    
+    
+        <link rel="icon" href="https://zicowarn.github.io/assets/images/favicon.png">
+    
+    
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：ReportLab默认的支持的西欧字体都有哪些？如何注册并在模版中使用中日韩亚洲字体？\nAbstract: What are the default supported Western European fonts in ReportLab? How do I register and use CJK Asian fonts in my templates?\n\n\n作者: Jim Wang 公众号:  巴博萨船长\nReportLab 如何注册使用其他语言字体默认语言ReportLab默认支持西欧语言，例如英文，德语和法语（未测试）。默认支持14种字体，该内容在文档章节3.3 Using fonts中有介绍，具体字体名称如下：\n\nHelvetica\nHelvetica-Bold\nCourier\nCourier-Bold\nCourier-Oblique\nCourier-BoldOblique\nHelvetica-Oblique\nHelvetica-BoldOblique\nTimes-Roman\nTimes-Bold\nTimes-Italic\nTimes-BoldItalic\nZapfDingbats\nSymbol\n\n上述14种默认字体，也是Adobe’s Acrobat Reader默认支持的14种字体。\n中日韩亚洲字体ReportLab支持TrueType 字体支持。未注册非西欧字体却使用非西欧字符，程序并不会报错，但是到处的PDF文件中会出现乱码，注册TrueType字体支持字体的代码，官方文档介绍如下：\n12345678910111213# we know some glyphs are missing, suppress warningsimport reportlab.rl_configreportlab.rl_config.warnOnMissingFontGlyphs = 0from reportlab.pdfbase import pdfmetricsfrom reportlab.pdfbase.ttfonts import TTFontpdfmetrics.registerFont(TTFont(&#x27;Vera&#x27;, &#x27;Vera.ttf&#x27;))pdfmetrics.registerFont(TTFont(&#x27;VeraBd&#x27;, &#x27;VeraBd.ttf&#x27;))pdfmetrics.registerFont(TTFont(&#x27;VeraIt&#x27;, &#x27;VeraIt.ttf&#x27;))pdfmetrics.registerFont(TTFont(&#x27;VeraBI&#x27;, &#x27;VeraBI.ttf&#x27;))canvas.setFont(&#x27;Vera&#x27;, 32)canvas.drawString(10, 150, &quot;Some text encoded in UTF-8&quot;)canvas.drawString(10, 100, &quot;In the Vera TT Font!&quot;)\n对于相似字体可以使用如下代码注册为字体家族：\n12from reportlab.pdfbase.pdfmetrics import registerFontFamilyregisterFontFamily(&#x27;Vera&#x27;,normal=&#x27;Vera&#x27;,bold=&#x27;VeraBd&#x27;,italic=&#x27;VeraIt&#x27;,boldItalic=&#x27;VeraBI&#x27;)\n如在模版中使用下述代码。如果我们只有 Vera 常规字体，没有粗体或斜体，那么我们必须将所有字体映射到相同的内部字体名称。&lt;b&gt;和&lt;i&gt;标签现在可以安全使用，但会没有效果。\n12&lt;font name=&quot;Times-Roman&quot; size=&quot;14&quot;&gt;This is in Times-Roman&lt;/font&gt;&lt;font name=&quot;Vera&quot; color=&quot;magenta&quot; size=&quot;14&quot;&gt;and this is in magenta &lt;b&gt;Vera!&lt;/b&gt;&lt;/font&gt;,&quot;Using TTF fonts in paragraphs&quot;\n\n在项目中，我们使用思源中文字体，将相关字体文件保存在项目文件夹fonts之后，在Python代码中头部使用下面的代码注册字符。\n12345from reportlab.pdfbase import pdfmetricsfrom reportlab.pdfbase.ttfonts import TTFontpdfmetrics.registerFont(TTFont(&#x27;SourceHanSerifSC&#x27;, &#x27;../fonts/SourceHanSerifSC-VF.ttf&#x27;))  #注册字体pdfmetrics.registerFont(TTFont(&#x27;SourceHanSerifSCBold&#x27;, &#x27;../fonts/SourceHanSerifCN-Bold.ttf&#x27;))  #注册字体\n\n上述代码中TTFont函数的第一参数为字体的内部表示名称。需要使用该名称在在RML模版文件的头部进行如下声明：\n1234567&lt;document filename=&quot;demo.pdf&quot;&gt;    &lt;docinit&gt;        &lt;registerCidFont faceName=&quot;SourceHanSerifSC&quot; /&gt;      \t&lt;registerCidFont faceName=&quot;SourceHanSerifSCBold&quot; /&gt;    &lt;/docinit&gt;  \t...&lt;/document&gt;\n\n本文小结这些背景知识是自己在完成任务的一开始具有的疑问，进而中查阅资料再收集整理成文的，这利于自己，也方便你我。如果你有问题或者不同的见解，欢迎关注我的微信公众号，然后留言讨论。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2022-12-04T21:26:20+08:00","dateModified":"2024-08-01T16:41:08+08:00","datePublished":"2022-12-04T21:26:20+08:00","description":"作者: Jim Wang 公众号:  巴博萨船长\n摘要：ReportLab默认的支持的西欧字体都有哪些？如何注册并在模版中使用中日韩亚洲字体？\nAbstract: What are the default supported Western European fonts in ReportLab? How do I register and use CJK Asian fonts in my templates?","headline":"ReportLab 如何注册使用其他语言字体","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html","keywords":"ReportLab, 字体, 语言"}</script>
     <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：ReportLab默认的支持的西欧字体都有哪些？如何注册并在模版中使用中日韩亚洲字体？ Abstract: What are the default supported Western European fonts in ReportLab? How do I register and use CJK Asian fonts in my te">
-<meta property="og:type" content="article">
+<meta property="og:type" content="blog">
 <meta property="og:title" content="ReportLab 如何注册使用其他语言字体">
 <meta property="og:url" content="https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html">
-<meta property="og:site_name" content="Jim Wang 技术博客">
+<meta property="og:site_name" content="Jim Wang 个人技术博客">
 <meta property="og:description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：ReportLab默认的支持的西欧字体都有哪些？如何注册并在模版中使用中日韩亚洲字体？ Abstract: What are the default supported Western European fonts in ReportLab? How do I register and use CJK Asian fonts in my te">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-12-04T13:26:20.000Z">
@@ -34,219 +36,327 @@
 <meta property="article:tag" content="字体">
 <meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zicowarn.github.io/assets/images/avater.png"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-m2dgitnm2byuj37caoszle9u1auenk6va6bk89y4xo0d0wyorkftmkofzpn1.min.css">
 
-
-<link rel="canonical" href="https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html">
-
-
-
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html","path":"posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html","title":"ReportLab 如何注册使用其他语言字体"}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>ReportLab 如何注册使用其他语言字体 | Jim Wang 技术博客</title>
-  
+    <!--STYLES END-->
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0411EY69W7"></script>
-  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-0411EY69W7","only_pageview":false,"measure_protocol_api_secret":null}</script>
-  <script src="/js/third-party/analytics/google-analytics.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
-  <script async src="https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d"></script>
-
-
-
-
+        gtag('config', 'G-0411EY69W7');
+    </script>
 
 
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
 
-  <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
-<link rel="alternate" href="/atom.xml" title="Jim Wang 技术博客" type="application/atom+xml">
+
+    
+        
+    
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
 
-  <main class="main">
-    <div class="column">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/"
+            aria-label=""
+        >
+            Jim Wang 个人技术博客
+        </a>
     </div>
-  </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="打开链接: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/avater.png" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
 
-  <div class="site-meta">
+            <!-- Define author's picture -->
 
-    <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <p class="site-title">Jim Wang 技术博客</p>
-      <i class="logo-line"></i>
-    </a>
-      <p class="site-subtitle" itemprop="description">全栈探索之路</p>
-  </div>
 
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="阅读有关作者的更多信息"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avater.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Jim Wang</h4>
+                <h5 class="sidebar-profile-subtitle"><p>个人技术博客</p>
+</h5>
+                
+                    <h5 class="sidebar-profile-bio"> <hr style='margin: 5px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 20%;'> <span>全栈探索之路<span> <hr style='margin: 8px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 60%;'> 记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多。 </h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
+                            
+                            rel="noopener"
+                            title="首页"
+                        >
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
+                            
+                            rel="noopener"
+                            title="分类"
+                        >
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
+                            
+                            rel="noopener"
+                            title="标签"
+                        >
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
+                            
+                            rel="noopener"
+                            title="归档"
+                        >
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
+                            
+                            rel="noopener"
+                            title="关于"
+                        >
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/zicowarn"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#wechat"
+                            
+                            rel="noopener"
+                            title="微信公众号"
+                        >
+                        <i class="sidebar-button-icon fab fa-weixin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">微信公众号</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="tencent://message/?uin=948509&Site=&Menu=yes"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="QQ"
+                        >
+                        <i class="sidebar-button-icon fab fa-qq" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">QQ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://www.linkedin.com/in/zhichao-wang-a16662109"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="领英"
+                        >
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">领英</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="mailto:zicowarn@hotmail.com"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="邮箱"
+                        >
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">邮箱</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/atom.xml"
+                            
+                            rel="noopener"
+                            title="RSS"
+                        >
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
     </div>
-  </div>
-</div>
-
-
-
-<nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
-  </ul>
 </nav>
 
-
-
-
-</header>
-        
-  
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ReportLab-%E5%A6%82%E4%BD%95%E6%B3%A8%E5%86%8C%E4%BD%BF%E7%94%A8%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80%E5%AD%97%E4%BD%93"><span class="nav-number">1.</span> <span class="nav-text">ReportLab 如何注册使用其他语言字体</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E8%AF%AD%E8%A8%80"><span class="nav-number">1.1.</span> <span class="nav-text">默认语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E6%97%A5%E9%9F%A9%E4%BA%9A%E6%B4%B2%E5%AD%97%E4%BD%93"><span class="nav-number">1.2.</span> <span class="nav-text">中日韩亚洲字体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E6%96%87%E5%B0%8F%E7%BB%93"><span class="nav-number">1.3.</span> <span class="nav-text">本文小结</span></a></li></ol></li></ol></div>
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Jim Wang"
-      src="/images/avater.png">
-  <p class="site-author-name" itemprop="name">Jim Wang</p>
-  <div class="site-description" itemprop="description">记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多</div>
-</div>
-<div class="site-state-wrap animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">64</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-          <a href="/categories/">
-        <span class="site-state-item-count">21</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-          <a href="/tags/">
-        <span class="site-state-item-count">85</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author animated">
-      <span class="links-of-author-item">
-        <a href="https://github.com/zicowarn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zicowarn" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="tencent://message/?uin=948509&Site=&Menu=yes" title="QQ → tencent:&#x2F;&#x2F;message&#x2F;?uin&#x3D;948509&amp;Site&#x3D;&amp;Menu&#x3D;yes" rel="noopener me" target="_blank"><i class="fab fa-qq fa-fw"></i>QQ</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://www.linkedin.com/in/zhichao-wang-a16662109" title="Linked_in → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;zhichao-wang-a16662109" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>Linked_in</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:zicowarn@hotmail.com" title="E-Mail → mailto:zicowarn@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
-      </span>
-  </div>
-
-        </div>
-      </div>
-    </div>
-
+            
+            <div id="main" data-behavior="4"
+                class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
     
-  </aside>
-
-
-    </div>
-
-    <div class="main-inner post posts-expand">
-
-
-  
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="Jim Wang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jim Wang 技术博客">
-      <meta itemprop="description" content="记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="ReportLab 如何注册使用其他语言字体 | Jim Wang 技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          ReportLab 如何注册使用其他语言字体
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            ReportLab 如何注册使用其他语言字体
         </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2022-12-04T21:26:20+08:00">
+	
+		    12月 04, 2022
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/ReportLab-%E7%9B%B8%E5%85%B3-%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/">ReportLab 相关 - 开发记录</a>
 
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2022-12-04 21:26:20" itemprop="dateCreated datePublished" datetime="2022-12-04T21:26:20+08:00">2022-12-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-01 16:41:08" itemprop="dateModified" datetime="2024-08-01T16:41:08+08:00">2024-08-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/ReportLab-%E7%9B%B8%E5%85%B3-%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" itemprop="url" rel="index"><span itemprop="name">ReportLab 相关 - 开发记录</span></a>
-        </span>
-    </span>
-
-  
+    
 </div>
 
-        </div>
-      </header>
+    
+</div>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody"><p>作者: Jim Wang 公众号:  <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>作者: Jim Wang 公众号:  <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
 <p>摘要：ReportLab默认的支持的西欧字体都有哪些？如何注册并在模版中使用中日韩亚洲字体？</p>
 <p>Abstract: What are the default supported Western European fonts in ReportLab? How do I register and use CJK Asian fonts in my templates?</p>
 <span id="more"></span>
@@ -289,112 +399,462 @@
     版权声明：<br>文章首发于 <a href="https://zicowarn.github.io"> Jim Wang's blog </a>，
     转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。
 </div>
+            
+
+
+        </div>
     </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/ReportLab/" rel="tag">ReportLab</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/%E5%AD%97%E4%BD%93/" rel="tag">字体</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/%E8%AF%AD%E8%A8%80/" rel="tag">语言</a>
 
-    
-    
-    
-
-    <footer class="post-footer">
-          <div class="followme">
-  <span>欢迎关注我的其它发布渠道</span>
-
-  <div class="social-list">
-
-      <div class="social-item">
-          <a target="_blank" class="social-link" href="/atom.xml">
-            <span class="icon">
-              <i class="fa fa-rss"></i>
-            </span>
-
-            <span class="label">RSS</span>
-          </a>
-      </div>
-  </div>
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2023-12-19-machining-06-rarz-conversion.html"
+                    data-tooltip="机械加工 之表面粗糙度Ra与Rz转换"
+                    aria-label="上一篇: 机械加工 之表面粗糙度Ra与Rz转换"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2022-12-04-reportlab-02-rml-specification-file-dtd.html"
+                    data-tooltip="ReportLab 模版RML文件的规范文件DTD"
+                    aria-label="下一篇: ReportLab 模版RML文件的规范文件DTD"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html"
+                    title="分享到 Google+"
+                    aria-label="分享到 Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html"
+                    title="分享到 Weibo"
+                    aria-label="分享到 Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html&amp;title=ReportLab 如何注册使用其他语言字体"
+                    title="分享到 QQ"
+                    aria-label="分享到 QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
 </div>
 
-          <div class="post-tags">
-              <a href="/tags/ReportLab/" rel="tag"><i class="fa fa-tag"></i> ReportLab</a>
-              <a href="/tags/%E5%AD%97%E4%BD%93/" rel="tag"><i class="fa fa-tag"></i> 字体</a>
-              <a href="/tags/%E8%AF%AD%E8%A8%80/" rel="tag"><i class="fa fa-tag"></i> 语言</a>
-          </div>
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2024 Jim Wang. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2023-12-19-machining-06-rarz-conversion.html"
+                    data-tooltip="机械加工 之表面粗糙度Ra与Rz转换"
+                    aria-label="上一篇: 机械加工 之表面粗糙度Ra与Rz转换"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2022-12-04-reportlab-02-rml-specification-file-dtd.html"
+                    data-tooltip="ReportLab 模版RML文件的规范文件DTD"
+                    aria-label="下一篇: ReportLab 模版RML文件的规范文件DTD"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html"
+                    title="分享到 Google+"
+                    aria-label="分享到 Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html"
+                    title="分享到 Weibo"
+                    aria-label="分享到 Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html&amp;title=ReportLab 如何注册使用其他语言字体"
+                    title="分享到 QQ"
+                    aria-label="分享到 QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html"
+                        aria-label="分享到 Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html"
+                        aria-label="分享到 Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html"
+                        aria-label="分享到 Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html"
+                        aria-label="分享到 Weibo"
+                    >
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/posts/2022-12-04-reportlab-03-register-fonts-in-other-languages.html&amp;title=ReportLab 如何注册使用其他语言字体"
+                        aria-label="分享到 QQ"
+                    >
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avater.png" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Jim Wang</h4>
+        
+            <div id="about-card-bio"> <hr style='margin: 5px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 20%;'> <span>全栈探索之路<span> <hr style='margin: 8px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 60%;'> 记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多。 </div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>软件工程师</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                河南，中国
+            </div>
+        
+    </div>
+</div>
 
         
 
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/posts/2022-12-04-reportlab-02-rml-specification-file-dtd.html" rel="prev" title="ReportLab 模版RML文件的规范文件DTD">
-                  <i class="fa fa-angle-left"></i> ReportLab 模版RML文件的规范文件DTD
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/posts/2023-12-19-machining-06-rarz-conversion.html" rel="next" title="机械加工 之表面粗糙度Ra与Rz转换">
-                  机械加工 之表面粗糙度Ra与Rz转换 <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
-  </article>
-</div>
 
 
 
+    
+        
+    
 
 
 
-</div>
-  </main>
+    
+        
+    
 
-  <footer class="footer">
-    <div class="footer-inner">
-
-  <div class="copyright">
-    &copy; 2015 – 
-    <span itemprop="copyrightYear">2024</span>
-    <span class="with-love">
-      <i class="fa fa-heart"></i>
-    </span>
-    <span class="author" itemprop="copyrightHolder">Jim Wang</span>
-  </div>
-
+<div id="wechat">
+    <div id="wechat-card">
+        <div id="wechat-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="wechat-qrcode-picture" src="/assets/images/wechat-qrcode.jpg" alt="global.wechat_public_qr_code_image"/>
+        
+        
+            <div id="wechat-qrcode-desc"><p>请扫描上方的二维码订阅我的个人微信公众号</p> <hr style='margin: 8px auto; border-top: 2px solid rgba(1, 1, 1, 0.14); width: 60%;'> <p>原创不易，多多点赞分享支持。</p></div>
+        
+        
+            <img id="wechat-searchbar-picture" src="/assets/images/wechat-search-white.png" alt="global.wechat_public_search_bar_image"/>
+        
     </div>
-  </footer>
+</div>
 
-  
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-  <div class="sidebar-dimmer"></div>
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up fa-lg"></i>
-    <span>0%</span>
-  </div>
+        
+        
+<div id="cover" style="background-image:url('/assets/images/background-cover.jpg');"></div>
+        <!--SCRIPTS-->
 
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
+<script src="/assets/js/script-2t8c01k1fthzrgprhbm5clfune3ygdtd8ajsnhdxko5pl9jnhax3fioo6uev.min.js"></script>
+
+<!--SCRIPTS END-->
 
 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+    
+      
+<script src="/assets/js/mermaid.min.js"></script>
 
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-
-
-
-  
+      <script>
+          $(document).ready(function() {
+              var mermaid_config = {
+                  startOnLoad: true,
+                  theme: 'default',
+                  flowchart:{
+                      useMaxWidth: false,
+                      htmlLabels: true
+                  }                
+              }
+              mermaid.initialize(mermaid_config);
+          });
+      </script>
+    
 
 
 
 
-
-</body>
+    </body>
 </html>

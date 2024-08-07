@@ -1,30 +1,32 @@
+
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-cn">
+    
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.0.0">
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
-
-<script class="next-config" data-name="main" type="application/json">{"hostname":"zicowarn.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":"auto","version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12,"onmobile":false},"hljswrap":true,"copycode":{"enable":false,"style":null,"show_result":false},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Jim Wang 个人技术博客">
+    <meta name="google-site-verification" content="Vv1-G7f0bcjlHq6prbeTvbDWFc4iN17bGUGM_KcE5xA" />
+    <meta name="baidu-site-verification" content="A8086Y6q9Y" />
+    <title>Hexo 如何在VS Code中调试Hexo的相关代码 - Jim Wang 个人技术博客</title>
+    <meta name="author" content="Jim Wang">
+    
+        <meta name="keywords" content="个人博客,实践,技术,经验,分享,全栈,Technology,blog,Python,Inno Setup,TypeScript,SQLite,AWS,CAM,EDM,JavaScript,CSS,HTML,">
+    
+    
+        <link rel="icon" href="https://zicowarn.github.io/assets/images/favicon.png">
+    
+    
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Jim Wang 公众号: 巴博萨船长\n摘要：在使用Hexo部署自己的博客时，常常接触hexo generater，hexo clean和hexo deploy等命令，估计很少人想过如何调试Hexo这些命令的相关代码。作为基于Node的开源blog项目，其在VS Code中的调试环境是什么样的？如何建立这样的调试环境？调试时需要注意什么？ 在VSCode调试Node代码时，可能会遇见方法process.stdout.write和方法console.log的输出内容不在同一位置的问题，该问题如何解决?\nAbstract: When using hexo to deploy the blog, often use commands such as hexo generator, hexo clean and hexo deploy. Few people have thought about how to debug the Hexo codes related to these commands. As a node-based open source blog project, what is its debugging environment in VS Code? How to build a debugging environment for debugging Hexo code? What should pay attention to when debugging? When debugging Node code in VS Code, the output content of process.stdout.write and console.log are not in the same location, why? How to solve the problem?\n\n\n背景按理说，日常Hexo的使用是不需要考虑代码调试的。一般情况下使用到的Hexo版本也是经过充分测试才发布的正式版本。可能还会有一些隐藏的小问题，但也足以应对日常使用。能想起来调试Hexo的相关代码，完全是出于好奇，想知道hexo deploy命令运行时到底做了些什么，hexo deploy背后的具体流程是什么，如何将项目中的README.md文件在部署时同时被拷贝到**.deploy_git**目录中，进而部署到Github中。带着这些问题，花费了点时间尝试之后，现将调试环境的部署方式记录下来，以便自己以后回顾学习。 \n方法一VS Code 编辑器对Node的调试环境做了很大的优化和支持。实际应用中，需要自己做的是很少的，在VS Code中运行和调试的设置都在launch.json这个配置文件中。VS Code也为Node项目提供了多配置模版snippets（点击按钮Add Configuration…即可看见配置模版列表），在方法一中我们先选择一个“Launch Program”的模版，基本的配置内容如下：\n12345678910&#123;    &quot;version&quot;: &quot;0.2.0&quot;,    &quot;configurations&quot;: [        &#123;            &quot;type&quot;: &quot;node&quot;,            &quot;request&quot;: &quot;launch&quot;,            &quot;name&quot;: &quot;Launch&quot;,            &quot;program&quot;: &quot;$&#123;workspaceRoot&#125;/index.js&quot;        &#125;]&#125;\n\n其中重要的参数request的取值和基本区别如下，两者的应用场景差异的具体细节不是本文重点，就不在本文中进行详细解释。\n\nlaunch 模式：VS Code会启动一个独立的具有debug模式的程序。\nattach 模式：用于监听一个已经启动的程序。\n\n由于我们选择的是Lauch Program的配置模版，其request的参数默认为launch，该模式也是我们本文中使用的。在添加相应的内容之后，就可以在VS Code中，调试诸如hexo deploy的命令相关代码。接下来，只需要在Javascript文件“./node_modules/hexo-deployer-git/lib/deployer.js”中合适的位置添加断点，然后启动该配置，就可以看到程序在断点停留。\n123456789101112131415161718192021&#123;  &quot;version&quot;: &quot;0.2.0&quot;,  &quot;configurations&quot;: [    &#123;      &quot;type&quot;: &quot;node&quot;,      &quot;request&quot;: &quot;launch&quot;,      &quot;name&quot;: &quot;Debug Hexo Deploy Direct&quot;,      &quot;cwd&quot;: &quot;$&#123;workspaceFolder&#125;&quot;,      &quot;runtimeArgs&quot;: [        &quot;--nolazy&quot; // 强制V8引擎完成代码的编译工作，这在远程调试时比较有用，可选      ],      &quot;program&quot;: &quot;./node_modules/hexo-cli/bin/hexo&quot;,      &quot;args&quot;: [        &quot;deploy&quot;,        &quot;--debug&quot; //设置Hexo的 log基本，以便输出更多的日志内容      ],      &quot;console&quot;: &quot;internalConsole&quot;,      &quot;outputCapture&quot;: &quot;std&quot;    &#125;  ]&#125;\n\n方法二我们也可以选择使用“Launch via npm”的模版，选用这个配置模版后会得到以下配置内容。npm作为node第三方依赖模块的管理工具，用npm运行js文件和node运行js文件的差异，我们不在本文中进行讨论。\n12345678910111213141516&#123;  &quot;version&quot;: &quot;0.2.0&quot;,  &quot;configurations&quot;: [&#123;    &quot;name&quot;: &quot;Launch via NPM&quot;,    &quot;request&quot;: &quot;launch&quot;,    &quot;runtimeArgs&quot;: [      &quot;run-script&quot;,      &quot;debug&quot;    ],    &quot;runtimeExecutable&quot;: &quot;npm&quot;,    &quot;skipFiles&quot;: [      &quot;&lt;node_internals&gt;/**&quot;    ],    &quot;type&quot;: &quot;pwa-node&quot;  &#125;]&#125;\n\n以上述模版信息为基础，修改添加一些选项后，我们得到以下配置内容。使用该配置内容，也能完成调试环境的搭建。\n1234567891011121314151617&#123;  &quot;version&quot;: &quot;0.2.0&quot;,  &quot;configurations&quot;: [    &#123;      &quot;type&quot;: &quot;node&quot;,      &quot;request&quot;: &quot;launch&quot;,      &quot;name&quot;: &quot;Debug Hexo Deploy via npm&quot;,      &quot;cwd&quot;: &quot;$&#123;workspaceFolder&#125;&quot;,      &quot;runtimeExecutable&quot;: &quot;npm&quot;,      &quot;runtimeArgs&quot;: [        &quot;run&quot;, &quot;deploy&quot;      ],      &quot;console&quot;: &quot;internalConsole&quot;,      &quot;outputCapture&quot;: &quot;std&quot;    &#125;  ]&#125;\n\n上述配置中的runtimeArgs配置项中的deploy参数，意指Hexo项目的配置文件package.json中的scripts配置项目中的deploy，参见下列内容：\n123456789101112&#123;  &quot;name&quot;: &quot;hexo-site&quot;,  &quot;version&quot;: &quot;0.0.0&quot;,  &quot;private&quot;: true,  &quot;scripts&quot;: &#123;    &quot;build&quot;: &quot;hexo generate&quot;,    &quot;clean&quot;: &quot;hexo clean&quot;,    &quot;deploy&quot;: &quot;hexo deploy&quot;,    &quot;server&quot;: &quot;hexo server&quot;  &#125;  ...&#125;\n\n方法三有些人也推荐使用另一种方法，该方法以本文中的方法二为基础，不过需要安装依赖模块node-cli。安装该依赖模块的时候，需使用下列命令，以确保该模块被安装在devDependencies节点下，以便以后初始化项目时，运行npm install –production命令时，该依赖模块不会被安装。\n1npm install -save-dev node-cli\n\n在安装完node的CLI后，就需要对Hexo的package.json文件进行修改，在scripts中添加以下内容：\n12345678910111213&#123;  &quot;name&quot;: &quot;hexo-site&quot;,  &quot;version&quot;: &quot;0.0.0&quot;,  &quot;private&quot;: true,  &quot;scripts&quot;: &#123;    &quot;build&quot;: &quot;hexo generate&quot;,    &quot;clean&quot;: &quot;hexo clean&quot;,    &quot;deploy&quot;: &quot;hexo deploy&quot;,    &quot;server&quot;: &quot;hexo server&quot;,    &quot;debug-deploy&quot;: &quot;node ./node_modules/hexo-cli/bin/hexo deploy --debug&quot; // 该行  &#125;,  ...&#125;\n\n然后修改VS Code的launch.json文件，选用方法二中使用的“Launch via npm”模版，然后参照以下内容完成配置，就可以搭建Hexo代码的调试环境。\n1234567891011121314151617&#123;  &quot;version&quot;: &quot;0.2.0&quot;,  &quot;configurations&quot;: [    &#123;      &quot;type&quot;: &quot;node&quot;,      &quot;request&quot;: &quot;launch&quot;,      &quot;name&quot;: &quot;Debug Hexo Deploy via npm&quot;,      &quot;cwd&quot;: &quot;$&#123;workspaceFolder&#125;&quot;,      &quot;runtimeExecutable&quot;: &quot;npm&quot;,      &quot;runtimeArgs&quot;: [        &quot;run&quot;, &quot;debug-deploy&quot;      ],      &quot;console&quot;: &quot;internalConsole&quot;,      &quot;outputCapture&quot;: &quot;std&quot;    &#125;  ]&#125;\n\n以上三种方法都能用于VS Code中Hexo调试环境的搭建工作，三种方法也没有优劣之分，正所谓萝卜白菜各有所爱，使用哪一种方法全凭个人喜好。\n应用技巧Hexo的日志组件Logger的部分方法如下。前文中介绍的相关配置中的“–debug”，就是为了设置日志的输出等级，以便获取更多的程序运行信息。\n\nlog.info()\nlog.debug()\nlog.warn()\nlog.error()\n\n默认情况下，由于VS Code存在问题（Issues 19750，请点击查看具体内容），所以上述的logger方法，因其内部使用了“process.stdout.write()**”方法，这个方法输出的文本和“console.log()”方法所输出的文本，会输出到不同的地方（虽然理论上console.log内部使用的也是process.stdout.write方法，输出的文本内容应该位于同一地方），仅代码中的console.log输出的内容会显示在VS Code的DEBUG CONSOLE中**。这种情况下，由于缺少日志信息不利于调试，就需要解决该问题。解决方法就是在配置中添加下列代码：\n12345&#123;  //&quot;port&quot;: 9229,  &quot;console&quot;: &quot;internalConsole&quot;, //integratedTerminal意指 VS Code 的 TERMINAL  &quot;outputCapture&quot;: &quot;std&quot;&#125;\n\noutputCapture 这项配置，如果设置为std，则标准输出stdout 与标准错误stderr的输出都将显示在调试控制台中，而不是在调试端口上的输出。这对于直接写入stdout / stderr流而不是使用console.*的程序或在使用其他第三方日志库时会很有帮助。\n能有此文全因自己好奇。在文章最后想说一下，这里没有专家，记录这些主要是为了自己以后回顾学习之方便，文章有不足之处也实属正常。见解不同，诚切赐教，关注微信公众号，一起讨论学习。\n\n\n    版权声明：文章首发于  Jim Wang's blog ，\n    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n","dateCreated":"2020-09-03T09:25:45+08:00","dateModified":"2024-08-01T16:41:08+08:00","datePublished":"2020-09-03T09:25:45+08:00","description":"作者: Jim Wang 公众号: 巴博萨船长\n摘要：在使用Hexo部署自己的博客时，常常接触hexo generater，hexo clean和hexo deploy等命令，估计很少人想过如何调试Hexo这些命令的相关代码。作为基于Node的开源blog项目，其在VS Code中的调试环境是什么样的？如何建立这样的调试环境？调试时需要注意什么？ 在VSCode调试Node代码时，可能会遇见方法process.stdout.write和方法console.log的输出内容不在同一位置的问题，该问题如何解决?\nAbstract: When using hexo to deploy the blog, often use commands such as hexo generator, hexo clean and hexo deploy. Few people have thought about how to debug the Hexo codes related to these commands. As a node-based open source blog project, what is its debugging environment in VS Code? How to build a debugging environment for debugging Hexo code? What should pay attention to when debugging? When debugging Node code in VS Code, the output content of process.stdout.write and console.log are not in the same location, why? How to solve the problem?","headline":"Hexo 如何在VS Code中调试Hexo的相关代码","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html","keywords":"Hexo, 调试"}</script>
     <meta name="description" content="作者: Jim Wang 公众号: 巴博萨船长 摘要：在使用Hexo部署自己的博客时，常常接触hexo generater，hexo clean和hexo deploy等命令，估计很少人想过如何调试Hexo这些命令的相关代码。作为基于Node的开源blog项目，其在VS Code中的调试环境是什么样的？如何建立这样的调试环境？调试时需要注意什么？ 在VSCode调试Node代码时，可能会遇见方法p">
-<meta property="og:type" content="article">
+<meta property="og:type" content="blog">
 <meta property="og:title" content="Hexo 如何在VS Code中调试Hexo的相关代码">
 <meta property="og:url" content="https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html">
-<meta property="og:site_name" content="Jim Wang 技术博客">
+<meta property="og:site_name" content="Jim Wang 个人技术博客">
 <meta property="og:description" content="作者: Jim Wang 公众号: 巴博萨船长 摘要：在使用Hexo部署自己的博客时，常常接触hexo generater，hexo clean和hexo deploy等命令，估计很少人想过如何调试Hexo这些命令的相关代码。作为基于Node的开源blog项目，其在VS Code中的调试环境是什么样的？如何建立这样的调试环境？调试时需要注意什么？ 在VSCode调试Node代码时，可能会遇见方法p">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-09-03T01:25:45.000Z">
@@ -33,219 +35,327 @@
 <meta property="article:tag" content="Hexo">
 <meta property="article:tag" content="调试">
 <meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zicowarn.github.io/assets/images/avater.png"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-m2dgitnm2byuj37caoszle9u1auenk6va6bk89y4xo0d0wyorkftmkofzpn1.min.css">
 
-
-<link rel="canonical" href="https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html">
-
-
-
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html","path":"posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html","title":"Hexo 如何在VS Code中调试Hexo的相关代码"}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Hexo 如何在VS Code中调试Hexo的相关代码 | Jim Wang 技术博客</title>
-  
+    <!--STYLES END-->
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0411EY69W7"></script>
-  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-0411EY69W7","only_pageview":false,"measure_protocol_api_secret":null}</script>
-  <script src="/js/third-party/analytics/google-analytics.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
-  <script async src="https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d"></script>
-
-
-
-
+        gtag('config', 'G-0411EY69W7');
+    </script>
 
 
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
 
-  <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
-<link rel="alternate" href="/atom.xml" title="Jim Wang 技术博客" type="application/atom+xml">
+
+    
+        
+    
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
 
-  <main class="main">
-    <div class="column">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/"
+            aria-label=""
+        >
+            Jim Wang 个人技术博客
+        </a>
     </div>
-  </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="打开链接: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/avater.png" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
 
-  <div class="site-meta">
+            <!-- Define author's picture -->
 
-    <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <p class="site-title">Jim Wang 技术博客</p>
-      <i class="logo-line"></i>
-    </a>
-      <p class="site-subtitle" itemprop="description">全栈探索之路</p>
-  </div>
 
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="阅读有关作者的更多信息"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avater.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Jim Wang</h4>
+                <h5 class="sidebar-profile-subtitle"><p>个人技术博客</p>
+</h5>
+                
+                    <h5 class="sidebar-profile-bio"> <hr style='margin: 5px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 20%;'> <span>全栈探索之路<span> <hr style='margin: 8px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 60%;'> 记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多。 </h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
+                            
+                            rel="noopener"
+                            title="首页"
+                        >
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
+                            
+                            rel="noopener"
+                            title="分类"
+                        >
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
+                            
+                            rel="noopener"
+                            title="标签"
+                        >
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
+                            
+                            rel="noopener"
+                            title="归档"
+                        >
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
+                            
+                            rel="noopener"
+                            title="关于"
+                        >
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/zicowarn"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#wechat"
+                            
+                            rel="noopener"
+                            title="微信公众号"
+                        >
+                        <i class="sidebar-button-icon fab fa-weixin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">微信公众号</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="tencent://message/?uin=948509&Site=&Menu=yes"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="QQ"
+                        >
+                        <i class="sidebar-button-icon fab fa-qq" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">QQ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://www.linkedin.com/in/zhichao-wang-a16662109"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="领英"
+                        >
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">领英</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="mailto:zicowarn@hotmail.com"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="邮箱"
+                        >
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">邮箱</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/atom.xml"
+                            
+                            rel="noopener"
+                            title="RSS"
+                        >
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
     </div>
-  </div>
-</div>
-
-
-
-<nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
-  </ul>
 </nav>
 
-
-
-
-</header>
-        
-  
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80"><span class="nav-number">1.1.</span> <span class="nav-text">方法一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="nav-number">1.2.</span> <span class="nav-text">方法二</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%89"><span class="nav-number">1.3.</span> <span class="nav-text">方法三</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="nav-number">2.</span> <span class="nav-text">应用技巧</span></a></li></ol></div>
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Jim Wang"
-      src="/images/avater.png">
-  <p class="site-author-name" itemprop="name">Jim Wang</p>
-  <div class="site-description" itemprop="description">记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多</div>
-</div>
-<div class="site-state-wrap animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">64</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-          <a href="/categories/">
-        <span class="site-state-item-count">21</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-          <a href="/tags/">
-        <span class="site-state-item-count">85</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author animated">
-      <span class="links-of-author-item">
-        <a href="https://github.com/zicowarn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zicowarn" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="tencent://message/?uin=948509&Site=&Menu=yes" title="QQ → tencent:&#x2F;&#x2F;message&#x2F;?uin&#x3D;948509&amp;Site&#x3D;&amp;Menu&#x3D;yes" rel="noopener me" target="_blank"><i class="fab fa-qq fa-fw"></i>QQ</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://www.linkedin.com/in/zhichao-wang-a16662109" title="Linked_in → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;zhichao-wang-a16662109" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>Linked_in</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:zicowarn@hotmail.com" title="E-Mail → mailto:zicowarn@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
-      </span>
-  </div>
-
-        </div>
-      </div>
-    </div>
-
+            
+            <div id="main" data-behavior="4"
+                class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
     
-  </aside>
-
-
-    </div>
-
-    <div class="main-inner post posts-expand">
-
-
-  
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="Jim Wang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jim Wang 技术博客">
-      <meta itemprop="description" content="记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Hexo 如何在VS Code中调试Hexo的相关代码 | Jim Wang 技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Hexo 如何在VS Code中调试Hexo的相关代码
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Hexo 如何在VS Code中调试Hexo的相关代码
         </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2020-09-03T09:25:45+08:00">
+	
+		    9月 03, 2020
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/Hexo-%E7%9B%B8%E5%85%B3-%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/">Hexo 相关 - 实战经验</a>
 
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2020-09-03 09:25:45" itemprop="dateCreated datePublished" datetime="2020-09-03T09:25:45+08:00">2020-09-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-08-01 16:41:08" itemprop="dateModified" datetime="2024-08-01T16:41:08+08:00">2024-08-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Hexo-%E7%9B%B8%E5%85%B3-%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">Hexo 相关 - 实战经验</span></a>
-        </span>
-    </span>
-
-  
+    
 </div>
 
-        </div>
-      </header>
+    
+</div>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody"><p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
 <p>摘要：在使用Hexo部署自己的博客时，常常接触hexo generater，hexo clean和hexo deploy等命令，估计很少人想过如何调试Hexo这些命令的相关代码。作为基于Node的开源blog项目，其在VS Code中的调试环境是什么样的？如何建立这样的调试环境？调试时需要注意什么？ 在VSCode调试Node代码时，可能会遇见方法process.stdout.write和方法console.log的输出内容不在同一位置的问题，该问题如何解决?</p>
 <p>Abstract: When using hexo to deploy the blog, often use commands such as hexo generator, hexo clean and hexo deploy. Few people have thought about how to debug the Hexo codes related to these commands. As a node-based open source blog project, what is its debugging environment in VS Code? How to build a debugging environment for debugging Hexo code? What should pay attention to when debugging? When debugging Node code in VS Code, the output content of process.stdout.write and console.log are not in the same location, why? How to solve the problem?</p>
 <span id="more"></span>
@@ -298,111 +408,462 @@
     版权声明：<br>文章首发于 <a href="https://zicowarn.github.io"> Jim Wang's blog </a>，
     转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。
 </div>
+            
+
+
+        </div>
     </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/Hexo/" rel="tag">Hexo</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/%E8%B0%83%E8%AF%95/" rel="tag">调试</a>
 
-    
-    
-    
-
-    <footer class="post-footer">
-          <div class="followme">
-  <span>欢迎关注我的其它发布渠道</span>
-
-  <div class="social-list">
-
-      <div class="social-item">
-          <a target="_blank" class="social-link" href="/atom.xml">
-            <span class="icon">
-              <i class="fa fa-rss"></i>
-            </span>
-
-            <span class="label">RSS</span>
-          </a>
-      </div>
-  </div>
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2020-09-20-aws-lambda-02-use-pythonpackage-pymssql.html"
+                    data-tooltip="AWS 如何在lambda函数中使用Python依赖库pymssql"
+                    aria-label="上一篇: AWS 如何在lambda函数中使用Python依赖库pymssql"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2020-09-02-hexo-02-embed-html-and-downloads-code.html"
+                    data-tooltip="Hexo 解决嵌入的html被渲染的问题和code_dir的配置项的用法"
+                    aria-label="下一篇: Hexo 解决嵌入的html被渲染的问题和code_dir的配置项的用法"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html"
+                    title="分享到 Google+"
+                    aria-label="分享到 Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html"
+                    title="分享到 Weibo"
+                    aria-label="分享到 Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html&amp;title=Hexo 如何在VS Code中调试Hexo的相关代码"
+                    title="分享到 QQ"
+                    aria-label="分享到 QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
 </div>
 
-          <div class="post-tags">
-              <a href="/tags/Hexo/" rel="tag"><i class="fa fa-tag"></i> Hexo</a>
-              <a href="/tags/%E8%B0%83%E8%AF%95/" rel="tag"><i class="fa fa-tag"></i> 调试</a>
-          </div>
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2024 Jim Wang. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2020-09-20-aws-lambda-02-use-pythonpackage-pymssql.html"
+                    data-tooltip="AWS 如何在lambda函数中使用Python依赖库pymssql"
+                    aria-label="上一篇: AWS 如何在lambda函数中使用Python依赖库pymssql"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2020-09-02-hexo-02-embed-html-and-downloads-code.html"
+                    data-tooltip="Hexo 解决嵌入的html被渲染的问题和code_dir的配置项的用法"
+                    aria-label="下一篇: Hexo 解决嵌入的html被渲染的问题和code_dir的配置项的用法"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html"
+                    title="分享到 Google+"
+                    aria-label="分享到 Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html"
+                    title="分享到 Weibo"
+                    aria-label="分享到 Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html&amp;title=Hexo 如何在VS Code中调试Hexo的相关代码"
+                    title="分享到 QQ"
+                    aria-label="分享到 QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html"
+                        aria-label="分享到 Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html"
+                        aria-label="分享到 Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html"
+                        aria-label="分享到 Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html"
+                        aria-label="分享到 Weibo"
+                    >
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html&amp;title=Hexo 如何在VS Code中调试Hexo的相关代码"
+                        aria-label="分享到 QQ"
+                    >
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avater.png" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Jim Wang</h4>
+        
+            <div id="about-card-bio"> <hr style='margin: 5px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 20%;'> <span>全栈探索之路<span> <hr style='margin: 8px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 60%;'> 记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多。 </div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>软件工程师</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                河南，中国
+            </div>
+        
+    </div>
+</div>
 
         
 
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/posts/2020-09-02-hexo-02-embed-html-and-downloads-code.html" rel="prev" title="Hexo 解决嵌入的html被渲染的问题和code_dir的配置项的用法">
-                  <i class="fa fa-angle-left"></i> Hexo 解决嵌入的html被渲染的问题和code_dir的配置项的用法
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/posts/2020-09-20-aws-lambda-02-use-pythonpackage-pymssql.html" rel="next" title="AWS 如何在lambda函数中使用Python依赖库pymssql">
-                  AWS 如何在lambda函数中使用Python依赖库pymssql <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
-  </article>
-</div>
 
 
 
+    
+        
+    
 
 
 
-</div>
-  </main>
+    
+        
+    
 
-  <footer class="footer">
-    <div class="footer-inner">
-
-  <div class="copyright">
-    &copy; 2015 – 
-    <span itemprop="copyrightYear">2024</span>
-    <span class="with-love">
-      <i class="fa fa-heart"></i>
-    </span>
-    <span class="author" itemprop="copyrightHolder">Jim Wang</span>
-  </div>
-
+<div id="wechat">
+    <div id="wechat-card">
+        <div id="wechat-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="wechat-qrcode-picture" src="/assets/images/wechat-qrcode.jpg" alt="global.wechat_public_qr_code_image"/>
+        
+        
+            <div id="wechat-qrcode-desc"><p>请扫描上方的二维码订阅我的个人微信公众号</p> <hr style='margin: 8px auto; border-top: 2px solid rgba(1, 1, 1, 0.14); width: 60%;'> <p>原创不易，多多点赞分享支持。</p></div>
+        
+        
+            <img id="wechat-searchbar-picture" src="/assets/images/wechat-search-white.png" alt="global.wechat_public_search_bar_image"/>
+        
     </div>
-  </footer>
+</div>
 
-  
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-  <div class="sidebar-dimmer"></div>
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up fa-lg"></i>
-    <span>0%</span>
-  </div>
+        
+        
+<div id="cover" style="background-image:url('/assets/images/background-cover.jpg');"></div>
+        <!--SCRIPTS-->
 
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
+<script src="/assets/js/script-2t8c01k1fthzrgprhbm5clfune3ygdtd8ajsnhdxko5pl9jnhax3fioo6uev.min.js"></script>
+
+<!--SCRIPTS END-->
 
 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+    
+      
+<script src="/assets/js/mermaid.min.js"></script>
 
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-
-
-
-  
+      <script>
+          $(document).ready(function() {
+              var mermaid_config = {
+                  startOnLoad: true,
+                  theme: 'default',
+                  flowchart:{
+                      useMaxWidth: false,
+                      htmlLabels: true
+                  }                
+              }
+              mermaid.initialize(mermaid_config);
+          });
+      </script>
+    
 
 
 
 
-
-</body>
+    </body>
 </html>

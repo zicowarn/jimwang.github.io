@@ -1,30 +1,32 @@
+
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-cn">
+    
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.0.0">
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
-
-<script class="next-config" data-name="main" type="application/json">{"hostname":"zicowarn.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":"auto","version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12,"onmobile":false},"hljswrap":true,"copycode":{"enable":false,"style":null,"show_result":false},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Jim Wang 个人技术博客">
+    <meta name="google-site-verification" content="Vv1-G7f0bcjlHq6prbeTvbDWFc4iN17bGUGM_KcE5xA" />
+    <meta name="baidu-site-verification" content="A8086Y6q9Y" />
+    <title>Python 杂记之 实现列表的自加和左移等操作 - Jim Wang 个人技术博客</title>
+    <meta name="author" content="Jim Wang">
+    
+        <meta name="keywords" content="个人博客,实践,技术,经验,分享,全栈,Technology,blog,Python,Inno Setup,TypeScript,SQLite,AWS,CAM,EDM,JavaScript,CSS,HTML,">
+    
+    
+        <link rel="icon" href="https://zicowarn.github.io/assets/images/favicon.png">
+    
+    
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png"},"articleBody":"作者: Jim Wang 公众号: 巴博萨船长\n列表与操作方法列表list是Python语言中的标准数据类型，进一步讲list是一种可变的序列类型，不可变的有tuple和range（注：Python 3.x中xrange已经不存在了）。可变序列类型，可变就是长度可以改变，所含元素数值可以改变，元素数据类型可以改变；序列意指成员有序排列，可以通过索引访问元素。既然是序列类型，就一定可以迭代（for 循环），所以列表是可迭代的对象，请注意可迭代和迭代器的差异。\n\n\n列表的常用操作包括，索引，切片，改变与排序。而这几种操作要属改变最多样。改变包括，一、长度改变，成员的添加（常用方法append，insert和extend）与删除（常用方法pop与remove）。二、数值改变，通过索引访问与重新赋值来实现。\n列表操作的延伸思考由于上一篇文章是与运算符相关，所以在准备文字的时候就思索，作为标准数据类型的列表，能和它组合使用的运算符都有什么呢？今天我就和大家一起总结，共同学习一下。\n一般情况下，Python中列表只能与➕操作符组合使用，前提是➕号左右都是序列类型。可能别的教程里面规定➕左右都应该是一样的列表类型。我们今天扩展一下，定义：➕号左右都是序列类型。\n\n当加号➕右侧为列表，或者range()时，代码表现符合正常预期，请参看下面例子：\n\n12345678910111213&gt;&gt;&gt; m2 = [1, 2, 3, 4]&gt;&gt;&gt; m3 = [5, 6, 7, 8]&gt;&gt;&gt; m2 + m3[1, 2, 3, 4, 5, 6, 7, 8]&gt;&gt;&gt; m2 + range(5, 9)[1, 2, 3, 4, 5, 6, 7, 8]&gt;&gt;&gt; ss = range(5, 9)&gt;&gt;&gt; type(ss)&lt;type &#x27;list&#x27;&gt;&gt;&gt;&gt; m2 + (5, 6, 7, 8)Traceback (most recent call last):  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;TypeError: can only concatenate list (not &quot;tuple&quot;) to list\n\nList作为唯一的可变序列类型，而且与加号左侧数据类型一直，它的加法运算正常且容易理解。range， str与tuple是不可变的数据类型，理论上与列表相加时肯定会出错的，但是在Python 2.x 中却没有问题，结果如上。其原因为: Python 2.x 中range返回的是一个列表。而在Python 3.x 中这样写就会引发异常，参考如下代码：\n12345678&gt;&gt;&gt; m2 = [1, 2, 3, 4]&gt;&gt;&gt; m2 + range(5, 9)Traceback (most recent call last):  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;TypeError: can only concatenate list (not &quot;range&quot;) to list&gt;&gt;&gt; ss = range(5, 9)&gt;&gt;&gt; type(ss)&lt;class &#x27;range&#x27;&gt;\n\n因为Python 3.x 中返回的是一个真正的range类实例，是一个不可变的序列类型。\n\n当加号➕右侧为其它序列类型，即不可变序列类型，如 tuple 或 str 时，请参看下面例子：\n\n123456789101112131415161718&gt;&gt;&gt; m2 = [1, 2, 3, 4]&gt;&gt;&gt; m2 += &quot;hello&quot;&gt;&gt;&gt; m2[1, 2, 3, 4, &#x27;h&#x27;, &#x27;e&#x27;, &#x27;l&#x27;, &#x27;l&#x27;, &#x27;o&#x27;]&gt;&gt;&gt; m2 = [1, 2, 3, 4]&gt;&gt;&gt; m2 = m2 + &quot;hello&quot;Traceback (most recent call last):  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;TypeError: can only concatenate list (not &quot;str&quot;) to list&gt;&gt;&gt; m2 = [1, 2, 3, 4]&gt;&gt;&gt; m2 += (5, 6, 7, 8)&gt;&gt;&gt; m2[1, 2, 3, 4, 5, 6, 7, 8]&gt;&gt;&gt; m2 = m2 + (1, 2, 3, 4)Traceback (most recent call last):  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;TypeError: can only concatenate list (not &quot;tuple&quot;) to list\n\n理论上肯定不行的，毕竟左右两侧的数据类型不同。但是总会有些意外，有些惊喜。虽然在运算符的章节中，我们了解到自加操作符与加法和赋值的组合等效，即 a += 1 等效于 a = a + 1。但是参照上方的例子，我们发现应该在解析运行的时候。两种数据操作方式还是有些不一样的，比如在参与的数据有列表是，自加时，因为列表（等号左侧）为可变对象，原则上仅需要本地对象（这里指m2）进行修改，不需要产生新的对象。那么在修改的时候解释器会讲右侧的对象尝试数据类型转换，上述的例子中讲字符穿转换为字符列表，将tuple转换为列表，进而对本地m2对象进行修改，所以我们就实现了所有序列类型的加法操作，注意非序列的数据类型不行，是不是有点神奇。\n进一步延伸思考上一节，我们通过总结可知：1. 列表的加法操作，并不是全效的加法，因为对数据只能对序列操作，那么如果仅需要添加一个成员的时候，加法操作就不再适用。2. 列表没有减法操作。那么有解决方法吗？了解到Python万物皆对象（必定不单身）。那么如果继承列表基本类，创建自有字类，通过重写方法就是实现Python的全效加法于减法。有想法之后就实现一下，代码如下：\n12345678910111213141516171819202122232425262728293031323334353637#!/usr/bin/env python#-*- coding: utf-8 -*-class MyList(list):    def __add__(self, obj):        #Function is called by + command        self.addObj(obj)        return    def __sub__(self, obj):        #Function is called by - command        if isinstance(obj, list) or isinstance(obj, tuple):        #if isinstance(obj, list) or isinstance(obj, tuple) or isinstance(obj, range): # Python 3.x            for o in obj:                 return self.__class__([item for item in self if item not in obj])        else:             return self.__class__([item for item in self if item != obj])    def __lshift__(self, obj):        #Function is called by &lt;&lt; command        self += obj        return self    def __iadd__(self, obj):        #Function is called by += command        if isinstance(obj, list) or isinstance(obj, tuple):        #if isinstance(obj, list) or isinstance(obj, tuple) or isinstance(obj, range): # Python 3.x            for o in obj:                 self.addObj(o)        else:             self.addObj(obj)        return self    def addObj(self, obj):        self.append(obj)\n\n在使用需要注意，由于Python默认的列表类为list，传统的列表赋值方式只能产生list的实例对象，那么如果初始化玩MyList类的实例后，再为实例变量使用传统方式赋值时，那么就会产生新的对象，而且新类的属性与方法将丢失。\n12345678910&gt;&gt;&gt; from test import MyList&gt;&gt;&gt; ml = MyList([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;])&gt;&gt;&gt; type(ml)&lt;class &#x27;test.MyList&#x27;&gt;&gt;&gt;&gt; ml = MyList()&gt;&gt;&gt; type(ml)&lt;class &#x27;test.MyList&#x27;&gt;&gt;&gt;&gt; ml = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]&gt;&gt;&gt; type(ml)&lt;type &#x27;list&#x27;&gt;\n\n实际使用结果如下，因为在加法运算时，我们返回类实例本身，所以列表的值在做加法是会发生变化。\n1234567891011121314151617181920212223242526272829303132333435363738&gt;&gt;&gt; ml = MyList([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;])&gt;&gt;&gt; ml[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;]&gt;&gt;&gt; ml + [&#x27;e&#x27;, &#x27;f&#x27;, &#x27;g&#x27;]&gt;&gt;&gt; ml[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, [&#x27;e&#x27;, &#x27;f&#x27;, &#x27;g&#x27;]]&gt;&gt;&gt; ml = MyList([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;])&gt;&gt;&gt; ml + [&#x27;e&#x27;, &#x27;f&#x27;, &#x27;g&#x27;]&gt;&gt;&gt; ml[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, [&#x27;e&#x27;, &#x27;f&#x27;, &#x27;g&#x27;]]&gt;&gt;&gt; ml = MyList([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;])&gt;&gt;&gt; ml += [&#x27;e&#x27;, &#x27;f&#x27;, &#x27;g&#x27;]&gt;&gt;&gt; ml[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;e&#x27;, &#x27;f&#x27;, &#x27;g&#x27;]&gt;&gt;&gt; ml = MyList([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;])&gt;&gt;&gt; ml[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;]&gt;&gt;&gt; ml + &quot;e&quot;&gt;&gt;&gt; ml[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;e&#x27;]&gt;&gt;&gt; ml + 1&gt;&gt;&gt; ml[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;e&#x27;, 1]&gt;&gt;&gt; ml - 1[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;e&#x27;]  # 新的列表对象&gt;&gt;&gt; ml[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;e&#x27;, 1]&gt;&gt;&gt; ml - [&#x27;c&#x27;, 1][&#x27;a&#x27;, &#x27;b&#x27;, &#x27;e&#x27;] # 新的列表对象&gt;&gt;&gt; ml[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;e&#x27;, 1]&gt;&gt;&gt; ml &lt;&lt; &quot;e&quot;[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;e&#x27;, 1, &#x27;e&#x27;]&gt;&gt;&gt; ml &lt;&lt; [&#x27;d&#x27;, &#x27;f&#x27;][&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;e&#x27;, 1, &#x27;e&#x27;, &#x27;d&#x27;, &#x27;f&#x27;]&gt;&gt;&gt; tt = ml - [&#x27;c&#x27;, 1]&gt;&gt;&gt; type(tt)&lt;class &#x27;test.MyList&#x27;&gt;\n\n而在做减法运算时，我们创建并返回一个新的类实例，所以减数，即原始列表值不发生改变，请参见上述代码中带注释的内容。有心的同学可能也发现了，我们重写__iadd__()， 实现了我们预期的自加，重写__add__()， 实现了我们预期的加法，重写__sub__()， 实现了我们预期的列表减法运算和重写__lshift__()， 实现了我们预期的列表的左移运算，怎么样是不是也有一点成就感。\n小结在之前的文章中我们介绍了如何动态重写类方法，那么我们的上述的方法能不能也动态地写入基类list中，使其所有实例都有新的方法呢？感兴趣的童鞋可以自己可以试一下。我把结果写出来, 就不再举例分析。是不行的，由于基类是由别的语言实现的属于built-in类型，虽然也是动态的类，但是却因为别的语言限制了访问，所以其__iadd__()方法，在实例中是仅可读的。所以就没办法实现list基类，这些方法的动态绑定和重写。\n\n\n          版权声明：文章首发于  Jim Wang's blog ，\n          转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。\n        ","dateCreated":"2018-12-15T08:11:08+08:00","dateModified":"2024-04-09T04:29:44+08:00","datePublished":"2018-12-15T08:11:08+08:00","description":"作者: Jim Wang 公众号: 巴博萨船长\n列表与操作方法列表list是Python语言中的标准数据类型，进一步讲list是一种可变的序列类型，不可变的有tuple和range（注：Python 3.x中xrange已经不存在了）。可变序列类型，可变就是长度可以改变，所含元素数值可以改变，元素数据类型可以改变；序列意指成员有序排列，可以通过索引访问元素。既然是序列类型，就一定可以迭代（for 循环），所以列表是可迭代的对象，请注意可迭代和迭代器的差异。","headline":"Python 杂记之 实现列表的自加和左移等操作","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html"},"publisher":{"@type":"Organization","name":"Jim Wang","sameAs":["https://github.com/zicowarn","#wechat","tencent://message/?uin=948509&Site=&Menu=yes","https://www.linkedin.com/in/zhichao-wang-a16662109","mailto:zicowarn@hotmail.com"],"image":"avater.png","logo":{"@type":"ImageObject","url":"avater.png"}},"url":"https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html","keywords":"Python, 杂记, 自加"}</script>
     <meta name="description" content="Python实现列表的自加和左移等操作">
-<meta property="og:type" content="article">
+<meta property="og:type" content="blog">
 <meta property="og:title" content="Python 杂记之 实现列表的自加和左移等操作">
 <meta property="og:url" content="https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html">
-<meta property="og:site_name" content="Jim Wang 技术博客">
+<meta property="og:site_name" content="Jim Wang 个人技术博客">
 <meta property="og:description" content="Python实现列表的自加和左移等操作">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-12-15T00:11:08.000Z">
@@ -34,220 +36,327 @@
 <meta property="article:tag" content="杂记">
 <meta property="article:tag" content="自加">
 <meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zicowarn.github.io/assets/images/avater.png"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-m2dgitnm2byuj37caoszle9u1auenk6va6bk89y4xo0d0wyorkftmkofzpn1.min.css">
 
-
-<link rel="canonical" href="https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html">
-
-
-
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html","path":"posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html","title":"Python 杂记之 实现列表的自加和左移等操作"}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Python 杂记之 实现列表的自加和左移等操作 | Jim Wang 技术博客</title>
-  
+    <!--STYLES END-->
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0411EY69W7"></script>
-  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-0411EY69W7","only_pageview":false,"measure_protocol_api_secret":null}</script>
-  <script src="/js/third-party/analytics/google-analytics.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
-  <script async src="https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d"></script>
-
-
-
-
+        gtag('config', 'G-0411EY69W7');
+    </script>
 
 
+    
+    <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
 
-  <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
-<link rel="alternate" href="/atom.xml" title="Jim Wang 技术博客" type="application/atom+xml">
+
+    
+        
+    
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
 
-  <main class="main">
-    <div class="column">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏" role="button">
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
-        <span class="toggle-line"></span>
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/"
+            aria-label=""
+        >
+            Jim Wang 个人技术博客
+        </a>
     </div>
-  </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="打开链接: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/avater.png" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
 
-  <div class="site-meta">
+            <!-- Define author's picture -->
 
-    <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <p class="site-title">Jim Wang 技术博客</p>
-      <i class="logo-line"></i>
-    </a>
-      <p class="site-subtitle" itemprop="description">全栈探索之路</p>
-  </div>
 
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="阅读有关作者的更多信息"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avater.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Jim Wang</h4>
+                <h5 class="sidebar-profile-subtitle"><p>个人技术博客</p>
+</h5>
+                
+                    <h5 class="sidebar-profile-bio"> <hr style='margin: 5px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 20%;'> <span>全栈探索之路<span> <hr style='margin: 8px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 60%;'> 记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多。 </h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
+                            
+                            rel="noopener"
+                            title="首页"
+                        >
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
+                            
+                            rel="noopener"
+                            title="分类"
+                        >
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
+                            
+                            rel="noopener"
+                            title="标签"
+                        >
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
+                            
+                            rel="noopener"
+                            title="归档"
+                        >
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
+                            
+                            rel="noopener"
+                            title="关于"
+                        >
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/zicowarn"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#wechat"
+                            
+                            rel="noopener"
+                            title="微信公众号"
+                        >
+                        <i class="sidebar-button-icon fab fa-weixin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">微信公众号</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="tencent://message/?uin=948509&Site=&Menu=yes"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="QQ"
+                        >
+                        <i class="sidebar-button-icon fab fa-qq" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">QQ</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://www.linkedin.com/in/zhichao-wang-a16662109"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="领英"
+                        >
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">领英</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="mailto:zicowarn@hotmail.com"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="邮箱"
+                        >
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">邮箱</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/atom.xml"
+                            
+                            rel="noopener"
+                            title="RSS"
+                        >
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
     </div>
-  </div>
-</div>
-
-
-
-<nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
-  </ul>
 </nav>
 
-
-
-
-</header>
-        
-  
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E4%B8%8E%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">列表与操作方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E6%93%8D%E4%BD%9C%E7%9A%84%E5%BB%B6%E4%BC%B8%E6%80%9D%E8%80%83"><span class="nav-number">2.</span> <span class="nav-text">列表操作的延伸思考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%BB%B6%E4%BC%B8%E6%80%9D%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">进一步延伸思考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li></ol></div>
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Jim Wang"
-      src="/images/avater.png">
-  <p class="site-author-name" itemprop="name">Jim Wang</p>
-  <div class="site-description" itemprop="description">记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多</div>
-</div>
-<div class="site-state-wrap animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">64</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-          <a href="/categories/">
-        <span class="site-state-item-count">21</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-          <a href="/tags/">
-        <span class="site-state-item-count">85</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author animated">
-      <span class="links-of-author-item">
-        <a href="https://github.com/zicowarn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zicowarn" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="tencent://message/?uin=948509&Site=&Menu=yes" title="QQ → tencent:&#x2F;&#x2F;message&#x2F;?uin&#x3D;948509&amp;Site&#x3D;&amp;Menu&#x3D;yes" rel="noopener me" target="_blank"><i class="fab fa-qq fa-fw"></i>QQ</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="https://www.linkedin.com/in/zhichao-wang-a16662109" title="Linked_in → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;zhichao-wang-a16662109" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>Linked_in</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:zicowarn@hotmail.com" title="E-Mail → mailto:zicowarn@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
-      </span>
-  </div>
-
-        </div>
-      </div>
-    </div>
-
+            
+            <div id="main" data-behavior="4"
+                class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
     
-  </aside>
-
-
-    </div>
-
-    <div class="main-inner post posts-expand">
-
-
-  
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avater.png">
-      <meta itemprop="name" content="Jim Wang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jim Wang 技术博客">
-      <meta itemprop="description" content="记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Python 杂记之 实现列表的自加和左移等操作 | Jim Wang 技术博客">
-      <meta itemprop="description" content="Python实现列表的自加和左移等操作">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Python 杂记之 实现列表的自加和左移等操作
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Python 杂记之 实现列表的自加和左移等操作
         </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-12-15T08:11:08+08:00">
+	
+		    12月 15, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/Python-%E7%9B%B8%E5%85%B3-8-Python-%E6%9D%82%E8%AE%B0/">Python 相关 - 8. Python 杂记</a>
 
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2018-12-15 08:11:08" itemprop="dateCreated datePublished" datetime="2018-12-15T08:11:08+08:00">2018-12-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-04-09 04:29:44" itemprop="dateModified" datetime="2024-04-09T04:29:44+08:00">2024-04-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Python-%E7%9B%B8%E5%85%B3-8-Python-%E6%9D%82%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Python 相关 - 8. Python 杂记</span></a>
-        </span>
-    </span>
-
-  
+    
 </div>
 
-            <div class="post-description">Python实现列表的自加和左移等操作</div>
-        </div>
-      </header>
+    
+</div>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody"><p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
 <h2 id="列表与操作方法"><a href="#列表与操作方法" class="headerlink" title="列表与操作方法"></a>列表与操作方法</h2><p>列表<strong>list</strong>是Python语言中的标准数据类型，进一步讲list是一种可变的序列类型，不可变的有tuple和range（注：Python 3.x中xrange已经不存在了）。<strong>可变序列类型</strong>，<strong>可变</strong>就是长度可以改变，所含元素数值可以改变，元素数据类型可以改变；<strong>序列</strong>意指成员有序排列，可以通过索引访问元素。既然是序列类型，就一定可以迭代（for 循环），所以列表是<strong>可迭代</strong>的对象，请注意<strong>可迭代</strong>和<strong>迭代器</strong>的差异。</p>
 <span id="more"></span>
 
@@ -285,112 +394,462 @@
           版权声明：<br>文章首发于 <a href="https://zicowarn.github.io"> Jim Wang's blog </a>，
           转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。
         </div>
+            
+
+
+        </div>
     </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/Python/" rel="tag">Python</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/%E6%9D%82%E8%AE%B0/" rel="tag">杂记</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/%E8%87%AA%E5%8A%A0/" rel="tag">自加</a>
 
-    
-    
-    
-
-    <footer class="post-footer">
-          <div class="followme">
-  <span>欢迎关注我的其它发布渠道</span>
-
-  <div class="social-list">
-
-      <div class="social-item">
-          <a target="_blank" class="social-link" href="/atom.xml">
-            <span class="icon">
-              <i class="fa fa-rss"></i>
-            </span>
-
-            <span class="label">RSS</span>
-          </a>
-      </div>
-  </div>
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2018-12-20-0805-ma-compability-issue.html"
+                    data-tooltip="Python 杂记之 不同版本间剪切板代码兼容性问题"
+                    aria-label="上一篇: Python 杂记之 不同版本间剪切板代码兼容性问题"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2018-12-10-0803-ma-dynamic-classmethod-override.html"
+                    data-tooltip="Python 杂记之 如何动态重写类方法"
+                    aria-label="下一篇: Python 杂记之 如何动态重写类方法"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html"
+                    title="分享到 Google+"
+                    aria-label="分享到 Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html"
+                    title="分享到 Weibo"
+                    aria-label="分享到 Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html&amp;title=Python 杂记之 实现列表的自加和左移等操作"
+                    title="分享到 QQ"
+                    aria-label="分享到 QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
 </div>
 
-          <div class="post-tags">
-              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
-              <a href="/tags/%E6%9D%82%E8%AE%B0/" rel="tag"><i class="fa fa-tag"></i> 杂记</a>
-              <a href="/tags/%E8%87%AA%E5%8A%A0/" rel="tag"><i class="fa fa-tag"></i> 自加</a>
-          </div>
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2024 Jim Wang. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2018-12-20-0805-ma-compability-issue.html"
+                    data-tooltip="Python 杂记之 不同版本间剪切板代码兼容性问题"
+                    aria-label="上一篇: Python 杂记之 不同版本间剪切板代码兼容性问题"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/posts/2018-12-10-0803-ma-dynamic-classmethod-override.html"
+                    data-tooltip="Python 杂记之 如何动态重写类方法"
+                    aria-label="下一篇: Python 杂记之 如何动态重写类方法"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html"
+                    title="分享到 Facebook"
+                    aria-label="分享到 Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html"
+                    title="分享到 Twitter"
+                    aria-label="分享到 Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://plus.google.com/share?url=https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html"
+                    title="分享到 Google+"
+                    aria-label="分享到 Google+"
+                >
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html"
+                    title="分享到 Weibo"
+                    aria-label="分享到 Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html&amp;title=Python 杂记之 实现列表的自加和左移等操作"
+                    title="分享到 QQ"
+                    aria-label="分享到 QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html"
+                        aria-label="分享到 Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html"
+                        aria-label="分享到 Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://plus.google.com/share?url=https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html"
+                        aria-label="分享到 Google+"
+                    >
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html"
+                        aria-label="分享到 Weibo"
+                    >
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://zicowarn.github.io/posts/2018-12-15-0804-ma-list-leftadd-selfadd-op.html&amp;title=Python 杂记之 实现列表的自加和左移等操作"
+                        aria-label="分享到 QQ"
+                    >
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avater.png" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Jim Wang</h4>
+        
+            <div id="about-card-bio"> <hr style='margin: 5px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 20%;'> <span>全栈探索之路<span> <hr style='margin: 8px auto; border-top: 1px solid rgba(255,255,255,0.14); width: 60%;'> 记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多。 </div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>软件工程师</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                河南，中国
+            </div>
+        
+    </div>
+</div>
 
         
 
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/posts/2018-12-10-0803-ma-dynamic-classmethod-override.html" rel="prev" title="Python 杂记之 如何动态重写类方法">
-                  <i class="fa fa-angle-left"></i> Python 杂记之 如何动态重写类方法
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/posts/2018-12-20-0805-ma-compability-issue.html" rel="next" title="Python 杂记之 不同版本间剪切板代码兼容性问题">
-                  Python 杂记之 不同版本间剪切板代码兼容性问题 <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
-  </article>
-</div>
 
 
 
+    
+        
+    
 
 
 
-</div>
-  </main>
+    
+        
+    
 
-  <footer class="footer">
-    <div class="footer-inner">
-
-  <div class="copyright">
-    &copy; 2015 – 
-    <span itemprop="copyrightYear">2024</span>
-    <span class="with-love">
-      <i class="fa fa-heart"></i>
-    </span>
-    <span class="author" itemprop="copyrightHolder">Jim Wang</span>
-  </div>
-
+<div id="wechat">
+    <div id="wechat-card">
+        <div id="wechat-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="wechat-qrcode-picture" src="/assets/images/wechat-qrcode.jpg" alt="global.wechat_public_qr_code_image"/>
+        
+        
+            <div id="wechat-qrcode-desc"><p>请扫描上方的二维码订阅我的个人微信公众号</p> <hr style='margin: 8px auto; border-top: 2px solid rgba(1, 1, 1, 0.14); width: 60%;'> <p>原创不易，多多点赞分享支持。</p></div>
+        
+        
+            <img id="wechat-searchbar-picture" src="/assets/images/wechat-search-white.png" alt="global.wechat_public_search_bar_image"/>
+        
     </div>
-  </footer>
+</div>
 
-  
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-  <div class="sidebar-dimmer"></div>
-  <div class="back-to-top" role="button" aria-label="返回顶部">
-    <i class="fa fa-arrow-up fa-lg"></i>
-    <span>0%</span>
-  </div>
+        
+        
+<div id="cover" style="background-image:url('/assets/images/background-cover.jpg');"></div>
+        <!--SCRIPTS-->
 
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
+<script src="/assets/js/script-2t8c01k1fthzrgprhbm5clfune3ygdtd8ajsnhdxko5pl9jnhax3fioo6uev.min.js"></script>
+
+<!--SCRIPTS END-->
 
 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+    
+      
+<script src="/assets/js/mermaid.min.js"></script>
 
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-
-
-
-  
+      <script>
+          $(document).ready(function() {
+              var mermaid_config = {
+                  startOnLoad: true,
+                  theme: 'default',
+                  flowchart:{
+                      useMaxWidth: false,
+                      htmlLabels: true
+                  }                
+              }
+              mermaid.initialize(mermaid_config);
+          });
+      </script>
+    
 
 
 
 
-
-</body>
+    </body>
 </html>
