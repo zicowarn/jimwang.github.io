@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zicowarn.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":"auto","version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12,"onmobile":false},"hljswrap":true,"copycode":{"enable":false,"style":null,"show_result":false},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="作者: Jim Wang 公众号: 巴博萨船长 Python 标准数据类型大家好，最近更新比较慢，临近圣诞节和新年，公司的事情也就异常多。连续几天的会议，还要加紧修复bug，为新版本软件的发布做准备。好了言归正传，书接上回。Python 定义了一些标准数据类型，用于存储各种类型的数据。Python有五个标准的数据类型，分别是：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 变量之字典与实战经验">
+<meta property="og:url" content="https://zicowarn.github.io/posts/2018-11-19-030104-variable-dict-tips.html">
+<meta property="og:site_name" content="Jim Wang 技术博客">
+<meta property="og:description" content="作者: Jim Wang 公众号: 巴博萨船长 Python 标准数据类型大家好，最近更新比较慢，临近圣诞节和新年，公司的事情也就异常多。连续几天的会议，还要加紧修复bug，为新版本软件的发布做准备。好了言归正传，书接上回。Python 定义了一些标准数据类型，用于存储各种类型的数据。Python有五个标准的数据类型，分别是：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/LNbO7CDlxmbTEl8FZc5icO1wlmSzmh1hmz96edbdYgnGu6yzrRGLqSfoLLonV16JRlvMHD1qCQHbo6QtKzdu3uA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="article:published_time" content="2018-11-19T07:11:08.000Z">
+<meta property="article:modified_time" content="2024-04-08T20:29:44.437Z">
+<meta property="article:author" content="Jim Wang">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="变量">
+<meta property="article:tag" content="实战经验">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/LNbO7CDlxmbTEl8FZc5icO1wlmSzmh1hmz96edbdYgnGu6yzrRGLqSfoLLonV16JRlvMHD1qCQHbo6QtKzdu3uA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+
+
+<link rel="canonical" href="https://zicowarn.github.io/posts/2018-11-19-030104-variable-dict-tips.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zicowarn.github.io/posts/2018-11-19-030104-variable-dict-tips.html","path":"posts/2018-11-19-030104-variable-dict-tips.html","title":"Python 变量之字典与实战经验"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Python 变量之字典与实战经验 | Jim Wang 技术博客</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0411EY69W7"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-0411EY69W7","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Jim Wang 技术博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jim Wang 技术博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">全栈探索之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Python-%E6%A0%87%E5%87%86%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">Python 标准数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dictionary-%E5%AD%97%E5%85%B8%E7%9A%84%E7%89%B9%E5%BE%81"><span class="nav-number">2.</span> <span class="nav-text">Dictionary 字典的特征</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dictionary-%E5%AD%97%E5%85%B8%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="nav-number">3.</span> <span class="nav-text">Dictionary 字典的索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%AD%97%E5%85%B8%E7%9A%84%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0%E5%92%8C%E7%B1%BB%E6%96%B9%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">关于字典的内置函数和类方法</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jim Wang"
+      src="/images/avater.png">
+  <p class="site-author-name" itemprop="name">Jim Wang</p>
+  <div class="site-description" itemprop="description">记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">85</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zicowarn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zicowarn" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="tencent://message/?uin=948509&Site=&Menu=yes" title="QQ → tencent:&#x2F;&#x2F;message&#x2F;?uin&#x3D;948509&amp;Site&#x3D;&amp;Menu&#x3D;yes" rel="noopener me" target="_blank"><i class="fab fa-qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/zhichao-wang-a16662109" title="Linked_in → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;zhichao-wang-a16662109" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>Linked_in</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zicowarn@hotmail.com" title="E-Mail → mailto:zicowarn@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zicowarn.github.io/posts/2018-11-19-030104-variable-dict-tips.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avater.png">
+      <meta itemprop="name" content="Jim Wang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jim Wang 技术博客">
+      <meta itemprop="description" content="记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Python 变量之字典与实战经验 | Jim Wang 技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python 变量之字典与实战经验
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-11-19 15:11:08" itemprop="dateCreated datePublished" datetime="2018-11-19T15:11:08+08:00">2018-11-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-09 04:29:44" itemprop="dateModified" datetime="2024-04-09T04:29:44+08:00">2024-04-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Python-%E7%9B%B8%E5%85%B3-3-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">Python 相关 - 3. 基本语法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
+<h2 id="Python-标准数据类型"><a href="#Python-标准数据类型" class="headerlink" title="Python 标准数据类型"></a><strong>Python 标准数据类型</strong></h2><p>大家好，最近更新比较慢，临近圣诞节和新年，公司的事情也就异常多。连续几天的会议，还要加紧修复bug，为新版本软件的发布做准备。好了言归正传，书接上回。Python 定义了一些标准数据类型，用于存储各种类型的数据。Python有五个标准的数据类型，分别是：</p>
+<span id="more"></span>
+
+<ul>
+<li>Numbers（数字）</li>
+<li>String（字符串）</li>
+<li>List（列表）</li>
+<li>Tuple（元组）</li>
+<li>Dictionary（字典）</li>
+</ul>
+<p>字典在Python中应该算是最后一个重要的基本变量，出现在代码中的频率也比较高。常被用作为一种可变的数据容器。今天就给大家介绍一下Python最后一个标准数据类型字典，即Dictionary的一些基础知识和在实际应用中的使用技巧。</p>
+<h2 id="Dictionary-字典的特征"><a href="#Dictionary-字典的特征" class="headerlink" title="Dictionary 字典的特征"></a><strong>Dictionary 字典的特征</strong></h2><p>作为一种可变容器模型，那么字典Dict在声明之后就能够任意被修改，比如添加，删除，或者更改。既然名为字典也就意味着其查询索引方式类如真实意义上的字典。Python的自己由一组<strong>键（key）与值（value）</strong>组成。两者之间用冒号隔开（<strong>：</strong>）。组与组之间与逗号（，）隔开。最后用花括号(大括号) “**{}**” 包裹所有的键值组，就得到一个字典实例，如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">di = &#123;key_1 : value_1, key_2 : value_2, key_3: value_3&#125;</span><br></pre></td></tr></table></figure>
+
+<p>字典中，每一组键值，其键需要有唯一性，但是其值则不需要。在Python中，字典键值的唯一性就限制了它的数据类型选择范围。结合前面文章所介绍的的标准数据类型，除<strong>列表</strong>以外：数值型，元组，字符串都能够作为字典类型的<strong>键</strong>，经过实践可以告诉大家，任何类的实例都可以作为字典的键。因为类一旦实例化，其类实例在内存中的地址具有唯一性，因此也可以作为字典的键，参考下面代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">class</span> <span class="title class_">A</span>:</span><br><span class="line"><span class="meta">... </span>   <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line"><span class="meta">... </span>            <span class="keyword">pass</span>...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = A()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123; <span class="number">1</span>: <span class="string">&quot;a&quot;</span>, <span class="number">2</span>: <span class="string">&quot;b&quot;</span>, a:<span class="string">&quot;Object&quot;</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;&lt;__main__.A instance at <span class="number">0x0000000004D2A188</span>&gt;: <span class="string">&#x27;Object&#x27;</span>, <span class="number">1</span>: <span class="string">&#x27;a&#x27;</span>, <span class="number">2</span>: <span class="string">&#x27;b&#x27;</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.keys()</span><br><span class="line">[&lt;__main__.A instance at <span class="number">0x0000000004D2A188</span>&gt;, <span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">&gt;&gt; d.keys()[<span class="number">0</span>]</span><br><span class="line">&lt;__main__.A instance at <span class="number">0x0000000004D2A188</span></span><br><span class="line">&gt;&gt;&gt;&gt; d.keys()[<span class="number">0</span>].isB = <span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.keys()[<span class="number">0</span>]</span><br><span class="line">&lt;__main__.A instance at <span class="number">0x0000000004D2A188</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>字典中，每组键值中的值，没有限定，可以是任意的数据类型。1. 键值是否可变，字典并不做约束，仅仅与数据类型本身有关。如下面代码的例子中，元组可以作为一对键值的值，因为元组本身不可变，所以该对键值的值不可变，但是不能因此认为字典的值不可改变。 2. 一对键值中，虽然字典也可以作为键值的值，而且在日常使用的时候也不会出现问题，但是在实际使用的时候，如果作为值的字典中存在bytes类的键值时，当尝试使用deepcopy复制字典实例的时候，可能会引发异常，当然类似的异常也会存在与复制相似结构的列表时诱发。各位可以留个印象，当以后遇见类似问题，或许可以帮助你确定异常诱发的原因。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>mydict = &#123;<span class="string">&quot;str&quot;</span>: <span class="string">&quot;String&quot;</span>, <span class="string">&quot;list&quot;</span>: [<span class="string">&quot;list1&quot;</span>, <span class="string">&quot;list2&quot;</span>], <span class="string">&quot;tuple&quot;</span>: (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>) , <span class="string">&quot;dictionary&quot;</span> : &#123;<span class="string">&quot;a&quot;</span>: <span class="string">&quot;1&quot;</span>, <span class="string">&quot;b&quot;</span>:<span class="number">2</span>&#125;&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>mydict</span><br><span class="line">&#123;<span class="string">&#x27;list&#x27;</span>: [<span class="string">&#x27;list1&#x27;</span>, <span class="string">&#x27;list2&#x27;</span>], <span class="string">&#x27;dictionary&#x27;</span>: &#123;<span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;b&#x27;</span>: <span class="number">2</span>&#125;, <span class="string">&#x27;str&#x27;</span>: <span class="string">&#x27;String&#x27;</span>, <span class="string">&#x27;tuple&#x27;</span>: (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)&#125;</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">注：上述代码中我们会发现一个问题，字典键值打印时，键值组的顺序和自己声明字典时的顺序</span><br><span class="line">不一致。这样的问题在字典历遍或者索引的时候也会遇到。标准的Python中会有一个名为</span><br><span class="line">collections的模块，在该模块下有一个名为OderedDict的类，该类为<span class="type">Dict</span>的子类，但具</span><br><span class="line">有保持字典中键值顺序与声明时相一致的特性。</span><br></pre></td></tr></table></figure>
+
+<p>总的来说，对于字典中键值对，键是由唯一且不可变的数据类型定义，准确地来说是可以哈希（hashable）的数据类型。值可以为任意数据类型。当同一键值被重复赋值，最后一次值将被采用。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/LNbO7CDlxmbTEl8FZc5icO1wlmSzmh1hmz96edbdYgnGu6yzrRGLqSfoLLonV16JRlvMHD1qCQHbo6QtKzdu3uA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
+<p>声明后的字典实例，修改添加和改变都很简单。其中为字典中添加一个元素和更改一个元素的书写方式是一样的。如下方代码：如果字典情况位置，键3值的修改和键4值的添加，方法一样。而列表再添加值的时候是需要使用类方法append()的。而如果使用数字作为键值，代码文件就由如<strong>d[3] = ‘d’</strong> 的内容， 这样的书写方法不利于代码的标准化，而且类似的需求完全可以由列表来实现。所以个人建议为了代码的标准化，使用字典时，还是应尽量避免数值类型作为键的值，避免代码出现歧义。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123; <span class="number">1</span>: <span class="string">&quot;a&quot;</span>, <span class="number">2</span>: <span class="string">&quot;b&quot;</span>, <span class="number">3</span>: <span class="string">&quot;c&quot;</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d[<span class="number">3</span>]</span><br><span class="line"><span class="string">&#x27;c&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d[<span class="number">3</span>] = <span class="string">&#x27;d&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d[<span class="number">4</span>] = <span class="string">&#x27;e&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;<span class="number">1</span>: <span class="string">&#x27;a&#x27;</span>, <span class="number">2</span>: <span class="string">&#x27;b&#x27;</span>, <span class="number">3</span>: <span class="string">&#x27;d&#x27;</span>, <span class="number">4</span>: <span class="string">&#x27;e&#x27;</span>&#125;</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>字典的删除操作，使用字典的类方法clear()可以删除字典中的所有元素，但是字典实例依旧存在。也可以使用关键字<strong>del</strong>来实现对字典单一元素和整个字典的清除。注意：使用关键字del删除整个字典，该字典的实例将从内存中清除，使用被清除的字典会引发异常。如下面代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123;<span class="number">1</span>: <span class="string">&#x27;a&#x27;</span>, <span class="number">2</span>: <span class="string">&#x27;b&#x27;</span>, <span class="number">3</span>: <span class="string">&#x27;d&#x27;</span>, <span class="number">4</span>: <span class="string">&#x27;e&#x27;</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">del</span> d[<span class="number">4</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;<span class="number">1</span>: <span class="string">&#x27;a&#x27;</span>, <span class="number">2</span>: <span class="string">&#x27;b&#x27;</span>, <span class="number">3</span>: <span class="string">&#x27;d&#x27;</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.clear()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123; <span class="number">1</span>: <span class="string">&quot;a&quot;</span>, <span class="number">2</span>: <span class="string">&quot;b&quot;</span>, <span class="number">3</span>: <span class="string">&quot;c&quot;</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">del</span> d[<span class="number">3</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;<span class="number">1</span>: <span class="string">&#x27;a&#x27;</span>, <span class="number">2</span>: <span class="string">&#x27;b&#x27;</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">del</span> d</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">&quot;&lt;stdin&gt;&quot;</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">NameError: name <span class="string">&#x27;d&#x27;</span> <span class="keyword">is</span> <span class="keyword">not</span> defined</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Dictionary-字典的索引"><a href="#Dictionary-字典的索引" class="headerlink" title="Dictionary 字典的索引"></a><strong>Dictionary 字典的索引</strong></h2><p>Python中字典键值的索引总的来说有两种方法，一种使用方括号和键，类似列表的方法来索引和访问字典中的元素。第二种是使用get()类方法和键来索引和访问，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123;<span class="number">1</span>: <span class="string">&#x27;a&#x27;</span>, <span class="number">2</span>: <span class="string">&#x27;b&#x27;</span>, <span class="number">3</span>: <span class="string">&#x27;d&#x27;</span>, <span class="number">4</span>: <span class="string">&#x27;e&#x27;</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d[<span class="number">1</span>]</span><br><span class="line"><span class="string">&#x27;a&#x27;</span></span><br><span class="line">&gt;&gt; d.get(<span class="number">1</span>)</span><br><span class="line"><span class="string">&#x27;a&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>两种方法在效率上并没有差别，早前读过一篇文章讨论两种索引方式的效率。结果如下，结果显示使用方括号更直接高效。个人建议大家将图示的结果仅作为一个参考，因为也有Python开发人员有不同意见，认为实验方式有问题。</p>
+<p>在实际应用的时候，我个人觉得两种方法的效率其实并没有太大差别，更值得关注的是get()方法能够更好地避免因为键不存在引起的索引异常。如下面代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123;<span class="number">1</span>: <span class="string">&#x27;a&#x27;</span>, <span class="number">2</span>: <span class="string">&#x27;b&#x27;</span>, <span class="number">3</span>: <span class="string">&#x27;d&#x27;</span>, <span class="number">4</span>: <span class="string">&#x27;e&#x27;</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d[<span class="number">6</span>]</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">&quot;&lt;stdin&gt;&quot;</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">KeyError: <span class="number">6</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.get(<span class="number">6</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.get(<span class="number">6</span>, <span class="string">&quot;No Value&quot;</span>)</span><br><span class="line"><span class="string">&#x27;No Value&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>由上述代码可以发现，在遇到字典中不存在的键的问题的时候，方括号+键的方式会引发异常，为了避免异常还要添加代码（通常为if语句）来检测该字典中是否存在所求键值组。而使用get()方法则能避免引发这个异常，当字典中不存在所求键值组的时，使用该方法返回空，或者你也可以给定第二个变量作为默认值，当该键值不存在则会返回默认值。在实际使用中该方法优选，可以很大程度地减少代码数量。</p>
+<p>在这里我给大家介绍一个Python字典索引的<strong>实战经验</strong>，具体方法如下方代码。假如一个字典有数字和字符串混合键，想要得到所有数字键的键值组。经典方法为，索引字典中的每一个键值组，检查键的数据类型，将符合条件的键值组的值加入一个列表里面，最终就可以得到所有符合要求的键值组的值的组合。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = &#123;<span class="string">&#x27;1&#x27;</span>: <span class="string">&quot;a&quot;</span>, <span class="number">1</span>:<span class="string">&quot;b&quot;</span>, <span class="string">&#x27;2&#x27;</span>: <span class="string">&quot;c&quot;</span>, <span class="number">2</span> : <span class="string">&quot;d&quot;</span>, <span class="string">&#x27;3&#x27;</span>: <span class="string">&quot;e&quot;</span>, <span class="number">3</span>: <span class="string">&quot;f&quot;</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d</span><br><span class="line">&#123;<span class="number">1</span>: <span class="string">&#x27;b&#x27;</span>, <span class="number">2</span>: <span class="string">&#x27;d&#x27;</span>, <span class="number">3</span>: <span class="string">&#x27;f&#x27;</span>, <span class="string">&#x27;1&#x27;</span>: <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;3&#x27;</span>: <span class="string">&#x27;e&#x27;</span>, <span class="string">&#x27;2&#x27;</span>: <span class="string">&#x27;c&#x27;</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d.keys()</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;2&#x27;</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>intKeys = <span class="built_in">filter</span>(<span class="keyword">lambda</span> e: <span class="built_in">isinstance</span>(e, <span class="built_in">int</span>), d.keys())</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>intKeys</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>listValuesOfIntKeys = <span class="built_in">map</span>(d.get, intKeys)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>listValuesOfIntKeys</span><br><span class="line">[<span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;f&#x27;</span>]</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>使用上述方法，可以避免索引整个字典，代码简洁有效。这里值得关注的是使用filter()+lambda关键字来筛选一个列表，和使用map()函数一次性地用不同参数调用同一函数（在这里为字典的get()方法）。这样的方法或许可以提供一种不同的解决问题的思路。</p>
+<p>索引的特殊情况，历遍字典所有键值组。经典方法为<strong>for + in</strong> 的组合来进行迭代。请参考下方代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> key <span class="keyword">in</span> d:</span><br></pre></td></tr></table></figure>
+
+<p>该种方法也有效，但是不推荐使用。主要原因在于，底层代码要检验键值的唯一性，该方法会增加发生异常的频率。还有一个原因是for循环中的d[key] 会导致键再次被哈希，当字典较大时，这样的操作会消耗更多的时间。</p>
+<p>我个人比较推荐使用下面的方法，这样的方法同时迭代键与值，而且更见安全。这在Python 2.7 中常被使用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> key, value <span class="keyword">in</span> d.iteritems():</span><br></pre></td></tr></table></figure>
+
+<p>Python 3.0 会使用下面的方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> key, value <span class="keyword">in</span> d.items():</span><br></pre></td></tr></table></figure>
+
+<h2 id="关于字典的内置函数和类方法"><a href="#关于字典的内置函数和类方法" class="headerlink" title="关于字典的内置函数和类方法"></a><strong>关于字典的内置函数和类方法</strong></h2><p>字典作为Python的标准数据类型，Python这种语言自然为其准备了一些内置方法，常见的主要如下：</p>
+<blockquote>
+<ol>
+<li>len(dict) 函数：用于得到字典的长度，因为为键值组，所以键的数量和值的数量相当。</li>
+<li>str(dict) 函数：用于输出字典可打印的字符串，其表示内容，可通过继承字典类型， 复写<strong>repr</strong>(self)类函数来格式化输出内容。</li>
+<li>cmp(dict1, dict2）函数：用于比较字典的键值组是否完全一致，如果相同则返回真， 否则为假。</li>
+</ol>
+</blockquote>
+<p>字典在Python中也算是一种类，既然是类就有类方法。上文中介绍了一些常见的类方法比如使用键得到值的get()方法，清除字典内所有元素的clear()方法和得到字典内所有键值组键的方法keys()。 除此之外常用的方法还有：</p>
+<blockquote>
+<ol>
+<li><p>dict.copy() 类方法： 用于浅复制一个字典， 注。</p>
+</li>
+<li><p>dict.items() 类方法：返回值为该字典”（键，值）“样式的元组组成的列表 ，注。</p>
+</li>
+<li><p>dict.update(dict2) 类方法：使用dict2中的值，来更新dict中有相同键的键</p>
+<p>值组的值。</p>
+</li>
+<li><p>dict.values() 类方法：返回字典中所有值组成的列表。</p>
+</li>
+<li><p>dict.has_key(key) 类方法：用于判断字典中是否含有该键，有为true，否则为假。</p>
+</li>
+<li><p>dict.pop(key, default) 类方法：该方法与get()相似，删除一组键值，如果该键不</p>
+<p>存在则返回default值。 注： Python 2.x中有iteritems方法，在Python 3.0 中该方法被items()替代。 关于浅复制和深复制的内容，我将为在以后的文章中介绍给大家。</p>
+</li>
+</ol>
+</blockquote>
+<p>使用Python语言的内置方法和字典的类方法并结合一下编程技巧，我相信，各位读者能够正确使用字典来解决自己在项目中遇见的问题， 并在完成项目的同时会发现一些新的技巧，进而不断地提高自己的代码质量和代码效率。</p>
+<p>Python基本数据类型中的字典和其使用技巧今天就介绍到这里，我也会尽我所能提高更新频率。努力归纳自己在工作中遇见的问题，并把自己找到的解决方法介绍给大家。</p>
+<hr>
+<div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">
+          版权声明：<br>文章首发于 <a href="https://zicowarn.github.io"> Jim Wang's blog </a>，
+          转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。
+        </div>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+              <a href="/tags/%E5%8F%98%E9%87%8F/" rel="tag"><i class="fa fa-tag"></i> 变量</a>
+              <a href="/tags/%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/" rel="tag"><i class="fa fa-tag"></i> 实战经验</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2018-11-18-030103-variable-tuple-tips.html" rel="prev" title="Python 变量之元组与实战经验">
+                  <i class="fa fa-angle-left"></i> Python 变量之元组与实战经验
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2018-11-20-030201-operator.html" rel="next" title="Python 运算符">
+                  Python 运算符 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jim Wang</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

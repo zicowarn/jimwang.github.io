@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zicowarn.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":"auto","version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12,"onmobile":false},"hljswrap":true,"copycode":{"enable":false,"style":null,"show_result":false},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Python实现aws lambda函数时使用Python依赖库pymssql solve the problem of code dependency when using Python to implement aws lambda">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AWS 如何在lambda函数中使用Python依赖库pymssql">
+<meta property="og:url" content="https://zicowarn.github.io/posts/2020-09-20-aws-lambda-02-use-pythonpackage-pymssql.html">
+<meta property="og:site_name" content="Jim Wang 技术博客">
+<meta property="og:description" content="Python实现aws lambda函数时使用Python依赖库pymssql solve the problem of code dependency when using Python to implement aws lambda">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zicowarn.github.io/posts/2020-09-20-aws-lambda-02-use-pythonpackage-pymssql/aws-lambda-02-creatlayer.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/2020-09-20-aws-lambda-02-use-pythonpackage-pymssql/aws-lambda-0203.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/2020-09-20-aws-lambda-02-use-pythonpackage-pymssql/aws-lambda-0204.png">
+<meta property="og:image" content="https://zicowarn.github.io/posts/2020-09-20-aws-lambda-02-use-pythonpackage-pymssql/aws-lambda-0204-1195705.png">
+<meta property="article:published_time" content="2020-09-20T01:39:50.000Z">
+<meta property="article:modified_time" content="2024-08-01T08:41:08.309Z">
+<meta property="article:author" content="Jim Wang">
+<meta property="article:tag" content="AWS">
+<meta property="article:tag" content="lambda">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zicowarn.github.io/posts/2020-09-20-aws-lambda-02-use-pythonpackage-pymssql/aws-lambda-02-creatlayer.png">
+
+
+<link rel="canonical" href="https://zicowarn.github.io/posts/2020-09-20-aws-lambda-02-use-pythonpackage-pymssql.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zicowarn.github.io/posts/2020-09-20-aws-lambda-02-use-pythonpackage-pymssql.html","path":"posts/2020-09-20-aws-lambda-02-use-pythonpackage-pymssql.html","title":"AWS 如何在lambda函数中使用Python依赖库pymssql"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>AWS 如何在lambda函数中使用Python依赖库pymssql | Jim Wang 技术博客</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0411EY69W7"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-0411EY69W7","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Jim Wang 技术博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jim Wang 技术博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">全栈探索之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">任务背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%80%E9%81%87%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">所遇问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">解决方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-lambda-%E7%A8%8B%E5%BA%8F%E7%9A%84%E4%BE%9D%E8%B5%96%E9%A1%B9%E7%A8%8B%E5%BA%8F%E5%8C%85"><span class="nav-number">3.1.</span> <span class="nav-text">创建 lambda 程序的依赖项程序包</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83"><span class="nav-number">3.1.1.</span> <span class="nav-text">启动虚拟环境</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%B7%A5%E4%BD%9C%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="nav-number">3.1.2.</span> <span class="nav-text">创建工作文件夹</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%8D%95%E4%B8%80Python%E5%BA%93"><span class="nav-number">3.1.3.</span> <span class="nav-text">安装单一Python库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E7%A8%8B%E5%BA%8F%E5%8C%85"><span class="nav-number">3.1.4.</span> <span class="nav-text">压缩程序包</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E9%80%9A%E8%BF%87-lambda-%E5%B1%82%E8%A7%A3%E5%86%B3%E4%BE%9D%E8%B5%96%E9%97%AE%E9%A2%98"><span class="nav-number">3.2.</span> <span class="nav-text">一、通过 lambda 层解决依赖问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAlambda%E5%B1%82"><span class="nav-number">3.2.1.</span> <span class="nav-text">创建lambda层</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E9%80%9A%E8%BF%87-lambda-%E4%BB%A3%E7%A0%81%E8%A7%A3%E5%86%B3%E4%BE%9D%E8%B5%96%E9%97%AE%E9%A2%98"><span class="nav-number">3.3.</span> <span class="nav-text">二、通过 lambda 代码解决依赖问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jim Wang"
+      src="/images/avater.png">
+  <p class="site-author-name" itemprop="name">Jim Wang</p>
+  <div class="site-description" itemprop="description">记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">85</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zicowarn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zicowarn" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="tencent://message/?uin=948509&Site=&Menu=yes" title="QQ → tencent:&#x2F;&#x2F;message&#x2F;?uin&#x3D;948509&amp;Site&#x3D;&amp;Menu&#x3D;yes" rel="noopener me" target="_blank"><i class="fab fa-qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/zhichao-wang-a16662109" title="Linked_in → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;zhichao-wang-a16662109" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>Linked_in</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zicowarn@hotmail.com" title="E-Mail → mailto:zicowarn@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zicowarn.github.io/posts/2020-09-20-aws-lambda-02-use-pythonpackage-pymssql.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avater.png">
+      <meta itemprop="name" content="Jim Wang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jim Wang 技术博客">
+      <meta itemprop="description" content="记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="AWS 如何在lambda函数中使用Python依赖库pymssql | Jim Wang 技术博客">
+      <meta itemprop="description" content="Python实现aws lambda函数时使用Python依赖库pymssql solve the problem of code dependency when using Python to implement aws lambda">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AWS 如何在lambda函数中使用Python依赖库pymssql
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-09-20 09:39:50" itemprop="dateCreated datePublished" datetime="2020-09-20T09:39:50+08:00">2020-09-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-08-01 16:41:08" itemprop="dateModified" datetime="2024-08-01T16:41:08+08:00">2024-08-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AWS-%E7%9B%B8%E5%85%B3-%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">AWS 相关 - 实战经验</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">Python实现aws lambda函数时使用Python依赖库pymssql solve the problem of code dependency when using Python to implement aws lambda</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a> </p>
+<p>摘要：使用Python实现aws lambda函数时，如何解决代码依赖问题？如何在aws lambda中配置并安装Python的依赖包Packages？以pymssql依赖包为例，如何在aws lambda的Python代码中import该依赖？</p>
+<p>Abstract: How to solve the problem of code dependency when using Python to implement aws lambda function? How to configure and install Python’s dependency package Packages in aws lambda? This article takes the pymssql dependency package as an example. How to import the dependency in the Python code of aws lambda?</p>
+<span id="more"></span>
+
+<p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a> </p>
+<h3 id="任务背景"><a href="#任务背景" class="headerlink" title="任务背景"></a>任务背景</h3><p>任务为使用aws的lambda函数从一个MS SQL数据库中读取部分的数据，然后对数据处理后，转存至aws的DyanmoDB上，因为需要从MS SQL数据库中读取信息，代码就需要相关依赖，Python对MS SQL的依赖库为<a target="_blank" rel="noopener" href="https://pypi.org/project/pymssql/"><strong>pymssql</strong></a>，初步计划lambda 的函数使用Python来完成，版本为Python 3.6。本文主要介绍，如何在aws lambda函数中使用python依赖库<strong>pymssql</strong>。</p>
+<h3 id="所遇问题"><a href="#所遇问题" class="headerlink" title="所遇问题"></a>所遇问题</h3><p>aws lambda 的 Python 3.6 的运行环境，是不具有pymssql这个依赖包的，该依赖包并非标准库，又<strong>PyPI</strong>(<em>Python Package Index</em>)是python<strong>官方的第三方库的仓库</strong>管理维护，可以通过pip命令获取和安装。aws lambda 函数Python Runtime 运行时与操作系统如下，总的来说lambda函数是运行在Amazon Linux的操作系统上的，Amazon Linux和Amazon Linux2的区别就是内核版本有区别。</p>
+<table>
+<thead>
+<tr>
+<th align="left">Python 运行时</th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">名称</td>
+<td align="left">标识符</td>
+<td align="left">适用于 Python 的 AWS 开发工具包</td>
+<td align="left">操作系统</td>
+</tr>
+<tr>
+<td align="left">Python 3.8</td>
+<td align="left"><code>python3.8</code></td>
+<td align="left">boto3-1.14.17 botocore-1.17.17</td>
+<td align="left">Amazon Linux 2</td>
+</tr>
+<tr>
+<td align="left">Python 3.7</td>
+<td align="left"><code>python3.7</code></td>
+<td align="left">boto3-1.14.17 botocore-1.17.17</td>
+<td align="left">Amazon Linux</td>
+</tr>
+<tr>
+<td align="left">Python 3.6</td>
+<td align="left"><code>python3.6</code></td>
+<td align="left">boto3-1.14.17 botocore-1.17.17</td>
+<td align="left">Amazon Linux</td>
+</tr>
+<tr>
+<td align="left">Python 2.7</td>
+<td align="left"><code>python2.7</code></td>
+<td align="left">boto3-1.14.17 botocore-1.17.17</td>
+<td align="left">Amazon Linux</td>
+</tr>
+</tbody></table>
+<p>在测试中，我们使用的lambda函数名为<strong>test</strong>，Python文件名为lambda_function.py，该文件内容为，lambda函数的范例代码，内容如下。其中第二行为修改内容，主要为了引入pymssql模块。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> pymssql</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">lambda_handler</span>(<span class="params">event, context</span>):</span><br><span class="line">    <span class="comment"># TODO implement</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">&#x27;statusCode&#x27;</span>: <span class="number">200</span>,</span><br><span class="line">        <span class="string">&#x27;body&#x27;</span>: json.dumps(<span class="string">&#x27;Hello from Lambda!&#x27;</span>)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于pymssql不是标准库，所以如果直接在lambda函数中引用该包，则lambda的执行结果为：<strong>失败</strong>，错误信息为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;errorMessage&quot;</span>: <span class="string">&quot;Unable to import module &#x27;lambda_function&#x27;&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>日志输出为，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">START RequestId: d77542a0-d9c0-426a-a050-04948dc8464a Version: <span class="variable">$LATEST</span></span><br><span class="line">Unable to import module <span class="string">&#x27;lambda_function&#x27;</span>: No module named <span class="string">&#x27;pymssql&#x27;</span></span><br><span class="line"></span><br><span class="line">END RequestId: d77542a0-d9c0-426a-a050-04948dc8464a</span><br><span class="line">REPORT RequestId: d77542a0-d9c0-426a-a050-04948dc8464a	Duration: 0.32 ms	Billed Duration: 100 ms	Memory Size: 128 MB	Max Memory Used: 43 MB	Init Duration: 1.32 ms	</span><br></pre></td></tr></table></figure>
+
+<p>可以看出，程序错误的原因为无法引入pymssql这个模块，是一个依赖问题。基本的共识为：不同版本的Python的相同第三方依赖包的内容是不同的，同样的不同操作系统的相同第三方依赖包的内容也是不同的。所以在调试代码也好，解决依赖也好，就需要创建一个Python版本隔离并且依赖隔离的环境，这部分内容，在python相关的文章里都有介绍，若有需要可以查看相关文章。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>解决问题的思路有两种：第一种，使用lambda 层（Layer）的方式解决依赖问题，另一种为将依赖内容与lambda函数的py文件整合在一起解决依赖问题。lambda函数代码更新可以通过，网页端，上传zip程序包或Amazone S3中引用，三种方式完成，本文主要讨论的以zip压缩文件作为程序包来更新lambda的相关代码部分。</p>
+<h4 id="创建-lambda-程序的依赖项程序包"><a href="#创建-lambda-程序的依赖项程序包" class="headerlink" title="创建 lambda 程序的依赖项程序包"></a>创建 lambda 程序的依赖项程序包</h4><p>要创建一个运行在linux系统下，Python 3.6运行时的lambda函数相关依赖项的程序包，就要创建并启动一个Python的隔离运行环境。关于如何创建这样一个隔离环境，也请参考python相关文章。</p>
+<h5 id="启动虚拟环境"><a href="#启动虚拟环境" class="headerlink" title="启动虚拟环境"></a>启动虚拟环境</h5><p>比如，在Linux系统下，我们有如下的一个名为env3612的python虚拟环境，则可以在终端里输入pyenv activate env3612命令来启动这个虚拟环境，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">username@mac:~<span class="comment"># pyenv virtualenvs</span></span><br><span class="line">  3.6.12/envs/env3612 (created from /root/.pyenv/versions/3.6.12)</span><br><span class="line">  env3612 (created from /root/.pyenv/versions/3.6.12)</span><br><span class="line"></span><br><span class="line">username@mac:~<span class="comment"># pyenv activate env3612</span></span><br><span class="line">(env3612) username@mac:~<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="创建工作文件夹"><a href="#创建工作文件夹" class="headerlink" title="创建工作文件夹"></a>创建工作文件夹</h5><p>在相关虚拟运行环境启动后，就可以创建一个工作目录，下面代码中第一层目录的文件夹pymssql-dependencies这个名字可以自定义，其不对后续操作产生影响，第二层目录的文件夹python，该文件夹名非常重要，请保持一致。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">username@mac:~<span class="comment"># mkdir pymssql-dependencies</span></span><br><span class="line">username@mac:~<span class="comment"># cd pymssql-dependencies/</span></span><br><span class="line">username@mac:~/pymssql-dependencies<span class="comment"># mkdir python</span></span><br><span class="line">username@mac:~/pymssql-dependencies<span class="comment"># cd python/</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="安装单一Python库"><a href="#安装单一Python库" class="headerlink" title="安装单一Python库"></a>安装单一Python库</h5><p>进入最终工作目录python之后，即可使用pip命令<code>pip install pymssql -t ./ </code>，就可以单独安装pymssql这个依赖库安装到这个python文件夹内，安装之后，文件夹内仅有pymssql相关内容。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(env3612) username@mac:~/pymssql-dependencies/python<span class="comment"># pip install pymssql -t ./</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="压缩程序包"><a href="#压缩程序包" class="headerlink" title="压缩程序包"></a>压缩程序包</h5><p>完成pymssql之后，需要从python这个文件夹返回至上一级目录，再使用<code>zip -r ~/tmp/pymssql-dependencies.zip . </code>将python目录内的所有内容压缩成zip文件。该文件可以理解为lambda函数的程序包。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(env3612) username@mac:~/pymssql-dependencies/python<span class="comment"># cd ..</span></span><br><span class="line">(env3612) username@mac:~/pymssql-dependencies<span class="comment"># mkdir ~/tmp</span></span><br><span class="line">(env3612) username@mac:~/pymssql-dependencies<span class="comment"># zip -r ~/tmp/pymssql-dependencies.zip .</span></span><br><span class="line">  adding: python/ (stored 0%)</span><br><span class="line">  adding: python/_mssql.cpython-36m-x86_64-linux-gnu.so (deflated 73%)</span><br><span class="line">	...</span><br><span class="line">  adding: python/pymssql.libs/libsybdb-98ddd287.so.5.1.0 (deflated 64%)</span><br></pre></td></tr></table></figure>
+
+<h4 id="一、通过-lambda-层解决依赖问题"><a href="#一、通过-lambda-层解决依赖问题" class="headerlink" title="一、通过 lambda 层解决依赖问题"></a>一、通过 lambda 层解决依赖问题</h4><p>该方法解决问题是，首先要创建一个lambda 函数的层，配置信息请参考下方图片。在这里层的名称可以自定义，因为其只做为索引，在lambda函数引入层时，被用于索引。与之后要上传至层的zip文件名，和zip文件内的文件都无关系。</p>
+<h5 id="创建lambda层"><a href="#创建lambda层" class="headerlink" title="创建lambda层"></a>创建lambda层</h5><p><img src="/posts/2020-09-20-aws-lambda-02-use-pythonpackage-pymssql/aws-lambda-02-creatlayer.png" alt="Lambda Create Layer"></p>
+<p>然后选择之前创建的zip文件，上传后点击<code>创建</code>，就可以完成相关lambda层的创建。再在lambda函数的配置页面点击<code>Layers</code>，然后选择<code>添加层</code>，为test这个lambda函数的指定一个layer。</p>
+<p><img src="/posts/2020-09-20-aws-lambda-02-use-pythonpackage-pymssql/aws-lambda-0203.png" alt="aws-lambda-0203"></p>
+<p>然后在如下页面选择<code>自定义层</code>，选择层的名称，点击<code>添加</code>即可完成配置。</p>
+<p><img src="/posts/2020-09-20-aws-lambda-02-use-pythonpackage-pymssql/aws-lambda-0204.png" alt="aws-lambda-0204"></p>
+<p>然后就可以再次测试该lambda函数。这时候lambda的执行结果为：<strong>成功</strong>，详细信息为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;statusCode&quot;: 200,</span><br><span class="line">  &quot;body&quot;: &quot;\&quot;Hello from Lambda!\&quot;&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>日志输出为，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">START RequestId: ee1f059b-8288-4463-8501-8f36df9a6d67 Version: <span class="variable">$LATEST</span></span><br><span class="line">END RequestId: ee1f059b-8288-4463-8501-8f36df9a6d67</span><br><span class="line">REPORT RequestId: ee1f059b-8288-4463-8501-8f36df9a6d67	Duration: 0.33 ms	Billed Duration: 100 ms	Memory Size: 128 MB	Max Memory Used: 48 MB	Init Duration: 29.24 ms	</span><br></pre></td></tr></table></figure>
+
+<p>如上的信息表明，上述方法已经通过lambda函数的层的方式解决了依赖问题，通过该方法也可以解决其他相关依赖的相似问题。</p>
+<h4 id="二、通过-lambda-代码解决依赖问题"><a href="#二、通过-lambda-代码解决依赖问题" class="headerlink" title="二、通过 lambda 代码解决依赖问题"></a>二、通过 lambda 代码解决依赖问题</h4><p>该方法前期准备工作与方法一相同，都需要创建Python的隔离运行环境，并安装pymssql至python文件夹内，在安装以后，python文件夹的具体情况如下，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(env3612) username@mac:~/pymssql-dependencies/python<span class="comment"># ls -al</span></span><br><span class="line">total 7392</span><br><span class="line">drwxr-xr-x@   7 username  staff      224  9 27 16:23 .</span><br><span class="line">drwx------+ 145 username  staff     4640  9 27 16:24 ..</span><br><span class="line">-rwxr-xr-x@   1 username  staff  2287480  9 27 11:07 _mssql.cpython-36m-x86_64-linux-gnu.so</span><br><span class="line">drwxr-xr-x@   9 username  staff      288  9 27 11:07 pymssql-2.1.5.dist-info</span><br><span class="line">-rwxr-xr-x@   1 username  staff  1490808  9 27 11:07 pymssql.cpython-36m-x86_64-linux-gnu.so</span><br><span class="line">drwxr-xr-x@   4 username  staff      128  9 27 16:20 pymssql.libs</span><br></pre></td></tr></table></figure>
+
+<p>这时候需要将lambda函数的py文件，即lambda_function.py拷贝至该目录，然后在python目录下，运行<code>zip -r ~/Downloads/test.zip .</code>命令，将python文件内的所有文件压缩成为一个名为test.zip的压缩文档，如下，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(env3612) username@mac:~/pymssql-dependencies/python<span class="comment">#  zip -r ~/Downloads/test.zip . </span></span><br><span class="line">updating: _mssql.cpython-36m-x86_64-linux-gnu.so (deflated 73%)</span><br><span class="line">updating: pymssql.cpython-36m-x86_64-linux-gnu.so (deflated 72%)</span><br><span class="line">updating: lambda_function.py (deflated 24%)</span><br><span class="line">  adding: pymssql-2.1.5.dist-info/ (stored 0%)</span><br><span class="line">  adding: pymssql-2.1.5.dist-info/RECORD (deflated 39%)</span><br><span class="line">...</span><br><span class="line">  adding: pymssql.libs/lambda_function.py (deflated 24%)</span><br></pre></td></tr></table></figure>
+
+<p>在这里，zip的文件名最好与lambda函数保持一致，文件名称字母大小写不敏感。然后点击lambda函数中<code>函数代码</code>部分的<code>操作</code>按钮，然后选择<code>上传.zip文件</code>项，接着选择test.zip压缩文件，点击<code>保存</code>即可。</p>
+<p><img src="/posts/2020-09-20-aws-lambda-02-use-pythonpackage-pymssql/aws-lambda-0204-1195705.png" alt="aws-lambda-0204"></p>
+<p>完成上述内容，然后点击测试，就可以得到与方法一一样的成功执行结果。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>上述两个方法中，程序包的部署，可以通过网页端完成，也可以通过aws-cli来实现。zip的文件包也可以先上传至Amazone S3存储内，然后在页面端选择使用。在尝试两个方法的时候，要注意打包zip程序包时，命令行的当前目录，方法一需要在python上一级目录。方法二需要确保在python目录内。上述两个方案仅为一家之言，并非最优，若读者有别的思路也欢迎关注我的个人微信公众号，一起讨论学习。</p>
+<hr>
+<div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">
+    版权声明：<br>文章首发于 <a href="https://zicowarn.github.io"> Jim Wang's blog </a>，
+    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。
+</div>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/AWS/" rel="tag"><i class="fa fa-tag"></i> AWS</a>
+              <a href="/tags/lambda/" rel="tag"><i class="fa fa-tag"></i> lambda</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2020-09-03-hexo-03-howto-debug-hexo-in-vscode.html" rel="prev" title="Hexo 如何在VS Code中调试Hexo的相关代码">
+                  <i class="fa fa-angle-left"></i> Hexo 如何在VS Code中调试Hexo的相关代码
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2020-09-22-0809-python-hwoto-install-pyevn-virtualenv.html" rel="next" title="Python 杂记之 如何使用pyenv管理python版本管理与如何使用virtualenv创建python虚拟运行环境">
+                  Python 杂记之 如何使用pyenv管理python版本管理与如何使用virtualenv创建python虚拟运行环境 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jim Wang</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

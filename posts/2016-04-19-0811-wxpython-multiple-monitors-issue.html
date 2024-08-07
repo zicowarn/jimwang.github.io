@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zicowarn.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":"auto","version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12,"onmobile":false},"hljswrap":true,"copycode":{"enable":false,"style":null,"show_result":false},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：在使用wxpython的时候也许会遇见这样的问题。软件用户或者潜在用户可能使用多个显示器，而且显示器设置并不是简单的投影而是扩展设置，这样的话，显示器的尺寸就超过了单一显示器的尺寸，而是两个现实器的综合。 Abstract: When using the wxpython may encounter this problem. Softwar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 杂记之 wxPython 图形界面程序中多个显示器问题">
+<meta property="og:url" content="https://zicowarn.github.io/posts/2016-04-19-0811-wxpython-multiple-monitors-issue.html">
+<meta property="og:site_name" content="Jim Wang 技术博客">
+<meta property="og:description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：在使用wxpython的时候也许会遇见这样的问题。软件用户或者潜在用户可能使用多个显示器，而且显示器设置并不是简单的投影而是扩展设置，这样的话，显示器的尺寸就超过了单一显示器的尺寸，而是两个现实器的综合。 Abstract: When using the wxpython may encounter this problem. Softwar">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-04-19T13:11:08.000Z">
+<meta property="article:modified_time" content="2024-08-01T08:41:08.274Z">
+<meta property="article:author" content="Jim Wang">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="杂记">
+<meta property="article:tag" content="wxPython">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://zicowarn.github.io/posts/2016-04-19-0811-wxpython-multiple-monitors-issue.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zicowarn.github.io/posts/2016-04-19-0811-wxpython-multiple-monitors-issue.html","path":"posts/2016-04-19-0811-wxpython-multiple-monitors-issue.html","title":"Python 杂记之 wxPython 图形界面程序中多个显示器问题"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Python 杂记之 wxPython 图形界面程序中多个显示器问题 | Jim Wang 技术博客</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0411EY69W7"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-0411EY69W7","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Jim Wang 技术博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jim Wang 技术博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">全栈探索之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E6%96%87"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jim Wang"
+      src="/images/avater.png">
+  <p class="site-author-name" itemprop="name">Jim Wang</p>
+  <div class="site-description" itemprop="description">记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">85</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zicowarn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zicowarn" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="tencent://message/?uin=948509&Site=&Menu=yes" title="QQ → tencent:&#x2F;&#x2F;message&#x2F;?uin&#x3D;948509&amp;Site&#x3D;&amp;Menu&#x3D;yes" rel="noopener me" target="_blank"><i class="fab fa-qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/zhichao-wang-a16662109" title="Linked_in → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;zhichao-wang-a16662109" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>Linked_in</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zicowarn@hotmail.com" title="E-Mail → mailto:zicowarn@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zicowarn.github.io/posts/2016-04-19-0811-wxpython-multiple-monitors-issue.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avater.png">
+      <meta itemprop="name" content="Jim Wang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jim Wang 技术博客">
+      <meta itemprop="description" content="记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Python 杂记之 wxPython 图形界面程序中多个显示器问题 | Jim Wang 技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python 杂记之 wxPython 图形界面程序中多个显示器问题
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-04-19 21:11:08" itemprop="dateCreated datePublished" datetime="2016-04-19T21:11:08+08:00">2016-04-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-08-01 16:41:08" itemprop="dateModified" datetime="2024-08-01T16:41:08+08:00">2024-08-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Python-%E7%9B%B8%E5%85%B3-8-Python-%E6%9D%82%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Python 相关 - 8. Python 杂记</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>作者: Jim Wang 公众号:  <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
+<p>摘要：在使用wxpython的时候也许会遇见这样的问题。软件用户或者潜在用户可能使用多个显示器，而且显示器设置并不是简单的投影而是扩展设置，这样的话，显示器的尺寸就超过了单一显示器的尺寸，而是两个现实器的综合。</p>
+<p>Abstract: When using the wxpython may encounter this problem. Software users or potential users may use multiple displays, and the display settings are not simple projections but extended settings. In this case, the size of the display exceeds the size of a single display, but a combination of two realities.</p>
+<span id="more"></span>
+
+<p>作者: Jim Wang 公众号:  <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>在使用wxpython的时候也许会遇见这样的问题。软件用户或者潜在用户可能使用多个显示器，而且显示器设置并不是简单的投影而是扩展设置，这样的话，显示器的尺寸就超过了单一显示器的尺寸，而是两个现实器的综合。</p>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>在需要调整窗口位置的时候，当使用SetPosition(Point, Flag)的时候就应该考虑到偏移量Offset。因为用户打开软件的可能并不是在主显示器上面，也许主窗口在第二个显示器上面。如果单纯的使用SetPostion()的话，可能窗口会在主显示器上面。</p>
+<p>那么首先如何简单准确地获得显示器的数量和每一个显示器的尺寸呢？ 下列两行代码可以帮你解决问题。displays 可以理解为wx.Display实力的列表。第二行代码返回一个尺寸，也就是分辨率的列表。</p>
+<p>该列表保存了所有现实的分辨率信息，如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">displays = (wx.Display(i) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(wx.Display.GetCount()))</span><br><span class="line">sizes = [display.GetGeometry().GetSize() <span class="keyword">for</span> display <span class="keyword">in</span> displays]</span><br></pre></td></tr></table></figure>
+
+<p>因为用户显示器的分辨率可能会发生变化。用户显示器的设置也有可能不同，有可能第二显示器在主显示器的左边，也有可能在右边。那么单单或者显示器的分辨率，手动设置位置偏移量显得有点不够高效。</p>
+<p>首先我们要确定，主窗口或者Frame (toplevel Windows)的位置，是在主显示器上还是在第二个显示器上面。 </p>
+<p>使用此函数来得到主窗口的位置：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rts = wx.Display.GetFromWindow(parent)</span><br></pre></td></tr></table></figure>
+
+<p>参数parent, 是需要确定位置的窗口，返回值rts有三种可能（假设有两个显示器）：</p>
+<ul>
+<li>-1， 窗口位于连个显示器之间</li>
+<li>0， 主显示器上</li>
+<li>1， 第二个显示器上。</li>
+</ul>
+<p>当主窗口位于第二个现实上面的时候我们在调整窗口就要考虑偏移量。在忽略用户显示器设置的情况下，我们可以通过，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wx.Display(indexOfMonitor).GetGeometry()</span><br></pre></td></tr></table></figure>
+
+<p>此方法获得任一显示器的与主显示器的相对位置。 该方法返回Rect实例。为一个tuple。 </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Rect(x, y, width, height)</span><br></pre></td></tr></table></figure>
+
+<p>x为该显示器与主显示器的(0,0)点x轴偏移量，</p>
+<p>y为该显示器与主显示器的(0,0)点y轴偏移量。</p>
+<p>可以通过：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">offset_x_pos = wx.Display(indexOfMonitor).GetGeometry().GetX()</span><br><span class="line">offset_y_pos = wx.Display(indexOfMonitor).GetGeometry().GetY()</span><br></pre></td></tr></table></figure>
+
+<p>获得单一轴的偏移量或者通过：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wx.Display(indexOfMonitor).GetGeometry().GetPosition()</span><br></pre></td></tr></table></figure>
+
+<p>一次获得两个轴的偏移量。</p>
+<p>才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。</p>
+<hr>
+<div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">
+    版权声明：<br>文章首发于 <a href="https://zicowarn.github.io"> Jim Wang's blog </a>，
+    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。
+</div>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+              <a href="/tags/%E6%9D%82%E8%AE%B0/" rel="tag"><i class="fa fa-tag"></i> 杂记</a>
+              <a href="/tags/wxPython/" rel="tag"><i class="fa fa-tag"></i> wxPython</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2015-10-30-perl-01-reopen-stdin-during-program-operation.html" rel="prev" title="Perl 关于在程序运行过程中重新开启标准输入的问题">
+                  <i class="fa fa-angle-left"></i> Perl 关于在程序运行过程中重新开启标准输入的问题
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2016-06-24-0810-pass-attribute-between-parent-and-child-class.html" rel="next" title="Python 杂记之 父类和子类间类属性（非实例属性）的设置获取的传递">
+                  Python 杂记之 父类和子类间类属性（非实例属性）的设置获取的传递 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jim Wang</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

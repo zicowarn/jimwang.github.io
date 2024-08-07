@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zicowarn.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":"auto","version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12,"onmobile":false},"hljswrap":true,"copycode":{"enable":false,"style":null,"show_result":false},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Angular 如何使用结构型指令*ngFor历遍json对象 in Angular use ngFor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular 如何使用结构型指令*ngFor历遍json对象">
+<meta property="og:url" content="https://zicowarn.github.io/posts/2020-10-13-angular-01-use-ngfor-a-json-object.html">
+<meta property="og:site_name" content="Jim Wang 技术博客">
+<meta property="og:description" content="Angular 如何使用结构型指令*ngFor历遍json对象 in Angular use ngFor">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-10-13T01:39:50.000Z">
+<meta property="article:modified_time" content="2024-08-01T08:41:08.336Z">
+<meta property="article:author" content="Jim Wang">
+<meta property="article:tag" content="Angular">
+<meta property="article:tag" content="*ngFor">
+<meta property="article:tag" content="json">
+<meta property="article:tag" content="历遍">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://zicowarn.github.io/posts/2020-10-13-angular-01-use-ngfor-a-json-object.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zicowarn.github.io/posts/2020-10-13-angular-01-use-ngfor-a-json-object.html","path":"posts/2020-10-13-angular-01-use-ngfor-a-json-object.html","title":"Angular 如何使用结构型指令*ngFor历遍json对象"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Angular 如何使用结构型指令*ngFor历遍json对象 | Jim Wang 技术博客</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0411EY69W7"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-0411EY69W7","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Jim Wang 技术博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jim Wang 技术博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">全栈探索之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%8C%E7%AE%A1%E9%81%93Pipe"><span class="nav-number">2.</span> <span class="nav-text">方法一，管道Pipe</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%8C%E4%BD%BF%E7%94%A8Object-keys%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">方法二，使用Object.keys方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jim Wang"
+      src="/images/avater.png">
+  <p class="site-author-name" itemprop="name">Jim Wang</p>
+  <div class="site-description" itemprop="description">记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">85</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zicowarn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zicowarn" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="tencent://message/?uin=948509&Site=&Menu=yes" title="QQ → tencent:&#x2F;&#x2F;message&#x2F;?uin&#x3D;948509&amp;Site&#x3D;&amp;Menu&#x3D;yes" rel="noopener me" target="_blank"><i class="fab fa-qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/zhichao-wang-a16662109" title="Linked_in → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;zhichao-wang-a16662109" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>Linked_in</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zicowarn@hotmail.com" title="E-Mail → mailto:zicowarn@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zicowarn.github.io/posts/2020-10-13-angular-01-use-ngfor-a-json-object.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avater.png">
+      <meta itemprop="name" content="Jim Wang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jim Wang 技术博客">
+      <meta itemprop="description" content="记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Angular 如何使用结构型指令*ngFor历遍json对象 | Jim Wang 技术博客">
+      <meta itemprop="description" content="Angular 如何使用结构型指令*ngFor历遍json对象 in Angular use ngFor">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Angular 如何使用结构型指令*ngFor历遍json对象
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-10-13 09:39:50" itemprop="dateCreated datePublished" datetime="2020-10-13T09:39:50+08:00">2020-10-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-08-01 16:41:08" itemprop="dateModified" datetime="2024-08-01T16:41:08+08:00">2024-08-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Angular-%E7%9B%B8%E5%85%B3-%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">Angular 相关 - 实战经验</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">Angular 如何使用结构型指令*ngFor历遍json对象 in Angular use ngFor</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a> </p>
+<p>摘要：本文主要介绍如何使用Angular三个常用的内置结构型指令 —— NgIf、NgFor和NgSwitch之一ngFor历遍一个json对象。Ngfor历遍列表很简单，ngfor历遍json实例又该如何操作呢？</p>
+<p>Abstract: This article mainly introduces how to in Angular use ngFor, one of Three of the common, built-in structural directives—NgIf, NgFor, and NgSwitch, to traverse a json object. Ngfor traverses the array is very simple, how should ngfor traverse the json instance?</p>
+<span id="more"></span>
+
+<p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a> </p>
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p><code>NgFor</code> 会需要一个循环变量和一个列表。通过Pipe, PipeTransform来完成。也就是说ngfor主要是历遍列表的。一般情况下，遇到此类问题，首先想到的就是获取所有json对象中的键名，并定义一个类的公共属性，并将列表传入该属性，就可以在前端html代码中使用ngFor历遍键名并根据键值访问json对象，从而完成json对象的历遍。那有没有更加简单与直接的方法呢？本文就讨论一下我在项目中遇到类似的问题的解决方法。</p>
+<h3 id="方法一，管道Pipe"><a href="#方法一，管道Pipe" class="headerlink" title="方法一，管道Pipe"></a>方法一，管道Pipe</h3><p>管道的方法也是Angular官方比较推荐的，也是遇到类似问题应该想到并能够使用解决问题的方法。管道可以理解为一些简单的函数，其可以在<a target="_blank" rel="noopener" href="https://angular.cn/guide/glossary#template-expression">模板表达式</a>中用来接受输入值并返回一个转换后的值。管道的导入和实现代码如下。管道的类使用<code>@Pipe</code>装饰器。在自定义管道类中实现 <a target="_blank" rel="noopener" href="https://angular.cn/api/core/PipeTransform"><code>PipeTransform</code></a> 接口来执行转换。Angular 调用 <code>transform</code> 方法，该方法使用绑定的值作为第一个参数，即下方代码中的value，把其它任何参数（如下方代码中的args）都以列表的形式作为第二个参数，并返回转换后的值。通过管道中的数据绑定来检测变更，你可以通过带有管道的<a target="_blank" rel="noopener" href="https://angular.cn/guide/glossary#data-binding">数据绑定</a>来显示值并响应用户操作。如果是原始类型的输入值，比如 <code>String</code> 或 <code>Number</code> ，或者是对象引用型的输入值，比如 <code>Date</code> 或 <code>Array</code> ，那么每当 Angular 检测到输入值或引用有变化时，就会执行该输入管道。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Pipe</span>, <span class="title class_">PipeTransform</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@angular/core&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Pipe</span>(&#123;<span class="attr">name</span>: <span class="string">&#x27;keys&#x27;</span>&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">KeysPipe</span> <span class="keyword">implements</span> <span class="title class_">PipeTransform</span> &#123;</span><br><span class="line">  <span class="title function_">transform</span>(value, <span class="attr">args</span>:<span class="built_in">string</span>[]) : <span class="built_in">any</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> keys = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> value) &#123;</span><br><span class="line">      keys.<span class="title function_">push</span>(&#123;<span class="attr">key</span>: key, <span class="attr">value</span>: value[key]&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> keys;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>前端HTML模版，使用管道的示例代码如下，</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> *<span class="attr">ngFor</span>=<span class="string">&quot;#entry of content | keys&quot;</span>&gt;</span>           </span><br><span class="line">  Key: &#123;&#123;entry.key&#125;&#125;, value: &#123;&#123;entry.value&#125;&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>由名为<code>keys</code>的管道转换得来的值，每个元素entry，都包含key和value。使用管道的还有另一个好处，在使用管道的时候除了穿入需要转换的值以外还可以穿入其他的参数，书写方式如下。下方模版中<code>param</code>即为参数，在上面管道定义的代码中可以通过args[0]获取该参数。进而在转换json对象时，可以根据穿入的参数进行诸如“修改”，“过滤”，“添加”与“删除”等操作。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> *<span class="attr">ngFor</span>=<span class="string">&quot;#entry of content | keys:&#x27;param&#x27;&quot;</span>&gt;</span>           </span><br><span class="line">  Key: &#123;&#123;entry.key&#125;&#125;, value: &#123;&#123;entry.value&#125;&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在Angular中，管道Pipe分为 pure pipe (纯管道) 和 impure pipe (非纯管道)。纯管道和非纯管道是相对于管道所传的参数（如上例的 param）而言的。如果管道是纯管道，则管道的触发只会针对基本类型的参数的变化或者引用类型引用的变化（ a primitive input value (<code>String</code>, <code>Number</code>, <code>Boolean</code>, <code>Symbol</code>) or a changed object reference (<code>Date</code>, <code>Array</code>, <code>Function</code>, <code>Object</code>)）；然而， 对于非纯管道，不管是基本类型参数的改变还是引用类型内部数据变化（而非引用变化）都可以触发管道。管道时纯管道还是非纯管道的设置时通过把 <code>pure</code> 标志设置来实现的。当为 <code>false</code>时就可以来把管道设置成非纯。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Pipe</span>(&#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;keys&#x27;</span>,</span><br><span class="line">  <span class="attr">pure</span>: <span class="literal">true</span> <span class="comment">// default</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>本文示例使用的默认值，即纯管道。</p>
+<h3 id="方法二，使用Object-keys方法"><a href="#方法二，使用Object-keys方法" class="headerlink" title="方法二，使用Object.keys方法"></a>方法二，使用Object.keys方法</h3><p>JSON 作为存储和传输数据的一种格式。本身是没有类似于Python中Dictionary数据类型的诸如keys()和values()的内置方法的。ES5中内置了一个名为Object.keys的方法，用于返回一个对象的属性名称数组，其使用方法如下。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> object1 = &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="string">&#x27;somestring&#x27;</span>,</span><br><span class="line">  <span class="attr">b</span>: <span class="number">42</span>,</span><br><span class="line">  <span class="attr">c</span>: <span class="literal">false</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Object</span>.<span class="title function_">keys</span>(object1));</span><br></pre></td></tr></table></figure>
+
+<p>虽然有了获取json对象属性（键）名称数组的方法。但是在Angular的HTML模版中是不能直接使用该方法是非法的。既然如此就可以换个思路，由于在模版中，使用组件的公共属性是合法的，那么就可以先定义一个组件的公共属性，并将方法Object.keys以别名的方法赋值至该公共属性。具体代码实现如下。代码中<code>objectKeys = Object.keys;</code>就是为了完成上述操作的。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Component</span>, <span class="title class_">ElementRef</span>, <span class="title class_">OnInit</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@angular/core&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  <span class="attr">selector</span>: <span class="string">&#x27;app-demo&#x27;</span>,</span><br><span class="line">  <span class="attr">templateUrl</span>: <span class="string">&#x27;./demo.component.html&#x27;</span>,</span><br><span class="line">  <span class="attr">styleUrls</span>: [<span class="string">&#x27;./demo.component.scss&#x27;</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">DemoComponent</span> <span class="keyword">implements</span> <span class="title class_">OnInit</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> objectKeys = <span class="title class_">Object</span>.<span class="property">keys</span>;</span><br><span class="line">  <span class="keyword">public</span> datas = &#123;</span><br><span class="line">    <span class="string">&#x27;Block1&#x27;</span>: &#123;</span><br><span class="line">      <span class="string">&#x27;data1&#x27;</span> : <span class="string">&quot;Block 1 data 1&quot;</span>,</span><br><span class="line">      <span class="string">&#x27;data1-pop&#x27;</span>: <span class="number">.035</span>,</span><br><span class="line">      <span class="string">&#x27;data2&#x27;</span> : <span class="string">&quot;Block 1 data 1&quot;</span>,</span><br><span class="line">      <span class="string">&#x27;data2-pop&#x27;</span>: <span class="number">.2</span>,</span><br><span class="line">      <span class="string">&#x27;data3&#x27;</span> : <span class="string">&quot;Block 1 data 1&quot;</span>,</span><br><span class="line">      <span class="string">&#x27;data3-pop&#x27;</span>: <span class="number">.35</span>,</span><br><span class="line">      <span class="string">&#x27;data4&#x27;</span> : <span class="string">&quot;Block 1 data 1&quot;</span>,</span><br><span class="line">      <span class="string">&#x27;data4-pop&#x27;</span>: <span class="number">.5</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&#x27;Block2&#x27;</span>: &#123;</span><br><span class="line">				...</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  </span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"></span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">ngOnInit</span>(): <span class="built_in">void</span> &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>前端模版的书写方式如下。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ng-container</span> *<span class="attr">ngFor</span>=<span class="string">&quot;let itemkey of objectKeys(datas[entry])&quot;</span> &gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> *<span class="attr">ngIf</span>=<span class="string">&quot;!itemkey.includes(&#x27;pop&#x27;)&quot;</span> <span class="attr">fxLayout</span>=<span class="string">&quot;column&quot;</span> <span class="attr">class</span>=<span class="string">&quot;signleitem&quot;</span> <span class="attr">fxFlex</span>=<span class="string">50</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">label</span>&gt;</span>&#123;&#123;itemkey&#125;&#125;<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">fxLayout</span>=<span class="string">&quot;row&quot;</span> <span class="attr">fxLayoutAlign</span>=<span class="string">&quot;start none&quot;</span> <span class="attr">class</span>=<span class="string">&quot;item-content&quot;</span> <span class="attr">fxFill</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">input</span> <span class="attr">placeholder</span>=<span class="string">&quot;&quot;</span> [(<span class="attr">ngModel</span>)]=<span class="string">datas[entry][itemkey]</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">span</span>&gt;</span>&#123;&#123; (datas[entry][itemkey+&#x27;-pop&#x27;] * 100) | number:&#x27;1.0-0&#x27;&#125;&#125; %<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ng-container</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>与方法一不同的是，此时历遍的数组中的元素仅为json对象的键名。此种方法也不能在历遍完成对键值的过滤。但在一些应用场景下，该方法要比方法一更加直接和高效。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>两种方法都能解决问题，在使用中可以根据实际需要选的最合适的自己项目的方法。文中内容就是对这个两种方法进行简单对比。Angular相关内容为自己新学知识，文章有不足之处也实属正常。见解不同，诚切赐教，关注微信公众号，一起讨论学习。</p>
+<hr>
+<div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">
+    版权声明：<br>文章首发于 <a href="https://zicowarn.github.io"> Jim Wang's blog </a>，
+    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。
+</div>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Angular/" rel="tag"><i class="fa fa-tag"></i> Angular</a>
+              <a href="/tags/ngFor/" rel="tag"><i class="fa fa-tag"></i> *ngFor</a>
+              <a href="/tags/json/" rel="tag"><i class="fa fa-tag"></i> json</a>
+              <a href="/tags/%E5%8E%86%E9%81%8D/" rel="tag"><i class="fa fa-tag"></i> 历遍</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2020-09-24-aws-common-02-awscli-configuration.html" rel="prev" title="AWS 如何使用IAM创建一个最小访问权限的用户并使用aws-cli来部署lambda函数程序包">
+                  <i class="fa fa-angle-left"></i> AWS 如何使用IAM创建一个最小访问权限的用户并使用aws-cli来部署lambda函数程序包
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2020-11-07-aws-cloudfront-01-create-cdn-network.html" rel="next" title="AWS 使用CloudFront创建CDN网络">
+                  AWS 使用CloudFront创建CDN网络 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jim Wang</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

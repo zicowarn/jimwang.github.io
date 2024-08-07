@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zicowarn.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":"auto","version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12,"onmobile":false},"hljswrap":true,"copycode":{"enable":false,"style":null,"show_result":false},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：本文主要讨论在Python实际应用中如何实现冒泡排序算法探讨与指派运算替代方法 Abstract: This article mainly discusses how to implement the bubble sorting algorithm in the actual application of Python and the al">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法">
+<meta property="og:url" content="https://zicowarn.github.io/posts/2015-10-09-0702-bubble-sort-and-assignment-operation.html">
+<meta property="og:site_name" content="Jim Wang 技术博客">
+<meta property="og:description" content="作者: Jim Wang 公众号:  巴博萨船长 摘要：本文主要讨论在Python实际应用中如何实现冒泡排序算法探讨与指派运算替代方法 Abstract: This article mainly discusses how to implement the bubble sorting algorithm in the actual application of Python and the al">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-10-08T20:18:34.000Z">
+<meta property="article:modified_time" content="2024-08-01T08:41:08.276Z">
+<meta property="article:author" content="Jim Wang">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="实战经验">
+<meta property="article:tag" content="冒泡算法">
+<meta property="article:tag" content="指派运算">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://zicowarn.github.io/posts/2015-10-09-0702-bubble-sort-and-assignment-operation.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zicowarn.github.io/posts/2015-10-09-0702-bubble-sort-and-assignment-operation.html","path":"posts/2015-10-09-0702-bubble-sort-and-assignment-operation.html","title":"Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法 | Jim Wang 技术博客</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0411EY69W7"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-0411EY69W7","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Jim Wang 技术博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jim Wang 技术博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">全栈探索之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">冒泡排序算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E6%96%87"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jim Wang"
+      src="/images/avater.png">
+  <p class="site-author-name" itemprop="name">Jim Wang</p>
+  <div class="site-description" itemprop="description">记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">85</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zicowarn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zicowarn" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="tencent://message/?uin=948509&Site=&Menu=yes" title="QQ → tencent:&#x2F;&#x2F;message&#x2F;?uin&#x3D;948509&amp;Site&#x3D;&amp;Menu&#x3D;yes" rel="noopener me" target="_blank"><i class="fab fa-qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/zhichao-wang-a16662109" title="Linked_in → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;zhichao-wang-a16662109" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>Linked_in</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zicowarn@hotmail.com" title="E-Mail → mailto:zicowarn@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zicowarn.github.io/posts/2015-10-09-0702-bubble-sort-and-assignment-operation.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avater.png">
+      <meta itemprop="name" content="Jim Wang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jim Wang 技术博客">
+      <meta itemprop="description" content="记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法 | Jim Wang 技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python 应用之如何实现冒泡排序算法探讨与指派运算替代方法
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2015-10-09 04:18:34" itemprop="dateCreated datePublished" datetime="2015-10-09T04:18:34+08:00">2015-10-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-08-01 16:41:08" itemprop="dateModified" datetime="2024-08-01T16:41:08+08:00">2024-08-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Python-%E7%9B%B8%E5%85%B3-7-Python-%E5%BA%94%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">Python 相关 - 7. Python 应用</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>作者: Jim Wang 公众号:  <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
+<p>摘要：本文主要讨论在Python实际应用中如何实现冒泡排序算法探讨与指派运算替代方法</p>
+<p>Abstract: This article mainly discusses how to implement the bubble sorting algorithm in the actual application of Python and the alternative method of assignment operation</p>
+<span id="more"></span>
+
+<p>作者: Jim Wang 公众号:  <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
+<h3 id="冒泡排序算法"><a href="#冒泡排序算法" class="headerlink" title="冒泡排序算法"></a>冒泡排序算法</h3><ol>
+<li><p>比较相邻的元素。如果第一个比第二个大，就交换他们两个。</p>
+</li>
+<li><p>对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数。</p>
+</li>
+<li><p>针对所有的元素重复以上的步骤，除了最后一个。</p>
+</li>
+<li><p>持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。</p>
+</li>
+</ol>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>三个函数，对比一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">list_sort_new</span>(<span class="params">list_in</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(list_in)-<span class="number">1</span>, <span class="number">0</span> ,-<span class="number">1</span>):</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, j):</span><br><span class="line">	    <span class="keyword">if</span> list_in[i]&gt;list_in[i+<span class="number">1</span>]:</span><br><span class="line">	        list_in[i],list_in[i+<span class="number">1</span>] = list_in[i+<span class="number">1</span>],list_in[i]</span><br><span class="line">    <span class="keyword">return</span> list_in</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">list_sort_old</span>(<span class="params">list_in</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(list_in)-<span class="number">1</span>, <span class="number">0</span> ,-<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, j):</span><br><span class="line">	    <span class="keyword">if</span> list_in[i]&gt;list_in[i+<span class="number">1</span>]:</span><br><span class="line">		list_temp = list_in[i]</span><br><span class="line">		list_in[i] = list_in[i+<span class="number">1</span>]</span><br><span class="line">		list_in[i+<span class="number">1</span>] = list_temp</span><br><span class="line">    <span class="keyword">return</span> list_in</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">list_sort_test</span>(<span class="params">list_in</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(list_in)-<span class="number">1</span>, <span class="number">0</span> ,-<span class="number">1</span>):</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, j):</span><br><span class="line">	    <span class="keyword">if</span> list_in[i]&gt;list_in[i+<span class="number">1</span>]:</span><br><span class="line">		<span class="built_in">print</span> <span class="string">&quot;before&gt;&gt; &quot;</span> + <span class="built_in">str</span>(list_in[i])</span><br><span class="line">		list_in[i] = list_in[i+<span class="number">1</span>]</span><br><span class="line">		<span class="built_in">print</span> <span class="string">&quot;after&gt;&gt; &quot;</span> + <span class="built_in">str</span>(list_in[i])</span><br><span class="line">		list_in[i+<span class="number">1</span>] = list_in[i]</span><br><span class="line">		<span class="built_in">print</span> <span class="string">&quot;and&gt; &quot;</span> + <span class="built_in">str</span>(list_in[i+<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">return</span> list_in</span><br><span class="line"> </span><br><span class="line">list_test = [<span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">44</span>, <span class="number">22</span>, <span class="number">53</span>, <span class="number">25</span>, <span class="number">26</span>]</span><br><span class="line"><span class="built_in">print</span> list_test</span><br><span class="line"><span class="built_in">print</span> <span class="string">&quot;*&quot;</span>*<span class="number">20</span></span><br><span class="line"><span class="built_in">print</span>(list_sort_test(list_test))</span><br></pre></td></tr></table></figure>
+
+<p>其中函数list_sort_new()和list_sort_old()都能实现你的目的，其中list_sort_new()中使用了指派运算， 就相当于c语言的i++。 list_sort_old()替代了list_sort_new()中的指派运算，其中j的for实现了全部比较，而倒序减少了不必要的比较，list_sort_test()表明了，为什么需要一个变量来充当缓存。</p>
+<p>欢迎大家关注本人个人公众号评论。才疏学浅，欢迎交流提意见彼此提高。需要声明一下51cto博客作者zuiwuxin就是作者本人，所以不存在版权问题。以后该博客将作为个人文章的主要发布地。</p>
+<hr>
+<div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">
+    版权声明：<br>文章首发于 <a href="https://zicowarn.github.io"> Jim Wang's blog </a>，
+    转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。
+</div>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+              <a href="/tags/%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/" rel="tag"><i class="fa fa-tag"></i> 实战经验</a>
+              <a href="/tags/%E5%86%92%E6%B3%A1%E7%AE%97%E6%B3%95/" rel="tag"><i class="fa fa-tag"></i> 冒泡算法</a>
+              <a href="/tags/%E6%8C%87%E6%B4%BE%E8%BF%90%E7%AE%97/" rel="tag"><i class="fa fa-tag"></i> 指派运算</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2015-05-21-linux-0101-autossh-realizes-booting-to-create-ssh-tunnel.html" rel="prev" title="linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本">
+                  <i class="fa fa-angle-left"></i> linux 使用autossh实现开机创建ssh tunnel的方法以及shell脚本
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2015-10-30-perl-01-reopen-stdin-during-program-operation.html" rel="next" title="Perl 关于在程序运行过程中重新开启标准输入的问题">
+                  Perl 关于在程序运行过程中重新开启标准输入的问题 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jim Wang</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

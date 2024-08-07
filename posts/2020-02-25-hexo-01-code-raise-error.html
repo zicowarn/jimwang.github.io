@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zicowarn.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":"auto","version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12,"onmobile":false},"hljswrap":true,"copycode":{"enable":false,"style":null,"show_result":false},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="作者: Jim Wang 公众号: 巴博萨船长 在转移自己的文章的时候发现了一个很有意思的事情，现在记录下来，咱们一起看看问题在哪。问题是这样的的，我之前的文章有如下文字 1ExtractTemporaryFile(&#x27;&#123;#DotNetFrameWorkWebInstaller&#125;&#x27;);  如果上述字符以纯文本的形式，即非代码样式和引用样式存在于md文件中，如果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo 中特殊纯文本字符串引起异常">
+<meta property="og:url" content="https://zicowarn.github.io/posts/2020-02-25-hexo-01-code-raise-error.html">
+<meta property="og:site_name" content="Jim Wang 技术博客">
+<meta property="og:description" content="作者: Jim Wang 公众号: 巴博萨船长 在转移自己的文章的时候发现了一个很有意思的事情，现在记录下来，咱们一起看看问题在哪。问题是这样的的，我之前的文章有如下文字 1ExtractTemporaryFile(&#x27;&#123;#DotNetFrameWorkWebInstaller&#125;&#x27;);  如果上述字符以纯文本的形式，即非代码样式和引用样式存在于md文件中，如果">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-25T00:11:08.000Z">
+<meta property="article:modified_time" content="2024-04-08T20:29:44.449Z">
+<meta property="article:author" content="Jim Wang">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="异常处理">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://zicowarn.github.io/posts/2020-02-25-hexo-01-code-raise-error.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zicowarn.github.io/posts/2020-02-25-hexo-01-code-raise-error.html","path":"posts/2020-02-25-hexo-01-code-raise-error.html","title":"Hexo 中特殊纯文本字符串引起异常"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Hexo 中特殊纯文本字符串引起异常 | Jim Wang 技术博客</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0411EY69W7"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-0411EY69W7","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?1d51896cc9cd82561c7c8e353bb78c0d"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Jim Wang 技术博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Jim Wang 技术博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">全栈探索之路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jim Wang"
+      src="/images/avater.png">
+  <p class="site-author-name" itemprop="name">Jim Wang</p>
+  <div class="site-description" itemprop="description">记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">85</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zicowarn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zicowarn" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="tencent://message/?uin=948509&Site=&Menu=yes" title="QQ → tencent:&#x2F;&#x2F;message&#x2F;?uin&#x3D;948509&amp;Site&#x3D;&amp;Menu&#x3D;yes" rel="noopener me" target="_blank"><i class="fab fa-qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/zhichao-wang-a16662109" title="Linked_in → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;zhichao-wang-a16662109" rel="noopener me" target="_blank"><i class="fab fa-linkedin fa-fw"></i>Linked_in</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zicowarn@hotmail.com" title="E-Mail → mailto:zicowarn@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zicowarn.github.io/posts/2020-02-25-hexo-01-code-raise-error.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avater.png">
+      <meta itemprop="name" content="Jim Wang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jim Wang 技术博客">
+      <meta itemprop="description" content="记录个人对技术的理解和开发过程中遇到的问题，欢迎了解更多">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Hexo 中特殊纯文本字符串引起异常 | Jim Wang 技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Hexo 中特殊纯文本字符串引起异常
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-02-25 08:11:08" itemprop="dateCreated datePublished" datetime="2020-02-25T08:11:08+08:00">2020-02-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-09 04:29:44" itemprop="dateModified" datetime="2024-04-09T04:29:44+08:00">2024-04-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Hexo-%E7%9B%B8%E5%85%B3-%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C/" itemprop="url" rel="index"><span itemprop="name">Hexo 相关 - 实战经验</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>作者: Jim Wang 公众号: <a class="main-button-link" href="#wechat" rel="noopener">巴博萨船长</a></p>
+<p>在转移自己的文章的时候发现了一个很有意思的事情，现在记录下来，咱们一起看看问题在哪。问题是这样的的，我之前的文章有如下文字</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">ExtractTemporaryFile</span>(<span class="string">&#x27;&#123;#DotNetFrameWorkWebInstaller&#125;&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>如果上述字符以纯文本的形式，即非代码样式和引用样式存在于md文件中，如果这时尝试使用hexo s命令的话，就会有如下异常被抛出。</p>
+<span id="more"></span>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">someone@somenode-<span class="title class_">Pro</span> <span class="title class_">TestBlog</span> % hexo s</span><br><span class="line"><span class="variable constant_">INFO</span>  <span class="title class_">Start</span> processing</span><br><span class="line"><span class="variable constant_">FATAL</span> <span class="title class_">Something</span><span class="string">&#x27;s wrong. Maybe you can find the solution here: https://hexo.io/docs/troubleshooting.html</span></span><br><span class="line"><span class="string">Template render error: (unknown path)</span></span><br><span class="line"><span class="string">  Error: expected end of comment, got end of file</span></span><br><span class="line"><span class="string">    at Object._prettifyError (/Users/someone/workspace/TestBlog/node_modules/nunjucks/src/lib.js:36:11)</span></span><br><span class="line"><span class="string">    at Template.render (/Users/someone/workspace/TestBlog/node_modules/nunjucks/src/environment.js:536:21)</span></span><br><span class="line"><span class="string">    at Environment.renderString (/Users/someone/workspace/TestBlog/node_modules/nunjucks/src/environment.js:378:17)</span></span><br><span class="line"><span class="string">    at /Users/someone/workspace/TestBlog/node_modules/hexo/lib/extend/tag.js:120:48</span></span><br><span class="line"><span class="string">    at tryCatcher (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/util.js:16:23)</span></span><br><span class="line"><span class="string">    at Function.Promise.fromNode.Promise.fromCallback (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/promise.js:209:30)</span></span><br><span class="line"><span class="string">    at Tag.render (/Users/someone/workspace/TestBlog/node_modules/hexo/lib/extend/tag.js:120:18)</span></span><br><span class="line"><span class="string">    at Object.onRenderEnd (/Users/someone/workspace/TestBlog/node_modules/hexo/lib/hexo/post.js:291:22)</span></span><br><span class="line"><span class="string">    at /Users/someone/workspace/TestBlog/node_modules/hexo/lib/hexo/render.js:79:21</span></span><br><span class="line"><span class="string">    at tryCatcher (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/util.js:16:23)</span></span><br><span class="line"><span class="string">    at Promise._settlePromiseFromHandler (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/promise.js:547:31)</span></span><br><span class="line"><span class="string">    at Promise._settlePromise (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/promise.js:604:18)</span></span><br><span class="line"><span class="string">    at Promise._settlePromise0 (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/promise.js:649:10)</span></span><br><span class="line"><span class="string">    at Promise._settlePromises (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/promise.js:729:18)</span></span><br><span class="line"><span class="string">    at _drainQueueStep (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/async.js:93:12)</span></span><br><span class="line"><span class="string">    at _drainQueue (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/async.js:86:9)</span></span><br><span class="line"><span class="string">    at Async._drainQueues (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/async.js:102:5)</span></span><br><span class="line"><span class="string">    at Immediate.Async.drainQueues (/Users/someone/workspace/TestBlog/node_modules/bluebird/js/release/async.js:15:14)</span></span><br><span class="line"><span class="string">    at processImmediate (internal/timers.js:456:21)</span></span><br></pre></td></tr></table></figure>
+
+<p>上述异常信息中，重点为Template render error: (unknown path)。应该是，Markdown文件在渲染成html时，<strong>ExtractTemporaryFile</strong>被视为代码了，而如果修改括号中的参数值为空，异常就不存在了，如下纯文本：</p>
+<p>ExtractTemporaryFile(‘’);</p>
+<p>确实非常有意思。我了如下的文本，也同样会抛出相同的异常。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">render</span>(<span class="string">&#x27;&#123;#DotNetFrameWorkWebInstaller&#125;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>如果试一试一个随意的函数名称呢？比如hello这个作为函数的姓名，如下，一样会抛出异常。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">hello</span>(<span class="string">&#x27;&#123;#DotNetFrameWorkWebInstaller&#125;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这样的话问题应该位于参数部分，即：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;#DotNetFrameWorkWebInstaller&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我也做了尝试，如果上述内容作为纯文本出现在Markdown文件内，则会抛出异常。那么如果换个变量名字呢？比如，newparams，即参数部分如下，一行会抛出异常。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;#newparams&#125;</span><br></pre></td></tr></table></figure>
+
+<p>问题在于#这个符号，#后面跟着英文字符就会被理解成<strong>锚点</strong>了。该错误与圆括号有关，即Markdown文件中任何以：<strong>左圆括号 + #号 + 英文字符</strong> 形式存在的纯文本字符串都会引发上述异常（右侧圆括号可以不存在，例如，下列的字符若以纯文本存在就会引发异常：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;#dedee</span><br></pre></td></tr></table></figure>
+
+<p>目前找到的解决方法为在#号前输入两个\ 反斜杠。但是渲染后，还会存在一个反斜杠，所以要额外对此进行说明。感兴趣关注微信公众号，一起讨论学习。</p>
+<hr>
+<div style="color:#757288;font-size:1.3rem;padding:2px 6px;border:1px solid #fad2d2;background:#ffecea;border-radius:3px;line-height:22px;">
+          版权声明：<br>文章首发于 <a href="https://zicowarn.github.io"> Jim Wang's blog </a>，
+          转载文章请务必以超链接形式标明文章出处，作者信息及本版权声明。
+        </div>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Hexo/" rel="tag"><i class="fa fa-tag"></i> Hexo</a>
+              <a href="/tags/%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" rel="tag"><i class="fa fa-tag"></i> 异常处理</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/2019-08-10-inno-05-beautify-wizard-laben.html" rel="prev" title="Inno Setup 如何更换向导页面标题部分的背景">
+                  <i class="fa fa-angle-left"></i> Inno Setup 如何更换向导页面标题部分的背景
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/2020-07-13-inno-06-gacinstall.html" rel="next" title="Inno Setup 如何将.NET程序集（DLL）安装到GAC中">
+                  Inno Setup 如何将.NET程序集（DLL）安装到GAC中 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jim Wang</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":"forest","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js","integrity":"sha256-stuqcu2FrjYCXDOytWFA5SoUE/r3nkp6gTglzNSlavU="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
